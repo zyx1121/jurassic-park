@@ -1,0 +1,57 @@
+name: Release
+
+on:
+  push:
+    tags: ['v*.*.*']
+
+jobs:
+  build:
+    name: Build ${{ matrix.target }}
+    runs-on: ${{ matrix.runner }}
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - target: Windows
+            runner: [self-hosted, windows, unity]
+            method: Build.CI.BuildWindows
+            archive: pwsh
+          - target: macOS
+            runner: [self-hosted, macos, unity]
+            method: Build.CI.BuildMac
+            archive: bash
+    timeout-minutes: 90
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          lfs: true
+      - name: Build (Windows runner)
+        if: matrix.archive == 'pwsh'
+        shell: pwsh
+        run: |
+          & "E:\Unity\Editors\6000.3.24f1\Editor\Unity.exe" -batchmode -nographics -quit -projectPath "$PWD" -executeMethod ${{ matrix.method }} -logFile "$PWD\Logs\release.log"
+          if ($LASTEXITCODE -ne 0) { Get-Content "$PWD\Logs\release.log" -Tail 80; exit $LASTEXITCODE }
+          Compress-Archive -Path Builds\Windows\* -DestinationPath "jurassic-park-${{ github.ref_name }}-windows.zip"
+      - name: Build (macOS runner)
+        if: matrix.archive == 'bash'
+        run: |
+          /Applications/Unity/Hub/Editor/6000.3.24f1/Unity.app/Contents/MacOS/Unity -batchmode -nographics -quit -projectPath "$PWD" -executeMethod ${{ matrix.method }} -logFile "$PWD/Logs/release.log" || { tail -80 Logs/release.log; exit 1; }
+          ditto -c -k --keepParent Builds/macOS/JurassicPark.app "jurassic-park-${{ github.ref_name }}-macos.zip"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: ${{ matrix.target }}
+          path: jurassic-park-*.zip
+
+  publish:
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          merge-multiple: true
+      - uses: softprops/action-gh-release@v2
+        with:
+          files: jurassic-park-*.zip
+          generate_release_notes: true
