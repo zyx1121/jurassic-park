@@ -29,7 +29,8 @@ jobs:
         run: |
           $files = git ls-files 'Assets/**'
           $fail = $false
-          foreach ($f in $files | Where-Object { $_ -notmatch '\.meta$' }) {
+          # Unity ignores dot-prefixed and tilde-suffixed files, so they need no .meta
+          foreach ($f in $files | Where-Object { $_ -notmatch '\.meta$' -and ($_ -split '/')[-1] -notmatch '^\.|~$' }) {
             if (-not (Test-Path -LiteralPath "$f.meta")) { Write-Host "::error::missing meta for $f"; $fail = $true }
           }
           foreach ($m in $files | Where-Object { $_ -match '\.meta$' }) {
