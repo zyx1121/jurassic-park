@@ -61,21 +61,31 @@ namespace JurassicPark.World
             return Mathf.Clamp01(sum / total);
         }
 
-        /// <summary>Limits the height difference between 4-neighbours to maxStep (normalized). Iterative, in place.</summary>
+        /// <summary>
+        /// Limits the height difference between 4-neighbours to maxStep (normalized) by lowering
+        /// cells only: h[i] = min(h[i], h[j] + maxStep). A forward and a backward sweep per pass
+        /// propagate the constraint in every direction, so one pass already converges for the
+        /// 4-neighbour case; extra passes are a safety net.
+        /// </summary>
         public static void LimitSlope(float[,] h, float maxStep, int passes)
         {
             int n = h.GetLength(0);
-            for (int p = 0; p < passes; p++)
+            for (int p = 0; p < Mathf.Max(1, passes); p++)
             {
                 bool changed = false;
                 for (int y = 0; y < n; y++)
                 {
                     for (int x = 0; x < n; x++)
                     {
-                        float v = h[y, x];
-                        if (x + 1 < n) changed |= Relax(h, x, y, x + 1, y, maxStep, ref v);
-                        if (y + 1 < n) changed |= Relax(h, x, y, x, y + 1, maxStep, ref v);
-                        h[y, x] = v;
+                        changed |= Lower(h, x, y, maxStep);
+                    }
+                }
+
+                for (int y = n - 1; y >= 0; y--)
+                {
+                    for (int x = n - 1; x >= 0; x--)
+                    {
+                        changed |= Lower(h, x, y, maxStep);
                     }
                 }
 
@@ -86,28 +96,21 @@ namespace JurassicPark.World
             }
         }
 
-        private static bool Relax(float[,] h, int x0, int y0, int x1, int y1, float maxStep, ref float v0)
+        private static bool Lower(float[,] h, int x, int y, float maxStep)
         {
-            float v1 = h[y1, x1];
-            float d = v0 - v1;
-            if (Mathf.Abs(d) <= maxStep)
+            int n = h.GetLength(0);
+            float limit = float.MaxValue;
+            if (x > 0) limit = Mathf.Min(limit, h[y, x - 1] + maxStep);
+            if (x + 1 < n) limit = Mathf.Min(limit, h[y, x + 1] + maxStep);
+            if (y > 0) limit = Mathf.Min(limit, h[y - 1, x] + maxStep);
+            if (y + 1 < n) limit = Mathf.Min(limit, h[y + 1, x] + maxStep);
+            if (h[y, x] > limit)
             {
-                return false;
+                h[y, x] = limit;
+                return true;
             }
 
-            float excess = (Mathf.Abs(d) - maxStep) * 0.5f;
-            if (d > 0f)
-            {
-                v0 -= excess;
-                h[y1, x1] = v1 + excess;
-            }
-            else
-            {
-                v0 += excess;
-                h[y1, x1] = v1 - excess;
-            }
-
-            return true;
+            return false;
         }
 
         /// <summary>Largest normalized height difference to any 4-neighbour.</summary>
