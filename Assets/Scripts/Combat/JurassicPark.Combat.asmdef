@@ -1,11 +1,7 @@
 {
-    "name": "JurassicPark.Player",
-    "rootNamespace": "JurassicPark.Player",
-    "references": [
-        "Unity.InputSystem",
-        "JurassicPark.Core",
-        "JurassicPark.Combat"
-    ],
+    "name": "JurassicPark.Combat",
+    "rootNamespace": "JurassicPark.Combat",
+    "references": [],
     "includePlatforms": [],
     "excludePlatforms": [],
     "allowUnsafeCode": false,

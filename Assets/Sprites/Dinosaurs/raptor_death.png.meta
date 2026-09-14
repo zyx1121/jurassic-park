@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: f788f51ed02994d52a5e3a6e6e88c211
+guid: bfae86d30fb184c9a90d5c7961b5d914
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -1291321499955552854
-    second: raptor_idle_right_0
+      213: 4036537236617971838
+    second: raptor_death_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -100,13 +100,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: raptor_idle_right_0
+      name: raptor_death_0
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 128
-        height: 128
+        width: 768
+        height: 512
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -115,8 +115,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: aad135000fd441ee0800000000000000
-      internalID: -1291321499955552854
+      spriteID: e78404fea39a40830800000000000000
+      internalID: 4036537236617971838
       vertices: []
       indices: 
       edges: []
@@ -135,7 +135,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      raptor_idle_right_0: -1291321499955552854
+      raptor_death_0: 4036537236617971838
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

@@ -1,8 +1,7 @@
 {
-    "name": "JurassicPark.Player",
-    "rootNamespace": "JurassicPark.Player",
+    "name": "JurassicPark.Dinosaurs",
+    "rootNamespace": "JurassicPark.Dinosaurs",
     "references": [
-        "Unity.InputSystem",
         "JurassicPark.Core",
         "JurassicPark.Combat"
     ],
