@@ -34,7 +34,12 @@ git lfs install && git lfs pull
 unity open .        # Unity CLI, or open the folder in Unity Hub with 6000.3.24f1
 ```
 
-Play from `Assets/Scenes/Island.unity`. Builds go to `Builds/` (ignored).
+Play from `Assets/Scenes/Island.unity`. Builds go to `Builds/` (ignored):
+
+```bash
+unity test . --mode EditMode
+unity build . --target StandaloneOSX --output-path Builds/macOS/JurassicPark.app
+```
 
 ## Project layout
 
@@ -50,7 +55,7 @@ docs/          proposal, design notes, art spec
 
 ## Development
 
-Work is tracked in [issues](https://github.com/zyx1121/jurassic-park/issues) grouped by [milestones](https://github.com/zyx1121/jurassic-park/milestones) that match the course dates. Branch from `main`, open a PR, let CI pass, squash-merge. Releases use SemVer tags and ship both platform builds.
+Work is tracked in [issues](https://github.com/zyx1121/jurassic-park/issues) grouped by [milestones](https://github.com/zyx1121/jurassic-park/milestones) that match the course dates. Branch from `main`, open a PR, let the hygiene CI pass, squash-merge. Releases use SemVer tags with macOS and Windows builds attached.
 
 ## Contributing
 

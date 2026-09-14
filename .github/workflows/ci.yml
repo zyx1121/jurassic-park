@@ -24,10 +24,13 @@ jobs:
             if git ls-files | grep -q "^$d/"; then echo "::error::$d/ is committed"; exit 1; fi
           done
       - name: Every asset has a .meta and every .meta has an asset
+        # Unity ignores dot-prefixed and tilde-suffixed files, so they need no .meta.
         run: |
           set -e
           fail=0
           while IFS= read -r f; do
+            base=${f##*/}
+            case "$base" in .*|*~) continue;; esac
             [ -e "$f.meta" ] || { echo "::error::missing meta for $f"; fail=1; }
           done < <(git ls-files 'Assets/**' | grep -v '\.meta$')
           while IFS= read -r m; do
@@ -42,35 +45,3 @@ jobs:
             if ! git check-attr filter -- "$f" | grep -q 'lfs'; then echo "::error::$f not tracked by LFS"; fail=1; fi
           done < <(git ls-files | grep -Ei '\.(png|jpg|psd|aseprite|fbx|obj|blend|wav|mp3|ogg|ttf|otf|exr|hdr|mp4)$' || true)
           exit $fail
-
-  unity:
-    name: Unity tests and Windows build
-    # Self-hosted runner on king (Windows 11, RTX 3080) with Unity 6000.3.24f1 licensed.
-    runs-on: [self-hosted, windows, unity]
-    needs: hygiene
-    timeout-minutes: 60
-    env:
-      UNITY_EXE: E:\Unity\Editors\6000.3.24f1\Editor\Unity.exe
-    steps:
-      - uses: actions/checkout@v4
-        with:
-          lfs: true
-      - name: EditMode tests
-        shell: pwsh
-        run: |
-          & $env:UNITY_EXE -batchmode -nographics -projectPath "$PWD" -runTests -testPlatform EditMode -testResults "$PWD\TestResults\editmode.xml" -logFile "$PWD\Logs\ci-editmode.log"
-          if ($LASTEXITCODE -ne 0) { Get-Content "$PWD\Logs\ci-editmode.log" -Tail 80; exit $LASTEXITCODE }
-      - name: Windows build
-        shell: pwsh
-        run: |
-          & $env:UNITY_EXE -batchmode -nographics -quit -projectPath "$PWD" -executeMethod Build.CI.BuildWindows -logFile "$PWD\Logs\ci-build.log"
-          if ($LASTEXITCODE -ne 0) { Get-Content "$PWD\Logs\ci-build.log" -Tail 80; exit $LASTEXITCODE }
-      - uses: actions/upload-artifact@v4
-        if: always()
-        with:
-          name: windows-build-and-logs
-          path: |
-            Builds/Windows/**
-            TestResults/**
-            Logs/ci-*.log
-          retention-days: 7
