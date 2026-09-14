@@ -87,6 +87,14 @@ namespace JurassicPark.EditorTools
             Raptor("Raptor", "Assets/Sprites/Dinosaurs/raptor_idle_left.png", new Vector3(-1.5f, 0f, 1.5f));
             Raptor("Raptor2", "Assets/Sprites/Dinosaurs/raptor_idle_front.png", new Vector3(4.5f, 0f, 5f));
 
+            // Player
+            GameObject playerPrefab = AssetDatabase.LoadAssetAtPath<GameObject>(BuildPlayerPrefab.PrefabPath);
+            if (playerPrefab != null)
+            {
+                GameObject player = (GameObject)PrefabUtility.InstantiatePrefab(playerPrefab);
+                player.transform.position = new Vector3(0f, 0.05f, -3f);
+            }
+
             // Dusk sun
             GameObject sunGo = new GameObject("Sun");
             Light sun = sunGo.AddComponent<Light>();
