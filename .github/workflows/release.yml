@@ -29,8 +29,7 @@ jobs:
         if: matrix.archive == 'powershell'
         shell: powershell
         run: |
-          & "E:\Unity\Editors\6000.3.24f1\Editor\Unity.exe" -batchmode -nographics -quit -projectPath "$PWD" -executeMethod ${{ matrix.method }} -logFile "$PWD\Logs\release.log"
-          if ($LASTEXITCODE -ne 0) { Get-Content "$PWD\Logs\release.log" -Tail 80; exit $LASTEXITCODE }
+          .\ci\unity.ps1 -UnityExe "E:\Unity\Editors\6000.3.24f1\Editor\Unity.exe" -LogFile "$PWD\Logs\release.log" -- -quit -projectPath "$PWD" -executeMethod ${{ matrix.method }}
           Compress-Archive -Path Builds\Windows\* -DestinationPath "jurassic-park-${{ github.ref_name }}-windows.zip"
       - name: Build (macOS runner)
         if: matrix.archive == 'bash'

@@ -64,13 +64,12 @@ jobs:
       - name: EditMode tests
         shell: powershell
         run: |
-          & $env:UNITY_EXE -batchmode -nographics -projectPath "$PWD" -runTests -testPlatform EditMode -testResults "$PWD\TestResults\editmode.xml" -logFile "$PWD\Logs\ci-editmode.log"
-          if ($LASTEXITCODE -ne 0) { Get-Content "$PWD\Logs\ci-editmode.log" -Tail 80; exit $LASTEXITCODE }
+          New-Item -ItemType Directory -Force -Path TestResults | Out-Null
+          .\ci\unity.ps1 -UnityExe $env:UNITY_EXE -LogFile "$PWD\Logs\ci-editmode.log" -- -projectPath "$PWD" -runTests -testPlatform EditMode -testResults "$PWD\TestResults\editmode.xml"
       - name: Windows build
         shell: powershell
         run: |
-          & $env:UNITY_EXE -batchmode -nographics -quit -projectPath "$PWD" -executeMethod Build.CI.BuildWindows -logFile "$PWD\Logs\ci-build.log"
-          if ($LASTEXITCODE -ne 0) { Get-Content "$PWD\Logs\ci-build.log" -Tail 80; exit $LASTEXITCODE }
+          .\ci\unity.ps1 -UnityExe $env:UNITY_EXE -LogFile "$PWD\Logs\ci-build.log" -- -quit -projectPath "$PWD" -executeMethod Build.CI.BuildWindows
       - uses: actions/upload-artifact@v4
         if: always()
         with:
