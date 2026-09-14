@@ -1,0 +1,58 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5b3eda3d1f9664f84b7bcc7389a51caa, type: 3}
+  m_Name: Island
+  m_EditorClassIdentifier: JurassicPark.World::JurassicPark.World.IslandConfig
+  terrain: {fileID: 11400000, guid: 9ae422fad6205443eb4c7895ef8e9358, type: 2}
+  props: {fileID: 11400000, guid: da83f716b7e824d45b5b23fe62231739, type: 2}
+  facilityNames:
+  - CrashSite
+  - VisitorCenter
+  - PowerStation
+  - Paddock
+  - Lookout
+  facilityRingFraction: 0.55
+  facilityJitter: 0.08
+  facilityMinSpacing: 22
+  facilityClearRadius: 7
+  dockShoreTolerance: 0.35
+  baseClearingRadius: 9
+  minPropSpacing: 1.6
+  biomeFeatureSize: 45
+  maxPropSlope: 0.8
+  beachBand: 0.6
+  densities:
+  - biome: 0
+    trees: 0.4
+    rocks: 0.3
+    grass: 0
+    bushes: 0
+    logs: 0.2
+  - biome: 1
+    trees: 5
+    rocks: 0.4
+    grass: 3
+    bushes: 1.2
+    logs: 0.4
+  - biome: 2
+    trees: 0.6
+    rocks: 4
+    grass: 0.8
+    bushes: 0.2
+    logs: 0.1
+  - biome: 3
+    trees: 0.8
+    rocks: 0.5
+    grass: 4
+    bushes: 1.5
+    logs: 0.3
+  maxAttempts: 20
