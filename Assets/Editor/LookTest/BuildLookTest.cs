@@ -53,24 +53,30 @@ namespace JurassicPark.EditorTools
             AssetDatabase.CreateAsset(seaMat, "Assets/Materials/Sea.mat");
             sea.GetComponent<MeshRenderer>().sharedMaterial = seaMat;
 
-            // Rocks
-            Material stone = PixelMaterial("Stone", "Assets/Textures/Terrain/stone.png", tiling: 1f);
-            Rock(stone, TerrainBuilder.OnGround(new Vector3(-4f, 0f, 3f)), 1.4f);
-            Rock(stone, TerrainBuilder.OnGround(new Vector3(5f, 0f, -2f)), 1.0f);
-            Rock(stone, TerrainBuilder.OnGround(new Vector3(3f, 0f, 6f)), 0.7f);
-
-            // Trees: pixel-textured trunk and canopy
-            Material bark = PixelMaterial("Bark", "Assets/Textures/Terrain/bark.png", tiling: 2f);
-            Material leaves = PixelMaterial("Leaves", "Assets/Textures/Terrain/leaves.png", tiling: 2f);
-            Vector3[] trees =
+            // Props from the library: random variant, scale and tint per placement, seeded
+            PropLibrary props = AssetDatabase.LoadAssetAtPath<PropLibrary>(BuildPropLibrary.LibraryPath);
+            Material propMat = AssetDatabase.LoadAssetAtPath<Material>("Assets/Materials/PropSprite.mat");
+            if (propMat == null)
+            {
+                propMat = new Material(PropPlacer.Template()) { name = "PropSprite" };
+                AssetDatabase.CreateAsset(propMat, "Assets/Materials/PropSprite.mat");
+            }
+            GameObject propRoot = new GameObject("Props");
+            System.Random rng = new System.Random(seed * 7919 + 13);
+            Vector3[] rockSpots = { new Vector3(-4f, 0f, 3f), new Vector3(5f, 0f, -2f), new Vector3(3f, 0f, 6f), new Vector3(-9f, 0f, -4f) };
+            Vector3[] treeSpots =
             {
                 new Vector3(-8f, 0f, 8f), new Vector3(-3f, 0f, 11f), new Vector3(4f, 0f, 12f), new Vector3(9f, 0f, 9f),
                 new Vector3(11f, 0f, 2f), new Vector3(-10f, 0f, 1f), new Vector3(-7f, 0f, -6f), new Vector3(8f, 0f, -7f),
-                new Vector3(0f, 0f, 16f), new Vector3(-12f, 0f, 12f), new Vector3(13f, 0f, 14f),
+                new Vector3(0f, 0f, 16f), new Vector3(-12f, 0f, 12f), new Vector3(13f, 0f, 14f), new Vector3(-14f, 0f, 5f),
             };
-            for (int i = 0; i < trees.Length; i++)
+            Vector3[] grassSpots = { new Vector3(-2f, 0f, 4f), new Vector3(6f, 0f, 3f), new Vector3(-6f, 0f, -1f), new Vector3(2f, 0f, 9f), new Vector3(-5f, 0f, 7f), new Vector3(9f, 0f, 5f) };
+            if (props != null)
             {
-                Tree(bark, leaves, TerrainBuilder.OnGround(trees[i]), 3.5f + (i % 3) * 0.8f);
+                foreach (Vector3 p in rockSpots) PropPlacer.Place(props.Pick(PropKind.Rock, rng), props, TerrainBuilder.OnGround(p), rng, propRoot.transform, propMat);
+                foreach (Vector3 p in treeSpots) PropPlacer.Place(props.Pick(PropKind.Tree, rng), props, TerrainBuilder.OnGround(p), rng, propRoot.transform, propMat);
+                foreach (Vector3 p in grassSpots) PropPlacer.Place(props.Pick(rng.NextDouble() < 0.7 ? PropKind.Grass : PropKind.Bush, rng), props, TerrainBuilder.OnGround(p), rng, propRoot.transform, propMat);
+                PropPlacer.Place(props.Pick(PropKind.Log, rng), props, TerrainBuilder.OnGround(new Vector3(-3f, 0f, -6f)), rng, propRoot.transform, propMat);
             }
 
             // Campfire prefab
@@ -193,32 +199,6 @@ namespace JurassicPark.EditorTools
             mat.globalIlluminationFlags = MaterialGlobalIlluminationFlags.RealtimeEmissive;
             AssetDatabase.CreateAsset(mat, $"Assets/Materials/{name}.mat");
             return mat;
-        }
-
-        private static void Rock(Material stone, Vector3 pos, float size)
-        {
-            GameObject rock = GameObject.CreatePrimitive(PrimitiveType.Cube);
-            rock.name = "Rock";
-            rock.transform.position = pos + new Vector3(0f, size * 0.35f, 0f);
-            rock.transform.localScale = new Vector3(size * 1.6f, size * 0.8f, size * 1.2f);
-            rock.transform.rotation = Quaternion.Euler(0f, pos.x * 37f, 0f);
-            rock.GetComponent<MeshRenderer>().sharedMaterial = stone;
-        }
-
-        private static void Tree(Material bark, Material leaves, Vector3 pos, float height)
-        {
-            GameObject tree = new GameObject("Tree");
-            tree.transform.position = pos;
-            GameObject trunk = GameObject.CreatePrimitive(PrimitiveType.Cylinder);
-            trunk.transform.SetParent(tree.transform, false);
-            trunk.transform.localScale = new Vector3(0.5f, height * 0.5f, 0.5f);
-            trunk.transform.localPosition = new Vector3(0f, height * 0.5f, 0f);
-            trunk.GetComponent<MeshRenderer>().sharedMaterial = bark;
-            GameObject canopy = GameObject.CreatePrimitive(PrimitiveType.Sphere);
-            canopy.transform.SetParent(tree.transform, false);
-            canopy.transform.localScale = new Vector3(3.2f, 2.4f, 3.2f);
-            canopy.transform.localPosition = new Vector3(0f, height + 0.6f, 0f);
-            canopy.GetComponent<MeshRenderer>().sharedMaterial = leaves;
         }
 
         private static void Raptor(string name, string spritePath, Vector3 pos)

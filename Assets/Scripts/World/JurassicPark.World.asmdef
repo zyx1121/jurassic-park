@@ -1,7 +1,9 @@
 {
     "name": "JurassicPark.World",
     "rootNamespace": "JurassicPark.World",
-    "references": [],
+    "references": [
+        "JurassicPark.Core"
+    ],
     "includePlatforms": [],
     "excludePlatforms": [],
     "allowUnsafeCode": false,
