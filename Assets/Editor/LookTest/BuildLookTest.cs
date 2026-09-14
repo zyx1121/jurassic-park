@@ -1,5 +1,6 @@
 using JurassicPark.Core;
 using JurassicPark.Scene;
+using JurassicPark.World;
 using Unity.AI.Navigation;
 using Unity.Pipeline.Commands;
 using UnityEditor;
@@ -22,31 +23,41 @@ namespace JurassicPark.EditorTools
         private const string ScenePath = "Assets/Scenes/LookTest.unity";
 
         [CliCommand("build_look_test", "Build the HD-2D look test scene and save it")]
-        public static string Build()
+        public static string Build([CliArg("seed", "Island seed")] int seed = 1)
         {
             UnityEngine.SceneManagement.Scene scene = EditorSceneManager.NewScene(NewSceneSetup.EmptyScene, NewSceneMode.Single);
 
-            // Ground
-            GameObject ground = GameObject.CreatePrimitive(PrimitiveType.Plane);
-            ground.name = "Ground";
-            ground.transform.localScale = new Vector3(6f, 1f, 6f); // 60 x 60 m
-            ground.GetComponent<MeshRenderer>().sharedMaterial = PixelMaterial("Grass", "Assets/Textures/Terrain/grass.png", tiling: 30f);
-            NavMeshSurface navSurface = ground.AddComponent<NavMeshSurface>();
+            // Terrain from the seeded builder (issue 55); a flat plane before this
+            TerrainConfig terrainConfig = AssetDatabase.LoadAssetAtPath<TerrainConfig>(BuildTerrainAssets.ConfigPath);
+            Terrain terrain = TerrainBuilder.Build(terrainConfig, seed);
+            NavMeshSurface navSurface = terrain.gameObject.AddComponent<NavMeshSurface>();
             navSurface.collectObjects = CollectObjects.All;
             navSurface.useGeometry = UnityEngine.AI.NavMeshCollectGeometry.PhysicsColliders;
 
-            // Dirt patch under the camp
-            GameObject patch = GameObject.CreatePrimitive(PrimitiveType.Plane);
-            patch.name = "DirtPatch";
-            patch.transform.position = new Vector3(0f, 0.01f, 0f);
-            patch.transform.localScale = new Vector3(0.6f, 1f, 0.6f);
-            patch.GetComponent<MeshRenderer>().sharedMaterial = PixelMaterial("Dirt", "Assets/Textures/Terrain/dirt.png", tiling: 3f);
+            // Sea: a flat translucent plane at sea level
+            GameObject sea = GameObject.CreatePrimitive(PrimitiveType.Plane);
+            sea.name = "Sea";
+            Object.DestroyImmediate(sea.GetComponent<Collider>());
+            sea.transform.position = new Vector3(0f, terrainConfig.seaLevel, 0f);
+            sea.transform.localScale = new Vector3(terrainConfig.size / 5f, 1f, terrainConfig.size / 5f);
+            Material seaMat = new Material(Shader.Find("Universal Render Pipeline/Lit")) { name = "Sea" };
+            seaMat.SetFloat("_Surface", 1f);
+            seaMat.SetFloat("_Blend", 0f);
+            seaMat.SetFloat("_ZWrite", 0f);
+            seaMat.SetInt("_SrcBlend", (int)UnityEngine.Rendering.BlendMode.SrcAlpha);
+            seaMat.SetInt("_DstBlend", (int)UnityEngine.Rendering.BlendMode.OneMinusSrcAlpha);
+            seaMat.EnableKeyword("_SURFACE_TYPE_TRANSPARENT");
+            seaMat.renderQueue = 3000;
+            seaMat.SetColor("_BaseColor", new Color(0.1f, 0.3f, 0.45f, 0.75f));
+            seaMat.SetFloat("_Smoothness", 0.8f);
+            AssetDatabase.CreateAsset(seaMat, "Assets/Materials/Sea.mat");
+            sea.GetComponent<MeshRenderer>().sharedMaterial = seaMat;
 
             // Rocks
             Material stone = PixelMaterial("Stone", "Assets/Textures/Terrain/stone.png", tiling: 1f);
-            Rock(stone, new Vector3(-4f, 0f, 3f), 1.4f);
-            Rock(stone, new Vector3(5f, 0f, -2f), 1.0f);
-            Rock(stone, new Vector3(3f, 0f, 6f), 0.7f);
+            Rock(stone, TerrainBuilder.OnGround(new Vector3(-4f, 0f, 3f)), 1.4f);
+            Rock(stone, TerrainBuilder.OnGround(new Vector3(5f, 0f, -2f)), 1.0f);
+            Rock(stone, TerrainBuilder.OnGround(new Vector3(3f, 0f, 6f)), 0.7f);
 
             // Trees: pixel-textured trunk and canopy
             Material bark = PixelMaterial("Bark", "Assets/Textures/Terrain/bark.png", tiling: 2f);
@@ -59,7 +70,7 @@ namespace JurassicPark.EditorTools
             };
             for (int i = 0; i < trees.Length; i++)
             {
-                Tree(bark, leaves, trees[i], 3.5f + (i % 3) * 0.8f);
+                Tree(bark, leaves, TerrainBuilder.OnGround(trees[i]), 3.5f + (i % 3) * 0.8f);
             }
 
             // Campfire prefab
@@ -67,7 +78,7 @@ namespace JurassicPark.EditorTools
             if (campfirePrefab != null)
             {
                 GameObject fire = (GameObject)PrefabUtility.InstantiatePrefab(campfirePrefab);
-                fire.transform.position = new Vector3(2f, 0f, -1f);
+                fire.transform.position = TerrainBuilder.OnGround(new Vector3(2f, 0f, -1f));
             }
 
             // Raptors from the prefab; the NavMesh is baked below once the ground exists
@@ -76,10 +87,10 @@ namespace JurassicPark.EditorTools
             {
                 GameObject r1 = (GameObject)PrefabUtility.InstantiatePrefab(raptorPrefab);
                 r1.name = "Raptor";
-                r1.transform.position = new Vector3(-5f, 0f, 5f);
+                r1.transform.position = TerrainBuilder.OnGround(new Vector3(-5f, 0f, 5f));
                 GameObject r2 = (GameObject)PrefabUtility.InstantiatePrefab(raptorPrefab);
                 r2.name = "Raptor2";
-                r2.transform.position = new Vector3(8f, 0f, 9f);
+                r2.transform.position = TerrainBuilder.OnGround(new Vector3(8f, 0f, 9f));
             }
 
             // Player
@@ -88,7 +99,7 @@ namespace JurassicPark.EditorTools
             if (playerPrefab != null)
             {
                 player = (GameObject)PrefabUtility.InstantiatePrefab(playerPrefab);
-                player.transform.position = new Vector3(0f, 0.05f, -3f);
+                player.transform.position = TerrainBuilder.OnGround(new Vector3(0f, 0f, -3f), 0.1f);
             }
 
             // Sun driven by the day-night cycle
@@ -121,7 +132,7 @@ namespace JurassicPark.EditorTools
             cam.backgroundColor = new Color(0.13f, 0.1f, 0.22f);
             FollowCamera follow = camGo.AddComponent<FollowCamera>();
             follow.Target = player != null ? player.transform : null;
-            follow.Bounds = new Rect(-24f, -24f, 48f, 48f);
+            follow.Bounds = new Rect(-terrainConfig.size * 0.42f, -terrainConfig.size * 0.42f, terrainConfig.size * 0.84f, terrainConfig.size * 0.84f);
             camGo.transform.position = new Vector3(0f, 9f, -14f);
             camGo.transform.rotation = Quaternion.Euler(30f, 0f, 0f);
             UniversalAdditionalCameraData camData = camGo.AddComponent<UniversalAdditionalCameraData>();
