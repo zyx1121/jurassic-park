@@ -34,7 +34,12 @@ git lfs install && git lfs pull
 unity open .        # Unity CLI, or open the folder in Unity Hub with 6000.3.24f1
 ```
 
-Play from `Assets/Scenes/Island.unity`. Builds go to `Builds/` (ignored).
+Play from `Assets/Scenes/Island.unity`. Builds go to `Builds/` (ignored):
+
+```bash
+unity test . --mode EditMode
+unity build . --target StandaloneOSX --output-path Builds/macOS/JurassicPark.app
+```
 
 ## Project layout
 

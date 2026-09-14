@@ -51,25 +51,24 @@ jobs:
 
   unity:
     name: Unity tests and Windows build
-    # Self-hosted runner on king (Windows 11, RTX 3080) with Unity 6000.3.24f1 licensed.
+    # Self-hosted runner on king (Windows 11, RTX 3080). Unity CLI is installed there and
+    # Editor 6000.3.24f1 is registered via `unity editors add`, licensed as Unity Personal.
     runs-on: [self-hosted, windows, unity]
     needs: hygiene
     timeout-minutes: 60
     env:
-      UNITY_EXE: E:\Unity\Editors\6000.3.24f1\Editor\Unity.exe
+      UNITY_NON_INTERACTIVE: '1'
+      UNITY_NO_BANNER: '1'
     steps:
       - uses: actions/checkout@v4
         with:
           lfs: true
       - name: EditMode tests
         shell: powershell
-        run: |
-          New-Item -ItemType Directory -Force -Path TestResults | Out-Null
-          .\ci\unity.ps1 -UnityExe $env:UNITY_EXE -LogFile "$PWD\Logs\ci-editmode.log" -- -projectPath "$PWD" -runTests -testPlatform EditMode -testResults "$PWD\TestResults\editmode.xml"
+        run: unity test . --mode EditMode --report-format junit --output TestResults/editmode.xml --timeout 1200
       - name: Windows build
         shell: powershell
-        run: |
-          .\ci\unity.ps1 -UnityExe $env:UNITY_EXE -LogFile "$PWD\Logs\ci-build.log" -- -quit -projectPath "$PWD" -executeMethod Build.CI.BuildWindows
+        run: unity build . --target StandaloneWindows64 --output-path Builds/Windows/JurassicPark.exe --allow-dirty-build --no-tail
       - uses: actions/upload-artifact@v4
         if: always()
         with:
@@ -77,5 +76,5 @@ jobs:
           path: |
             Builds/Windows/**
             TestResults/**
-            Logs/ci-*.log
+            Logs/build-*.log
           retention-days: 7
