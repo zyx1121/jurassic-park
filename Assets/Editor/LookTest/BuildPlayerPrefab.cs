@@ -18,7 +18,8 @@ namespace JurassicPark.EditorTools
         public const string PrefabPath = "Assets/Prefabs/Player/Player.prefab";
         private const string ConfigPath = "Assets/Data/PlayerMovement.asset";
         private const string ControlsPath = "Assets/Input/PlayerControls.inputactions";
-        private const string SpritePath = "Assets/Sprites/Player/survivor_placeholder.png";
+        private const string SetPath = "Assets/Data/SurvivorSprites.asset";
+        private const int CellPixels = 128;
         private const float PixelsPerUnit = 64f;
 
         [CliCommand("build_player_prefab", "Create the player movement config and the Player prefab")]
@@ -32,7 +33,7 @@ namespace JurassicPark.EditorTools
             }
 
             InputActionAsset controls = AssetDatabase.LoadAssetAtPath<InputActionAsset>(ControlsPath);
-            Texture2D sprite = AssetDatabase.LoadAssetAtPath<Texture2D>(SpritePath);
+            SpriteSheetSet set = BuildSpriteSet();
 
             GameObject root = new GameObject("Player");
             CharacterController cc = root.AddComponent<CharacterController>();
@@ -52,13 +53,15 @@ namespace JurassicPark.EditorTools
             quad.name = "Sprite";
             Object.DestroyImmediate(quad.GetComponent<Collider>());
             quad.transform.SetParent(root.transform, false);
-            float w = sprite.width / PixelsPerUnit;
-            float h = sprite.height / PixelsPerUnit;
+            float w = CellPixels / PixelsPerUnit;
+            float h = CellPixels / PixelsPerUnit;
             quad.transform.localPosition = new Vector3(0f, h * 0.5f, 0f);
             quad.transform.localScale = new Vector3(w, h, 1f);
             Material mat = new Material(Shader.Find("Universal Render Pipeline/Lit"));
             mat.name = "PlayerSprite";
-            mat.SetTexture("_BaseMap", sprite);
+            mat.SetTexture("_BaseMap", set.clips[0].sheet);
+            mat.SetTextureScale("_BaseMap", new Vector2(1f / set.clips[0].columns, 1f / set.clips[0].rows));
+            mat.SetTextureOffset("_BaseMap", new Vector2(0f, 1f - 1f / set.clips[0].rows));
             mat.SetFloat("_Smoothness", 0f);
             mat.SetFloat("_AlphaClip", 1f);
             mat.SetFloat("_Cutoff", 0.5f);
@@ -69,11 +72,51 @@ namespace JurassicPark.EditorTools
             mr.sharedMaterial = mat;
             mr.shadowCastingMode = ShadowCastingMode.TwoSided;
             quad.AddComponent<Billboard>();
+            SpriteSheetAnimator anim = quad.AddComponent<SpriteSheetAnimator>();
+            SerializedObject animSo = new SerializedObject(anim);
+            animSo.FindProperty("set").objectReferenceValue = set;
+            animSo.ApplyModifiedPropertiesWithoutUndo();
+            PlayerSpriteAnimator psa = root.AddComponent<PlayerSpriteAnimator>();
+            SerializedObject psaSo = new SerializedObject(psa);
+            psaSo.FindProperty("player").objectReferenceValue = pc;
+            psaSo.FindProperty("animator").objectReferenceValue = anim;
+            psaSo.ApplyModifiedPropertiesWithoutUndo();
 
             GameObject prefab = PrefabUtility.SaveAsPrefabAsset(root, PrefabPath);
             Object.DestroyImmediate(root);
             AssetDatabase.SaveAssets();
             return AssetDatabase.GetAssetPath(prefab);
+        }
+            private static SpriteSheetSet BuildSpriteSet()
+        {
+            SpriteSheetSet set = AssetDatabase.LoadAssetAtPath<SpriteSheetSet>(SetPath);
+            if (set == null)
+            {
+                set = ScriptableObject.CreateInstance<SpriteSheetSet>();
+                AssetDatabase.CreateAsset(set, SetPath);
+            }
+
+            set.clips = new[]
+            {
+                Clip("Idle", "survivor_idle", 4, 4f),
+                Clip("Walk", "survivor_walk", 8, 10f),
+                Clip("Run", "survivor_run", 8, 14f),
+            };
+            EditorUtility.SetDirty(set);
+            return set;
+        }
+
+        private static SpriteSheetClip Clip(string name, string file, int columns, float fps)
+        {
+            return new SpriteSheetClip
+            {
+                name = name,
+                sheet = AssetDatabase.LoadAssetAtPath<Texture2D>($"Assets/Sprites/Player/{file}.png"),
+                columns = columns,
+                rows = 4,
+                framesPerSecond = fps,
+                loop = true,
+            };
         }
     }
 }
