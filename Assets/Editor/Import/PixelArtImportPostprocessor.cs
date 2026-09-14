@@ -10,7 +10,7 @@ namespace JurassicPark.EditorTools
     /// </summary>
     public sealed class PixelArtImportPostprocessor : AssetPostprocessor
     {
-        private const int PixelsPerUnit = 32;
+        private const int PixelsPerUnit = 64;
 
         private void OnPreprocessTexture()
         {
