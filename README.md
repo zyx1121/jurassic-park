@@ -55,7 +55,7 @@ docs/          proposal, design notes, art spec
 
 ## Development
 
-Work is tracked in [issues](https://github.com/zyx1121/jurassic-park/issues) grouped by [milestones](https://github.com/zyx1121/jurassic-park/milestones) that match the course dates. Branch from `main`, open a PR, let CI pass, squash-merge. Releases use SemVer tags and ship both platform builds.
+Work is tracked in [issues](https://github.com/zyx1121/jurassic-park/issues) grouped by [milestones](https://github.com/zyx1121/jurassic-park/milestones) that match the course dates. Branch from `main`, open a PR, let the hygiene CI pass, squash-merge. Releases use SemVer tags with macOS and Windows builds attached.
 
 ## Contributing
 
