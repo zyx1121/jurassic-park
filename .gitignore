@@ -114,3 +114,7 @@ InitTestScene*.unity*
 *.app
 *.dmg
 .DS_Store
+
+# Test reports and coverage
+/TestResults/
+/CodeCoverage/

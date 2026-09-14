@@ -20,7 +20,7 @@ jobs:
       - name: No generated folders committed
         run: |
           set -e
-          for d in Library Temp Obj Logs UserSettings Builds; do
+          for d in Library Temp Obj Logs UserSettings Builds TestResults CodeCoverage; do
             if git ls-files | grep -q "^$d/"; then echo "::error::$d/ is committed"; exit 1; fi
           done
       - name: Every asset has a .meta and every .meta has an asset
