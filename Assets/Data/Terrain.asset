@@ -1,0 +1,34 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3b591e63808624551b77b134bdac2a23, type: 3}
+  m_Name: Terrain
+  m_EditorClassIdentifier: JurassicPark.World::JurassicPark.World.TerrainConfig
+  size: 128
+  heightmapResolution: 129
+  maxHeight: 8
+  seaLevel: 1.2
+  featureSize: 40
+  octaves: 4
+  persistence: 0.5
+  islandFalloff: 0.7
+  maxStepPerCell: 0.35
+  slopePasses: 6
+  layers:
+  - {fileID: 8574412962073106934, guid: 82ac4ca39f88d4ddc85213b91b337902, type: 2}
+  - {fileID: 8574412962073106934, guid: b050ebace534e49c5abcc2143b44c412, type: 2}
+  - {fileID: 8574412962073106934, guid: bd7354e1f48914445899b820da139847, type: 2}
+  - {fileID: 8574412962073106934, guid: 1b14647f14d2c4f81aed8d7ca20aa74a, type: 2}
+  - {fileID: 8574412962073106934, guid: db0310e8056d646cfb4d4ce280200d7f, type: 2}
+  sandBand: 0.6
+  rockSlope: 0.55
+  grassMix: 0.5
+  dirtThreshold: 0.72

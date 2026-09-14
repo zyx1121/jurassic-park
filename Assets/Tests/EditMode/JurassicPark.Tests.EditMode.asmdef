@@ -8,7 +8,8 @@
         "JurassicPark.Core",
         "JurassicPark.Scene",
         "JurassicPark.Combat",
-        "JurassicPark.Dinosaurs"
+        "JurassicPark.Dinosaurs",
+        "JurassicPark.World"
     ],
     "includePlatforms": [
         "Editor"
