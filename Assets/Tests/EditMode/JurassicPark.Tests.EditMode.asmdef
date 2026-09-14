@@ -5,7 +5,8 @@
         "UnityEngine.TestRunner",
         "UnityEditor.TestRunner",
         "JurassicPark.Player",
-        "JurassicPark.Core"
+        "JurassicPark.Core",
+        "JurassicPark.Scene"
     ],
     "includePlatforms": [
         "Editor"
