@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: bf9262f5b5fa64fcb94de9875e33a3cc
+guid: 599810a4e72964f098ae9b7d68562c2d
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 4224370300674626458
-    second: survivor_placeholder_0
+      213: -5369248799369743776
+    second: survivor_walk_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -100,13 +100,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: survivor_placeholder_0
+      name: survivor_walk_0
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 64
-        height: 128
+        width: 1024
+        height: 512
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -115,8 +115,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: a93db63286aff9a30800000000000000
-      internalID: 4224370300674626458
+      spriteID: 062bfda1aa89c75b0800000000000000
+      internalID: -5369248799369743776
       vertices: []
       indices: 
       edges: []
@@ -135,7 +135,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      survivor_placeholder_0: 4224370300674626458
+      survivor_walk_0: -5369248799369743776
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
