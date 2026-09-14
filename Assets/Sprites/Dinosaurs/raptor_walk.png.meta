@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 9886299eafffa4f06ac3c443e4f47f5c
+guid: 798c168e921e841928aa6a6a4a368f89
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 7053961698914713200
-    second: raptor_idle_front_0
+      213: 4032496805445464926
+    second: raptor_walk_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -100,13 +100,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: raptor_idle_front_0
+      name: raptor_walk_0
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 128
-        height: 128
+        width: 1024
+        height: 512
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -115,8 +115,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 07eb50baac4b4e160800000000000000
-      internalID: 7053961698914713200
+      spriteID: e53797eba7e46f730800000000000000
+      internalID: 4032496805445464926
       vertices: []
       indices: 
       edges: []
@@ -135,7 +135,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      raptor_idle_front_0: 7053961698914713200
+      raptor_walk_0: 4032496805445464926
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

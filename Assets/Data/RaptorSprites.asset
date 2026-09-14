@@ -1,0 +1,39 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 0}
+  m_Name: RaptorSprites
+  m_EditorClassIdentifier: JurassicPark.Core:JurassicPark.Core:SpriteSheetSet
+  clips:
+  - name: Idle
+    sheet: {fileID: 2800000, guid: 3348d4369ba30475d9d1fe487642581f, type: 3}
+    columns: 4
+    rows: 4
+    framesPerSecond: 4
+    loop: 1
+  - name: Walk
+    sheet: {fileID: 2800000, guid: 798c168e921e841928aa6a6a4a368f89, type: 3}
+    columns: 8
+    rows: 4
+    framesPerSecond: 12
+    loop: 1
+  - name: Bite
+    sheet: {fileID: 2800000, guid: 2cdd462bc27a04c589e6fb45e553ce70, type: 3}
+    columns: 6
+    rows: 4
+    framesPerSecond: 12
+    loop: 0
+  - name: Death
+    sheet: {fileID: 2800000, guid: bfae86d30fb184c9a90d5c7961b5d914, type: 3}
+    columns: 6
+    rows: 4
+    framesPerSecond: 8
+    loop: 0

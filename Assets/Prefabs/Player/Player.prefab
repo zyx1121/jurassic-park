@@ -10,11 +10,13 @@ GameObject:
   m_Component:
   - component: {fileID: 1333988307493449666}
   - component: {fileID: 2653504781816246188}
+  - component: {fileID: 487191651549253597}
+  - component: {fileID: 7141970612691108832}
   - component: {fileID: 4703087292020726508}
   - component: {fileID: 6344616595588380111}
   m_Layer: 0
   m_Name: Player
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -60,6 +62,33 @@ CharacterController:
   m_SkinWidth: 0.08
   m_MinMoveDistance: 0.001
   m_Center: {x: 0, y: 0.9, z: 0}
+--- !u!114 &487191651549253597
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6985326838913205496}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9e563c0d5f5be41599452783f3ba40d9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: JurassicPark.Combat::JurassicPark.Combat.Health
+  config: {fileID: 11400000, guid: d5659263c41c141bcbed311168b408f4, type: 2}
+--- !u!114 &7141970612691108832
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6985326838913205496}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8f6a900d74f7d49769e15aa54941e233, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: JurassicPark.Combat::JurassicPark.Combat.HitFlash
+  flashColor: {r: 1, g: 0.35, b: 0.35, a: 1}
+  duration: 0.12
 --- !u!114 &4703087292020726508
 MonoBehaviour:
   m_ObjectHideFlags: 0

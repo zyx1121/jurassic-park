@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 4ff56653dadc64d46952f434316dc853
+guid: 2cdd462bc27a04c589e6fb45e553ce70
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -4891955443849188688
-    second: raptor_idle_left_0
+      213: 2557777624829734675
+    second: raptor_bite_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -100,13 +100,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: raptor_idle_left_0
+      name: raptor_bite_0
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 128
-        height: 128
+        width: 768
+        height: 512
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -115,8 +115,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 0baa45841784c1cb0800000000000000
-      internalID: -4891955443849188688
+      spriteID: 31f2b66b23d0f7320800000000000000
+      internalID: 2557777624829734675
       vertices: []
       indices: 
       edges: []
@@ -135,7 +135,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      raptor_idle_left_0: -4891955443849188688
+      raptor_bite_0: 2557777624829734675
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

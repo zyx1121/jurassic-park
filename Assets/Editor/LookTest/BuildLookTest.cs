@@ -1,5 +1,6 @@
 using JurassicPark.Core;
 using JurassicPark.Scene;
+using Unity.AI.Navigation;
 using Unity.Pipeline.Commands;
 using UnityEditor;
 using UnityEditor.SceneManagement;
@@ -30,6 +31,9 @@ namespace JurassicPark.EditorTools
             ground.name = "Ground";
             ground.transform.localScale = new Vector3(6f, 1f, 6f); // 60 x 60 m
             ground.GetComponent<MeshRenderer>().sharedMaterial = PixelMaterial("Grass", "Assets/Textures/Terrain/grass.png", tiling: 30f);
+            NavMeshSurface navSurface = ground.AddComponent<NavMeshSurface>();
+            navSurface.collectObjects = CollectObjects.All;
+            navSurface.useGeometry = UnityEngine.AI.NavMeshCollectGeometry.PhysicsColliders;
 
             // Dirt patch under the camp
             GameObject patch = GameObject.CreatePrimitive(PrimitiveType.Plane);
@@ -66,9 +70,17 @@ namespace JurassicPark.EditorTools
                 fire.transform.position = new Vector3(2f, 0f, -1f);
             }
 
-            // Raptor sprite on a lit quad so it receives scene light and casts a shadow
-            Raptor("Raptor", "Assets/Sprites/Dinosaurs/raptor_idle_left.png", new Vector3(-1.5f, 0f, 1.5f));
-            Raptor("Raptor2", "Assets/Sprites/Dinosaurs/raptor_idle_front.png", new Vector3(4.5f, 0f, 5f));
+            // Raptors from the prefab; the NavMesh is baked below once the ground exists
+            GameObject raptorPrefab = AssetDatabase.LoadAssetAtPath<GameObject>(BuildRaptorPrefab.PrefabPath);
+            if (raptorPrefab != null)
+            {
+                GameObject r1 = (GameObject)PrefabUtility.InstantiatePrefab(raptorPrefab);
+                r1.name = "Raptor";
+                r1.transform.position = new Vector3(-5f, 0f, 5f);
+                GameObject r2 = (GameObject)PrefabUtility.InstantiatePrefab(raptorPrefab);
+                r2.name = "Raptor2";
+                r2.transform.position = new Vector3(8f, 0f, 9f);
+            }
 
             // Player
             GameObject playerPrefab = AssetDatabase.LoadAssetAtPath<GameObject>(BuildPlayerPrefab.PrefabPath);
@@ -141,6 +153,8 @@ namespace JurassicPark.EditorTools
             vol.isGlobal = true;
             vol.sharedProfile = profile;
 
+            EditorSceneManager.SaveScene(scene, ScenePath);
+            navSurface.BuildNavMesh();
             EditorSceneManager.SaveScene(scene, ScenePath);
             AssetDatabase.SaveAssets();
             return ScenePath;

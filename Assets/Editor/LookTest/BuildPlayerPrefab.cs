@@ -1,3 +1,4 @@
+using JurassicPark.Combat;
 using JurassicPark.Core;
 using JurassicPark.Player;
 using Unity.Pipeline.Commands;
@@ -42,6 +43,21 @@ namespace JurassicPark.EditorTools
             cc.center = new Vector3(0f, 0.9f, 0f);
             cc.slopeLimit = 45f;
             cc.stepOffset = 0.3f;
+
+            root.tag = "Player";
+            HealthConfig healthConfig = AssetDatabase.LoadAssetAtPath<HealthConfig>("Assets/Data/PlayerHealth.asset");
+            if (healthConfig == null)
+            {
+                healthConfig = ScriptableObject.CreateInstance<HealthConfig>();
+                healthConfig.maxHealth = 100f;
+                healthConfig.invulnerabilityAfterHit = 0.5f;
+                AssetDatabase.CreateAsset(healthConfig, "Assets/Data/PlayerHealth.asset");
+            }
+            Health health = root.AddComponent<Health>();
+            SerializedObject healthSo = new SerializedObject(health);
+            healthSo.FindProperty("config").objectReferenceValue = healthConfig;
+            healthSo.ApplyModifiedPropertiesWithoutUndo();
+            root.AddComponent<HitFlash>();
 
             PlayerController pc = root.AddComponent<PlayerController>();
             SerializedObject so = new SerializedObject(pc);
