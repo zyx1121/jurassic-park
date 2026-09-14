@@ -15,7 +15,7 @@ jobs:
           - target: Windows
             runner: [self-hosted, windows, unity]
             method: Build.CI.BuildWindows
-            archive: pwsh
+            archive: powershell
           - target: macOS
             runner: [self-hosted, macos, unity]
             method: Build.CI.BuildMac
@@ -26,8 +26,8 @@ jobs:
         with:
           lfs: true
       - name: Build (Windows runner)
-        if: matrix.archive == 'pwsh'
-        shell: pwsh
+        if: matrix.archive == 'powershell'
+        shell: powershell
         run: |
           & "E:\Unity\Editors\6000.3.24f1\Editor\Unity.exe" -batchmode -nographics -quit -projectPath "$PWD" -executeMethod ${{ matrix.method }} -logFile "$PWD\Logs\release.log"
           if ($LASTEXITCODE -ne 0) { Get-Content "$PWD\Logs\release.log" -Tail 80; exit $LASTEXITCODE }

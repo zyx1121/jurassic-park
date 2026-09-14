@@ -19,13 +19,13 @@ jobs:
         with:
           lfs: false
       - name: No generated folders committed
-        shell: pwsh
+        shell: powershell
         run: |
           $files = git ls-files
           $bad = $files | Where-Object { $_ -match '^(Library|Temp|Obj|Logs|UserSettings|Builds)/' }
           if ($bad) { $bad | ForEach-Object { Write-Host "::error::$_ is committed" }; exit 1 }
       - name: Every asset has a .meta and every .meta has an asset
-        shell: pwsh
+        shell: powershell
         run: |
           $files = git ls-files 'Assets/**'
           $fail = $false
@@ -38,7 +38,7 @@ jobs:
           }
           if ($fail) { exit 1 }
       - name: Binary assets are LFS pointers
-        shell: pwsh
+        shell: powershell
         run: |
           $bins = git ls-files | Where-Object { $_ -match '\.(png|jpg|psd|aseprite|fbx|obj|blend|wav|mp3|ogg|ttf|otf|exr|hdr|mp4)$' }
           $fail = $false
@@ -61,12 +61,12 @@ jobs:
         with:
           lfs: true
       - name: EditMode tests
-        shell: pwsh
+        shell: powershell
         run: |
           & $env:UNITY_EXE -batchmode -nographics -projectPath "$PWD" -runTests -testPlatform EditMode -testResults "$PWD\TestResults\editmode.xml" -logFile "$PWD\Logs\ci-editmode.log"
           if ($LASTEXITCODE -ne 0) { Get-Content "$PWD\Logs\ci-editmode.log" -Tail 80; exit $LASTEXITCODE }
       - name: Windows build
-        shell: pwsh
+        shell: powershell
         run: |
           & $env:UNITY_EXE -batchmode -nographics -quit -projectPath "$PWD" -executeMethod Build.CI.BuildWindows -logFile "$PWD\Logs\ci-build.log"
           if ($LASTEXITCODE -ne 0) { Get-Content "$PWD\Logs\ci-build.log" -Tail 80; exit $LASTEXITCODE }
