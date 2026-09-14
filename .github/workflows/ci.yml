@@ -12,36 +12,41 @@ concurrency:
 jobs:
   hygiene:
     name: Repo hygiene
-    runs-on: ubuntu-latest
+    # GitHub-hosted runners are blocked on this account's billing; run on king.
+    runs-on: [self-hosted, windows]
     steps:
       - uses: actions/checkout@v4
         with:
           lfs: false
       - name: No generated folders committed
+        shell: pwsh
         run: |
-          set -e
-          for d in Library Temp Obj Logs UserSettings Builds; do
-            if git ls-files | grep -q "^$d/"; then echo "::error::$d/ is committed"; exit 1; fi
-          done
+          $files = git ls-files
+          $bad = $files | Where-Object { $_ -match '^(Library|Temp|Obj|Logs|UserSettings|Builds)/' }
+          if ($bad) { $bad | ForEach-Object { Write-Host "::error::$_ is committed" }; exit 1 }
       - name: Every asset has a .meta and every .meta has an asset
+        shell: pwsh
         run: |
-          set -e
-          fail=0
-          while IFS= read -r f; do
-            [ -e "$f.meta" ] || { echo "::error::missing meta for $f"; fail=1; }
-          done < <(git ls-files 'Assets/**' | grep -v '\.meta$')
-          while IFS= read -r m; do
-            [ -e "${m%.meta}" ] || { echo "::error::orphan meta $m"; fail=1; }
-          done < <(git ls-files 'Assets/**/*.meta' 'Assets/*.meta')
-          exit $fail
+          $files = git ls-files 'Assets/**'
+          $fail = $false
+          foreach ($f in $files | Where-Object { $_ -notmatch '\.meta$' }) {
+            if (-not (Test-Path -LiteralPath "$f.meta")) { Write-Host "::error::missing meta for $f"; $fail = $true }
+          }
+          foreach ($m in $files | Where-Object { $_ -match '\.meta$' }) {
+            $target = $m -replace '\.meta$', ''
+            if (-not (Test-Path -LiteralPath $target)) { Write-Host "::error::orphan meta $m"; $fail = $true }
+          }
+          if ($fail) { exit 1 }
       - name: Binary assets are LFS pointers
+        shell: pwsh
         run: |
-          set -e
-          fail=0
-          while IFS= read -r f; do
-            if ! git check-attr filter -- "$f" | grep -q 'lfs'; then echo "::error::$f not tracked by LFS"; fail=1; fi
-          done < <(git ls-files | grep -Ei '\.(png|jpg|psd|aseprite|fbx|obj|blend|wav|mp3|ogg|ttf|otf|exr|hdr|mp4)$' || true)
-          exit $fail
+          $bins = git ls-files | Where-Object { $_ -match '\.(png|jpg|psd|aseprite|fbx|obj|blend|wav|mp3|ogg|ttf|otf|exr|hdr|mp4)$' }
+          $fail = $false
+          foreach ($f in $bins) {
+            $attr = git check-attr filter -- $f
+            if ($attr -notmatch 'lfs') { Write-Host "::error::$f not tracked by LFS"; $fail = $true }
+          }
+          if ($fail) { exit 1 }
 
   unity:
     name: Unity tests and Windows build
