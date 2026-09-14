@@ -45,11 +45,15 @@ unity build . --target StandaloneOSX --output-path Builds/macOS/JurassicPark.app
 
 ```
 Assets/
-  Scenes/      Island, MainMenu, test scenes
+  Scenes/      Island (main scene), later MainMenu and test scenes
   Scripts/     one folder per system: Core, Player, Dinosaurs, Building, Combat, UI, Net, FX
   Prefabs/     Player, Dinosaurs, Structures, Pickups, FX
-  Sprites/     pixel art, point filtered
-  Materials/ Textures/ Audio/ UI/
+  Sprites/     pixel art; the import postprocessor forces point filter, no compression, no mipmaps, 32 PPU
+  Textures/    pixel textures for 3D props, same import rules, repeat wrap
+  Data/        ScriptableObjects holding every tunable number
+  Settings/    URP asset (PC_RPAsset), renderer, volume profiles
+  Editor/      editor-only tooling (import postprocessors, CLI commands)
+  Materials/ Audio/ UI/
 docs/          proposal, design notes, art spec
 ```
 
