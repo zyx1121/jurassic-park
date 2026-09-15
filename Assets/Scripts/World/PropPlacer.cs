@@ -1,3 +1,4 @@
+using JurassicPark.Core;
 using UnityEngine;
 using UnityEngine.Rendering;
 
@@ -27,10 +28,10 @@ namespace JurassicPark.World
         {
             float scale = PickScale(lib, rng);
             Color tint = PickTint(lib, rng);
-            return Place(v, groundPosition, scale, tint, parent, spriteMaterial);
+            return Place(v, groundPosition, scale, tint, parent, spriteMaterial, lib.gatherRules);
         }
 
-        public static GameObject Place(PropVariant v, Vector3 groundPosition, float scale, Color tint, Transform parent = null, Material spriteMaterial = null)
+        public static GameObject Place(PropVariant v, Vector3 groundPosition, float scale, Color tint, Transform parent = null, Material spriteMaterial = null, GatherRules rules = null)
         {
             GameObject root = new GameObject(v.name);
             root.transform.SetParent(parent, false);
@@ -63,6 +64,20 @@ namespace JurassicPark.World
                 col.radius = v.footprintRadius * scale;
                 col.height = size;
                 col.center = new Vector3(0f, size * 0.5f, 0f);
+            }
+
+            if (v.resource != ResourceKind.None && v.resourceAmount > 0 && rules != null && rules.TryGet(v.resource, out GatherRule rule))
+            {
+                if (!v.solid)
+                {
+                    SphereCollider trigger = root.AddComponent<SphereCollider>();
+                    trigger.isTrigger = true;
+                    trigger.radius = Mathf.Max(0.5f, v.footprintRadius * scale + 0.3f);
+                    trigger.center = new Vector3(0f, size * 0.4f, 0f);
+                }
+
+                ResourceNode node = root.AddComponent<ResourceNode>();
+                node.Configure(v.resource, v.resourceAmount, rule, tint);
             }
 
             return root;

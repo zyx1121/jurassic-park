@@ -2,7 +2,8 @@
     "name": "JurassicPark.World",
     "rootNamespace": "JurassicPark.World",
     "references": [
-        "JurassicPark.Core"
+        "JurassicPark.Core",
+        "JurassicPark.Scene"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

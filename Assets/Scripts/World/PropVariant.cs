@@ -1,3 +1,4 @@
+using JurassicPark.Core;
 using UnityEngine;
 
 namespace JurassicPark.World
@@ -9,14 +10,6 @@ namespace JurassicPark.World
         Grass,
         Log,
         Bush,
-    }
-
-    public enum ResourceKind
-    {
-        None,
-        Wood,
-        Stone,
-        Food,
     }
 
     /// <summary>One prop sprite with its footprint and what it yields. Several variants per kind keep the island from repeating.</summary>

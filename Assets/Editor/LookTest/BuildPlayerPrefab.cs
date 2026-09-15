@@ -58,6 +58,7 @@ namespace JurassicPark.EditorTools
             healthSo.FindProperty("config").objectReferenceValue = healthConfig;
             healthSo.ApplyModifiedPropertiesWithoutUndo();
             root.AddComponent<HitFlash>();
+            root.AddComponent<ResourceInventory>();
 
             PlayerController pc = root.AddComponent<PlayerController>();
             SerializedObject so = new SerializedObject(pc);

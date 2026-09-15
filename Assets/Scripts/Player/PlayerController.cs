@@ -1,4 +1,5 @@
 using System;
+using JurassicPark.Core;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -141,7 +142,7 @@ namespace JurassicPark.Player
             float bestDist = float.MaxValue;
             for (int i = 0; i < n; i++)
             {
-                if (!overlap[i].TryGetComponent(out IInteractable candidate) || !candidate.CanInteract(this))
+                if (!overlap[i].TryGetComponent(out IInteractable candidate) || !candidate.CanInteract(gameObject))
                 {
                     continue;
                 }
@@ -156,7 +157,7 @@ namespace JurassicPark.Player
 
             if (best != null)
             {
-                best.Interact(this);
+                best.Interact(gameObject);
                 Interacted?.Invoke(best);
             }
 

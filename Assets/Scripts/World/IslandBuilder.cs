@@ -74,7 +74,7 @@ namespace JurassicPark.World
             props.transform.SetParent(root.transform, false);
             foreach (PropPlacement p in plan.props)
             {
-                PropPlacer.Place(p.variant, p.position, p.scale, p.tint, props.transform, propMaterial);
+                PropPlacer.Place(p.variant, p.position, p.scale, p.tint, props.transform, propMaterial, cfg.props.gatherRules);
             }
 
             return root;
