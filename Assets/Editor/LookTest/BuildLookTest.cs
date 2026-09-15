@@ -34,23 +34,14 @@ namespace JurassicPark.EditorTools
             navSurface.collectObjects = CollectObjects.All;
             navSurface.useGeometry = UnityEngine.AI.NavMeshCollectGeometry.PhysicsColliders;
 
-            // Sea: a flat translucent plane at sea level
+            // Animated pixel sea, shared with the island scene.
             GameObject sea = GameObject.CreatePrimitive(PrimitiveType.Plane);
             sea.name = "Sea";
             Object.DestroyImmediate(sea.GetComponent<Collider>());
             sea.transform.position = new Vector3(0f, terrainConfig.seaLevel, 0f);
             sea.transform.localScale = new Vector3(terrainConfig.size / 5f, 1f, terrainConfig.size / 5f);
-            Material seaMat = new Material(Shader.Find("Universal Render Pipeline/Lit")) { name = "Sea" };
-            seaMat.SetFloat("_Surface", 1f);
-            seaMat.SetFloat("_Blend", 0f);
-            seaMat.SetFloat("_ZWrite", 0f);
-            seaMat.SetInt("_SrcBlend", (int)UnityEngine.Rendering.BlendMode.SrcAlpha);
-            seaMat.SetInt("_DstBlend", (int)UnityEngine.Rendering.BlendMode.OneMinusSrcAlpha);
-            seaMat.EnableKeyword("_SURFACE_TYPE_TRANSPARENT");
-            seaMat.renderQueue = 3000;
-            seaMat.SetColor("_BaseColor", new Color(0.1f, 0.3f, 0.45f, 0.75f));
-            seaMat.SetFloat("_Smoothness", 0.8f);
-            AssetDatabase.CreateAsset(seaMat, "Assets/Materials/Sea.mat");
+            Material seaMat = AssetDatabase.LoadAssetAtPath<Material>(BuildSeaMaterial.MaterialPath);
+            if (seaMat == null) seaMat = BuildSeaMaterial.Create();
             sea.GetComponent<MeshRenderer>().sharedMaterial = seaMat;
 
             // Props from the library: random variant, scale and tint per placement, seeded
@@ -135,6 +126,7 @@ namespace JurassicPark.EditorTools
             camGo.transform.rotation = Quaternion.Euler(30f, 0f, 0f);
             UniversalAdditionalCameraData camData = camGo.AddComponent<UniversalAdditionalCameraData>();
             camData.renderPostProcessing = true;
+            camData.requiresDepthTexture = true;
             camData.antialiasing = AntialiasingMode.None;
 
             // Post-processing volume
@@ -165,6 +157,12 @@ namespace JurassicPark.EditorTools
             lgg.lift.Override(new Vector4(0.97f, 0.96f, 1.04f, 0f));
             lgg.gamma.Override(new Vector4(0.98f, 1.0f, 1.03f, 0f));
             lgg.gain.Override(new Vector4(1.05f, 1.01f, 0.94f, 0f));
+            // VolumeProfile.Add creates transient objects; without subassets, builds lose every effect.
+            foreach (VolumeComponent component in profile.components)
+            {
+                AssetDatabase.AddObjectToAsset(component, profile);
+                EditorUtility.SetDirty(component);
+            }
             EditorUtility.SetDirty(profile);
             GameObject volGo = new GameObject("PostProcessVolume");
             Volume vol = volGo.AddComponent<Volume>();

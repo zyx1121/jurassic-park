@@ -62,7 +62,14 @@ namespace JurassicPark.World
                 FacilityMarker marker = slot.AddComponent<FacilityMarker>();
                 marker.facilityName = f.name;
                 marker.isDock = f.isDock;
-                // Placeholder footprint until the real facility prefabs (#38)
+                FacilityKit kit = cfg.facilities != null ? cfg.facilities.Find(f.name) : null;
+                if (kit != null)
+                {
+                    FacilityPlacer.Place(kit, slot.transform, f.isDock ? null : p => IslandGenerator.HeightAt(plan.heights, p, tc) * tc.maxHeight);
+                    continue;
+                }
+
+                // Placeholder footprint for a facility without a kit
                 GameObject pad = GameObject.CreatePrimitive(PrimitiveType.Cube);
                 pad.name = "Pad";
                 pad.transform.SetParent(slot.transform, false);
@@ -83,8 +90,10 @@ namespace JurassicPark.World
                 foreach (FacilitySlot f in plan.facilities)
                 {
                     if (f.isDock) continue;
-                    Vector3 p = f.position + Quaternion.Euler(0f, f.rotation, 0f) * new Vector3(2.2f, 0f, 0f);
-                    p.y = f.position.y + 0.4f;
+                    FacilityKit kit = cfg.facilities != null ? cfg.facilities.Find(f.name) : null;
+                    Vector2 offset = kit != null ? kit.pickupOffset : new Vector2(2.2f, 0f);
+                    Vector3 p = f.position + Quaternion.Euler(0f, f.rotation, 0f) * new Vector3(offset.x, 0f, offset.y);
+                    p.y = IslandGenerator.HeightAt(plan.heights, p, tc) * tc.maxHeight + 0.4f;
                     PickupFactory.Spawn(cfg.props.pickups, JurassicPark.Core.ResourceKind.BoatPart, 1, p, parts.transform, partId++);
                 }
             }

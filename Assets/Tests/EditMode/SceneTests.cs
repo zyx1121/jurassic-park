@@ -7,6 +7,26 @@ namespace JurassicPark.Tests
     public class SceneTests
     {
         [Test]
+        public void GeneratedPostProcessingComponentsPersistWithTheProfile()
+        {
+            Object profile = UnityEditor.AssetDatabase.LoadAssetAtPath<Object>("Assets/Settings/LookTestProfile.asset");
+            Assert.IsNotNull(profile);
+            var serialized = new UnityEditor.SerializedObject(profile);
+            var components = serialized.FindProperty("components");
+            Assert.GreaterOrEqual(components.arraySize, 5);
+            for (int i = 0; i < components.arraySize; i++)
+            {
+                Object component = components.GetArrayElementAtIndex(i).objectReferenceValue;
+                Assert.IsNotNull(component, $"Volume component {i} was not saved.");
+                Assert.IsTrue(UnityEditor.EditorUtility.IsPersistent(component), component.name);
+                Assert.AreEqual("Assets/Settings/LookTestProfile.asset", UnityEditor.AssetDatabase.GetAssetPath(component));
+                Assert.IsTrue(UnityEditor.AssetDatabase.TryGetGUIDAndLocalFileIdentifier(component, out string guid, out long fileId));
+                Assert.AreEqual(UnityEditor.AssetDatabase.AssetPathToGUID("Assets/Settings/LookTestProfile.asset"), guid);
+                Assert.AreNotEqual(0, fileId);
+            }
+        }
+
+        [Test]
         public void SoftClampLeavesInteriorUntouched()
         {
             Assert.AreEqual(3f, FollowCamera.SoftClamp(3f, -10f, 10f, 4f), 1e-5f);

@@ -1,0 +1,68 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 73cf936046f5649959e03561352dff65, type: 3}
+  m_Name: VisitorCenter
+  m_EditorClassIdentifier: JurassicPark.World::JurassicPark.World.FacilityKit
+  facilityName: VisitorCenter
+  clearRadius: 11
+  pickupOffset: {x: 2, y: 0}
+  pieces:
+  - sprite: {fileID: 2800000, guid: ed1a08988037f4dc9b41cab58f8fca0c, type: 3}
+    offset: {x: 0, y: 0}
+    yaw: 0
+    widthMeters: 12
+    cellPixels: 256
+    opaquePixels: 256
+    solid: 1
+    colliders:
+    - size: {x: 6.75, y: 5, z: 3}
+      center: {x: -2.625, y: 2.5, z: 0}
+    - size: {x: 2.75, y: 5, z: 3}
+      center: {x: 4.625, y: 2.5, z: 0}
+    material: {fileID: 2100000, guid: c041092a18890446a93f7d7847e05fb7, type: 2}
+    fadeMaterial: {fileID: 2100000, guid: 18f3333f7252a45b0a5ec3d1e217f444, type: 2}
+  - sprite: {fileID: 2800000, guid: e5d9c1f9b2d114da4acc0688fda61ec1, type: 3}
+    offset: {x: -3, y: 7}
+    yaw: 0
+    widthMeters: 8
+    cellPixels: 256
+    opaquePixels: 256
+    solid: 1
+    colliders:
+    - size: {x: 8, y: 1.2, z: 2}
+      center: {x: 0, y: 0.6, z: 0}
+    material: {fileID: 2100000, guid: dfb4323d861cb4ae19f96b74066ffd67, type: 2}
+    fadeMaterial: {fileID: 2100000, guid: 60f6d1970871d4df886ba5dc93de1d25, type: 2}
+  - sprite: {fileID: 2800000, guid: 1d3069efc9f51400f9654fb8be56b0ba, type: 3}
+    offset: {x: -7, y: 0}
+    yaw: 0
+    widthMeters: 5
+    cellPixels: 256
+    opaquePixels: 256
+    solid: 1
+    colliders:
+    - size: {x: 0.7, y: 4, z: 0.7}
+      center: {x: -1.9, y: 2, z: 0}
+    - size: {x: 0.7, y: 4, z: 0.7}
+      center: {x: 1.9, y: 2, z: 0}
+    material: {fileID: 2100000, guid: 101e1c49390924993a0c78c0ae0614fe, type: 2}
+    fadeMaterial: {fileID: 2100000, guid: 0a9e27716705e4a10a49b250596b6e32, type: 2}
+  - sprite: {fileID: 2800000, guid: 7265c5c2631ad420b84fbdd75e47c415, type: 3}
+    offset: {x: 2, y: -5}
+    yaw: 0
+    widthMeters: 8
+    cellPixels: 256
+    opaquePixels: 256
+    solid: 0
+    colliders: []
+    material: {fileID: 2100000, guid: ee5a4241fecf64c3d91b57ed77a1337d, type: 2}
+    fadeMaterial: {fileID: 2100000, guid: 4f39a7c56752446c8ab8dbc34ce91090, type: 2}

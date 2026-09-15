@@ -77,3 +77,39 @@ There is **no blanket outline pass**. A uniform black contour makes foliage and 
 Do preserve bark cracks, individual frond groupings, chipped rock planes, mud shine and cloth seams through the downsample. Do use asymmetry, damage, wet/dry variation and cold crevice color. Do judge assets at native size and in a 640 × 360 scene, not only enlarged.
 
 Do not use Kenney Nature Kit art, flat material recolors, smooth gradients inside final sprites, black universal outlines, neon grass, pastel beaches, uniform random tints, per-prop light directions, or 1 m single-pattern grass tiles. Do not allow bloom/DoF/texture filtering to melt the pixel grid. Do not call a low-poly mesh “retro” and treat that as the target.
+
+## Integrated facility and sea pass
+
+The v2 scene keeps the already-approved bloom, vignette and persistent fog; the
+values above are the original art proposal, not a command to overwrite the tuned
+`LookTestProfile` asset. Trees, stones and clutter retain the v2 scale and palette.
+The builder persists each volume effect as a subasset so bloom, vignette, color
+grading and depth of field survive an Editor restart and a standalone build.
+
+Six landmarks replace the grey pads: the crash site, visitor center, power
+station, paddock, lookout and dock. Each has four sprite components, separate
+solid collision proxies and the same soft player-centered see-through as trees.
+Doorways and the space under the lookout remain passable. The dock has a 1.8 m
+walkable center strip; its deck stays level rather than following the seabed.
+Other pieces follow the terrain at their own world positions.
+
+Each non-dock kit defines its boat-part position in `FacilityKit.pickupOffset`,
+inside a walkable route rather than inside a facade's collision box. The beach
+spawn is selected on actual dry terrain outside the wreck's collision proxies.
+The camp clearing sits inland beyond the crash site's footprint.
+
+`JurassicPark/SeaWaves` uses four point-filtered repeating frames, a stepped
+shallow-to-deep color ramp and depth-based shoreline foam. The material builder
+is the source of truth for sea tuning. The camera must supply a depth texture.
+Facility and sea sprites are project-generated artwork, not downloaded scans;
+see `CREDITS.md`.
+
+Regenerate through the official Unity CLI with the Editor connected:
+
+```bash
+unity command build_facility_library --project-path .
+unity command build_sea_material --project-path .
+unity command build_look_test --seed 1 --project-path .
+unity command build_island --seed 1 --project-path .
+unity command save_all --project-path .
+```

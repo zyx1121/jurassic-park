@@ -63,6 +63,8 @@ namespace JurassicPark.Tests
                 float crashHeight = IslandGenerator.HeightAt(plan.heights, crash.position, cfg.terrain) * cfg.terrain.maxHeight;
                 Assert.Less(crashHeight, cfg.terrain.seaLevel + cfg.beachBand + 1.6f, $"seed {seed}: crash site should be on the beach");
                 Assert.Greater(plan.playerSpawn.y, cfg.terrain.seaLevel, "player spawn above water");
+                Assert.GreaterOrEqual(IslandGenerator.HeightAt(plan.heights, plan.playerSpawn, cfg.terrain) * cfg.terrain.maxHeight,
+                    cfg.terrain.seaLevel + cfg.spawnShoreMargin - 0.001f, "the ground under the spawn must be dry");
             }
         }
 

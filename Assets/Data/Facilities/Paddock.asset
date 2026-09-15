@@ -1,0 +1,64 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 73cf936046f5649959e03561352dff65, type: 3}
+  m_Name: Paddock
+  m_EditorClassIdentifier: JurassicPark.World::JurassicPark.World.FacilityKit
+  facilityName: Paddock
+  clearRadius: 14
+  pickupOffset: {x: -4, y: 4}
+  pieces:
+  - sprite: {fileID: 2800000, guid: d8c1bdf0c4a99456d9834770c31f4426, type: 3}
+    offset: {x: 0, y: 0}
+    yaw: 0
+    widthMeters: 10
+    cellPixels: 256
+    opaquePixels: 255
+    solid: 1
+    colliders:
+    - size: {x: 10, y: 3, z: 0.8}
+      center: {x: 0, y: 1.5, z: 0}
+    material: {fileID: 2100000, guid: b39408e5eccce4f638a4ad4cae816c4a, type: 2}
+    fadeMaterial: {fileID: 2100000, guid: 4f232ed46882a4c18ae90a83ea207796, type: 2}
+  - sprite: {fileID: 2800000, guid: 8f5f1fec24b2245ed84962614e07b702, type: 3}
+    offset: {x: -6, y: 7}
+    yaw: 0
+    widthMeters: 14
+    cellPixels: 256
+    opaquePixels: 255
+    solid: 0
+    colliders: []
+    material: {fileID: 2100000, guid: 76939b5f43f7048de9bc67a699c30b29, type: 2}
+    fadeMaterial: {fileID: 2100000, guid: 35558b36d3611430ab03815e01a6b79a, type: 2}
+  - sprite: {fileID: 2800000, guid: 71f48cb11fa71432fa51949131eb3a24, type: 3}
+    offset: {x: 8, y: 6}
+    yaw: 0
+    widthMeters: 8
+    cellPixels: 256
+    opaquePixels: 256
+    solid: 1
+    colliders:
+    - size: {x: 8, y: 2.5, z: 0.8}
+      center: {x: 0, y: 1.25, z: 0}
+    material: {fileID: 2100000, guid: cb82cc565f4f04d66bf1d40cb136b520, type: 2}
+    fadeMaterial: {fileID: 2100000, guid: 3ad5d5f11cad442c3b4371c876fc5d83, type: 2}
+  - sprite: {fileID: 2800000, guid: a0220a50d19504ab89554c333f733e83, type: 3}
+    offset: {x: 3, y: -6}
+    yaw: 0
+    widthMeters: 6
+    cellPixels: 256
+    opaquePixels: 256
+    solid: 1
+    colliders:
+    - size: {x: 2, y: 4, z: 2}
+      center: {x: -1.5, y: 2, z: 0}
+    material: {fileID: 2100000, guid: 79f9c6270dcc6496ab417203401ee2d5, type: 2}
+    fadeMaterial: {fileID: 2100000, guid: 74a7e49c2486049a9a4f9458352c7f86, type: 2}

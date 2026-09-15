@@ -10,10 +10,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5b3eda3d1f9664f84b7bcc7389a51caa, type: 3}
-  m_Name: Island
+  m_Name: 
   m_EditorClassIdentifier: JurassicPark.World::JurassicPark.World.IslandConfig
   terrain: {fileID: 11400000, guid: 9ae422fad6205443eb4c7895ef8e9358, type: 2}
   props: {fileID: 11400000, guid: da83f716b7e824d45b5b23fe62231739, type: 2}
+  facilities: {fileID: 11400000, guid: f8ca2425ade4348e5b5fee8f8a99a6c5, type: 2}
   facilityNames:
   - CrashSite
   - VisitorCenter
@@ -26,6 +27,10 @@ MonoBehaviour:
   facilityClearRadius: 7
   dockShoreTolerance: 0.35
   baseClearingRadius: 4.5
+  spawnClearRadius: 1.2
+  spawnShoreMargin: 0.1
+  spawnSearchStep: 0.75
+  spawnSearchDirections: 16
   minPropSpacing: 0.7
   biomeFeatureSize: 45
   maxPropSlope: 0.8
