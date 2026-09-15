@@ -5,7 +5,7 @@ namespace JurassicPark.World
     /// <summary>Instantiates an IslandPlan: terrain, facility markers, props. NavMesh baking is left to the caller (Editor or runtime surface).</summary>
     public static class IslandBuilder
     {
-        public static GameObject Build(IslandPlan plan, IslandConfig cfg, Material propMaterial = null, Material seaMaterial = null)
+        public static GameObject Build(IslandPlan plan, IslandConfig cfg, Material seaMaterial = null)
         {
             TerrainConfig tc = cfg.terrain;
             GameObject root = new GameObject($"Island (seed {plan.seed})");
@@ -88,7 +88,7 @@ namespace JurassicPark.World
             props.transform.SetParent(root.transform, false);
             foreach (PropPlacement p in plan.props)
             {
-                PropPlacer.Place(p.variant, p.position, p.scale, p.tint, props.transform, propMaterial, cfg.props.gatherRules, cfg.props.pickups);
+                PropPlacer.Place(p.variant, p.position, p.scale, p.tintIndex, props.transform, cfg.props.gatherRules, cfg.props.pickups);
             }
 
             return root;

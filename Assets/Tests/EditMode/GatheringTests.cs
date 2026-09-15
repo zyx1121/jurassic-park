@@ -49,7 +49,7 @@ namespace JurassicPark.Tests
             rules.TryGet(ResourceKind.Wood, out GatherRule rule);
             var nodeGo = new GameObject("tree");
             var node = nodeGo.AddComponent<ResourceNode>();
-            node.Configure(ResourceKind.Wood, 1, rule, Color.white);
+            node.Configure(ResourceKind.Wood, 1, rule);
             var actor = new GameObject("player");
             var inv = actor.AddComponent<ResourceInventory>();
             Assert.IsTrue(node.CanInteract(actor));

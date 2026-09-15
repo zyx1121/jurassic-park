@@ -18,4 +18,7 @@ MonoBehaviour:
   boatPart: {fileID: 2800000, guid: be3b00e6ff4fb4f63b80f91c7c620349, type: 3}
   pixelsPerUnit: 64
   collectRadius: 1.1
-  spriteMaterial: {fileID: 2100000, guid: 6408d609aa5664f0eaecdc6d1071c59d, type: 2}
+  woodMaterial: {fileID: 2100000, guid: 6533efdbbafda4880986acfa017aea8a, type: 2}
+  stoneMaterial: {fileID: 2100000, guid: 1db7807b4777646f391cbbcfd070c720, type: 2}
+  foodMaterial: {fileID: 2100000, guid: 1f1100fabd88e46ebb14e78b5207273f, type: 2}
+  boatPartMaterial: {fileID: 2100000, guid: 85296cd3af2a94eadb16b821982ed946, type: 2}

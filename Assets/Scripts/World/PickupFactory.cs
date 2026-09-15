@@ -21,12 +21,15 @@ namespace JurassicPark.World
             quad.transform.SetParent(go.transform, false);
             quad.transform.localScale = new Vector3(size, size, 1f);
             MeshRenderer mr = quad.GetComponent<MeshRenderer>();
-            mr.sharedMaterial = lib.spriteMaterial != null ? lib.spriteMaterial : PropPlacer.Template();
+            Material mat = lib.MaterialFor(kind);
+            if (mat == null)
+            {
+                mat = new Material(PropPlacer.FallbackTemplate()) { name = kind + " pickup (runtime)" };
+                if (icon != null) mat.SetTexture("_BaseMap", icon);
+            }
+
+            mr.sharedMaterial = mat;
             mr.shadowCastingMode = ShadowCastingMode.Off;
-            var block = new MaterialPropertyBlock();
-            if (icon != null) block.SetTexture("_BaseMap", icon);
-            block.SetVector("_BaseMap_ST", new Vector4(1f, 1f, 0f, 0f));
-            mr.SetPropertyBlock(block);
             quad.AddComponent<JurassicPark.Core.Billboard>();
 
             SphereCollider trigger = go.AddComponent<SphereCollider>();

@@ -16,7 +16,7 @@ namespace JurassicPark.World
         public PropVariant variant;
         public Vector3 position;
         public float scale;
-        public Color tint;
+        public int tintIndex;
         public Biome biome;
     }
 

@@ -25,6 +25,10 @@ namespace JurassicPark.Net
 
         private NetworkManager nm;
         private string joinAddress = "127.0.0.1";
+        private float fpsAccum;
+        private int fpsFrames;
+        private float fps;
+        private float nextFpsLog;
 
         private void Awake()
         {
@@ -108,11 +112,29 @@ namespace JurassicPark.Net
             return spawn != null ? spawn.transform : null;
         }
 
+        private void Update()
+        {
+            fpsAccum += Time.unscaledDeltaTime;
+            fpsFrames++;
+            if (fpsAccum >= 0.5f)
+            {
+                fps = fpsFrames / fpsAccum;
+                fpsAccum = 0f;
+                fpsFrames = 0;
+            }
+
+            if (!Application.isEditor && Time.unscaledTime >= nextFpsLog)
+            {
+                nextFpsLog = Time.unscaledTime + 10f;
+                Debug.Log($"[FPS] {fps:F0} at {Screen.width}x{Screen.height}, billboards={BillboardManager.Count}");
+            }
+        }
+
         private void OnGUI()
         {
             if (!showDebugGui) return;
             GUILayout.BeginArea(new Rect(10, 10, 260, 120), GUI.skin.box);
-            GUILayout.Label("Net: " + Status);
+            GUILayout.Label($"Net: {Status}   {fps:F0} fps");
             if (!Started)
             {
                 if (GUILayout.Button("Host")) Host();

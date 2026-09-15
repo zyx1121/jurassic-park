@@ -5,33 +5,32 @@ using UnityEngine.Rendering;
 namespace JurassicPark.World
 {
     /// <summary>
-    /// Spawns a prop variant as a billboarded, lit, alpha-clipped quad with a seeded random scale
-    /// and tint, and a collider sized from the footprint. Pure math lives in PickScale/PickTint so
-    /// the generator's determinism can be tested.
+    /// Spawns a prop variant as a billboarded, lit, alpha-clipped quad using the variant's shared
+    /// tint material (SRP-batchable and serializable, unlike property blocks), with a seeded random
+    /// scale and tint and a collider sized from the footprint.
     /// </summary>
     public static class PropPlacer
     {
-        private static readonly int BaseColor = Shader.PropertyToID("_BaseColor");
-        private static Material sharedTemplate;
+        private static Material fallbackTemplate;
 
         public static float PickScale(PropLibrary lib, System.Random rng)
         {
             return Mathf.Lerp(lib.scaleRange.x, lib.scaleRange.y, (float)rng.NextDouble());
         }
 
-        public static Color PickTint(PropLibrary lib, System.Random rng)
+        public static int PickTintIndex(PropLibrary lib, System.Random rng)
         {
-            return lib.tints == null || lib.tints.Length == 0 ? Color.white : lib.tints[rng.Next(lib.tints.Length)];
+            return lib.tints == null || lib.tints.Length == 0 ? 0 : rng.Next(lib.tints.Length);
         }
 
-        public static GameObject Place(PropVariant v, PropLibrary lib, Vector3 groundPosition, System.Random rng, Transform parent = null, Material spriteMaterial = null)
+        public static GameObject Place(PropVariant v, PropLibrary lib, Vector3 groundPosition, System.Random rng, Transform parent = null)
         {
             float scale = PickScale(lib, rng);
-            Color tint = PickTint(lib, rng);
-            return Place(v, groundPosition, scale, tint, parent, spriteMaterial, lib.gatherRules, lib.pickups);
+            int tint = PickTintIndex(lib, rng);
+            return Place(v, groundPosition, scale, tint, parent, lib.gatherRules, lib.pickups);
         }
 
-        public static GameObject Place(PropVariant v, Vector3 groundPosition, float scale, Color tint, Transform parent = null, Material spriteMaterial = null, GatherRules rules = null, PickupLibrary pickups = null)
+        public static GameObject Place(PropVariant v, Vector3 groundPosition, float scale, int tintIndex, Transform parent = null, GatherRules rules = null, PickupLibrary pickups = null)
         {
             GameObject root = new GameObject(v.name);
             root.transform.SetParent(parent, false);
@@ -39,7 +38,7 @@ namespace JurassicPark.World
             PropInstance inst = root.AddComponent<PropInstance>();
             inst.variant = v;
             inst.scale = scale;
-            inst.tint = tint;
+            inst.tintIndex = tintIndex;
 
             float size = v.HeightMeters * scale;
             GameObject quad = GameObject.CreatePrimitive(PrimitiveType.Quad);
@@ -49,14 +48,18 @@ namespace JurassicPark.World
             quad.transform.localPosition = new Vector3(0f, size * 0.5f - 0.05f, 0f);
             quad.transform.localScale = new Vector3(size, size, 1f);
             MeshRenderer mr = quad.GetComponent<MeshRenderer>();
-            mr.sharedMaterial = spriteMaterial != null ? spriteMaterial : Template();
-            mr.shadowCastingMode = ShadowCastingMode.TwoSided;
-            var block = new MaterialPropertyBlock();
-            block.SetTexture("_BaseMap", v.sprite);
-            block.SetVector("_BaseMap_ST", new Vector4(1f, 1f, 0f, 0f));
-            block.SetColor(BaseColor, tint);
-            mr.SetPropertyBlock(block);
-            quad.AddComponent<JurassicPark.Core.Billboard>();
+            Material mat = v.MaterialFor(tintIndex);
+            if (mat == null)
+            {
+                // No generated material (tests, ad hoc placement): fall back to a runtime material per call
+                mat = new Material(FallbackTemplate()) { name = v.name + " (runtime)" };
+                mat.SetTexture("_BaseMap", v.sprite);
+            }
+
+            mr.sharedMaterial = mat;
+            mr.shadowCastingMode = v.solid ? ShadowCastingMode.TwoSided : ShadowCastingMode.Off;
+            mr.receiveShadows = true;
+            quad.AddComponent<Billboard>();
 
             if (v.solid)
             {
@@ -77,26 +80,37 @@ namespace JurassicPark.World
                 }
 
                 ResourceNode node = root.AddComponent<ResourceNode>();
-                node.Configure(v.resource, v.resourceAmount, rule, tint, pickups);
+                node.Configure(v.resource, v.resourceAmount, rule, pickups, v.depletedMaterial);
             }
 
             return root;
         }
 
-        /// <summary>One shared lit alpha-clipped material; per-prop texture and tint go through property blocks.</summary>
-        public static Material Template()
+        /// <summary>Lit, alpha-clipped, double-sided template for sprite quads.</summary>
+        public static Material FallbackTemplate()
         {
-            if (sharedTemplate == null)
+            if (fallbackTemplate == null)
             {
-                sharedTemplate = new Material(Shader.Find("Universal Render Pipeline/Lit")) { name = "PropSprite (runtime)" };
-                sharedTemplate.SetFloat("_Smoothness", 0f);
-                sharedTemplate.SetFloat("_AlphaClip", 1f);
-                sharedTemplate.SetFloat("_Cutoff", 0.5f);
-                sharedTemplate.EnableKeyword("_ALPHATEST_ON");
-                sharedTemplate.SetFloat("_Cull", (float)CullMode.Off);
+                fallbackTemplate = new Material(Shader.Find("Universal Render Pipeline/Lit")) { name = "SpriteQuad (runtime template)" };
+                ConfigureSpriteMaterial(fallbackTemplate, null);
             }
 
-            return sharedTemplate;
+            return fallbackTemplate;
+        }
+
+        /// <summary>Shared setup for every sprite-quad material: lit, cutout at 0.5, no culling, matte.</summary>
+        public static void ConfigureSpriteMaterial(Material m, Texture2D texture, Color? tint = null)
+        {
+            m.SetFloat("_Smoothness", 0f);
+            m.SetFloat("_AlphaClip", 1f);
+            m.SetFloat("_Cutoff", 0.5f);
+            m.EnableKeyword("_ALPHATEST_ON");
+            m.SetFloat("_Cull", (float)CullMode.Off);
+            m.doubleSidedGI = true;
+            if (texture != null) m.SetTexture("_BaseMap", texture);
+            m.SetTextureScale("_BaseMap", Vector2.one);
+            m.SetTextureOffset("_BaseMap", Vector2.zero);
+            if (tint.HasValue) m.SetColor("_BaseColor", tint.Value);
         }
     }
 }

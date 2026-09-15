@@ -43,7 +43,7 @@ namespace JurassicPark.Tests
             {
                 Assert.AreEqual(lib.Pick(PropKind.Tree, r1), lib.Pick(PropKind.Tree, r2));
                 Assert.AreEqual(PropPlacer.PickScale(lib, r1), PropPlacer.PickScale(lib, r2));
-                Assert.AreEqual(PropPlacer.PickTint(lib, r1), PropPlacer.PickTint(lib, r2));
+                Assert.AreEqual(PropPlacer.PickTintIndex(lib, r1), PropPlacer.PickTintIndex(lib, r2));
             }
         }
 

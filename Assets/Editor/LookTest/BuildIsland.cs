@@ -37,9 +37,8 @@ namespace JurassicPark.EditorTools
             IslandPlan plan = IslandGenerator.Plan(cfg, seed);
             var scene = EditorSceneManager.NewScene(NewSceneSetup.EmptyScene, NewSceneMode.Single);
 
-            Material propMat = AssetDatabase.LoadAssetAtPath<Material>("Assets/Materials/PropSprite.mat");
             Material seaMat = AssetDatabase.LoadAssetAtPath<Material>("Assets/Materials/Sea.mat");
-            GameObject island = IslandBuilder.Build(plan, cfg, propMat, seaMat);
+            GameObject island = IslandBuilder.Build(plan, cfg, seaMat);
 
             Terrain terrain = island.GetComponentInChildren<Terrain>();
             NavMeshSurface nav = terrain.gameObject.AddComponent<NavMeshSurface>();
