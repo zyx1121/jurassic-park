@@ -24,12 +24,11 @@ namespace JurassicPark.EditorTools
         [CliCommand("build_island", "Generate the Island scene from a seed")]
         public static string Build([CliArg("seed", "Island seed")] int seed = 1)
         {
-            IslandConfig cfg = AssetDatabase.LoadAssetAtPath<IslandConfig>(ConfigPath);
-            if (cfg == null)
-            {
-                cfg = ScriptableObject.CreateInstance<IslandConfig>();
-                AssetDatabase.CreateAsset(cfg, ConfigPath);
-            }
+            // The config is regenerated from the code defaults every build; a stale serialized copy once
+            // kept the old sparse densities alive while the code said "crowded jungle".
+            if (AssetDatabase.LoadAssetAtPath<IslandConfig>(ConfigPath) != null) AssetDatabase.DeleteAsset(ConfigPath);
+            IslandConfig cfg = ScriptableObject.CreateInstance<IslandConfig>();
+            AssetDatabase.CreateAsset(cfg, ConfigPath);
 
             cfg.terrain = AssetDatabase.LoadAssetAtPath<TerrainConfig>(BuildTerrainAssets.ConfigPath);
             cfg.props = AssetDatabase.LoadAssetAtPath<PropLibrary>(BuildPropLibrary.LibraryPath);

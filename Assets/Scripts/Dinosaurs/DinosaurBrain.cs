@@ -169,9 +169,9 @@ namespace JurassicPark.Dinosaurs
 
         private static bool InFirelight(Vector3 p)
         {
-            foreach (CampfireLight fire in FindObjectsByType<CampfireLight>(FindObjectsSortMode.None))
+            foreach (CampfireLight fire in CampfireLight.All)
             {
-                Light l = fire.GetComponent<Light>();
+                Light l = fire.Light;
                 if (l != null && l.enabled && Vector3.Distance(fire.transform.position, p) <= l.range * 0.6f) return true;
             }
 

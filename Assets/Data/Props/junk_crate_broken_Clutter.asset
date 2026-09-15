@@ -1,0 +1,29 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0b657c436194440e993e8b4a189eb102, type: 3}
+  m_Name: junk_crate_broken_Clutter
+  m_EditorClassIdentifier: JurassicPark.World::JurassicPark.World.PropVariant
+  kind: 7
+  sprite: {fileID: 2800000, guid: 7521b6e62e0dc43ca8d20e0d1b1cd206, type: 3}
+  cellPixels: 96
+  pixelsPerUnit: 64
+  footprintRadius: 0.45
+  solid: 1
+  resource: 0
+  resourceAmount: 0
+  weight: 0.25
+  baseScale: 0.85
+  scaleJitter: 0.1
+  tintMaterials:
+  - {fileID: 2100000, guid: cede9c3814b8f4454bbbce574fd29ff3, type: 2}
+  depletedMaterial: {fileID: 2100000, guid: 809ebaf4cef5f42818e378f6697015a3, type: 2}
+  fadeMaterial: {fileID: 2100000, guid: dfdba02b5222a497b9ccf9328ab1f68e, type: 2}

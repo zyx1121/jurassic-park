@@ -1,0 +1,29 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0b657c436194440e993e8b4a189eb102, type: 3}
+  m_Name: rock_sandstone_shelf_Rock
+  m_EditorClassIdentifier: JurassicPark.World::JurassicPark.World.PropVariant
+  kind: 1
+  sprite: {fileID: 2800000, guid: 29fb2e680a37c4d9e95dac855c9d40aa, type: 3}
+  cellPixels: 128
+  pixelsPerUnit: 64
+  footprintRadius: 0.55
+  solid: 1
+  resource: 2
+  resourceAmount: 3
+  weight: 1
+  baseScale: 0.79
+  scaleJitter: 0.15
+  tintMaterials:
+  - {fileID: 2100000, guid: 770a8beacac8141a0b3479e069e9fd5c, type: 2}
+  depletedMaterial: {fileID: 2100000, guid: 9666bddd6036a4f0a8cf3ddf5b7516da, type: 2}
+  fadeMaterial: {fileID: 2100000, guid: b2c0ea707fc3f4770bf32b270631e383, type: 2}

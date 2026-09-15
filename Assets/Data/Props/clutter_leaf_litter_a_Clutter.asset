@@ -1,0 +1,29 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0b657c436194440e993e8b4a189eb102, type: 3}
+  m_Name: clutter_leaf_litter_a_Clutter
+  m_EditorClassIdentifier: JurassicPark.World::JurassicPark.World.PropVariant
+  kind: 7
+  sprite: {fileID: 2800000, guid: e9430ba5be2b744dfa522b7fc224a237, type: 3}
+  cellPixels: 96
+  pixelsPerUnit: 64
+  footprintRadius: 0.3
+  solid: 0
+  resource: 0
+  resourceAmount: 0
+  weight: 1
+  baseScale: 0.7
+  scaleJitter: 0.25
+  tintMaterials:
+  - {fileID: 2100000, guid: f76cf4311fa56481080156595332bd06, type: 2}
+  depletedMaterial: {fileID: 2100000, guid: b3d81a1b2468e4faaa1cc5cef01dbc3b, type: 2}
+  fadeMaterial: {fileID: 2100000, guid: bbea3544e24c54344b4d876a8c72e9c6, type: 2}

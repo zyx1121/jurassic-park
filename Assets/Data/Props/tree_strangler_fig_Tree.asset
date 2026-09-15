@@ -1,0 +1,29 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0b657c436194440e993e8b4a189eb102, type: 3}
+  m_Name: tree_strangler_fig_Tree
+  m_EditorClassIdentifier: JurassicPark.World::JurassicPark.World.PropVariant
+  kind: 0
+  sprite: {fileID: 2800000, guid: fee0257ccaf5d468db6e0724c5db628e, type: 3}
+  cellPixels: 256
+  pixelsPerUnit: 64
+  footprintRadius: 0.75
+  solid: 1
+  resource: 1
+  resourceAmount: 6
+  weight: 1
+  baseScale: 1.79
+  scaleJitter: 0.08
+  tintMaterials:
+  - {fileID: 2100000, guid: ec33b1c06d754438787a2bb8bee65aeb, type: 2}
+  depletedMaterial: {fileID: 2100000, guid: a1a1ede52860c4745bd1cb4eedd3cef6, type: 2}
+  fadeMaterial: {fileID: 2100000, guid: e8c20c63fda014226b4d4d814a59be1c, type: 2}

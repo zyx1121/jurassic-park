@@ -1,5 +1,6 @@
 using System;
 using JurassicPark.Core;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -42,8 +43,14 @@ namespace JurassicPark.Player
         private Vector3 velocity;
         private readonly Collider[] overlap = new Collider[16];
 
+        /// <summary>Every player in the scene, local or remote, for HUD and minimap lookups.</summary>
+        public static readonly List<PlayerController> All = new List<PlayerController>();
+
+        private void OnDestroy() => All.Remove(this);
+
         private void Awake()
         {
+            All.Add(this);
             controller = GetComponent<CharacterController>();
             if (controls != null)
             {

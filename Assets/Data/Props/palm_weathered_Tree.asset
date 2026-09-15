@@ -20,9 +20,9 @@ MonoBehaviour:
   solid: 1
   resource: 1
   resourceAmount: 4
-  weight: 1.4
+  weight: 0.6
   baseScale: 2.3
-  scaleJitter: 0.12
+  scaleJitter: 0.1
   tintMaterials:
   - {fileID: 2100000, guid: 3ef1b33b8ac424868adc23eb11baea60, type: 2}
   depletedMaterial: {fileID: 2100000, guid: 76695e598d3334f1bafe7587fd57e38c, type: 2}

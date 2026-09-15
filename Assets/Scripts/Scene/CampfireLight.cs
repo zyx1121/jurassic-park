@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace JurassicPark.Scene
@@ -11,9 +12,18 @@ namespace JurassicPark.Scene
         [Min(0f)] [SerializeField] private float speed = 7f;
         [Min(0f)] [SerializeField] private float wobble = 0.08f;
 
+        /// <summary>Live campfires, for dinosaur firelight checks without a scene scan.</summary>
+        public static readonly List<CampfireLight> All = new List<CampfireLight>();
+
+        public Light Light => fireLight != null ? fireLight : fireLight = GetComponent<Light>();
+
         private Light fireLight;
         private Vector3 basePosition;
         private float seed;
+
+        private void OnEnable() => All.Add(this);
+
+        private void OnDisable() => All.Remove(this);
 
         private void Awake()
         {

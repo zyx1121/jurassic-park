@@ -1,0 +1,29 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0b657c436194440e993e8b4a189eb102, type: 3}
+  m_Name: rock_basalt_shard_Rock
+  m_EditorClassIdentifier: JurassicPark.World::JurassicPark.World.PropVariant
+  kind: 1
+  sprite: {fileID: 2800000, guid: b751c41b9e28b4fb4a36b4a40f4cbf28, type: 3}
+  cellPixels: 128
+  pixelsPerUnit: 64
+  footprintRadius: 0.45
+  solid: 1
+  resource: 2
+  resourceAmount: 4
+  weight: 1
+  baseScale: 0.94
+  scaleJitter: 0.15
+  tintMaterials:
+  - {fileID: 2100000, guid: a5a2c18c3954841759e621d7489fa581, type: 2}
+  depletedMaterial: {fileID: 2100000, guid: 3c67440d0dc8547e9b2536e332a5e3c8, type: 2}
+  fadeMaterial: {fileID: 2100000, guid: b03c1677c33ad4375b73de56a5e72904, type: 2}

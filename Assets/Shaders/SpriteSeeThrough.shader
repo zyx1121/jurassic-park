@@ -66,8 +66,10 @@ Shader "JurassicPark/SpriteSeeThrough"
                 half3 color = tex.rgb * (l.color * l.shadowAttenuation * ndl + SampleSH(n));
                 color = MixFog(color, i.fog);
 
-                // Soft hole around the player's screen position; aspect-corrected distance
-                float2 sp = i.positionCS.xy / _ScreenParams.xy;
+                // Soft hole around the player's screen position; aspect-corrected distance.
+                // GetNormalizedScreenSpaceUV accounts for the render scale and the platform y flip,
+                // so it matches Camera.WorldToViewportPoint (0..1, origin bottom-left).
+                float2 sp = GetNormalizedScreenSpaceUV(i.positionCS);
                 float2 d = sp - _SeeThroughPlayerScreen.xy;
                 d.x *= _SeeThroughPlayerScreen.z;
                 float dist = length(d);

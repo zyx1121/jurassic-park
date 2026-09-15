@@ -125,7 +125,7 @@ namespace JurassicPark.UI
             GUI.DrawTexture(rect, Map);
 
             float m = Large ? 8f : 5f;
-            foreach (FacilityMarker f in FindObjectsByType<FacilityMarker>(FindObjectsSortMode.None))
+            foreach (FacilityMarker f in FacilityMarker.All)
             {
                 Vector2 p = ToMap(f.transform.position, rect);
                 GUI.DrawTexture(new Rect(p.x - m * 0.5f, p.y - m * 0.5f, m, m), f.isDock ? dockIcon : facilityIcon);
@@ -136,7 +136,7 @@ namespace JurassicPark.UI
                 }
             }
 
-            foreach (PlayerController pc in FindObjectsByType<PlayerController>(FindObjectsSortMode.None))
+            foreach (PlayerController pc in PlayerController.All)
             {
                 Vector2 p = ToMap(pc.transform.position, rect);
                 float s = pc.enabled ? m + 2f : m; // local player is the one with input enabled
