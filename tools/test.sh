@@ -3,18 +3,27 @@
 # usage: tools/test.sh   (exit 0 only when the run succeeded and failures == errors == 0)
 set -uo pipefail
 cd "$(dirname "$0")/.."
-export UNITY_NON_INTERACTIVE=1 UNITY_NO_BANNER=1
+export PATH="$HOME/.unity/bin:$PATH" UNITY_NON_INTERACTIVE=1 UNITY_NO_BANNER=1
 unity license status 2>&1 | head -1 | grep -q active || unity license activate --personal --accept-eula >/dev/null 2>&1
 rm -f TestResults/editmode.xml
 out=$(unity test . --mode EditMode --report-format junit --output TestResults/editmode.xml --timeout 900 --format json 2>&1)
 ok=$(printf '%s' "$out" | python3 -c "
 import sys,json
+text=sys.stdin.read()
+# the final envelope is pretty-printed; take the last top-level JSON object
 last=None
-for line in sys.stdin:
-    line=line.strip()
-    if line.startswith('{') and '\"command\"' in line and '\"success\"' in line:
-        try: last=json.loads(line)
-        except Exception: pass
+depth=0; start=None
+for i,ch in enumerate(text):
+    if ch=='{':
+        if depth==0: start=i
+        depth+=1
+    elif ch=='}':
+        depth-=1
+        if depth==0 and start is not None:
+            try:
+                obj=json.loads(text[start:i+1])
+                if obj.get('command')=='test' and 'success' in obj: last=obj
+            except Exception: pass
 print('1' if last and last.get('success') else '0')
 if last and not last.get('success'): print(json.dumps(last.get('errors'))[:300], file=sys.stderr)
 ")

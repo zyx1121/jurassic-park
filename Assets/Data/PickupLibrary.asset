@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 0}
+  m_Name: PickupLibrary
+  m_EditorClassIdentifier: JurassicPark.World:JurassicPark.World:PickupLibrary
+  wood: {fileID: 2800000, guid: 9a8f8a1a5704c46e2938dc3d64df65cb, type: 3}
+  stone: {fileID: 2800000, guid: 3d5946608191b4933856527d0d36a77b, type: 3}
+  food: {fileID: 2800000, guid: 820176afd651a4f79a580f1ec5998f99, type: 3}
+  boatPart: {fileID: 2800000, guid: be3b00e6ff4fb4f63b80f91c7c620349, type: 3}
+  pixelsPerUnit: 64
+  collectRadius: 1.1
+  spriteMaterial: {fileID: 2100000, guid: 6408d609aa5664f0eaecdc6d1071c59d, type: 2}

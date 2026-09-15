@@ -63,6 +63,20 @@ namespace JurassicPark.World
                 post.transform.localPosition = new Vector3(0f, 1.9f, 0f);
             }
 
+            if (cfg.props.pickups != null)
+            {
+                GameObject parts = new GameObject("BoatParts");
+                parts.transform.SetParent(root.transform, false);
+                int partId = 0;
+                foreach (FacilitySlot f in plan.facilities)
+                {
+                    if (f.isDock) continue;
+                    Vector3 p = f.position + Quaternion.Euler(0f, f.rotation, 0f) * new Vector3(2.2f, 0f, 0f);
+                    p.y = f.position.y + 0.4f;
+                    PickupFactory.Spawn(cfg.props.pickups, JurassicPark.Core.ResourceKind.BoatPart, 1, p, parts.transform, partId++);
+                }
+            }
+
             GameObject baseGo = new GameObject("Base");
             baseGo.transform.SetParent(root.transform, false);
             baseGo.transform.position = plan.baseCenter;
@@ -74,7 +88,7 @@ namespace JurassicPark.World
             props.transform.SetParent(root.transform, false);
             foreach (PropPlacement p in plan.props)
             {
-                PropPlacer.Place(p.variant, p.position, p.scale, p.tint, props.transform, propMaterial, cfg.props.gatherRules);
+                PropPlacer.Place(p.variant, p.position, p.scale, p.tint, props.transform, propMaterial, cfg.props.gatherRules, cfg.props.pickups);
             }
 
             return root;
