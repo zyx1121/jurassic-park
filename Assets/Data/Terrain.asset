@@ -14,21 +14,22 @@ MonoBehaviour:
   m_EditorClassIdentifier: JurassicPark.World::JurassicPark.World.TerrainConfig
   size: 128
   heightmapResolution: 129
-  maxHeight: 8
-  seaLevel: 1.2
-  featureSize: 40
-  octaves: 4
+  maxHeight: 14
+  seaLevel: 3.5
+  featureSize: 28
+  octaves: 5
   persistence: 0.5
   islandFalloff: 0.7
-  maxStepPerCell: 0.35
+  maxStepPerCell: 0.55
   slopePasses: 6
   layers:
   - {fileID: 8574412962073106934, guid: 82ac4ca39f88d4ddc85213b91b337902, type: 2}
   - {fileID: 8574412962073106934, guid: b050ebace534e49c5abcc2143b44c412, type: 2}
   - {fileID: 8574412962073106934, guid: bd7354e1f48914445899b820da139847, type: 2}
+  - {fileID: 8574412962073106934, guid: 50f3a970b82fe487a96160f88e71e6a6, type: 2}
   - {fileID: 8574412962073106934, guid: 1b14647f14d2c4f81aed8d7ca20aa74a, type: 2}
   - {fileID: 8574412962073106934, guid: db0310e8056d646cfb4d4ce280200d7f, type: 2}
   sandBand: 0.6
-  rockSlope: 0.55
+  rockSlope: 0.75
   grassMix: 0.5
-  dirtThreshold: 0.72
+  dirtThreshold: 0.78

@@ -9,7 +9,7 @@ namespace JurassicPark.EditorTools
     public static class BuildTerrainAssets
     {
         public const string ConfigPath = "Assets/Data/Terrain.asset";
-        private static readonly string[] Files = { "sand", "grass", "grass_b", "dirt", "rock" };
+        private static readonly string[] Files = { "sand", "grass", "grass_b", "grass_c", "dirt", "rock" };
 
         [CliCommand("build_terrain_assets", "Create terrain layers and the terrain config")]
         public static string Build()
@@ -46,6 +46,13 @@ namespace JurassicPark.EditorTools
             }
 
             config.layers = layers;
+            config.maxHeight = 14f;
+            config.seaLevel = 3.5f;
+            config.featureSize = 28f;
+            config.octaves = 5;
+            config.maxStepPerCell = 0.55f;
+            config.rockSlope = 0.75f;
+            config.dirtThreshold = 0.78f;
             EditorUtility.SetDirty(config);
             AssetDatabase.SaveAssets();
             return ConfigPath;

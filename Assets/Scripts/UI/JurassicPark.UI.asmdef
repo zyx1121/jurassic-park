@@ -1,0 +1,20 @@
+{
+    "name": "JurassicPark.UI",
+    "rootNamespace": "JurassicPark.UI",
+    "references": [
+        "JurassicPark.Core",
+        "JurassicPark.World",
+        "JurassicPark.Player",
+        "JurassicPark.Scene",
+        "Unity.InputSystem"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

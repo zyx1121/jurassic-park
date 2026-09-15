@@ -58,7 +58,11 @@ namespace JurassicPark.Tests
 
                 var dock = plan.facilities.Find(f => f.isDock);
                 float shoreHeight = IslandGenerator.HeightAt(plan.heights, dock.position, cfg.terrain) * cfg.terrain.maxHeight;
-                Assert.That(shoreHeight, Is.InRange(cfg.terrain.seaLevel - 0.01f, cfg.terrain.seaLevel + cfg.dockShoreTolerance + 0.6f), $"seed {seed}: dock height {shoreHeight}");
+                Assert.That(shoreHeight, Is.InRange(cfg.terrain.seaLevel - 0.01f, cfg.terrain.seaLevel + cfg.dockShoreTolerance + 1.6f), $"seed {seed}: dock height {shoreHeight}");
+                var crash = plan.facilities[0];
+                float crashHeight = IslandGenerator.HeightAt(plan.heights, crash.position, cfg.terrain) * cfg.terrain.maxHeight;
+                Assert.Less(crashHeight, cfg.terrain.seaLevel + cfg.beachBand + 1.6f, $"seed {seed}: crash site should be on the beach");
+                Assert.Greater(plan.playerSpawn.y, cfg.terrain.seaLevel, "player spawn above water");
             }
         }
 
