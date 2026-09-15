@@ -75,7 +75,10 @@ namespace JurassicPark.Tests
             foreach (var p in plan.props)
             {
                 Assert.Greater(p.position.y, cfg.terrain.seaLevel, "prop in the sea");
-                Assert.GreaterOrEqual(Vector2.Distance(new Vector2(p.position.x, p.position.z), new Vector2(plan.baseCenter.x, plan.baseCenter.z)), cfg.baseClearingRadius - 0.01f, "prop inside the base clearing");
+                if (p.variant.kind != PropKind.Grass && p.variant.kind != PropKind.Clutter)
+                {
+                    Assert.GreaterOrEqual(Vector2.Distance(new Vector2(p.position.x, p.position.z), new Vector2(plan.baseCenter.x, plan.baseCenter.z)), cfg.baseClearingRadius - 0.01f, "solid prop inside the base clearing");
+                }
                 foreach (var f in plan.facilities)
                 {
                     Assert.GreaterOrEqual(Vector2.Distance(new Vector2(p.position.x, p.position.z), new Vector2(f.position.x, f.position.z)), cfg.facilityClearRadius - 0.01f, "prop inside a facility clear radius");

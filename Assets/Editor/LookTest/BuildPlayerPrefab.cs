@@ -95,8 +95,9 @@ namespace JurassicPark.EditorTools
             quad.name = "Sprite";
             Object.DestroyImmediate(quad.GetComponent<Collider>());
             quad.transform.SetParent(root.transform, false);
-            float w = CellPixels / PixelsPerUnit;
-            float h = CellPixels / PixelsPerUnit;
+            const float PlayerScale = 0.85f; // a smaller survivor makes the jungle loom
+            float w = CellPixels / PixelsPerUnit * PlayerScale;
+            float h = CellPixels / PixelsPerUnit * PlayerScale;
             quad.transform.localPosition = new Vector3(0f, h * 0.5f, 0f);
             quad.transform.localScale = new Vector3(w, h, 1f);
             Material mat = new Material(Shader.Find("Universal Render Pipeline/Lit"));

@@ -47,27 +47,23 @@ namespace JurassicPark.EditorTools
         /// <summary>Translucent (35 percent) variant shown while the prop stands between the camera and the player.</summary>
         private static Material FadeMaterial(string path, Texture2D tex)
         {
+            Shader shader = Shader.Find("JurassicPark/SpriteSeeThrough");
             Material m = AssetDatabase.LoadAssetAtPath<Material>(path);
             if (m == null)
             {
-                m = new Material(Shader.Find("Universal Render Pipeline/Lit"));
+                m = new Material(shader);
                 AssetDatabase.CreateAsset(m, path);
             }
 
+            m.shader = shader;
             m.SetTexture("_BaseMap", tex);
-            m.SetFloat("_Surface", 1f);
-            m.SetFloat("_Blend", 0f);
-            m.SetFloat("_ZWrite", 0f);
-            m.SetInt("_SrcBlend", (int)UnityEngine.Rendering.BlendMode.SrcAlpha);
-            m.SetInt("_DstBlend", (int)UnityEngine.Rendering.BlendMode.OneMinusSrcAlpha);
-            m.EnableKeyword("_SURFACE_TYPE_TRANSPARENT");
-            m.SetFloat("_AlphaClip", 1f);
+            m.SetColor("_BaseColor", Color.white);
             m.SetFloat("_Cutoff", 0.5f);
-            m.EnableKeyword("_ALPHATEST_ON");
-            m.SetFloat("_Cull", (float)UnityEngine.Rendering.CullMode.Off);
-            m.SetFloat("_Smoothness", 0f);
+            m.SetFloat("_Fade", 0f);
+            m.SetFloat("_HoleAlpha", 0.12f);
+            m.SetFloat("_HoleRadius", 0.22f);
+            m.SetFloat("_HoleSoftness", 0.18f);
             m.renderQueue = 3000;
-            m.SetColor("_BaseColor", new Color(1f, 1f, 1f, 0.35f));
             EditorUtility.SetDirty(m);
             return m;
         }
