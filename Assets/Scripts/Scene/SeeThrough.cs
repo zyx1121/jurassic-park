@@ -14,14 +14,18 @@ namespace JurassicPark.Scene
     {
         private static readonly int PlayerScreenId = Shader.PropertyToID("_SeeThroughPlayerScreen");
 
-        [SerializeField] private float radius = 0.9f;
+        [Tooltip("Radius of the corridor cast from the camera to the player; wide enough that neighbouring canopies open too.")]
+        [SerializeField] private float radius = 2.4f;
+        [Tooltip("Trees and boulders within this distance of the player fade as well, so a canopy overhead never hides them.")]
+        [SerializeField] private float nearRadius = 4f;
         [SerializeField] private LayerMask mask = ~0;
         [Tooltip("Frames an occluder stays wanted after the cast stops hitting it, to avoid flicker.")]
         [SerializeField] private int holdFrames = 4;
 
         private FollowCamera follow;
         private Camera cam;
-        private readonly RaycastHit[] hits = new RaycastHit[48];
+        private readonly RaycastHit[] hits = new RaycastHit[128];
+        private readonly Collider[] near = new Collider[64];
         private readonly List<Occluder> tracked = new List<Occluder>();
 
         private void Awake()
@@ -48,6 +52,15 @@ namespace JurassicPark.Scene
             for (int i = 0; i < n; i++)
             {
                 Occluder o = hits[i].collider.GetComponentInParent<Occluder>();
+                if (o == null) continue;
+                o.LastSeenFrame = Time.frameCount;
+                if (!tracked.Contains(o)) tracked.Add(o);
+            }
+
+            int m = Physics.OverlapSphereNonAlloc(t.position, nearRadius, near, mask, QueryTriggerInteraction.Collide);
+            for (int i = 0; i < m; i++)
+            {
+                Occluder o = near[i].GetComponentInParent<Occluder>();
                 if (o == null) continue;
                 o.LastSeenFrame = Time.frameCount;
                 if (!tracked.Contains(o)) tracked.Add(o);

@@ -1,0 +1,29 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0b657c436194440e993e8b4a189eb102, type: 3}
+  m_Name: boulder_twin_limestone_Boulder
+  m_EditorClassIdentifier: JurassicPark.World::JurassicPark.World.PropVariant
+  kind: 5
+  sprite: {fileID: 2800000, guid: 4064d4b3c698f4f5fb7286c0d3800b55, type: 3}
+  cellPixels: 192
+  pixelsPerUnit: 64
+  footprintRadius: 1.3
+  solid: 1
+  resource: 0
+  resourceAmount: 0
+  weight: 1
+  baseScale: 1.7
+  scaleJitter: 0.12
+  tintMaterials:
+  - {fileID: 2100000, guid: 8f3e885ad6b6941709490297ca750782, type: 2}
+  depletedMaterial: {fileID: 2100000, guid: f2f68b3e42a6445e6b888199c5d034c9, type: 2}
+  fadeMaterial: {fileID: 2100000, guid: 93331079d0f0b44508e9d037c0680475, type: 2}

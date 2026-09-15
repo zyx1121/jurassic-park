@@ -59,11 +59,12 @@ namespace JurassicPark.World
         [Min(0f)] public float beachBand = 0.6f;
         public BiomeDensity[] densities =
         {
-            // items per 100 m2; the jungle floor is meant to be crowded, clearings stay buildable
-            new BiomeDensity { biome = Biome.Beach, trees = 1.2f, rocks = 0.6f, grass = 1.5f, bushes = 0.4f, logs = 0.8f, boulders = 0.5f, stones = 2.5f, clutter = 4f },
-            new BiomeDensity { biome = Biome.Jungle, trees = 14f, rocks = 1.5f, grass = 16f, bushes = 6f, logs = 1.5f, boulders = 0.8f, stones = 3f, clutter = 14f },
-            new BiomeDensity { biome = Biome.RockField, trees = 2.5f, rocks = 7f, grass = 4f, bushes = 1f, logs = 0.4f, boulders = 3.5f, stones = 8f, clutter = 4f },
-            new BiomeDensity { biome = Biome.Clearing, trees = 2f, rocks = 1f, grass = 10f, bushes = 4f, logs = 0.8f, boulders = 0.3f, stones = 2.5f, clutter = 6f },
+            // items per 100 m2, from the v2 art handoff (art repo out/REPORT_V2.md) except trees: the handoff's
+            // 9-13 trees per 100 m2 at 7.5 m turned the 3/4 view into solid canopy, 4.5 keeps the ground readable
+            new BiomeDensity { biome = Biome.Beach, trees = 1.2f, rocks = 4f, grass = 1.5f, bushes = 0.4f, logs = 0.8f, boulders = 1.0f, stones = 10f, clutter = 7f },
+            new BiomeDensity { biome = Biome.Jungle, trees = 4.5f, rocks = 3f, grass = 14f, bushes = 5f, logs = 1.2f, boulders = 0.8f, stones = 6f, clutter = 22f },
+            new BiomeDensity { biome = Biome.RockField, trees = 2f, rocks = 5f, grass = 4f, bushes = 1f, logs = 0.4f, boulders = 2.5f, stones = 9f, clutter = 14f },
+            new BiomeDensity { biome = Biome.Clearing, trees = 1.5f, rocks = 1.5f, grass = 10f, bushes = 4f, logs = 0.8f, boulders = 0.4f, stones = 4f, clutter = 12f },
         };
 
         [Tooltip("Retry the whole plan with a derived seed if the facility constraints fail.")]

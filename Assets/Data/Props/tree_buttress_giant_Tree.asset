@@ -1,0 +1,29 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0b657c436194440e993e8b4a189eb102, type: 3}
+  m_Name: tree_buttress_giant_Tree
+  m_EditorClassIdentifier: JurassicPark.World::JurassicPark.World.PropVariant
+  kind: 0
+  sprite: {fileID: 2800000, guid: 4338847fd5bb041e5ba21fd84aed7090, type: 3}
+  cellPixels: 256
+  pixelsPerUnit: 64
+  footprintRadius: 0.8
+  solid: 1
+  resource: 1
+  resourceAmount: 6
+  weight: 1.2
+  baseScale: 1.88
+  scaleJitter: 0.08
+  tintMaterials:
+  - {fileID: 2100000, guid: 3f95d3630f2be44d8950355e951aacdf, type: 2}
+  depletedMaterial: {fileID: 2100000, guid: 30877f90813b4452e9614a302c5f67ca, type: 2}
+  fadeMaterial: {fileID: 2100000, guid: 57c351ecb9c594471a6d6b4b917e31b0, type: 2}

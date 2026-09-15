@@ -118,7 +118,7 @@ Material:
     - _GlossyReflections: 0
     - _HoleAlpha: 0.12
     - _HoleRadius: 0.22
-    - _HoleSoftness: 0.18
+    - _HoleSoftness: 0.24
     - _Metallic: 0
     - _OcclusionStrength: 1
     - _Parallax: 0.005

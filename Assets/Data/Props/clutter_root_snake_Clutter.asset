@@ -1,0 +1,29 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0b657c436194440e993e8b4a189eb102, type: 3}
+  m_Name: clutter_root_snake_Clutter
+  m_EditorClassIdentifier: JurassicPark.World::JurassicPark.World.PropVariant
+  kind: 7
+  sprite: {fileID: 2800000, guid: 5095fdd8aa4284757ac468d092b9235d, type: 3}
+  cellPixels: 128
+  pixelsPerUnit: 64
+  footprintRadius: 0.4
+  solid: 0
+  resource: 0
+  resourceAmount: 0
+  weight: 0.8
+  baseScale: 0.7
+  scaleJitter: 0.2
+  tintMaterials:
+  - {fileID: 2100000, guid: 47b2acb8cdfa44920ab8a34f585c8770, type: 2}
+  depletedMaterial: {fileID: 2100000, guid: 00701989b63f14524ab08690bdc3b670, type: 2}
+  fadeMaterial: {fileID: 2100000, guid: 0baa26d76fd2b4372be16d239afe6429, type: 2}

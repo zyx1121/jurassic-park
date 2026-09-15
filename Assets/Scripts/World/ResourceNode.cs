@@ -27,7 +27,6 @@ namespace JurassicPark.World
 
         private Renderer spriteRenderer;
         private Material normalMaterial;
-        private DayNightCycle cycle;
         private Vector3 spriteScale;
         private Coroutine punch;
 
@@ -58,19 +57,14 @@ namespace JurassicPark.World
 
         private void OnEnable()
         {
-            cycle = FindFirstObjectByType<DayNightCycle>();
-            if (cycle != null)
-            {
-                cycle.NewDay += OnNewDay;
-            }
+            // A static event instead of FindFirstObjectByType per node: 5000 nodes scanning a 60k-object
+            // scene on load cost about 30 s.
+            DayNightCycle.AnyNewDay += OnNewDay;
         }
 
         private void OnDisable()
         {
-            if (cycle != null)
-            {
-                cycle.NewDay -= OnNewDay;
-            }
+            DayNightCycle.AnyNewDay -= OnNewDay;
         }
 
         public bool CanInteract(GameObject actor)
@@ -100,7 +94,7 @@ namespace JurassicPark.World
 
             if (Stock.Depleted)
             {
-                DepletedOnDay = cycle != null ? cycle.DayNumber : 0;
+                DepletedOnDay = DayNightCycle.Current != null ? DayNightCycle.Current.DayNumber : 0;
                 ApplyDepletedLook(true);
             }
         }

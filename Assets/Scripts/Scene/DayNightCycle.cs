@@ -34,8 +34,15 @@ namespace JurassicPark.Scene
         public event Action<DayPhase> PhaseChanged;
         public event Action<int> NewDay;
 
+        /// <summary>The active cycle, so thousands of resource nodes do not each scan the scene for it on load.</summary>
+        public static DayNightCycle Current { get; private set; }
+
+        /// <summary>Raised together with NewDay; lets listeners subscribe before any cycle exists.</summary>
+        public static event Action<int> AnyNewDay;
+
         private void Awake()
         {
+            Current = this;
             NormalizedTime = startTime;
             Phase = PhaseAt(NormalizedTime, config);
             Apply();
@@ -65,6 +72,7 @@ namespace JurassicPark.Scene
                 t -= Mathf.Floor(t);
                 DayNumber++;
                 NewDay?.Invoke(DayNumber);
+                AnyNewDay?.Invoke(DayNumber);
             }
 
             NormalizedTime = t;
@@ -81,6 +89,11 @@ namespace JurassicPark.Scene
             NormalizedTime = Mathf.Repeat(normalized, 1f);
             Phase = PhaseAt(NormalizedTime, config);
             Apply();
+        }
+
+        private void OnDestroy()
+        {
+            if (Current == this) Current = null;
         }
 
         public static DayPhase PhaseAt(float t, DayNightConfig c)

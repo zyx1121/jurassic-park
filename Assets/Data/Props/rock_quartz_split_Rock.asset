@@ -1,0 +1,29 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0b657c436194440e993e8b4a189eb102, type: 3}
+  m_Name: rock_quartz_split_Rock
+  m_EditorClassIdentifier: JurassicPark.World::JurassicPark.World.PropVariant
+  kind: 1
+  sprite: {fileID: 2800000, guid: 9fd710e490aae4066a11ada888e925c4, type: 3}
+  cellPixels: 128
+  pixelsPerUnit: 64
+  footprintRadius: 0.5
+  solid: 1
+  resource: 2
+  resourceAmount: 4
+  weight: 1
+  baseScale: 0.97
+  scaleJitter: 0.15
+  tintMaterials:
+  - {fileID: 2100000, guid: 6b755f520806240d9b63912ed0893e7c, type: 2}
+  depletedMaterial: {fileID: 2100000, guid: 9a95df7c1f49a4694a6f5087b7c5237b, type: 2}
+  fadeMaterial: {fileID: 2100000, guid: 39a8dfb060a27472988233c9bfeefb0d, type: 2}

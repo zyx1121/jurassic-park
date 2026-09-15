@@ -1,0 +1,29 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0b657c436194440e993e8b4a189eb102, type: 3}
+  m_Name: stone_granite_cobble_Stone
+  m_EditorClassIdentifier: JurassicPark.World::JurassicPark.World.PropVariant
+  kind: 6
+  sprite: {fileID: 2800000, guid: 03940516dd01c4948a05242a515c4072, type: 3}
+  cellPixels: 96
+  pixelsPerUnit: 64
+  footprintRadius: 0.22
+  solid: 0
+  resource: 2
+  resourceAmount: 1
+  weight: 1
+  baseScale: 0.58
+  scaleJitter: 0.2
+  tintMaterials:
+  - {fileID: 2100000, guid: e0910d5df53d8432a962f9675732cb81, type: 2}
+  depletedMaterial: {fileID: 2100000, guid: 0d0f529cf9df44a2b938197a246891ed, type: 2}
+  fadeMaterial: {fileID: 2100000, guid: d4750b4f01c684c0a9503f351aa74a82, type: 2}

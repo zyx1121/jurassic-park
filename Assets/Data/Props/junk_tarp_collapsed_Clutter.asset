@@ -1,0 +1,29 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0b657c436194440e993e8b4a189eb102, type: 3}
+  m_Name: junk_tarp_collapsed_Clutter
+  m_EditorClassIdentifier: JurassicPark.World::JurassicPark.World.PropVariant
+  kind: 7
+  sprite: {fileID: 2800000, guid: fa87b760d221045efa33860345a78815, type: 3}
+  cellPixels: 128
+  pixelsPerUnit: 64
+  footprintRadius: 0.5
+  solid: 0
+  resource: 0
+  resourceAmount: 0
+  weight: 0.25
+  baseScale: 0.65
+  scaleJitter: 0.1
+  tintMaterials:
+  - {fileID: 2100000, guid: db79f08de784a4e78b3a010bcd80fc25, type: 2}
+  depletedMaterial: {fileID: 2100000, guid: bb6a55d7191af441d8ea501ca0c614ca, type: 2}
+  fadeMaterial: {fileID: 2100000, guid: 28cba1261a6a8496c9e38ac9e73927ee, type: 2}

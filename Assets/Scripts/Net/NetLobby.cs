@@ -126,7 +126,11 @@ namespace JurassicPark.Net
             if (!Application.isEditor && Time.unscaledTime >= nextFpsLog)
             {
                 nextFpsLog = Time.unscaledTime + 10f;
-                Debug.Log($"[FPS] {fps:F0} at {Screen.width}x{Screen.height}, billboards={BillboardManager.Count}");
+                FrameTimingManager.CaptureFrameTimings();
+                var timings = new FrameTiming[1];
+                uint n = FrameTimingManager.GetLatestTimings(1, timings);
+                string t = n > 0 ? $", cpu={timings[0].cpuFrameTime:F1}ms main={timings[0].cpuMainThreadFrameTime:F1}ms render={timings[0].cpuRenderThreadFrameTime:F1}ms gpu={timings[0].gpuFrameTime:F1}ms" : "";
+                Debug.Log($"[FPS] {fps:F0} at {Screen.width}x{Screen.height}, billboards={BillboardManager.Count}{t}");
             }
         }
 
