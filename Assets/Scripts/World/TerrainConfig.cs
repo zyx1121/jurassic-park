@@ -8,9 +8,9 @@ namespace JurassicPark.World
     {
         [Header("Size")]
         [Tooltip("Terrain width and depth in meters.")]
-        [Min(16f)] public float size = 128f;
+        [Min(16f)] public float size = 192f;
         [Tooltip("Heightmap resolution, must be 2^n + 1.")]
-        public int heightmapResolution = 129;
+        public int heightmapResolution = 257;
         [Tooltip("Highest point above terrain origin, in meters.")]
         [Min(1f)] public float maxHeight = 14f;
         [Tooltip("Height of the sea surface above terrain origin, in meters.")]

@@ -12,7 +12,7 @@ namespace JurassicPark.UI
     /// </summary>
     public sealed class Minimap : MonoBehaviour
     {
-        [SerializeField] private int resolution = 192;
+        [SerializeField] private int resolution = 256;
         [SerializeField] private int cornerSize = 200;
         [SerializeField] private int largeSize = 640;
         [SerializeField] private Color seaColor = new Color(0.16f, 0.32f, 0.5f);

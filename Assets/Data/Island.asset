@@ -37,22 +37,34 @@ MonoBehaviour:
     grass: 0
     bushes: 0
     logs: 0.2
+    boulders: 0.3
+    stones: 1.2
+    clutter: 1.5
   - biome: 1
     trees: 5
     rocks: 0.4
     grass: 3
     bushes: 1.2
     logs: 0.4
+    boulders: 0.6
+    stones: 2
+    clutter: 8
   - biome: 2
     trees: 0.6
     rocks: 4
     grass: 0.8
     bushes: 0.2
     logs: 0.1
+    boulders: 3
+    stones: 6
+    clutter: 2.5
   - biome: 3
     trees: 0.8
     rocks: 0.5
     grass: 4
     bushes: 1.5
     logs: 0.3
+    boulders: 0.2
+    stones: 1.5
+    clutter: 3
   maxAttempts: 20

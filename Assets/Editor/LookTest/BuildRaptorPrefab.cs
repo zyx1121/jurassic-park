@@ -54,7 +54,7 @@ namespace JurassicPark.EditorTools
             quad.name = "Sprite";
             Object.DestroyImmediate(quad.GetComponent<Collider>());
             quad.transform.SetParent(root.transform, false);
-            float size = CellPixels / PixelsPerUnit;
+            float size = CellPixels / PixelsPerUnit * 1.15f; // oppression: raptors read a little larger than life
             quad.transform.localPosition = new Vector3(0f, size * 0.5f - 0.1f, 0f);
             quad.transform.localScale = new Vector3(size, size, 1f);
             Material mat = new Material(Shader.Find("Universal Render Pipeline/Lit")) { name = "RaptorSprite" };

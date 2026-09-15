@@ -20,6 +20,9 @@ namespace JurassicPark.World
         public float grass;
         public float bushes;
         public float logs;
+        public float boulders;
+        public float stones;
+        public float clutter;
     }
 
     /// <summary>Everything the island generator needs besides the seed.</summary>
@@ -47,7 +50,7 @@ namespace JurassicPark.World
 
         [Header("Scatter")]
         [Tooltip("Minimum distance between any two props, in meters.")]
-        [Min(0.5f)] public float minPropSpacing = 1.6f;
+        [Min(0.5f)] public float minPropSpacing = 0.9f;
         [Tooltip("Size of the low-frequency biome noise in meters.")]
         [Min(4f)] public float biomeFeatureSize = 45f;
         [Tooltip("Ground steeper than this fraction of the slope cap gets no props.")]
@@ -56,10 +59,11 @@ namespace JurassicPark.World
         [Min(0f)] public float beachBand = 0.6f;
         public BiomeDensity[] densities =
         {
-            new BiomeDensity { biome = Biome.Beach, trees = 0.4f, rocks = 0.3f, grass = 0f, bushes = 0f, logs = 0.2f },
-            new BiomeDensity { biome = Biome.Jungle, trees = 5f, rocks = 0.4f, grass = 3f, bushes = 1.2f, logs = 0.4f },
-            new BiomeDensity { biome = Biome.RockField, trees = 0.6f, rocks = 4f, grass = 0.8f, bushes = 0.2f, logs = 0.1f },
-            new BiomeDensity { biome = Biome.Clearing, trees = 0.8f, rocks = 0.5f, grass = 4f, bushes = 1.5f, logs = 0.3f },
+            // items per 100 m2; the jungle floor is meant to be crowded, clearings stay buildable
+            new BiomeDensity { biome = Biome.Beach, trees = 0.6f, rocks = 0.4f, grass = 0.3f, bushes = 0.1f, logs = 0.4f, boulders = 0.3f, stones = 1.2f, clutter = 1.5f },
+            new BiomeDensity { biome = Biome.Jungle, trees = 9f, rocks = 1.2f, grass = 10f, bushes = 4f, logs = 1.2f, boulders = 0.6f, stones = 2f, clutter = 8f },
+            new BiomeDensity { biome = Biome.RockField, trees = 1.5f, rocks = 6f, grass = 2f, bushes = 0.6f, logs = 0.3f, boulders = 3f, stones = 6f, clutter = 2.5f },
+            new BiomeDensity { biome = Biome.Clearing, trees = 1.2f, rocks = 0.8f, grass = 6f, bushes = 2.5f, logs = 0.5f, boulders = 0.2f, stones = 1.5f, clutter = 3f },
         };
 
         [Tooltip("Retry the whole plan with a derived seed if the facility constraints fail.")]

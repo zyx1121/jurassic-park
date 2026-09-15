@@ -1,0 +1,29 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0b657c436194440e993e8b4a189eb102, type: 3}
+  m_Name: fern_tuft_Clutter
+  m_EditorClassIdentifier: JurassicPark.World::JurassicPark.World.PropVariant
+  kind: 7
+  sprite: {fileID: 2800000, guid: b1464b0fc6362482a8a9cd29ea19b708, type: 3}
+  cellPixels: 96
+  pixelsPerUnit: 64
+  footprintRadius: 0.3
+  solid: 0
+  resource: 0
+  resourceAmount: 0
+  weight: 1
+  baseScale: 1.4
+  scaleJitter: 0.25
+  tintMaterials:
+  - {fileID: 2100000, guid: f9809abf8d4ae46a4b46e3c74b0dbd12, type: 2}
+  depletedMaterial: {fileID: 2100000, guid: 6cfa7062c6ee24a5ea881dfaed636db8, type: 2}
+  fadeMaterial: {fileID: 2100000, guid: d2402cd281a0b425c805202447bdace9, type: 2}
