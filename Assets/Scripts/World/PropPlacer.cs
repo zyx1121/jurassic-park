@@ -13,9 +13,10 @@ namespace JurassicPark.World
     {
         private static Material fallbackTemplate;
 
-        public static float PickScale(PropLibrary lib, System.Random rng)
+        public static float PickScale(PropVariant v, System.Random rng)
         {
-            return Mathf.Lerp(lib.scaleRange.x, lib.scaleRange.y, (float)rng.NextDouble());
+            float j = v.scaleJitter;
+            return v.baseScale * Mathf.Lerp(1f - j, 1f + j, (float)rng.NextDouble());
         }
 
         public static int PickTintIndex(PropLibrary lib, System.Random rng)
@@ -25,7 +26,7 @@ namespace JurassicPark.World
 
         public static GameObject Place(PropVariant v, PropLibrary lib, Vector3 groundPosition, System.Random rng, Transform parent = null)
         {
-            float scale = PickScale(lib, rng);
+            float scale = PickScale(v, rng);
             int tint = PickTintIndex(lib, rng);
             return Place(v, groundPosition, scale, tint, parent, lib.gatherRules, lib.pickups);
         }

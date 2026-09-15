@@ -153,7 +153,7 @@ namespace JurassicPark.World
                 {
                     variant = v,
                     position = p,
-                    scale = PropPlacer.PickScale(cfg.props, rng),
+                    scale = PropPlacer.PickScale(v, rng),
                     tintIndex = PropPlacer.PickTintIndex(cfg.props, rng),
                     biome = biome,
                 });

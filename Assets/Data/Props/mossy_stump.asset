@@ -1,0 +1,28 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0b657c436194440e993e8b4a189eb102, type: 3}
+  m_Name: mossy_stump
+  m_EditorClassIdentifier: JurassicPark.World::JurassicPark.World.PropVariant
+  kind: 3
+  sprite: {fileID: 2800000, guid: e8219031b178944788650afbdc59ea2e, type: 3}
+  cellPixels: 128
+  pixelsPerUnit: 64
+  footprintRadius: 0.45
+  solid: 1
+  resource: 1
+  resourceAmount: 1
+  weight: 0.8
+  baseScale: 0.95
+  scaleJitter: 0.17
+  tintMaterials:
+  - {fileID: 2100000, guid: 71ee5d4d24fd04387819e8f14cb24334, type: 2}
+  depletedMaterial: {fileID: 2100000, guid: 24d1c1d64f4934079bbca32236827b2a, type: 2}

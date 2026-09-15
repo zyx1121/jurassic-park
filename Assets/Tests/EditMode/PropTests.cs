@@ -42,7 +42,7 @@ namespace JurassicPark.Tests
             for (int i = 0; i < 20; i++)
             {
                 Assert.AreEqual(lib.Pick(PropKind.Tree, r1), lib.Pick(PropKind.Tree, r2));
-                Assert.AreEqual(PropPlacer.PickScale(lib, r1), PropPlacer.PickScale(lib, r2));
+                Assert.AreEqual(PropPlacer.PickScale(lib.variants[0], r1), PropPlacer.PickScale(lib.variants[0], r2));
                 Assert.AreEqual(PropPlacer.PickTintIndex(lib, r1), PropPlacer.PickTintIndex(lib, r2));
             }
         }
@@ -52,10 +52,12 @@ namespace JurassicPark.Tests
         {
             var lib = Lib();
             var rng = new System.Random(7);
+            var v = lib.variants[0];
+            v.baseScale = 1.5f; v.scaleJitter = 0.1f;
             for (int i = 0; i < 500; i++)
             {
-                float s = PropPlacer.PickScale(lib, rng);
-                Assert.That(s, Is.InRange(lib.scaleRange.x, lib.scaleRange.y));
+                float s = PropPlacer.PickScale(v, rng);
+                Assert.That(s, Is.InRange(1.35f, 1.65f));
             }
         }
     }

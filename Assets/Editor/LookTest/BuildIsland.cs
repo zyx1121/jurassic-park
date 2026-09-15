@@ -95,7 +95,7 @@ namespace JurassicPark.EditorTools
             GameObject camGo = new GameObject("Main Camera");
             camGo.tag = "MainCamera";
             Camera cam = camGo.AddComponent<Camera>();
-            cam.fieldOfView = 32f;
+            cam.fieldOfView = 35f;
             cam.nearClipPlane = 0.3f;
             cam.farClipPlane = 120f;
             cam.clearFlags = CameraClearFlags.SolidColor;
