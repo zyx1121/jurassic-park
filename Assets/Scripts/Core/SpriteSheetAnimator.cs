@@ -16,6 +16,7 @@ namespace JurassicPark.Core
         [SerializeField] private SpriteSheetSet set;
         [SerializeField] private string defaultClip = "Idle";
 
+        public SpriteSheetSet Set => set;
         public SpriteSheetClip Current { get; private set; }
         public int Row { get; set; }
         public int Frame { get; private set; }

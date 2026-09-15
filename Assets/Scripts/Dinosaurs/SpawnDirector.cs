@@ -43,6 +43,7 @@ namespace JurassicPark.Dinosaurs
 
         private void OnPhase(DayPhase phase)
         {
+            if (!JurassicPark.Core.Authority.IsAuthority) return;
             if (phase == DayPhase.Dusk) SpawnForNight(cycle.DayNumber);
             if (phase == DayPhase.Dawn && table != null && table.despawnAtDawn) Despawn();
         }

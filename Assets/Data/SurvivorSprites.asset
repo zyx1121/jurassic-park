@@ -9,9 +9,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 0}
+  m_Script: {fileID: 11500000, guid: fba605d922bfa4270a501fcee673cc20, type: 3}
   m_Name: SurvivorSprites
-  m_EditorClassIdentifier: JurassicPark.Core:JurassicPark.Core:SpriteSheetSet
+  m_EditorClassIdentifier: JurassicPark.Core::JurassicPark.Core.SpriteSheetSet
   clips:
   - name: Idle
     sheet: {fileID: 2800000, guid: 2e171cb7cded34db4869566606743691, type: 3}

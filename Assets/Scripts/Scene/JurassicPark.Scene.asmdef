@@ -1,7 +1,9 @@
 {
     "name": "JurassicPark.Scene",
     "rootNamespace": "JurassicPark.Scene",
-    "references": [],
+    "references": [
+        "JurassicPark.Core"
+    ],
     "includePlatforms": [],
     "excludePlatforms": [],
     "allowUnsafeCode": false,

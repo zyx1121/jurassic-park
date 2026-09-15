@@ -1,4 +1,7 @@
 using JurassicPark.Building;
+using JurassicPark.Net;
+using Unity.Netcode;
+using Unity.Netcode.Components;
 using JurassicPark.Combat;
 using JurassicPark.Core;
 using JurassicPark.Player;
@@ -75,6 +78,13 @@ namespace JurassicPark.EditorTools
             so.FindProperty("config").objectReferenceValue = config;
             so.FindProperty("controls").objectReferenceValue = controls;
             so.ApplyModifiedPropertiesWithoutUndo();
+
+            root.AddComponent<NetworkObject>();
+            NetworkTransform netTransform = root.AddComponent<NetworkTransform>();
+            netTransform.AuthorityMode = NetworkTransform.AuthorityModes.Owner;
+            netTransform.SyncScaleX = netTransform.SyncScaleY = netTransform.SyncScaleZ = false;
+            netTransform.Interpolate = true;
+            root.AddComponent<NetPlayer>();
 
             PlayerBuilder builder = root.AddComponent<PlayerBuilder>();
             SerializedObject bso = new SerializedObject(builder);

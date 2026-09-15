@@ -1,4 +1,7 @@
 using JurassicPark.Dinosaurs;
+using JurassicPark.Net;
+using Unity.Netcode;
+using Unity.Netcode.Transports.UTP;
 using JurassicPark.Scene;
 using JurassicPark.World;
 using Unity.AI.Navigation;
@@ -43,20 +46,24 @@ namespace JurassicPark.EditorTools
             nav.collectObjects = CollectObjects.All;
             nav.useGeometry = UnityEngine.AI.NavMeshCollectGeometry.PhysicsColliders;
 
-            // Player, campfire, raptors near the base
-            GameObject player = null;
+            // Players are spawned by NetLobby (offline instantiate, or NetworkManager player prefab)
             GameObject playerPrefab = AssetDatabase.LoadAssetAtPath<GameObject>(BuildPlayerPrefab.PrefabPath);
-            if (playerPrefab != null)
-            {
-                player = (GameObject)PrefabUtility.InstantiatePrefab(playerPrefab);
-                player.transform.position = plan.playerSpawn + Vector3.up * 0.1f;
-            }
+            GameObject netGo = new GameObject("NetworkManager");
+            NetworkManager nm = netGo.AddComponent<NetworkManager>();
+            UnityTransport utp = netGo.AddComponent<UnityTransport>();
+            nm.NetworkConfig = new NetworkConfig { PlayerPrefab = playerPrefab, ConnectionApproval = false, EnableSceneManagement = false };
+            nm.NetworkConfig.NetworkTransport = utp;
+            NetLobby lobby = netGo.AddComponent<NetLobby>();
+            SerializedObject lso = new SerializedObject(lobby);
+            lso.FindProperty("playerPrefab").objectReferenceValue = playerPrefab;
+            lso.ApplyModifiedPropertiesWithoutUndo();
             GameObject campfirePrefab = AssetDatabase.LoadAssetAtPath<GameObject>(BuildCampfirePrefab.PrefabPath);
             if (campfirePrefab != null)
             {
                 GameObject fire = (GameObject)PrefabUtility.InstantiatePrefab(campfirePrefab);
                 fire.transform.position = plan.baseCenter;
             }
+
             // Dinosaurs come from the SpawnDirector at dusk; nothing is placed by hand
 
             // Sun + day-night
@@ -72,6 +79,8 @@ namespace JurassicPark.EditorTools
             cycleSo.FindProperty("sun").objectReferenceValue = sun;
             cycleSo.FindProperty("startTime").floatValue = 0.2f;
             cycleSo.ApplyModifiedPropertiesWithoutUndo();
+            cycleGo.AddComponent<NetworkObject>();
+            cycleGo.AddComponent<NetDayNight>();
 
             GameObject directorGo = new GameObject("SpawnDirector");
             SpawnDirector director = directorGo.AddComponent<SpawnDirector>();
@@ -93,10 +102,11 @@ namespace JurassicPark.EditorTools
             camData.renderPostProcessing = true;
             camData.antialiasing = AntialiasingMode.None;
             FollowCamera follow = camGo.AddComponent<FollowCamera>();
-            follow.Target = player != null ? player.transform : null;
+            follow.Target = null; // set by NetLobby when the local player spawns
             float b = cfg.terrain.size * 0.45f;
             follow.Bounds = new Rect(-b, -b, b * 2f, b * 2f);
             camGo.transform.position = plan.playerSpawn + new Vector3(0f, 9f, -14f);
+            follow.Bounds = follow.Bounds; // keep
             camGo.transform.rotation = Quaternion.Euler(30f, 0f, 0f);
 
             VolumeProfile profile = AssetDatabase.LoadAssetAtPath<VolumeProfile>("Assets/Settings/LookTestProfile.asset");

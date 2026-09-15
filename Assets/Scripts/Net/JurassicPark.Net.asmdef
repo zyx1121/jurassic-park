@@ -1,0 +1,23 @@
+{
+    "name": "JurassicPark.Net",
+    "rootNamespace": "JurassicPark.Net",
+    "references": [
+        "Unity.Netcode.Runtime",
+        "Unity.Netcode.Components",
+        "Unity.Networking.Transport",
+        "JurassicPark.Core",
+        "JurassicPark.Player",
+        "JurassicPark.Scene",
+        "JurassicPark.World",
+        "Unity.Collections"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
