@@ -46,6 +46,21 @@ namespace JurassicPark.EditorTools
             new Def("plant_bushLarge", PropKind.Bush, 96, 0.45f, false, ResourceKind.Food, 2, 0.8f),
         };
 
+        private static Material SpriteMaterial(string path, Texture2D tex, Color tint)
+        {
+            Material m = AssetDatabase.LoadAssetAtPath<Material>(path);
+            if (m == null)
+            {
+                m = new Material(Shader.Find("Universal Render Pipeline/Lit"));
+                AssetDatabase.CreateAsset(m, path);
+            }
+
+            PropPlacer.ConfigureSpriteMaterial(m, tex, tint);
+            m.enableInstancing = true;
+            EditorUtility.SetDirty(m);
+            return m;
+        }
+
         [CliCommand("build_prop_library", "Create PropVariant assets from Assets/Sprites/Props and the PropLibrary")]
         public static string Build()
         {
@@ -59,6 +74,15 @@ namespace JurassicPark.EditorTools
             {
                 lib = ScriptableObject.CreateInstance<PropLibrary>();
                 AssetDatabase.CreateAsset(lib, LibraryPath);
+            }
+
+            if (!AssetDatabase.IsValidFolder("Assets/Materials/Props")) AssetDatabase.CreateFolder("Assets/Materials", "Props");
+            if (!AssetDatabase.IsValidFolder("Assets/Materials/Pickups")) AssetDatabase.CreateFolder("Assets/Materials", "Pickups");
+            GatherRules rulesForDepleted = AssetDatabase.LoadAssetAtPath<GatherRules>("Assets/Data/GatherRules.asset");
+            if (rulesForDepleted == null)
+            {
+                rulesForDepleted = ScriptableObject.CreateInstance<GatherRules>();
+                AssetDatabase.CreateAsset(rulesForDepleted, "Assets/Data/GatherRules.asset");
             }
 
             var variants = new System.Collections.Generic.List<PropVariant>();
@@ -81,6 +105,15 @@ namespace JurassicPark.EditorTools
 
                 v.kind = d.kind; v.sprite = tex; v.cellPixels = d.cell; v.pixelsPerUnit = 64f; v.footprintRadius = d.radius;
                 v.solid = d.solid; v.resource = d.res; v.resourceAmount = d.amount; v.weight = d.weight;
+                v.tintMaterials = new Material[lib.tints.Length];
+                for (int t = 0; t < lib.tints.Length; t++)
+                {
+                    v.tintMaterials[t] = SpriteMaterial($"Assets/Materials/Props/{d.file}_{t}.mat", tex, lib.tints[t]);
+                }
+
+                Color depletedTint = Color.gray;
+                if (d.res != ResourceKind.None && rulesForDepleted != null && rulesForDepleted.TryGet(d.res, out GatherRule gr)) depletedTint = gr.depletedTint;
+                v.depletedMaterial = SpriteMaterial($"Assets/Materials/Props/{d.file}_depleted.mat", tex, depletedTint);
                 EditorUtility.SetDirty(v);
                 variants.Add(v);
             }
@@ -103,7 +136,10 @@ namespace JurassicPark.EditorTools
             pickups.stone = AssetDatabase.LoadAssetAtPath<Texture2D>("Assets/Sprites/Items/pickup_stone.png");
             pickups.food = AssetDatabase.LoadAssetAtPath<Texture2D>("Assets/Sprites/Items/pickup_food.png");
             pickups.boatPart = AssetDatabase.LoadAssetAtPath<Texture2D>("Assets/Sprites/Items/pickup_boatpart.png");
-            pickups.spriteMaterial = AssetDatabase.LoadAssetAtPath<Material>("Assets/Materials/PropSprite.mat");
+            pickups.woodMaterial = SpriteMaterial("Assets/Materials/Pickups/wood.mat", pickups.wood, Color.white);
+            pickups.stoneMaterial = SpriteMaterial("Assets/Materials/Pickups/stone.mat", pickups.stone, Color.white);
+            pickups.foodMaterial = SpriteMaterial("Assets/Materials/Pickups/food.mat", pickups.food, Color.white);
+            pickups.boatPartMaterial = SpriteMaterial("Assets/Materials/Pickups/boatpart.mat", pickups.boatPart, Color.white);
             EditorUtility.SetDirty(pickups);
             lib.pickups = pickups;
             lib.variants = variants.ToArray();

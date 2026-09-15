@@ -152,7 +152,7 @@ namespace JurassicPark.World
                     variant = v,
                     position = p,
                     scale = PropPlacer.PickScale(cfg.props, rng),
-                    tint = PropPlacer.PickTint(cfg.props, rng),
+                    tintIndex = PropPlacer.PickTintIndex(cfg.props, rng),
                     biome = biome,
                 });
                 plan.propCountsByKind[(int)kind.Value]++;

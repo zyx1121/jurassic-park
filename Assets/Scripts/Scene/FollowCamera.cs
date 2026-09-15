@@ -12,9 +12,9 @@ namespace JurassicPark.Scene
     {
         [SerializeField] private Transform target;
         [Tooltip("Camera pitch in degrees, looking down.")]
-        [Range(10f, 80f)] [SerializeField] private float pitch = 30f;
+        [Range(10f, 80f)] [SerializeField] private float pitch = 38f;
         [Tooltip("Distance from the look-at point along the camera's back axis.")]
-        [Min(1f)] [SerializeField] private float distance = 16f;
+        [Min(1f)] [SerializeField] private float distance = 22f;
         [Tooltip("Height of the look-at point above the target's feet.")]
         [SerializeField] private float lookHeight = 1f;
         [Tooltip("Seconds to reach the target. 0 snaps.")]

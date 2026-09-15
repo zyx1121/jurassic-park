@@ -7,6 +7,6 @@ namespace JurassicPark.World
     {
         public PropVariant variant;
         public float scale = 1f;
-        public Color tint = Color.white;
+        public int tintIndex;
     }
 }

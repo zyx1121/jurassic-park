@@ -21,3 +21,9 @@ MonoBehaviour:
   resource: 2
   resourceAmount: 5
   weight: 1
+  tintMaterials:
+  - {fileID: 2100000, guid: a697bc3f232ad4cb3a93c3d246b44497, type: 2}
+  - {fileID: 2100000, guid: b73652302585f49f6883b3dd3274afb2, type: 2}
+  - {fileID: 2100000, guid: 968d38708674f490da4cdaf4f31d24bd, type: 2}
+  - {fileID: 2100000, guid: d04ec500201174618aff9ad5d9bed7be, type: 2}
+  depletedMaterial: {fileID: 2100000, guid: 9faf8cf9bf5e648fb8e1da22689fdfe2, type: 2}

@@ -11,14 +11,12 @@ namespace JurassicPark.World
     /// </summary>
     public sealed class ResourceNode : MonoBehaviour, IInteractable
     {
-        private static readonly int BaseColor = Shader.PropertyToID("_BaseColor");
-
         // Serialized so nodes placed by the generator survive the scene save/load round trip.
         [SerializeField] private ResourceKind kind;
         [SerializeField] private int amount;
         [SerializeField] private GatherRule rule;
-        [SerializeField] private Color baseTint = Color.white;
         [SerializeField] private PickupLibrary pickups;
+        [SerializeField] private Material depletedMaterial;
 
         public ResourceKind Kind => kind;
         public ResourceStock Stock { get; private set; }
@@ -28,18 +26,18 @@ namespace JurassicPark.World
         public string Prompt => Kind == ResourceKind.Food ? "Pick" : "Gather";
 
         private Renderer spriteRenderer;
-        private MaterialPropertyBlock block;
+        private Material normalMaterial;
         private DayNightCycle cycle;
         private Vector3 spriteScale;
-        private float punchUntil;
+        private Coroutine punch;
 
-        public void Configure(ResourceKind newKind, int newAmount, GatherRule newRule, Color tint, PickupLibrary pickupLibrary = null)
+        public void Configure(ResourceKind newKind, int newAmount, GatherRule newRule, PickupLibrary pickupLibrary = null, Material depleted = null)
         {
             pickups = pickupLibrary;
+            depletedMaterial = depleted;
             kind = newKind;
             amount = newAmount;
             rule = newRule;
-            baseTint = tint;
             Stock = new ResourceStock(amount, rule.hitsPerUnit);
         }
 
@@ -51,10 +49,10 @@ namespace JurassicPark.World
             }
 
             spriteRenderer = GetComponentInChildren<MeshRenderer>();
-            block = new MaterialPropertyBlock();
             if (spriteRenderer != null)
             {
                 spriteScale = spriteRenderer.transform.localScale;
+                normalMaterial = spriteRenderer.sharedMaterial;
             }
         }
 
@@ -140,27 +138,25 @@ namespace JurassicPark.World
                 return;
             }
 
-            spriteRenderer.GetPropertyBlock(block);
-            block.SetColor(BaseColor, depleted ? baseTint * Rule.depletedTint : baseTint);
-            spriteRenderer.SetPropertyBlock(block);
+            if (depletedMaterial != null)
+            {
+                spriteRenderer.sharedMaterial = depleted ? depletedMaterial : normalMaterial;
+            }
         }
 
         private void Punch()
         {
-            punchUntil = Time.time + 0.12f;
-            if (spriteRenderer != null)
-            {
-                spriteRenderer.transform.localScale = new Vector3(spriteScale.x * 1.06f, spriteScale.y * 0.94f, spriteScale.z);
-            }
+            if (spriteRenderer == null) return;
+            spriteRenderer.transform.localScale = new Vector3(spriteScale.x * 1.06f, spriteScale.y * 0.94f, spriteScale.z);
+            if (punch != null) StopCoroutine(punch);
+            punch = StartCoroutine(EndPunch());
         }
 
-        private void Update()
+        private System.Collections.IEnumerator EndPunch()
         {
-            if (punchUntil > 0f && Time.time >= punchUntil && spriteRenderer != null)
-            {
-                spriteRenderer.transform.localScale = spriteScale;
-                punchUntil = 0f;
-            }
+            yield return new WaitForSeconds(0.12f);
+            if (spriteRenderer != null) spriteRenderer.transform.localScale = spriteScale;
+            punch = null;
         }
     }
 }
