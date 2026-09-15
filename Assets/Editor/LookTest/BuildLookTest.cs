@@ -172,6 +172,7 @@ namespace JurassicPark.EditorTools
 
             EditorSceneManager.SaveScene(scene, ScenePath);
             navSurface.BuildNavMesh();
+            TerrainDataAssets.PersistNavMesh(navSurface, $"LookTestNavMesh_seed{seed}");
             EditorSceneManager.SaveScene(scene, ScenePath);
             AssetDatabase.SaveAssets();
             return ScenePath;
