@@ -1,0 +1,21 @@
+{
+    "name": "JurassicPark.Building",
+    "rootNamespace": "JurassicPark.Building",
+    "references": [
+        "JurassicPark.Core",
+        "JurassicPark.Combat",
+        "JurassicPark.World",
+        "JurassicPark.Player",
+        "Unity.AI.Navigation",
+        "JurassicPark.Scene"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

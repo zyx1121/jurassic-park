@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0fcddbe99c6224d0d8c0b88205734b52, type: 3}
+  m_Name: Wall
+  m_EditorClassIdentifier: JurassicPark.Building::JurassicPark.Building.StructureDef
+  kind: 1
+  displayName: Wall
+  footprint: {x: 2, y: 1}
+  height: 2
+  cost:
+  - kind: 2
+    amount: 4
+  health: {fileID: 11400000, guid: 305b76f40be2e4ffc895987236377877, type: 2}
+  solid: 1
+  isGate: 0
+  emitsLight: 0
+  prefab: {fileID: 0}
+  repairCostFraction: 0.5
