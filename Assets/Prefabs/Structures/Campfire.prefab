@@ -10333,8 +10333,8 @@ Light:
   serializedVersion: 12
   m_Type: 2
   m_Color: {r: 1, g: 0.6, b: 0.25, a: 1}
-  m_Intensity: 30
-  m_Range: 14
+  m_Intensity: 34
+  m_Range: 16
   m_SpotAngle: 30
   m_InnerSpotAngle: 21.80208
   m_CookieSize2D: {x: 0.5, y: 0.5}

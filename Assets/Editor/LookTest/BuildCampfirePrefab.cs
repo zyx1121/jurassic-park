@@ -56,7 +56,7 @@ namespace JurassicPark.EditorTools
             Material ember = new Material(Shader.Find("Universal Render Pipeline/Lit")) { name = "Embers" };
             ember.SetColor("_BaseColor", new Color(1f, 0.35f, 0.08f));
             ember.EnableKeyword("_EMISSION");
-            ember.SetColor("_EmissionColor", new Color(1f, 0.35f, 0.08f) * 3f);
+            ember.SetColor("_EmissionColor", new Color(1f, 0.35f, 0.08f) * 5f);
             AssetDatabase.CreateAsset(ember, "Assets/Materials/Embers.mat");
             core.GetComponent<MeshRenderer>().sharedMaterial = ember;
 
@@ -80,8 +80,8 @@ namespace JurassicPark.EditorTools
             Light fireLight = lightGo.AddComponent<Light>();
             fireLight.type = LightType.Point;
             fireLight.color = new Color(1f, 0.6f, 0.25f);
-            fireLight.intensity = 30f;
-            fireLight.range = 14f;
+            fireLight.intensity = 34f;
+            fireLight.range = 16f;
             fireLight.shadows = LightShadows.Soft;
             lightGo.AddComponent<CampfireLight>();
 

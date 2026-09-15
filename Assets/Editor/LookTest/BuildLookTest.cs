@@ -107,12 +107,9 @@ namespace JurassicPark.EditorTools
             Light sun = sunGo.AddComponent<Light>();
             sun.type = LightType.Directional;
             sun.shadows = LightShadows.Soft;
-            DayNightConfig dayNight = AssetDatabase.LoadAssetAtPath<DayNightConfig>("Assets/Data/DayNight.asset");
-            if (dayNight == null)
-            {
-                dayNight = ScriptableObject.CreateInstance<DayNightConfig>();
-                AssetDatabase.CreateAsset(dayNight, "Assets/Data/DayNight.asset");
-            }
+            // Always rebuilt from the code defaults so tuning lives in DayNightConfig.cs
+            DayNightConfig dayNight = ScriptableObject.CreateInstance<DayNightConfig>();
+            AssetDatabase.CreateAsset(dayNight, "Assets/Data/DayNight.asset");
             GameObject cycleGo = new GameObject("DayNightCycle");
             DayNightCycle cycle = cycleGo.AddComponent<DayNightCycle>();
             SerializedObject cycleSo = new SerializedObject(cycle);
@@ -149,16 +146,27 @@ namespace JurassicPark.EditorTools
             dof.gaussianMaxRadius.Override(1f);
             dof.highQualitySampling.Override(false);
             Bloom bloom = profile.Add<Bloom>(true);
-            bloom.threshold.Override(1.0f);
-            bloom.intensity.Override(1.2f);
-            bloom.scatter.Override(0.65f);
+            bloom.threshold.Override(0.85f);
+            bloom.intensity.Override(1.8f);
+            bloom.scatter.Override(0.7f);
             Vignette vignette = profile.Add<Vignette>(true);
-            vignette.intensity.Override(0.38f);
-            vignette.smoothness.Override(0.5f);
+            vignette.intensity.Override(0.55f);
+            vignette.smoothness.Override(0.65f);
+            vignette.color.Override(new Color(0.02f, 0.01f, 0.05f));
             ColorAdjustments grade = profile.Add<ColorAdjustments>(true);
-            grade.contrast.Override(18f);
-            grade.saturation.Override(-8f);
-            grade.colorFilter.Override(new Color(0.9f, 0.88f, 1f));
+            grade.postExposure.Override(-0.35f);
+            grade.contrast.Override(28f);
+            grade.saturation.Override(-18f);
+            grade.colorFilter.Override(new Color(0.86f, 0.86f, 1f));
+            FilmGrain grain = profile.Add<FilmGrain>(true);
+            grain.type.Override(FilmGrainLookup.Medium1);
+            grain.intensity.Override(0.25f);
+            grain.response.Override(0.8f);
+            ChromaticAberration ca = profile.Add<ChromaticAberration>(true);
+            ca.intensity.Override(0.08f);
+            ShadowsMidtonesHighlights smh = profile.Add<ShadowsMidtonesHighlights>(true);
+            smh.shadows.Override(new Vector4(0.85f, 0.85f, 1.15f, -0.05f)); // cold, crushed shadows
+            smh.highlights.Override(new Vector4(1.05f, 1.0f, 0.9f, 0f));    // warm highlights
             EditorUtility.SetDirty(profile);
             GameObject volGo = new GameObject("PostProcessVolume");
             Volume vol = volGo.AddComponent<Volume>();
