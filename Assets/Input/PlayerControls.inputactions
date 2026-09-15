@@ -260,7 +260,7 @@
                 {
                     "name": "",
                     "id": "2a000000-0000-4000-8000-000000000050",
-                    "path": "<Keyboard>/tab",
+                    "path": "<Keyboard>/b",
                     "interactions": "",
                     "processors": "",
                     "groups": "Keyboard&Mouse",
@@ -304,7 +304,7 @@
                 {
                     "name": "",
                     "id": "2a000000-0000-4000-8000-000000000070",
-                    "path": "<Keyboard>/q",
+                    "path": "<Keyboard>/r",
                     "interactions": "",
                     "processors": "",
                     "groups": "Keyboard&Mouse",

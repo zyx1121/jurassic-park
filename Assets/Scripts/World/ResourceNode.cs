@@ -9,7 +9,7 @@ namespace JurassicPark.World
     /// two players can work the same tree. Depleted nodes tint or hide and come back after the
     /// configured number of days, driven by the DayNightCycle's NewDay event.
     /// </summary>
-    public sealed class ResourceNode : MonoBehaviour, IInteractable
+    public sealed class ResourceNode : MonoBehaviour, IRepeatableInteractable
     {
         // Serialized so nodes placed by the generator survive the scene save/load round trip.
         [SerializeField] private ResourceKind kind;

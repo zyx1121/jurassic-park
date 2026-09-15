@@ -12,14 +12,77 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 22364ba963eb14fa8b470144d7c45d22, type: 3}
   m_Name: Hud
   m_EditorClassIdentifier: JurassicPark.UI::JurassicPark.UI.HudConfig
-  panel: {r: 0.06666667, g: 0.09803922, b: 0.101960786, a: 0.92156863}
-  text: {r: 0.9372549, g: 0.90588236, b: 0.81960785, a: 1}
-  muted: {r: 0.7176471, g: 0.7529412, b: 0.7058824, a: 1}
-  accent: {r: 0.9098039, g: 0.7176471, b: 0.35686275, a: 1}
-  healthy: {r: 0.5058824, g: 0.70980394, b: 0.52156866, a: 1}
-  danger: {r: 0.95686275, g: 0.45490196, b: 0.39607844, a: 1}
-  track: {r: 0.2, g: 0.25490198, b: 0.23921569, a: 1}
+  designVersion: 2
+  bodyFont: {fileID: 12800000, guid: 63e15cbe740d747499c2934e244ff911, type: 3}
+  emphasisFont: {fileID: 12800000, guid: 3e7cbb66a23f146a4a9a33abe7de3432, type: 3}
+  headingFont: {fileID: 12800000, guid: 5ea1911e26b6445409065c3a175959a6, type: 3}
+  bodyFontSize: 18
+  smallFontSize: 16
+  emphasisFontSize: 20
+  headingFontSize: 30
+  titleFontSize: 48
+  panel: {r: 0.07450981, g: 0.12156863, b: 0.10980392, a: 0.9607843}
+  veil: {r: 0.03137255, g: 0.06666667, b: 0.05490196, a: 0.88235295}
+  text: {r: 0.92941177, g: 0.9098039, b: 0.8392157, a: 1}
+  textShadow: {r: 0.019607844, g: 0.047058824, b: 0.03137255, a: 0.8235294}
+  muted: {r: 0.6509804, g: 0.72156864, b: 0.6627451, a: 1}
+  accent: {r: 0.85882354, g: 0.69411767, b: 0.39607844, a: 1}
+  healthy: {r: 0.52156866, g: 0.70980394, b: 0.56078434, a: 1}
+  danger: {r: 0.92156863, g: 0.5176471, b: 0.4392157, a: 1}
+  track: {r: 0.17254902, g: 0.24313726, b: 0.20392157, a: 1}
+  button: {r: 0.16862746, g: 0.23921569, b: 0.2, a: 1}
+  buttonHover: {r: 0.2627451, g: 0.34901962, b: 0.27058825, a: 1}
+  buttonPressed: {r: 0.4, g: 0.35686275, b: 0.22352941, a: 1}
+  buttonDisabled: {r: 0.13333334, g: 0.16862746, b: 0.14509805, a: 1}
+  selected: {r: 0.44313726, g: 0.35686275, b: 0.18431373, a: 1}
+  referenceResolution: {x: 1280, y: 720}
+  widthHeightMatch: 0.5
+  margin: 24
+  gap: 8
+  buttonHeight: 44
+  healthWidth: 236
+  resourceWidth: 124
+  resourceHeight: 42
+  contextWidth: 286
+  contextHeight: 86
+  contextOffset: 24
+  paletteWidth: 800
+  paletteHeight: 176
+  buildCardWidth: 140
+  buildCardHeight: 68
+  modalSize: {x: 520, y: 500}
+  menuWidth: 360
+  rowHeight: 44
+  progressHeight: 4
+  lineHeight: 24
+  headingHeight: 42
+  menuContentTop: 132
+  inventoryButtonWidth: 160
+  compactButtonWidth: 88
+  buildButtonWidth: 112
+  mapCloseButtonWidth: 180
+  healthHeight: 60
+  paletteBottom: 100
+  notificationBottom: 110
+  lobbyHeight: 600
+  mainMenuHeight: 400
+  controlsLineSpacing: 1.4
   lowHealthThreshold: 0.3
   refreshInterval: 0.1
-  bodyFontSize: 16
-  headingFontSize: 20
+  notificationDuration: 2.6
+  transitionDuration: 0.08
+  mapResolution: 256
+  cornerMapSize: 128
+  largeMapSize: 560
+  mapMarkerSize: 8
+  mapSea: {r: 0.14901961, g: 0.2509804, b: 0.27450982, a: 1}
+  mapPlayer: {r: 0.9529412, g: 0.84313726, b: 0.54509807, a: 1}
+  mapFacility: {r: 0.8, g: 0.4745098, b: 0.3764706, a: 1}
+  mapDock: {r: 0.49411765, g: 0.74509805, b: 0.7921569, a: 1}
+  mapLayers:
+  - {r: 0.6, g: 0.57254905, b: 0.4392157, a: 1}
+  - {r: 0.2784314, g: 0.39215687, b: 0.2509804, a: 1}
+  - {r: 0.3254902, g: 0.43529412, b: 0.27450982, a: 1}
+  - {r: 0.24705882, g: 0.34509805, b: 0.2509804, a: 1}
+  - {r: 0.41568628, g: 0.3529412, b: 0.2627451, a: 1}
+  - {r: 0.41568628, g: 0.42352942, b: 0.4, a: 1}

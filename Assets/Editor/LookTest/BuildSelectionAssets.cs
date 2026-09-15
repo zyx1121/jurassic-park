@@ -9,7 +9,7 @@ namespace JurassicPark.EditorTools
     {
         public const string ConfigPath = "Assets/Data/Selection.asset";
 
-        [CliCommand("build_selection_assets", "Create cursor and world-selection settings")]
+        [CliCommand("build_selection_assets", "Create contextual interaction picking settings")]
         public static string Build()
         {
             Create();

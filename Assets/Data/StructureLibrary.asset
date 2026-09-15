@@ -20,6 +20,8 @@ MonoBehaviour:
   - {fileID: 11400000, guid: d4ff3ffb61b0e444c8d284d494eac391, type: 2}
   cellSize: 1
   placeDistance: 2
+  maxPlaceDistance: 6
+  pointerRayDistance: 150
   maxHeightDelta: 0.6
   previewValid: {fileID: 2100000, guid: 623bc11f32e4d479c83d646a52fa9a34, type: 2}
   previewInvalid: {fileID: 2100000, guid: e59471ef72d1f4afea768dc2feb31bab, type: 2}

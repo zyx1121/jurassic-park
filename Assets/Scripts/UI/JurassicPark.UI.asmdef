@@ -8,6 +8,8 @@
         "JurassicPark.Scene",
         "JurassicPark.Combat",
         "JurassicPark.Building",
+        "JurassicPark.Net",
+        "Unity.Netcode.Runtime",
         "Unity.ugui",
         "Unity.InputSystem"
     ],

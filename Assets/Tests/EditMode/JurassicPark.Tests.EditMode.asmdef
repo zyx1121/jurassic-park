@@ -12,8 +12,10 @@
         "JurassicPark.World",
         "JurassicPark.Building",
         "JurassicPark.UI",
+        "JurassicPark.Net",
         "Unity.ugui",
-        "Unity.InputSystem"
+        "Unity.InputSystem",
+        "Unity.InputSystem.TestFramework"
     ],
     "includePlatforms": [
         "Editor"

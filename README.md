@@ -43,23 +43,30 @@ unity build . --target StandaloneOSX --output-path Builds/macOS/JurassicPark.app
 
 ### Demo controls and feedback
 
-Move with **WASD**, sprint with **Shift**, and interact with **E**. Point at an
-object to inspect it; **left click** keeps it selected, **right click** or **Esc**
-clears the selection. Movement stays keyboard-controlled, not click-to-move.
-The cursor turns green for a usable target and amber when it cannot currently
-be used. Selection brackets and the target panel show its name, stock or health,
-distance, and the actual interaction requirement. E uses that target; without a
-pointed-at or selected object, it uses the nearest reachable usable object.
+Move with **WASD** and sprint with **Shift**. **Left click** a nearby resource or
+usable object to act directly; **hold left click** to continue gathering. **E**
+is the keyboard interaction shortcut and uses the nearest reachable usable
+object when nothing is pointed at. There is no persistent RTS selection and no
+click-to-move. A small contextual prompt shows the action and gathering progress.
 
-**Tab** enters building mode and cycles structures, **Q** rotates, **left click**
-places, and **Esc** cancels. The HUD shows cost and placement status. Clicking
-HUD panels never attacks or places structures behind them. **M** expands the
-map; the expanded map blocks world controls until closed.
+**B** toggles the clickable build palette. Choose a structure, point at nearby
+ground, **R** to rotate, and **left click** to place. **Right click**, **Esc**, or
+**B** cancels building. Placement follows the mouse rather than the player's
+facing and is limited to the configured reach.
+
+**Tab** opens inventory, **M** opens the map, and **Esc** closes the current
+panel or opens the pause menu. Menus have clickable controls and prevent input
+from leaking into the world. Offline pause stops the simulation; a network
+session continues while its menu is open. Start from the in-game solo/LAN lobby,
+or launch with `--offline`, `--host`, or `--join IP`.
 
 The HUD displays actual health, day/time, wood, stone, food, and carried boat
 parts. Food is an inventory count, not hunger. Boat parts show carrying capacity,
 not repaired-boat progress; hunger and the boat-repair UI remain future work.
-HUD colors/text sizing and cursor settings live in `Assets/Data/Hud.asset` and
+The interface uses bundled OFL-licensed Source Sans 3 and Source Serif 4 fonts,
+not an operating-system font fallback. The pointer remains the familiar native
+cursor; action readiness appears in the contextual prompt rather than a colored
+debug arrow. HUD colors/text sizing and picking settings live in `Assets/Data/Hud.asset` and
 `Assets/Data/Selection.asset`. Their builders (`build_hud_assets`,
 `build_selection_assets`) are also called by both scene builders.
 

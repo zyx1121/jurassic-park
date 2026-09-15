@@ -1,16 +1,14 @@
 using JurassicPark.Core;
 using JurassicPark.Player;
 using JurassicPark.World;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
 namespace JurassicPark.Building
 {
     /// <summary>
-    /// Build mode for one player: Build toggles the mode and cycles structures, Rotate turns the
-    /// preview in 90-degree steps, Attack confirms. The preview sits a fixed distance in front of
-    /// the player on the grid and turns red when the spot is blocked, too steep, in the water or
-    /// unaffordable.
+    /// Mouse-driven building: B toggles the palette, R rotates, click places, and right click cancels.
     /// </summary>
     [RequireComponent(typeof(PlayerController))]
     [RequireComponent(typeof(ResourceInventory))]
@@ -23,6 +21,7 @@ namespace JurassicPark.Building
         public int SelectedIndex { get; private set; }
         public int RotationSteps { get; private set; }
         public StructureDef Selected => library != null && library.structures.Length > 0 ? library.structures[SelectedIndex % library.structures.Length] : null;
+        public IReadOnlyList<StructureDef> Definitions => library != null ? library.structures : System.Array.Empty<StructureDef>();
         public bool PreviewValid { get; private set; }
         public Vector3 PreviewCenter { get; private set; }
         public string PreviewReason { get; private set; } = "";
@@ -32,6 +31,12 @@ namespace JurassicPark.Building
         private GameObject preview;
         private Transform structuresRoot;
         private readonly Collider[] overlap = new Collider[16];
+        private readonly RaycastHit[] groundHits = new RaycastHit[64];
+        private bool pointerHasGround;
+        private int cancelledFrame = -1;
+        private static bool CancelRequested =>
+            (Keyboard.current != null && Keyboard.current.escapeKey.wasPressedThisFrame)
+            || (Mouse.current != null && Mouse.current.rightButton.wasPressedThisFrame);
 
         private void Awake()
         {
@@ -56,13 +61,16 @@ namespace JurassicPark.Building
 
         public void SetBuilding(bool on)
         {
+            bool wasBuilding = IsBuilding;
             IsBuilding = on && library != null && library.structures.Length > 0;
             if (player != null) player.InteractionSuppressed = IsBuilding;
+            if (wasBuilding && !IsBuilding) cancelledFrame = Time.frameCount;
             if (!IsBuilding && preview != null)
             {
                 Destroy(preview);
                 preview = null;
             }
+            if (IsBuilding && !wasBuilding) RebuildPreview();
         }
 
         public void Select(int index)
@@ -74,15 +82,7 @@ namespace JurassicPark.Building
 
         private void OnBuild()
         {
-            if (!IsBuilding)
-            {
-                SetBuilding(true);
-                RebuildPreview();
-            }
-            else
-            {
-                Select(SelectedIndex + 1);
-            }
+            SetBuilding(!IsBuilding);
         }
 
         private void OnRotate()
@@ -100,25 +100,67 @@ namespace JurassicPark.Building
         private void Update()
         {
             if (!player.isActiveAndEnabled) { SetBuilding(false); return; }
-            if (Keyboard.current != null && Keyboard.current.escapeKey.wasPressedThisFrame && !WorldInputBlockers.BlocksWorldInput)
+            if (CancelRequested && !WorldInputBlockers.BlocksWorldInput)
                 SetBuilding(false);
             if (!IsBuilding || Selected == null) return;
             UpdatePreview();
         }
 
-        /// <summary>Where the selected structure would go right now, snapped to the grid in front of the player.</summary>
+        /// <summary>Snaps the current pointer's ground hit; gamepad-only play keeps a facing-based preview.</summary>
         public Vector3 ComputeCenter()
         {
+            pointerHasGround = false;
+            if (Mouse.current != null)
+            {
+                Vector2 pointer = Mouse.current.position.ReadValue();
+                Camera camera = Camera.main;
+                if (camera == null || WorldInputBlockers.BlocksPointer(pointer)) return PreviewCenter;
+                pointerHasGround = TryGetGround(camera.ScreenPointToRay(pointer), out Vector3 ground);
+                return pointerHasGround ? SnapCenter(ground) : PreviewCenter;
+            }
             Vector2 f = FacingUtil.ToVector(player.Facing);
             Vector3 ahead = transform.position + new Vector3(f.x, 0f, f.y) * library.placeDistance;
-            Vector3 snapped = BuildGrid.Snap(ahead, library.cellSize);
-            Vector3 center = BuildGrid.FootprintCenter(snapped, Selected.footprint, RotationSteps, library.cellSize);
+            pointerHasGround = true;
+            return SnapCenter(ahead);
+        }
+
+        public Vector3 SnapCenter(Vector3 ground)
+        {
+            Vector3 center = BuildGrid.SnapFootprint(ground, Selected.footprint, RotationSteps, library.cellSize);
             return TerrainBuilder.OnGround(center);
+        }
+
+        public bool TryGetGround(Ray ray, out Vector3 ground)
+        {
+            ground = default;
+            int count = Physics.RaycastNonAlloc(ray, groundHits, library.pointerRayDistance, blockingMask, QueryTriggerInteraction.Ignore);
+            RaycastHit[] hits = groundHits;
+            if (count == hits.Length)
+            {
+                hits = Physics.RaycastAll(ray, library.pointerRayDistance, blockingMask, QueryTriggerInteraction.Ignore);
+                count = hits.Length;
+            }
+            float nearest = float.PositiveInfinity;
+            for (int i = 0; i < count; i++)
+            {
+                Collider collider = hits[i].collider;
+                if (collider.transform.IsChildOf(transform) || (preview != null && collider.transform.IsChildOf(preview.transform))) continue;
+                if (!(collider is TerrainCollider)) continue;
+                if (hits[i].distance >= nearest) continue;
+                ground = hits[i].point;
+                nearest = hits[i].distance;
+            }
+            return nearest < float.PositiveInfinity;
         }
 
         public bool Validate(Vector3 center, out string reason)
         {
             StructureDef def = Selected;
+            if (def == null) { reason = "choose a structure"; return false; }
+            Vector3 delta = center - transform.position;
+            delta.y = 0f;
+            if (delta.sqrMagnitude > library.maxPlaceDistance * library.maxPlaceDistance)
+            { reason = "move closer to build here"; return false; }
             Vector2 size = BuildGrid.RotatedFootprint(def.footprint, RotationSteps, library.cellSize);
             Terrain t = Terrain.activeTerrain;
             if (t != null)
@@ -176,8 +218,11 @@ namespace JurassicPark.Building
 
         public Structure TryPlace()
         {
-            if (!IsBuilding || Selected == null) return null;
+            if (!IsBuilding || Selected == null || !player.isActiveAndEnabled ||
+                WorldInputBlockers.BlocksWorldInput || cancelledFrame == Time.frameCount) return null;
+            if (CancelRequested) { SetBuilding(false); return null; }
             Vector3 center = ComputeCenter();
+            if (!pointerHasGround) { PreviewValid = false; PreviewReason = "point at nearby ground"; return null; }
             if (!Validate(center, out string reason))
             {
                 PreviewReason = reason;
@@ -215,9 +260,12 @@ namespace JurassicPark.Building
         private void UpdatePreview()
         {
             PreviewCenter = ComputeCenter();
-            PreviewValid = Validate(PreviewCenter, out string reason);
+            string reason = "point at nearby ground";
+            PreviewValid = pointerHasGround && Validate(PreviewCenter, out reason);
             PreviewReason = reason;
             if (preview == null) return;
+            preview.SetActive(pointerHasGround && !WorldInputBlockers.BlocksWorldInput);
+            if (!preview.activeSelf) return;
             Transform ghost = preview.transform.GetChild(0);
             ghost.SetPositionAndRotation(PreviewCenter, Quaternion.Euler(0f, RotationSteps * 90f, 0f));
             Material m = PreviewValid ? library.previewValid : library.previewInvalid;
