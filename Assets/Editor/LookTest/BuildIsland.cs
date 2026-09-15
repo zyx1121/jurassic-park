@@ -71,7 +71,8 @@ namespace JurassicPark.EditorTools
             Light sun = sunGo.AddComponent<Light>();
             sun.type = LightType.Directional;
             sun.shadows = LightShadows.Soft;
-            DayNightConfig dayNight = AssetDatabase.LoadAssetAtPath<DayNightConfig>("Assets/Data/DayNight.asset");
+            DayNightConfig dayNight = ScriptableObject.CreateInstance<DayNightConfig>();
+            AssetDatabase.CreateAsset(dayNight, "Assets/Data/DayNight.asset");
             GameObject cycleGo = new GameObject("DayNightCycle");
             DayNightCycle cycle = cycleGo.AddComponent<DayNightCycle>();
             SerializedObject cycleSo = new SerializedObject(cycle);

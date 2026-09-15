@@ -75,7 +75,7 @@ MonoBehaviour:
     m_Curve:
     - serializedVersion: 3
       time: 0
-      value: 0.5
+      value: 0.45
       inSlope: 0
       outSlope: 0
       tangentMode: 0
@@ -84,7 +84,7 @@ MonoBehaviour:
       outWeight: 0
     - serializedVersion: 3
       time: 0.3
-      value: 1.6
+      value: 1.15
       inSlope: 0
       outSlope: 0
       tangentMode: 0
@@ -93,7 +93,7 @@ MonoBehaviour:
       outWeight: 0
     - serializedVersion: 3
       time: 0.55
-      value: 1.2
+      value: 0.9
       inSlope: 0
       outSlope: 0
       tangentMode: 0
@@ -102,7 +102,7 @@ MonoBehaviour:
       outWeight: 0
     - serializedVersion: 3
       time: 0.68
-      value: 0.35
+      value: 0.22
       inSlope: 0
       outSlope: 0
       tangentMode: 0
@@ -111,7 +111,7 @@ MonoBehaviour:
       outWeight: 0
     - serializedVersion: 3
       time: 0.95
-      value: 0.35
+      value: 0.22
       inSlope: 0
       outSlope: 0
       tangentMode: 0
@@ -120,7 +120,7 @@ MonoBehaviour:
       outWeight: 0
     - serializedVersion: 3
       time: 1
-      value: 0.5
+      value: 0.45
       inSlope: 0
       outSlope: 0
       tangentMode: 0
@@ -132,12 +132,12 @@ MonoBehaviour:
     m_RotationOrder: 4
   ambientColor:
     serializedVersion: 2
-    key0: {r: 0.45, g: 0.38, b: 0.45, a: 1}
-    key1: {r: 0.6, g: 0.62, b: 0.7, a: 1}
-    key2: {r: 0.4, g: 0.32, b: 0.42, a: 0}
-    key3: {r: 0.16, g: 0.14, b: 0.26, a: 0}
-    key4: {r: 0.16, g: 0.14, b: 0.26, a: 0}
-    key5: {r: 0.45, g: 0.38, b: 0.45, a: 0}
+    key0: {r: 0.3, g: 0.26, b: 0.34, a: 1}
+    key1: {r: 0.42, g: 0.45, b: 0.52, a: 1}
+    key2: {r: 0.3, g: 0.22, b: 0.32, a: 0}
+    key3: {r: 0.07, g: 0.06, b: 0.14, a: 0}
+    key4: {r: 0.07, g: 0.06, b: 0.14, a: 0}
+    key5: {r: 0.3, g: 0.26, b: 0.34, a: 0}
     key6: {r: 0, g: 0, b: 0, a: 0}
     key7: {r: 0, g: 0, b: 0, a: 0}
     ctime0: 0
@@ -162,12 +162,12 @@ MonoBehaviour:
     m_NumAlphaKeys: 2
   fogColor:
     serializedVersion: 2
-    key0: {r: 0.75, g: 0.55, b: 0.5, a: 1}
-    key1: {r: 0.65, g: 0.75, b: 0.7, a: 1}
-    key2: {r: 0.6, g: 0.35, b: 0.4, a: 0}
-    key3: {r: 0.13, g: 0.1, b: 0.22, a: 0}
-    key4: {r: 0.13, g: 0.1, b: 0.22, a: 0}
-    key5: {r: 0.75, g: 0.55, b: 0.5, a: 0}
+    key0: {r: 0.55, g: 0.42, b: 0.4, a: 1}
+    key1: {r: 0.45, g: 0.55, b: 0.52, a: 1}
+    key2: {r: 0.34, g: 0.2, b: 0.27, a: 0}
+    key3: {r: 0.05, g: 0.04, b: 0.1, a: 0}
+    key4: {r: 0.05, g: 0.04, b: 0.1, a: 0}
+    key5: {r: 0.55, g: 0.42, b: 0.4, a: 0}
     key6: {r: 0, g: 0, b: 0, a: 0}
     key7: {r: 0, g: 0, b: 0, a: 0}
     ctime0: 0
@@ -195,7 +195,7 @@ MonoBehaviour:
     m_Curve:
     - serializedVersion: 3
       time: 0
-      value: 60
+      value: 55
       inSlope: 0
       outSlope: 0
       tangentMode: 0
@@ -204,7 +204,7 @@ MonoBehaviour:
       outWeight: 0
     - serializedVersion: 3
       time: 0.3
-      value: 110
+      value: 80
       inSlope: 0
       outSlope: 0
       tangentMode: 0
@@ -213,7 +213,7 @@ MonoBehaviour:
       outWeight: 0
     - serializedVersion: 3
       time: 0.6
-      value: 70
+      value: 60
       inSlope: 0
       outSlope: 0
       tangentMode: 0
@@ -222,7 +222,7 @@ MonoBehaviour:
       outWeight: 0
     - serializedVersion: 3
       time: 0.7
-      value: 42
+      value: 40
       inSlope: 0
       outSlope: 0
       tangentMode: 0
@@ -231,7 +231,7 @@ MonoBehaviour:
       outWeight: 0
     - serializedVersion: 3
       time: 0.95
-      value: 42
+      value: 40
       inSlope: 0
       outSlope: 0
       tangentMode: 0
@@ -240,7 +240,7 @@ MonoBehaviour:
       outWeight: 0
     - serializedVersion: 3
       time: 1
-      value: 60
+      value: 55
       inSlope: 0
       outSlope: 0
       tangentMode: 0

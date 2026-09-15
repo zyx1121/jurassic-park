@@ -94,7 +94,7 @@ namespace JurassicPark.Building
                     Material ember = new Material(Shader.Find("Universal Render Pipeline/Lit"));
                     ember.SetColor("_BaseColor", new Color(1f, 0.45f, 0.1f));
                     ember.EnableKeyword("_EMISSION");
-                    ember.SetColor("_EmissionColor", new Color(1f, 0.45f, 0.1f) * 2.2f);
+                    ember.SetColor("_EmissionColor", new Color(1f, 0.45f, 0.1f) * 4f);
                     flame.GetComponent<MeshRenderer>().sharedMaterial = ember;
                     GameObject lightGo = new GameObject("TorchLight");
                     lightGo.transform.SetParent(root, false);

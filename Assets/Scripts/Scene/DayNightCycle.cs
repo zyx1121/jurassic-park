@@ -120,7 +120,7 @@ namespace JurassicPark.Scene
             RenderSettings.fogColor = config.fogColor.Evaluate(t);
             float end = config.fogEnd.Evaluate(t);
             RenderSettings.fogEndDistance = end;
-            RenderSettings.fogStartDistance = end / 3f;
+            RenderSettings.fogStartDistance = end * 0.4f;
             Camera cam = Camera.main;
             if (cam != null)
             {
