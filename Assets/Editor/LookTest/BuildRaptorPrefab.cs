@@ -76,7 +76,7 @@ namespace JurassicPark.EditorTools
             aso.FindProperty("set").objectReferenceValue = set;
             aso.ApplyModifiedPropertiesWithoutUndo();
 
-            RaptorBrain brain = root.AddComponent<RaptorBrain>();
+            DinosaurBrain brain = root.AddComponent<DinosaurBrain>();
             SerializedObject bso = new SerializedObject(brain);
             bso.FindProperty("stats").objectReferenceValue = stats;
             bso.FindProperty("animator").objectReferenceValue = anim;

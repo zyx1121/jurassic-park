@@ -90,6 +90,7 @@ namespace JurassicPark.World
 
             int units = Stock.Hit();
             Punch();
+            NoiseBus.Emit(transform.position, 12f, actor);
             if (units > 0)
             {
                 int accepted = actor.GetComponent<ResourceInventory>().Add(Kind, units);
