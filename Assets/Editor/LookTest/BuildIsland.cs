@@ -1,3 +1,4 @@
+using JurassicPark.Dinosaurs;
 using JurassicPark.Scene;
 using JurassicPark.World;
 using Unity.AI.Navigation;
@@ -56,20 +57,7 @@ namespace JurassicPark.EditorTools
                 GameObject fire = (GameObject)PrefabUtility.InstantiatePrefab(campfirePrefab);
                 fire.transform.position = plan.baseCenter;
             }
-            GameObject raptorPrefab = AssetDatabase.LoadAssetAtPath<GameObject>(BuildRaptorPrefab.PrefabPath);
-            if (raptorPrefab != null)
-            {
-                var rng = new System.Random(seed + 99);
-                for (int i = 0; i < 3; i++)
-                {
-                    float a = (float)rng.NextDouble() * Mathf.PI * 2f;
-                    Vector3 p = plan.baseCenter + new Vector3(Mathf.Cos(a), 0f, Mathf.Sin(a)) * (cfg.baseClearingRadius + 6f + i * 3f);
-                    p.y = IslandGenerator.HeightAt(plan.heights, p, cfg.terrain) * cfg.terrain.maxHeight;
-                    GameObject r = (GameObject)PrefabUtility.InstantiatePrefab(raptorPrefab);
-                    r.name = "Raptor" + i;
-                    r.transform.position = p;
-                }
-            }
+            // Dinosaurs come from the SpawnDirector at dusk; nothing is placed by hand
 
             // Sun + day-night
             GameObject sunGo = new GameObject("Sun");
@@ -84,6 +72,14 @@ namespace JurassicPark.EditorTools
             cycleSo.FindProperty("sun").objectReferenceValue = sun;
             cycleSo.FindProperty("startTime").floatValue = 0.2f;
             cycleSo.ApplyModifiedPropertiesWithoutUndo();
+
+            GameObject directorGo = new GameObject("SpawnDirector");
+            SpawnDirector director = directorGo.AddComponent<SpawnDirector>();
+            SerializedObject dso = new SerializedObject(director);
+            dso.FindProperty("table").objectReferenceValue = AssetDatabase.LoadAssetAtPath<SpawnTable>(BuildSpawnTable.TablePath);
+            dso.FindProperty("cycle").objectReferenceValue = cycle;
+            dso.FindProperty("seed").intValue = seed;
+            dso.ApplyModifiedPropertiesWithoutUndo();
 
             // Camera
             GameObject camGo = new GameObject("Main Camera");

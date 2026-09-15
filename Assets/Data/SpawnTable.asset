@@ -1,0 +1,28 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: afa6cdf82b725479e9c80e8da78e26f4, type: 3}
+  m_Name: SpawnTable
+  m_EditorClassIdentifier: JurassicPark.Dinosaurs::JurassicPark.Dinosaurs.SpawnTable
+  entries:
+  - species: Raptor
+    prefab: {fileID: 3561091559587139490, guid: d74f5bf8d49384e7b86fe59422fde633, type: 3}
+    fromNight: 1
+    packSize: 3
+    basePacks: 1
+    packsPerNight: 0.5
+    cap: 9
+    stats: {fileID: 11400000, guid: 693d01db3594746a7887571df0540f94, type: 2}
+  minDistanceFromPlayers: 40
+  maxDistanceFromPlayers: 70
+  requireOffscreen: 1
+  placementAttempts: 40
+  despawnAtDawn: 1
