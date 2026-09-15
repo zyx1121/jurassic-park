@@ -77,7 +77,7 @@ namespace JurassicPark.EditorTools
         };
 
         /// <summary>Translucent (35 percent) variant shown while the prop stands between the camera and the player.</summary>
-        private static Material FadeMaterial(string path, Texture2D tex)
+        internal static Material FadeMaterial(string path, Texture2D tex)
         {
             Shader shader = Shader.Find("JurassicPark/SpriteSeeThrough");
             Material m = AssetDatabase.LoadAssetAtPath<Material>(path);
@@ -100,7 +100,7 @@ namespace JurassicPark.EditorTools
             return m;
         }
 
-        private static Material SpriteMaterial(string path, Texture2D tex, Color tint)
+        internal static Material SpriteMaterial(string path, Texture2D tex, Color tint)
         {
             Material m = AssetDatabase.LoadAssetAtPath<Material>(path);
             if (m == null)

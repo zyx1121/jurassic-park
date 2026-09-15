@@ -1,0 +1,66 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 73cf936046f5649959e03561352dff65, type: 3}
+  m_Name: Dock
+  m_EditorClassIdentifier: JurassicPark.World::JurassicPark.World.FacilityKit
+  facilityName: Dock
+  clearRadius: 12
+  pickupOffset: {x: 0, y: 0}
+  pieces:
+  - sprite: {fileID: 2800000, guid: d751ce65d0506439f9d7996358b308ce, type: 3}
+    offset: {x: 0, y: -6}
+    yaw: 0
+    widthMeters: 12
+    cellPixels: 256
+    opaquePixels: 256
+    solid: 1
+    colliders:
+    - size: {x: 1.8, y: 0.25, z: 12}
+      center: {x: 0, y: -0.125, z: 0}
+    material: {fileID: 2100000, guid: 846821ffe6de34043893710f9dcbd318, type: 2}
+    fadeMaterial: {fileID: 2100000, guid: 0f5608e105c744c12beeaa32fbf2834a, type: 2}
+  - sprite: {fileID: 2800000, guid: 9442ab7f6f238458c9a68a136ee0b14d, type: 3}
+    offset: {x: 0, y: 1}
+    yaw: 0
+    widthMeters: 5
+    cellPixels: 256
+    opaquePixels: 229
+    solid: 1
+    colliders:
+    - size: {x: 0.5, y: 3, z: 0.5}
+      center: {x: -1.75, y: 1.5, z: 0}
+    - size: {x: 0.5, y: 3, z: 0.5}
+      center: {x: 1.75, y: 1.5, z: 0}
+    material: {fileID: 2100000, guid: 61a8db84ac50a45dabde9cdc4d8bcc69, type: 2}
+    fadeMaterial: {fileID: 2100000, guid: cb05eef7be4c5429bafc20ad95962fdb, type: 2}
+  - sprite: {fileID: 2800000, guid: 2bc13422f77994ba48cff41e399cfb43, type: 3}
+    offset: {x: 5, y: -6}
+    yaw: 0
+    widthMeters: 8
+    cellPixels: 384
+    opaquePixels: 384
+    solid: 1
+    colliders:
+    - size: {x: 8, y: 2.5, z: 3.5}
+      center: {x: 0, y: 1.25, z: 0}
+    material: {fileID: 2100000, guid: 7cdc718b9902740aa82c60829693072a, type: 2}
+    fadeMaterial: {fileID: 2100000, guid: 3fe8dd37668d6438489330c042d84d96, type: 2}
+  - sprite: {fileID: 2800000, guid: 99c9ee6fdd17b4d2683f7d18adebba76, type: 3}
+    offset: {x: 2, y: -3}
+    yaw: 0
+    widthMeters: 3
+    cellPixels: 256
+    opaquePixels: 256
+    solid: 0
+    colliders: []
+    material: {fileID: 2100000, guid: df452fc7bbaff497683b7699fcd5f695, type: 2}
+    fadeMaterial: {fileID: 2100000, guid: 6f416505cb58243dcb423db1ef64cb92, type: 2}

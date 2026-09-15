@@ -31,6 +31,8 @@ namespace JurassicPark.World
     {
         public TerrainConfig terrain;
         public PropLibrary props;
+        [Tooltip("Facility kits assembled at each facility slot; a slot without a kit gets a placeholder pad.")]
+        public FacilityLibrary facilities;
 
         [Header("Facilities")]
         public string[] facilityNames = { "CrashSite", "VisitorCenter", "PowerStation", "Paddock", "Lookout" };
@@ -39,14 +41,25 @@ namespace JurassicPark.World
         [Tooltip("Random radial jitter as a fraction of the half size.")]
         [Range(0f, 0.3f)] public float facilityJitter = 0.08f;
         [Min(1f)] public float facilityMinSpacing = 22f;
-        [Tooltip("Props are kept out of this radius around each facility.")]
+        [Tooltip("Props are kept out of this radius around a facility that has no kit; kits carry their own radius.")]
         [Min(0f)] public float facilityClearRadius = 7f;
+
+        public float ClearRadiusFor(string facilityName)
+        {
+            FacilityKit kit = facilities != null ? facilities.Find(facilityName) : null;
+            return kit != null ? kit.clearRadius : facilityClearRadius;
+        }
         [Tooltip("The dock is pushed outward from its ring point until the ground is this close to sea level.")]
         [Min(0f)] public float dockShoreTolerance = 0.35f;
 
         [Header("Base")]
         [Tooltip("Flattened, prop-free circle next to the crash site.")]
         [Min(1f)] public float baseClearingRadius = 4.5f;
+        [Tooltip("Dry, obstacle-free space reserved around the beach spawn.")]
+        [Min(0.5f)] public float spawnClearRadius = 1.2f;
+        [Min(0.01f)] public float spawnShoreMargin = 0.1f;
+        [Min(0.25f)] public float spawnSearchStep = 0.75f;
+        [Min(4)] public int spawnSearchDirections = 16;
 
         [Header("Scatter")]
         [Tooltip("Minimum distance between any two props, in meters.")]

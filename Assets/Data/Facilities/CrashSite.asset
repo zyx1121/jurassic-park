@@ -1,0 +1,66 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 73cf936046f5649959e03561352dff65, type: 3}
+  m_Name: CrashSite
+  m_EditorClassIdentifier: JurassicPark.World::JurassicPark.World.FacilityKit
+  facilityName: CrashSite
+  clearRadius: 13
+  pickupOffset: {x: 0, y: 0}
+  pieces:
+  - sprite: {fileID: 2800000, guid: 4621a20fac0074be1b38e1e76901e15f, type: 3}
+    offset: {x: 0, y: 0}
+    yaw: 0
+    widthMeters: 12
+    cellPixels: 384
+    opaquePixels: 384
+    solid: 1
+    colliders:
+    - size: {x: 4.75, y: 3, z: 3.5}
+      center: {x: -3.625, y: 1.5, z: 0}
+    - size: {x: 4.75, y: 3, z: 3.5}
+      center: {x: 3.625, y: 1.5, z: 0}
+    material: {fileID: 2100000, guid: 05e79ac7d76444c25ab0ae5e656b653f, type: 2}
+    fadeMaterial: {fileID: 2100000, guid: 0f9411dd67a524bc789918c78deda591, type: 2}
+  - sprite: {fileID: 2800000, guid: 12717bf6d62b741589718264febede0e, type: 3}
+    offset: {x: 3, y: -6}
+    yaw: 12
+    widthMeters: 10
+    cellPixels: 256
+    opaquePixels: 256
+    solid: 1
+    colliders:
+    - size: {x: 10, y: 1.5, z: 4}
+      center: {x: 0, y: 0.75, z: 0}
+    material: {fileID: 2100000, guid: 599e5adc25b68404099f45d8a4191f1f, type: 2}
+    fadeMaterial: {fileID: 2100000, guid: 8d6cc95ac516241c5aeb021c57584c4f, type: 2}
+  - sprite: {fileID: 2800000, guid: 914777381bfef44a8924c4e3b2e83f03, type: 3}
+    offset: {x: -6, y: -6}
+    yaw: -8
+    widthMeters: 6
+    cellPixels: 256
+    opaquePixels: 256
+    solid: 0
+    colliders: []
+    material: {fileID: 2100000, guid: 81431b7261ac14574b203738e188b009, type: 2}
+    fadeMaterial: {fileID: 2100000, guid: 9c38f3a6577a14b1a8f57c0947203ea1, type: 2}
+  - sprite: {fileID: 2800000, guid: c95edda35501a473e87961359689756c, type: 3}
+    offset: {x: 8, y: 4}
+    yaw: 18
+    widthMeters: 7
+    cellPixels: 256
+    opaquePixels: 255
+    solid: 1
+    colliders:
+    - size: {x: 6, y: 4, z: 3}
+      center: {x: 0, y: 2, z: 0}
+    material: {fileID: 2100000, guid: 443e40d414f934eaba93ef850a637dfa, type: 2}
+    fadeMaterial: {fileID: 2100000, guid: 265926a42d39c49c1bdade32e6741514, type: 2}

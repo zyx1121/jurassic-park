@@ -65,7 +65,9 @@ namespace JurassicPark.World
                 }
 
                 p.y = HeightAt(h, p, tc) * tc.maxHeight;
-                slots.Add(new FacilitySlot { name = isDock ? "Dock" : cfg.facilityNames[i], position = p, rotation = (float)rng.NextDouble() * 360f, isDock = isDock });
+                // The dock kit's planks run toward local south, so its yaw points local -z out to sea
+                float yaw = isDock ? Mathf.Atan2(-p.x, -p.z) * Mathf.Rad2Deg : (float)rng.NextDouble() * 360f;
+                slots.Add(new FacilitySlot { name = isDock ? "Dock" : cfg.facilityNames[i], position = p, rotation = yaw, isDock = isDock });
             }
 
             for (int i = 0; i < slots.Count; i++)
@@ -82,14 +84,13 @@ namespace JurassicPark.World
             // Base clearing just inland of the crash site: flatten the heightmap there
             FacilitySlot crash = slots[0];
             Vector3 toCenter = -new Vector3(crash.position.x, 0f, crash.position.z).normalized;
-            plan.baseCenter = crash.position + toCenter * (cfg.baseClearingRadius + cfg.facilityClearRadius * 0.8f);
+            plan.baseCenter = crash.position + toCenter * (cfg.baseClearingRadius + cfg.ClearRadiusFor(crash.name));
             plan.baseCenter.y = HeightAt(h, plan.baseCenter, tc) * tc.maxHeight;
             Flatten(h, plan.baseCenter, cfg.baseClearingRadius, tc);
             TerrainNoise.LimitSlope(h, maxStepNorm, 2);
             plan.baseCenter.y = HeightAt(h, plan.baseCenter, tc) * tc.maxHeight;
-            // The player wakes up on the sand between the wreck and the water
-            plan.playerSpawn = crash.position - toCenter * 2.5f;
-            plan.playerSpawn.y = Mathf.Max(HeightAt(h, plan.playerSpawn, tc) * tc.maxHeight, tc.seaLevel + 0.05f);
+            // Raising the spawn transform alone does not raise the seabed: gravity would sink the player.
+            if (!TryFindSpawn(cfg, crash, h, toCenter, out plan.playerSpawn)) return null;
             plan.heights = h;
 
             // Props: Poisson-disk candidates over the whole island, accepted by biome density
@@ -140,9 +141,10 @@ namespace JurassicPark.World
                 bool nearFacility = false;
                 foreach (FacilitySlot f in slots)
                 {
-                    if (Vector2.Distance(c, new Vector2(f.position.x, f.position.z)) < cfg.facilityClearRadius) { nearFacility = true; break; }
+                    if (Vector2.Distance(c, new Vector2(f.position.x, f.position.z)) < cfg.ClearRadiusFor(f.name)) { nearFacility = true; break; }
                 }
                 if (nearFacility) continue;
+                if (Vector2.Distance(c, new Vector2(plan.playerSpawn.x, plan.playerSpawn.z)) < cfg.spawnClearRadius) continue;
 
                 float heightM = hn * tc.maxHeight;
                 Biome biome = BiomeAt(c, heightM, tc, cfg, bx, by);
@@ -172,6 +174,28 @@ namespace JurassicPark.World
             }
 
             return plan;
+        }
+
+        private static bool TryFindSpawn(IslandConfig cfg, FacilitySlot crash, float[,] heights, Vector3 inland, out Vector3 spawn)
+        {
+            FacilityKit kit = cfg.facilities != null ? cfg.facilities.Find(crash.name) : null;
+            Quaternion inverse = Quaternion.Euler(0f, -crash.rotation, 0f);
+            float radius = cfg.ClearRadiusFor(crash.name);
+            for (float distance = cfg.spawnClearRadius; distance <= radius; distance += cfg.spawnSearchStep)
+            for (int i = 0; i < cfg.spawnSearchDirections; i++)
+            {
+                Vector3 direction = Quaternion.Euler(0f, i * 360f / cfg.spawnSearchDirections, 0f) * -inland;
+                Vector3 p = crash.position + direction * distance;
+                p.y = HeightAt(heights, p, cfg.terrain) * cfg.terrain.maxHeight;
+                if (p.y < cfg.terrain.seaLevel + cfg.spawnShoreMargin) continue;
+                Vector3 local = inverse * (p - crash.position);
+                if (kit != null && kit.BlocksPoint(new Vector2(local.x, local.z), cfg.spawnClearRadius)) continue;
+                spawn = p;
+                return true;
+            }
+
+            spawn = default;
+            return false;
         }
 
         public static Biome BiomeAt(Vector2 xz, float heightMeters, TerrainConfig tc, IslandConfig cfg, float ox, float oy)

@@ -24,18 +24,33 @@ namespace JurassicPark.EditorTools
         [CliCommand("build_island", "Generate the Island scene from a seed")]
         public static string Build([CliArg("seed", "Island seed")] int seed = 1)
         {
+            // Closing the previous scene can unload assets held only by this method's local plan.
+            var scene = EditorSceneManager.NewScene(NewSceneSetup.EmptyScene, NewSceneMode.Single);
             // The config is regenerated from the code defaults every build; a stale serialized copy once
             // kept the old sparse densities alive while the code said "crowded jungle".
-            if (AssetDatabase.LoadAssetAtPath<IslandConfig>(ConfigPath) != null) AssetDatabase.DeleteAsset(ConfigPath);
-            IslandConfig cfg = ScriptableObject.CreateInstance<IslandConfig>();
-            AssetDatabase.CreateAsset(cfg, ConfigPath);
+            IslandConfig cfg = AssetDatabase.LoadAssetAtPath<IslandConfig>(ConfigPath);
+            IslandConfig defaults = ScriptableObject.CreateInstance<IslandConfig>();
+            if (cfg == null)
+            {
+                cfg = defaults;
+                AssetDatabase.CreateAsset(cfg, ConfigPath);
+            }
+            else
+            {
+                EditorUtility.CopySerialized(defaults, cfg);
+                Object.DestroyImmediate(defaults);
+            }
 
             cfg.terrain = AssetDatabase.LoadAssetAtPath<TerrainConfig>(BuildTerrainAssets.ConfigPath);
             cfg.props = AssetDatabase.LoadAssetAtPath<PropLibrary>(BuildPropLibrary.LibraryPath);
+            cfg.facilities = AssetDatabase.LoadAssetAtPath<FacilityLibrary>(BuildFacilityLibrary.LibraryPath);
+            if (cfg.terrain == null || cfg.props == null || cfg.facilities == null)
+                throw new System.InvalidOperationException("Build the terrain, prop and facility libraries before building the island.");
             EditorUtility.SetDirty(cfg);
+            // Regenerating terrain assets can reimport dependencies; persist these references first.
+            AssetDatabase.SaveAssets();
 
             IslandPlan plan = IslandGenerator.Plan(cfg, seed);
-            var scene = EditorSceneManager.NewScene(NewSceneSetup.EmptyScene, NewSceneMode.Single);
 
             Material seaMat = AssetDatabase.LoadAssetAtPath<Material>("Assets/Materials/Sea.mat");
             GameObject island = IslandBuilder.Build(plan, cfg, seaMat);
@@ -100,6 +115,7 @@ namespace JurassicPark.EditorTools
             cam.clearFlags = CameraClearFlags.SolidColor;
             UniversalAdditionalCameraData camData = camGo.AddComponent<UniversalAdditionalCameraData>();
             camData.renderPostProcessing = true;
+            camData.requiresDepthTexture = true;
             camData.antialiasing = AntialiasingMode.None;
             FollowCamera follow = camGo.AddComponent<FollowCamera>();
             camGo.AddComponent<SeeThrough>();
