@@ -121,6 +121,7 @@ namespace JurassicPark.EditorTools
 
             EditorSceneManager.SaveScene(scene, ScenePath);
             nav.BuildNavMesh();
+            TerrainDataAssets.PersistNavMesh(nav, $"IslandNavMesh_seed{seed}");
             EditorSceneManager.SaveScene(scene, ScenePath);
             AssetDatabase.SaveAssets();
             return $"{ScenePath} seed={seed} attempt={plan.attempt} props={plan.props.Count} trees={plan.propCountsByKind[0]} rocks={plan.propCountsByKind[1]} grass={plan.propCountsByKind[2]} logs={plan.propCountsByKind[3]} bushes={plan.propCountsByKind[4]} facilities={plan.facilities.Count}";

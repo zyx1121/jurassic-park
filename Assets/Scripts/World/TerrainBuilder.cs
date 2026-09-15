@@ -5,6 +5,8 @@ namespace JurassicPark.World
     /// <summary>Turns TerrainConfig plus a seed into a live Unity Terrain. Works in the Editor and at runtime.</summary>
     public static class TerrainBuilder
     {
+        public static System.Func<TerrainData, string, TerrainData> PersistTerrainData;
+
         public static Terrain Build(TerrainConfig config, int seed, Transform parent = null, Material material = null)
         {
             float[,] heights = TerrainNoise.Heightmap(seed, config);
@@ -22,6 +24,11 @@ namespace JurassicPark.World
                 data.terrainLayers = config.layers;
                 float[,,] splat = TerrainNoise.Splat(heights, seed, config, data.alphamapResolution);
                 data.SetAlphamaps(0, 0, splat);
+            }
+
+            if (PersistTerrainData != null)
+            {
+                data = PersistTerrainData(data, $"LookTestTerrain_seed{seed}");
             }
 
             GameObject go = Terrain.CreateTerrainGameObject(data);

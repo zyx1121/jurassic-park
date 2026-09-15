@@ -5,6 +5,13 @@ namespace JurassicPark.World
     /// <summary>Instantiates an IslandPlan: terrain, facility markers, props. NavMesh baking is left to the caller (Editor or runtime surface).</summary>
     public static class IslandBuilder
     {
+        /// <summary>
+        /// Optional hook that turns the freshly created TerrainData into a persistent asset before the
+        /// terrain is created. The Editor sets it; a TerrainData embedded in a scene makes Unity write the
+        /// scene as binary and it fails to load in players.
+        /// </summary>
+        public static System.Func<TerrainData, string, TerrainData> PersistTerrainData;
+
         public static GameObject Build(IslandPlan plan, IslandConfig cfg, Material seaMaterial = null)
         {
             TerrainConfig tc = cfg.terrain;
@@ -21,6 +28,11 @@ namespace JurassicPark.World
             {
                 data.terrainLayers = tc.layers;
                 data.SetAlphamaps(0, 0, TerrainNoise.Splat(plan.heights, plan.seed, tc, data.alphamapResolution));
+            }
+
+            if (PersistTerrainData != null)
+            {
+                data = PersistTerrainData(data, $"IslandTerrain_seed{plan.seed}");
             }
 
             GameObject terrainGo = Terrain.CreateTerrainGameObject(data);
