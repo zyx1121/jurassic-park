@@ -122,7 +122,7 @@ namespace JurassicPark.EditorTools
             GameObject camGo = new GameObject("Main Camera");
             camGo.tag = "MainCamera";
             Camera cam = camGo.AddComponent<Camera>();
-            cam.fieldOfView = 32f;
+            cam.fieldOfView = 35f;
             cam.nearClipPlane = 0.3f;
             cam.farClipPlane = 80f;
             cam.clearFlags = CameraClearFlags.SolidColor;
@@ -141,32 +141,29 @@ namespace JurassicPark.EditorTools
             AssetDatabase.CreateAsset(profile, "Assets/Settings/LookTestProfile.asset");
             DepthOfField dof = profile.Add<DepthOfField>(true);
             dof.mode.Override(DepthOfFieldMode.Gaussian); // far cheaper than bokeh on integrated GPUs
-            dof.gaussianStart.Override(18f);
-            dof.gaussianEnd.Override(45f);
-            dof.gaussianMaxRadius.Override(1f);
-            dof.highQualitySampling.Override(false);
+            dof.gaussianStart.Override(24f);
+            dof.gaussianEnd.Override(42f);
+            dof.gaussianMaxRadius.Override(0.55f);
+            dof.highQualitySampling.Override(true);
             Bloom bloom = profile.Add<Bloom>(true);
-            bloom.threshold.Override(0.85f);
-            bloom.intensity.Override(1.8f);
-            bloom.scatter.Override(0.7f);
+            bloom.threshold.Override(1.0f);   // art direction says 1.15 / 0.18; the player wants visible glow on fire, so a bit more
+            bloom.intensity.Override(0.6f);
+            bloom.scatter.Override(0.55f);
+            bloom.clamp.Override(6f);
+            bloom.tint.Override(new Color(1f, 0.84f, 0.63f));
             Vignette vignette = profile.Add<Vignette>(true);
-            vignette.intensity.Override(0.55f);
-            vignette.smoothness.Override(0.65f);
-            vignette.color.Override(new Color(0.02f, 0.01f, 0.05f));
+            vignette.intensity.Override(0.38f); // art direction 0.23; player asked for darker edges
+            vignette.smoothness.Override(0.45f);
+            vignette.color.Override(new Color(0.09f, 0.08f, 0.12f));
             ColorAdjustments grade = profile.Add<ColorAdjustments>(true);
-            grade.postExposure.Override(-0.35f);
-            grade.contrast.Override(28f);
+            grade.postExposure.Override(-0.15f);
+            grade.contrast.Override(22f);
             grade.saturation.Override(-18f);
-            grade.colorFilter.Override(new Color(0.86f, 0.86f, 1f));
-            FilmGrain grain = profile.Add<FilmGrain>(true);
-            grain.type.Override(FilmGrainLookup.Medium1);
-            grain.intensity.Override(0.25f);
-            grain.response.Override(0.8f);
-            ChromaticAberration ca = profile.Add<ChromaticAberration>(true);
-            ca.intensity.Override(0.08f);
-            ShadowsMidtonesHighlights smh = profile.Add<ShadowsMidtonesHighlights>(true);
-            smh.shadows.Override(new Vector4(0.85f, 0.85f, 1.15f, -0.05f)); // cold, crushed shadows
-            smh.highlights.Override(new Vector4(1.05f, 1.0f, 0.9f, 0f));    // warm highlights
+            grade.colorFilter.Override(new Color(0.886f, 0.831f, 0.761f)); // #E2D4C2
+            LiftGammaGain lgg = profile.Add<LiftGammaGain>(true);
+            lgg.lift.Override(new Vector4(0.97f, 0.96f, 1.04f, 0f));
+            lgg.gamma.Override(new Vector4(0.98f, 1.0f, 1.03f, 0f));
+            lgg.gain.Override(new Vector4(1.05f, 1.01f, 0.94f, 0f));
             EditorUtility.SetDirty(profile);
             GameObject volGo = new GameObject("PostProcessVolume");
             Volume vol = volGo.AddComponent<Volume>();

@@ -13,37 +13,26 @@ namespace JurassicPark.EditorTools
 
         private struct Def
         {
-            public string file; public PropKind kind; public int cell; public float radius; public bool solid; public ResourceKind res; public int amount; public float weight;
-            public Def(string f, PropKind k, int c, float r, bool s, ResourceKind rs, int a, float w) { file = f; kind = k; cell = c; radius = r; solid = s; res = rs; amount = a; weight = w; }
+            public string file; public PropKind kind; public int cell; public float radius; public bool solid; public ResourceKind res; public int amount; public float weight; public float scale; public float jitter;
+            public Def(string f, PropKind k, int c, float r, bool s, ResourceKind rs, int a, float w, float sc, float j) { file = f; kind = k; cell = c; radius = r; solid = s; res = rs; amount = a; weight = w; scale = sc; jitter = j; }
         }
 
+        // Cells and placement scales follow docs/ART_DIRECTION.md and the Codex handoff table
         private static readonly Def[] Defs =
         {
-            new Def("tree_palm", PropKind.Tree, 192, 0.35f, true, ResourceKind.Wood, 3, 1.5f),
-            new Def("tree_palmTall", PropKind.Tree, 192, 0.35f, true, ResourceKind.Wood, 4, 1f),
-            new Def("tree_palmBend", PropKind.Tree, 192, 0.35f, true, ResourceKind.Wood, 3, 1f),
-            new Def("tree_oak", PropKind.Tree, 192, 0.5f, true, ResourceKind.Wood, 5, 1f),
-            new Def("tree_detailed", PropKind.Tree, 192, 0.5f, true, ResourceKind.Wood, 5, 1f),
-            new Def("tree_fat", PropKind.Tree, 192, 0.6f, true, ResourceKind.Wood, 6, 0.7f),
-            new Def("tree_thin", PropKind.Tree, 192, 0.3f, true, ResourceKind.Wood, 2, 1f),
-            new Def("tree_default", PropKind.Tree, 192, 0.45f, true, ResourceKind.Wood, 4, 1f),
-            new Def("tree_pineDefaultA", PropKind.Tree, 192, 0.4f, true, ResourceKind.Wood, 4, 0.6f),
-            new Def("tree_plateau", PropKind.Tree, 192, 0.5f, true, ResourceKind.Wood, 4, 0.6f),
-            new Def("rock_largeA", PropKind.Rock, 128, 0.9f, true, ResourceKind.Stone, 5, 1f),
-            new Def("rock_largeC", PropKind.Rock, 128, 0.9f, true, ResourceKind.Stone, 5, 1f),
-            new Def("rock_largeE", PropKind.Rock, 128, 0.9f, true, ResourceKind.Stone, 5, 1f),
-            new Def("rock_tallB", PropKind.Rock, 128, 0.6f, true, ResourceKind.Stone, 4, 0.8f),
-            new Def("rock_tallD", PropKind.Rock, 128, 0.6f, true, ResourceKind.Stone, 4, 0.8f),
-            new Def("rock_smallFlatA", PropKind.Rock, 128, 0.5f, true, ResourceKind.Stone, 2, 1.2f),
-            new Def("rock_smallC", PropKind.Rock, 128, 0.4f, true, ResourceKind.Stone, 2, 1.2f),
-            new Def("log", PropKind.Log, 128, 0.5f, true, ResourceKind.Wood, 2, 1f),
-            new Def("log_large", PropKind.Log, 128, 0.7f, true, ResourceKind.Wood, 3, 0.7f),
-            new Def("stump_old", PropKind.Log, 128, 0.4f, true, ResourceKind.Wood, 1, 0.8f),
-            new Def("grass_large", PropKind.Grass, 96, 0.2f, false, ResourceKind.None, 0, 1f),
-            new Def("grass_leafsLarge", PropKind.Grass, 96, 0.2f, false, ResourceKind.None, 0, 1f),
-            new Def("grass", PropKind.Grass, 96, 0.15f, false, ResourceKind.None, 0, 1.5f),
-            new Def("plant_bush", PropKind.Bush, 96, 0.35f, false, ResourceKind.Food, 1, 1f),
-            new Def("plant_bushLarge", PropKind.Bush, 96, 0.45f, false, ResourceKind.Food, 2, 0.8f),
+            new Def("tree_canopy_a", PropKind.Tree, 192, 0.55f, true, ResourceKind.Wood, 5, 1.2f, 1.575f, 0.08f),
+            new Def("tree_canopy_b", PropKind.Tree, 192, 0.55f, true, ResourceKind.Wood, 5, 1.0f, 1.575f, 0.08f),
+            new Def("palm_weathered", PropKind.Tree, 192, 0.35f, true, ResourceKind.Wood, 4, 1.4f, 1.72f, 0.1f),
+            new Def("rock_basalt_a", PropKind.Rock, 128, 0.75f, true, ResourceKind.Stone, 5, 1.0f, 0.72f, 0.2f),
+            new Def("rock_basalt_b", PropKind.Rock, 128, 0.85f, true, ResourceKind.Stone, 5, 1.0f, 0.72f, 0.2f),
+            new Def("rock_lichen", PropKind.Rock, 128, 0.7f, true, ResourceKind.Stone, 4, 1.0f, 0.72f, 0.2f),
+            new Def("rock_rust", PropKind.Rock, 128, 0.7f, true, ResourceKind.Stone, 4, 0.8f, 0.72f, 0.2f),
+            new Def("fallen_log", PropKind.Log, 128, 0.7f, true, ResourceKind.Wood, 2, 1.0f, 0.95f, 0.17f),
+            new Def("mossy_stump", PropKind.Log, 128, 0.45f, true, ResourceKind.Wood, 1, 0.8f, 0.95f, 0.17f),
+            new Def("grass_tuft", PropKind.Grass, 96, 0.2f, false, ResourceKind.None, 0, 1.5f, 0.88f, 0.18f),
+            new Def("fern_tuft", PropKind.Grass, 96, 0.25f, false, ResourceKind.None, 0, 1.0f, 0.88f, 0.18f),
+            new Def("bush_tangled", PropKind.Bush, 96, 0.4f, false, ResourceKind.Food, 1, 1.0f, 1.0f, 0.16f),
+            new Def("bush_wide", PropKind.Bush, 96, 0.45f, false, ResourceKind.Food, 2, 0.8f, 1.0f, 0.16f),
         };
 
         private static Material SpriteMaterial(string path, Texture2D tex, Color tint)
@@ -85,6 +74,8 @@ namespace JurassicPark.EditorTools
                 AssetDatabase.CreateAsset(rulesForDepleted, "Assets/Data/GatherRules.asset");
             }
 
+            lib.tints = new[] { Color.white }; // the art direction forbids broad random tints
+            lib.scaleRange = new Vector2(1f, 1f);
             var variants = new System.Collections.Generic.List<PropVariant>();
             foreach (Def d in Defs)
             {
@@ -104,7 +95,7 @@ namespace JurassicPark.EditorTools
                 }
 
                 v.kind = d.kind; v.sprite = tex; v.cellPixels = d.cell; v.pixelsPerUnit = 64f; v.footprintRadius = d.radius;
-                v.solid = d.solid; v.resource = d.res; v.resourceAmount = d.amount; v.weight = d.weight;
+                v.solid = d.solid; v.resource = d.res; v.resourceAmount = d.amount; v.weight = d.weight; v.baseScale = d.scale; v.scaleJitter = d.jitter;
                 v.tintMaterials = new Material[lib.tints.Length];
                 for (int t = 0; t < lib.tints.Length; t++)
                 {

@@ -110,7 +110,7 @@ namespace JurassicPark.Scene
                 sun.transform.rotation = Quaternion.Euler(config.sunPitch.Evaluate(t), -35f, 0f);
                 sun.color = config.sunColor.Evaluate(t);
                 sun.intensity = config.sunIntensity.Evaluate(t);
-                sun.shadowStrength = Mathf.Clamp01(sun.intensity);
+                sun.shadowStrength = 0.72f;
             }
 
             RenderSettings.ambientMode = AmbientMode.Flat;
@@ -120,7 +120,7 @@ namespace JurassicPark.Scene
             RenderSettings.fogColor = config.fogColor.Evaluate(t);
             float end = config.fogEnd.Evaluate(t);
             RenderSettings.fogEndDistance = end;
-            RenderSettings.fogStartDistance = end * 0.4f;
+            RenderSettings.fogStartDistance = end * 0.4f; // 28/65 day, 22/55 dusk, 16/44 night per the art direction
             Camera cam = Camera.main;
             if (cam != null)
             {

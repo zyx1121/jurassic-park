@@ -16,6 +16,8 @@ ap.add_argument("--px", type=int, default=128)
 ap.add_argument("--colors", type=int, default=16)
 ap.add_argument("--dirs", default="front,left,right,back")
 ap.add_argument("--contrast", default="3x45%")
+ap.add_argument("--palette", default="", help="master palette image; when given, frames are graded and remapped to it instead of a per-sheet quantize")
+ap.add_argument("--modulate", default="96,84,100", help="brightness,saturation,hue used with --palette")
 a = ap.parse_args()
 
 dirs = a.dirs.split(",")
@@ -30,13 +32,16 @@ with tempfile.TemporaryDirectory() as tmp:
         for k in range(n):
             src = os.path.join(a.src, f"{d}_{k:02d}.png")
             dst = os.path.join(tmp, f"{d}_{k:02d}.png")
-            subprocess.run(["magick", src, "-alpha", "on", "-filter", "Box", "-resize", f"{px}x{px}",
-                            "-sigmoidal-contrast", a.contrast, dst], check=True)
+            grade = ["-channel", "RGB", "-sigmoidal-contrast", a.contrast] + (["-modulate", a.modulate] if a.palette else []) + ["+channel"]
+            subprocess.run(["magick", src, "-alpha", "on", "-filter", "Box", "-resize", f"{px}x{px}", *grade, dst], check=True)
             small.append(dst)
     # 2) one palette from all frames so colors do not flicker across frames or directions
     palette = os.path.join(tmp, "palette.png")
-    subprocess.run(["magick", *small, "+append", "-alpha", "off", "-dither", "None", "-colors", str(a.colors),
-                    "-unique-colors", palette], check=True)
+    if a.palette:
+        palette = a.palette
+    else:
+        subprocess.run(["magick", *small, "+append", "-alpha", "off", "-dither", "None", "-colors", str(a.colors),
+                        "-unique-colors", palette], check=True)
     # 3) remap each frame to the palette and pack rows (direction) x columns (frame)
     rows = []
     for d in dirs:

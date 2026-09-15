@@ -29,12 +29,12 @@ namespace JurassicPark.Scene
             g.SetKeys(
                 new[]
                 {
-                    new GradientColorKey(new Color(1f, 0.55f, 0.35f), 0f),
-                    new GradientColorKey(new Color(1f, 0.95f, 0.85f), 0.3f),
-                    new GradientColorKey(new Color(1f, 0.6f, 0.4f), 0.6f),
-                    new GradientColorKey(new Color(0.45f, 0.45f, 0.75f), 0.7f),
-                    new GradientColorKey(new Color(0.45f, 0.45f, 0.75f), 0.95f),
-                    new GradientColorKey(new Color(1f, 0.55f, 0.35f), 1f),
+                    new GradientColorKey(new Color(1.000f, 0.620f, 0.404f), 0f),
+                    new GradientColorKey(new Color(1.000f, 0.878f, 0.659f), 0.3f),
+                    new GradientColorKey(new Color(1.000f, 0.620f, 0.404f), 0.6f),
+                    new GradientColorKey(new Color(0.659f, 0.718f, 1.000f), 0.7f),
+                    new GradientColorKey(new Color(0.659f, 0.718f, 1.000f), 0.95f),
+                    new GradientColorKey(new Color(1.000f, 0.620f, 0.404f), 1f),
                 },
                 new[] { new GradientAlphaKey(1f, 0f), new GradientAlphaKey(1f, 1f) });
             return g;
@@ -43,8 +43,8 @@ namespace JurassicPark.Scene
         private static AnimationCurve DefaultSunIntensity()
         {
             return new AnimationCurve(
-                new Keyframe(0f, 0.45f), new Keyframe(0.3f, 1.15f), new Keyframe(0.55f, 0.9f),
-                new Keyframe(0.68f, 0.22f), new Keyframe(0.95f, 0.22f), new Keyframe(1f, 0.45f));
+                new Keyframe(0f, 0.85f), new Keyframe(0.3f, 1.25f), new Keyframe(0.55f, 1.0f),
+                new Keyframe(0.68f, 0.35f), new Keyframe(0.95f, 0.35f), new Keyframe(1f, 0.85f));
         }
 
         private static Gradient DefaultAmbient()
@@ -53,12 +53,12 @@ namespace JurassicPark.Scene
             g.SetKeys(
                 new[]
                 {
-                    new GradientColorKey(new Color(0.3f, 0.26f, 0.34f), 0f),
-                    new GradientColorKey(new Color(0.42f, 0.45f, 0.52f), 0.3f),
-                    new GradientColorKey(new Color(0.3f, 0.22f, 0.32f), 0.6f),
-                    new GradientColorKey(new Color(0.07f, 0.06f, 0.14f), 0.7f),
-                    new GradientColorKey(new Color(0.07f, 0.06f, 0.14f), 0.95f),
-                    new GradientColorKey(new Color(0.3f, 0.26f, 0.34f), 1f),
+                    new GradientColorKey(new Color(0.188f, 0.165f, 0.282f), 0f),
+                    new GradientColorKey(new Color(0.275f, 0.337f, 0.365f), 0.3f),
+                    new GradientColorKey(new Color(0.188f, 0.165f, 0.282f), 0.6f),
+                    new GradientColorKey(new Color(0.090f, 0.102f, 0.192f), 0.7f),
+                    new GradientColorKey(new Color(0.090f, 0.102f, 0.192f), 0.95f),
+                    new GradientColorKey(new Color(0.188f, 0.165f, 0.282f), 1f),
                 },
                 new[] { new GradientAlphaKey(1f, 0f), new GradientAlphaKey(1f, 1f) });
             return g;
@@ -70,12 +70,12 @@ namespace JurassicPark.Scene
             g.SetKeys(
                 new[]
                 {
-                    new GradientColorKey(new Color(0.55f, 0.42f, 0.4f), 0f),
-                    new GradientColorKey(new Color(0.45f, 0.55f, 0.52f), 0.3f),
-                    new GradientColorKey(new Color(0.34f, 0.2f, 0.27f), 0.6f),
-                    new GradientColorKey(new Color(0.05f, 0.04f, 0.1f), 0.7f),
-                    new GradientColorKey(new Color(0.05f, 0.04f, 0.1f), 0.95f),
-                    new GradientColorKey(new Color(0.55f, 0.42f, 0.4f), 1f),
+                    new GradientColorKey(new Color(0.216f, 0.192f, 0.286f), 0f),
+                    new GradientColorKey(new Color(0.388f, 0.447f, 0.471f), 0.3f),
+                    new GradientColorKey(new Color(0.216f, 0.192f, 0.286f), 0.6f),
+                    new GradientColorKey(new Color(0.086f, 0.098f, 0.169f), 0.7f),
+                    new GradientColorKey(new Color(0.086f, 0.098f, 0.169f), 0.95f),
+                    new GradientColorKey(new Color(0.216f, 0.192f, 0.286f), 1f),
                 },
                 new[] { new GradientAlphaKey(1f, 0f), new GradientAlphaKey(1f, 1f) });
             return g;
@@ -84,8 +84,8 @@ namespace JurassicPark.Scene
         private static AnimationCurve DefaultFogEnd()
         {
             return new AnimationCurve(
-                new Keyframe(0f, 55f), new Keyframe(0.3f, 80f), new Keyframe(0.6f, 60f),
-                new Keyframe(0.7f, 40f), new Keyframe(0.95f, 40f), new Keyframe(1f, 55f));
+                new Keyframe(0f, 55f), new Keyframe(0.3f, 65f), new Keyframe(0.6f, 55f),
+                new Keyframe(0.7f, 44f), new Keyframe(0.95f, 44f), new Keyframe(1f, 55f));
         }
     }
 }

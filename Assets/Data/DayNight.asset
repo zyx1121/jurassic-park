@@ -42,12 +42,12 @@ MonoBehaviour:
     m_RotationOrder: 4
   sunColor:
     serializedVersion: 2
-    key0: {r: 1, g: 0.55, b: 0.35, a: 1}
-    key1: {r: 1, g: 0.95, b: 0.85, a: 1}
-    key2: {r: 1, g: 0.6, b: 0.4, a: 0}
-    key3: {r: 0.45, g: 0.45, b: 0.75, a: 0}
-    key4: {r: 0.45, g: 0.45, b: 0.75, a: 0}
-    key5: {r: 1, g: 0.55, b: 0.35, a: 0}
+    key0: {r: 1, g: 0.62, b: 0.404, a: 1}
+    key1: {r: 1, g: 0.878, b: 0.659, a: 1}
+    key2: {r: 1, g: 0.62, b: 0.404, a: 0}
+    key3: {r: 0.659, g: 0.718, b: 1, a: 0}
+    key4: {r: 0.659, g: 0.718, b: 1, a: 0}
+    key5: {r: 1, g: 0.62, b: 0.404, a: 0}
     key6: {r: 0, g: 0, b: 0, a: 0}
     key7: {r: 0, g: 0, b: 0, a: 0}
     ctime0: 0
@@ -75,7 +75,7 @@ MonoBehaviour:
     m_Curve:
     - serializedVersion: 3
       time: 0
-      value: 0.45
+      value: 0.85
       inSlope: 0
       outSlope: 0
       tangentMode: 0
@@ -84,7 +84,7 @@ MonoBehaviour:
       outWeight: 0
     - serializedVersion: 3
       time: 0.3
-      value: 1.15
+      value: 1.25
       inSlope: 0
       outSlope: 0
       tangentMode: 0
@@ -93,7 +93,7 @@ MonoBehaviour:
       outWeight: 0
     - serializedVersion: 3
       time: 0.55
-      value: 0.9
+      value: 1
       inSlope: 0
       outSlope: 0
       tangentMode: 0
@@ -102,7 +102,7 @@ MonoBehaviour:
       outWeight: 0
     - serializedVersion: 3
       time: 0.68
-      value: 0.22
+      value: 0.35
       inSlope: 0
       outSlope: 0
       tangentMode: 0
@@ -111,7 +111,7 @@ MonoBehaviour:
       outWeight: 0
     - serializedVersion: 3
       time: 0.95
-      value: 0.22
+      value: 0.35
       inSlope: 0
       outSlope: 0
       tangentMode: 0
@@ -120,7 +120,7 @@ MonoBehaviour:
       outWeight: 0
     - serializedVersion: 3
       time: 1
-      value: 0.45
+      value: 0.85
       inSlope: 0
       outSlope: 0
       tangentMode: 0
@@ -132,12 +132,12 @@ MonoBehaviour:
     m_RotationOrder: 4
   ambientColor:
     serializedVersion: 2
-    key0: {r: 0.3, g: 0.26, b: 0.34, a: 1}
-    key1: {r: 0.42, g: 0.45, b: 0.52, a: 1}
-    key2: {r: 0.3, g: 0.22, b: 0.32, a: 0}
-    key3: {r: 0.07, g: 0.06, b: 0.14, a: 0}
-    key4: {r: 0.07, g: 0.06, b: 0.14, a: 0}
-    key5: {r: 0.3, g: 0.26, b: 0.34, a: 0}
+    key0: {r: 0.188, g: 0.165, b: 0.282, a: 1}
+    key1: {r: 0.275, g: 0.337, b: 0.365, a: 1}
+    key2: {r: 0.188, g: 0.165, b: 0.282, a: 0}
+    key3: {r: 0.09, g: 0.102, b: 0.192, a: 0}
+    key4: {r: 0.09, g: 0.102, b: 0.192, a: 0}
+    key5: {r: 0.188, g: 0.165, b: 0.282, a: 0}
     key6: {r: 0, g: 0, b: 0, a: 0}
     key7: {r: 0, g: 0, b: 0, a: 0}
     ctime0: 0
@@ -162,12 +162,12 @@ MonoBehaviour:
     m_NumAlphaKeys: 2
   fogColor:
     serializedVersion: 2
-    key0: {r: 0.55, g: 0.42, b: 0.4, a: 1}
-    key1: {r: 0.45, g: 0.55, b: 0.52, a: 1}
-    key2: {r: 0.34, g: 0.2, b: 0.27, a: 0}
-    key3: {r: 0.05, g: 0.04, b: 0.1, a: 0}
-    key4: {r: 0.05, g: 0.04, b: 0.1, a: 0}
-    key5: {r: 0.55, g: 0.42, b: 0.4, a: 0}
+    key0: {r: 0.216, g: 0.192, b: 0.286, a: 1}
+    key1: {r: 0.388, g: 0.447, b: 0.471, a: 1}
+    key2: {r: 0.216, g: 0.192, b: 0.286, a: 0}
+    key3: {r: 0.086, g: 0.098, b: 0.169, a: 0}
+    key4: {r: 0.086, g: 0.098, b: 0.169, a: 0}
+    key5: {r: 0.216, g: 0.192, b: 0.286, a: 0}
     key6: {r: 0, g: 0, b: 0, a: 0}
     key7: {r: 0, g: 0, b: 0, a: 0}
     ctime0: 0
@@ -204,7 +204,7 @@ MonoBehaviour:
       outWeight: 0
     - serializedVersion: 3
       time: 0.3
-      value: 80
+      value: 65
       inSlope: 0
       outSlope: 0
       tangentMode: 0
@@ -213,7 +213,7 @@ MonoBehaviour:
       outWeight: 0
     - serializedVersion: 3
       time: 0.6
-      value: 60
+      value: 55
       inSlope: 0
       outSlope: 0
       tangentMode: 0
@@ -222,7 +222,7 @@ MonoBehaviour:
       outWeight: 0
     - serializedVersion: 3
       time: 0.7
-      value: 40
+      value: 44
       inSlope: 0
       outSlope: 0
       tangentMode: 0
@@ -231,7 +231,7 @@ MonoBehaviour:
       outWeight: 0
     - serializedVersion: 3
       time: 0.95
-      value: 40
+      value: 44
       inSlope: 0
       outSlope: 0
       tangentMode: 0

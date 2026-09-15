@@ -38,8 +38,8 @@ namespace JurassicPark.EditorTools
                 }
 
                 layer.diffuseTexture = AssetDatabase.LoadAssetAtPath<Texture2D>($"Assets/Textures/Terrain/{Files[i]}.png");
-                layer.tileSize = new Vector2(1f, 1f); // 64 px per meter, same density as the 64 PPU sprites
-                layer.smoothness = 0f;
+                layer.tileSize = new Vector2(2f, 2f); // 128 px plates cover 2 m: still 64 px per meter
+                layer.smoothness = Files[i] == "dirt" ? 0.16f : 0.08f;
                 layer.metallic = 0f;
                 EditorUtility.SetDirty(layer);
                 layers[i] = layer;
