@@ -38,6 +38,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: b931c2c9d8c954f1aac41aa331742b6a, type: 2}
   - {fileID: 11400000, guid: 27b51525d6efc4f1688291f7396c8f60, type: 2}
   - {fileID: 11400000, guid: faf8bded5efb544a8a4bdd988abedd4b, type: 2}
+  gatherRules: {fileID: 11400000, guid: bdb5ebc5714544da6a2083a1e985d36c, type: 2}
   scaleRange: {x: 0.8, y: 1.3}
   tints:
   - {r: 1, g: 1, b: 1, a: 1}

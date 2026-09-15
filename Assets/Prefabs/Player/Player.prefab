@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 2653504781816246188}
   - component: {fileID: 487191651549253597}
   - component: {fileID: 7141970612691108832}
+  - component: {fileID: 2355841109452411819}
   - component: {fileID: 4703087292020726508}
   - component: {fileID: 6344616595588380111}
   m_Layer: 0
@@ -89,6 +90,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: JurassicPark.Combat::JurassicPark.Combat.HitFlash
   flashColor: {r: 1, g: 0.35, b: 0.35, a: 1}
   duration: 0.12
+--- !u!114 &2355841109452411819
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6985326838913205496}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a3ebdd091126e42e1bdfd142eb31d40a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: JurassicPark.Core::JurassicPark.Core.ResourceInventory
 --- !u!114 &4703087292020726508
 MonoBehaviour:
   m_ObjectHideFlags: 0

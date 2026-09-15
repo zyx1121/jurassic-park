@@ -8,6 +8,7 @@ namespace JurassicPark.World
     public sealed class PropLibrary : ScriptableObject
     {
         public PropVariant[] variants = new PropVariant[0];
+        public GatherRules gatherRules;
 
         [Header("Per-placement variation")]
         public Vector2 scaleRange = new Vector2(0.8f, 1.3f);

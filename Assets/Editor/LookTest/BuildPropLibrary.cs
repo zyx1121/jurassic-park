@@ -1,3 +1,4 @@
+using JurassicPark.Core;
 using JurassicPark.World;
 using Unity.Pipeline.Commands;
 using UnityEditor;
@@ -84,6 +85,14 @@ namespace JurassicPark.EditorTools
                 variants.Add(v);
             }
 
+            GatherRules rules = AssetDatabase.LoadAssetAtPath<GatherRules>("Assets/Data/GatherRules.asset");
+            if (rules == null)
+            {
+                rules = ScriptableObject.CreateInstance<GatherRules>();
+                AssetDatabase.CreateAsset(rules, "Assets/Data/GatherRules.asset");
+            }
+
+            lib.gatherRules = rules;
             lib.variants = variants.ToArray();
             EditorUtility.SetDirty(lib);
             AssetDatabase.SaveAssets();
