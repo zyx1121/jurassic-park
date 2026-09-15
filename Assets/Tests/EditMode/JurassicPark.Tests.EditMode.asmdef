@@ -10,7 +10,10 @@
         "JurassicPark.Combat",
         "JurassicPark.Dinosaurs",
         "JurassicPark.World",
-        "JurassicPark.Building"
+        "JurassicPark.Building",
+        "JurassicPark.UI",
+        "Unity.ugui",
+        "Unity.InputSystem"
     ],
     "includePlatforms": [
         "Editor"

@@ -169,6 +169,8 @@ namespace JurassicPark.EditorTools
             vol.isGlobal = true;
             vol.sharedProfile = profile;
 
+            BuildFeedbackHud.Create();
+
             EditorSceneManager.SaveScene(scene, ScenePath);
             navSurface.BuildNavMesh();
             TerrainDataAssets.PersistNavMesh(navSurface, $"LookTestNavMesh_seed{seed}");

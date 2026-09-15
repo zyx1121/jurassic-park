@@ -132,8 +132,7 @@ namespace JurassicPark.EditorTools
             vol.isGlobal = true;
             vol.sharedProfile = profile;
 
-            GameObject hud = new GameObject("HUD");
-            hud.AddComponent<Minimap>();
+            BuildFeedbackHud.Create();
 
             EditorSceneManager.SaveScene(scene, ScenePath);
             nav.BuildNavMesh();

@@ -38,6 +38,13 @@ namespace JurassicPark.Building
                 obstacle.center = col.center;
                 obstacle.carving = true;
                 obstacle.carveOnlyStationary = true;
+                if (def.isGate)
+                {
+                    BoxCollider handle = root.AddComponent<BoxCollider>();
+                    handle.isTrigger = true;
+                    handle.size = col.size;
+                    handle.center = col.center;
+                }
             }
             else
             {

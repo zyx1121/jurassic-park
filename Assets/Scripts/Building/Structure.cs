@@ -34,6 +34,7 @@ namespace JurassicPark.Building
             def = newDef;
             gridCenter = center;
             rotationSteps = rotation;
+            if (Health != null) ApplyOpenState();
         }
 
         private void Awake()
@@ -51,7 +52,7 @@ namespace JurassicPark.Building
             if (def == null || !Health.IsAlive) return false;
             if (def.isGate) return true;
             ResourceInventory inv = actor.GetComponent<ResourceInventory>();
-            return Health.Current < Health.Max && inv != null;
+            return Health.Current < Health.Max && inv != null && BuildGrid.CanAfford(inv, def, def.repairCostFraction);
         }
 
         public void Interact(GameObject actor)
@@ -72,6 +73,7 @@ namespace JurassicPark.Building
 
         private void ApplyOpenState()
         {
+            if (def == null) return; // Runtime factories configure the component immediately after Awake.
             bool blocks = def != null && def.solid && !open;
             if (obstacle != null) obstacle.enabled = blocks;
             foreach (Collider c in colliders)

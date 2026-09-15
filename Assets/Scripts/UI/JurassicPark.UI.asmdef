@@ -6,6 +6,9 @@
         "JurassicPark.World",
         "JurassicPark.Player",
         "JurassicPark.Scene",
+        "JurassicPark.Combat",
+        "JurassicPark.Building",
+        "Unity.ugui",
         "Unity.InputSystem"
     ],
     "includePlatforms": [],

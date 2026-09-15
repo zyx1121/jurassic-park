@@ -41,6 +41,28 @@ unity test . --mode EditMode
 unity build . --target StandaloneOSX --output-path Builds/macOS/JurassicPark.app
 ```
 
+### Demo controls and feedback
+
+Move with **WASD**, sprint with **Shift**, and interact with **E**. Point at an
+object to inspect it; **left click** keeps it selected, **right click** or **Esc**
+clears the selection. Movement stays keyboard-controlled, not click-to-move.
+The cursor turns green for a usable target and amber when it cannot currently
+be used. Selection brackets and the target panel show its name, stock or health,
+distance, and the actual interaction requirement. E uses that target; without a
+pointed-at or selected object, it uses the nearest reachable usable object.
+
+**Tab** enters building mode and cycles structures, **Q** rotates, **left click**
+places, and **Esc** cancels. The HUD shows cost and placement status. Clicking
+HUD panels never attacks or places structures behind them. **M** expands the
+map; the expanded map blocks world controls until closed.
+
+The HUD displays actual health, day/time, wood, stone, food, and carried boat
+parts. Food is an inventory count, not hunger. Boat parts show carrying capacity,
+not repaired-boat progress; hunger and the boat-repair UI remain future work.
+HUD colors/text sizing and cursor settings live in `Assets/Data/Hud.asset` and
+`Assets/Data/Selection.asset`. Their builders (`build_hud_assets`,
+`build_selection_assets`) are also called by both scene builders.
+
 ## Project layout
 
 ```

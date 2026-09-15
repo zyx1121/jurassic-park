@@ -36,6 +36,7 @@ namespace JurassicPark.EditorTools
                 config = ScriptableObject.CreateInstance<PlayerMovementConfig>();
                 AssetDatabase.CreateAsset(config, ConfigPath);
             }
+            EditorUtility.SetDirty(config);
 
             InputActionAsset controls = AssetDatabase.LoadAssetAtPath<InputActionAsset>(ControlsPath);
             SpriteSheetSet set = BuildSpriteSet();

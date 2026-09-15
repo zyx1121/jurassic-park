@@ -13,5 +13,7 @@ namespace JurassicPark.Player
         [Min(0f)] public float gravity = 25f;
         [Tooltip("Radius around the player in which interactables are searched.")]
         [Min(0f)] public float interactRadius = 1.6f;
+        [Tooltip("Height of the interaction visibility ray above the player's feet.")]
+        [Min(0f)] public float interactionEyeHeight = 0.9f;
     }
 }
