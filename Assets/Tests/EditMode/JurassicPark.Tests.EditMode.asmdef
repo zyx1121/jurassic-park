@@ -9,7 +9,8 @@
         "JurassicPark.Scene",
         "JurassicPark.Combat",
         "JurassicPark.Dinosaurs",
-        "JurassicPark.World"
+        "JurassicPark.World",
+        "JurassicPark.Building"
     ],
     "includePlatforms": [
         "Editor"

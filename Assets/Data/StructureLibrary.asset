@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f76dc379283d2499db85a2d8809ac43b, type: 3}
+  m_Name: StructureLibrary
+  m_EditorClassIdentifier: JurassicPark.Building::JurassicPark.Building.StructureLibrary
+  structures:
+  - {fileID: 11400000, guid: 10e5216f02a144a0db1389513822c577, type: 2}
+  - {fileID: 11400000, guid: 17244a1b192ec4fa88cdac5d151ab2ac, type: 2}
+  - {fileID: 11400000, guid: 7e258f0f5aca04183ae60cf384e1e54a, type: 2}
+  - {fileID: 11400000, guid: e5a5fe7c4355043909bc5c9a5b55ef84, type: 2}
+  - {fileID: 11400000, guid: d4ff3ffb61b0e444c8d284d494eac391, type: 2}
+  cellSize: 1
+  placeDistance: 2
+  maxHeightDelta: 0.6
+  previewValid: {fileID: 2100000, guid: 623bc11f32e4d479c83d646a52fa9a34, type: 2}
+  previewInvalid: {fileID: 2100000, guid: e59471ef72d1f4afea768dc2feb31bab, type: 2}
+  wood: {fileID: 2100000, guid: 1af4631e0ab194588ace5dd72a0d3eb0, type: 2}
+  stone: {fileID: 2100000, guid: efd30ab62290c446a9a6ec0bfdc85c02, type: 2}

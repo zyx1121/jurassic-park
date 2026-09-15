@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0fcddbe99c6224d0d8c0b88205734b52, type: 3}
+  m_Name: Campfire
+  m_EditorClassIdentifier: JurassicPark.Building::JurassicPark.Building.StructureDef
+  kind: 3
+  displayName: Campfire
+  footprint: {x: 2, y: 2}
+  height: 1
+  cost:
+  - kind: 1
+    amount: 5
+  health: {fileID: 11400000, guid: 32225b17b8b32426aa437b85b0f465d6, type: 2}
+  solid: 0
+  isGate: 0
+  emitsLight: 1
+  prefab: {fileID: 5144951158907415017, guid: d3e4ef4201a044b32ba7f0b997472e0c, type: 3}
+  repairCostFraction: 0.5

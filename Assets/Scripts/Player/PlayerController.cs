@@ -20,6 +20,7 @@ namespace JurassicPark.Player
 
         public event Action AttackPressed;
         public event Action BuildPressed;
+        public event Action RotatePressed;
         public event Action<IInteractable> Interacted;
 
         public Facing Facing { get; private set; } = Facing.Down;
@@ -37,6 +38,7 @@ namespace JurassicPark.Player
         private InputAction interact;
         private InputAction build;
         private InputAction sprint;
+        private InputAction rotate;
         private Vector3 velocity;
         private readonly Collider[] overlap = new Collider[16];
 
@@ -51,6 +53,7 @@ namespace JurassicPark.Player
                 interact = map.FindAction("Interact", true);
                 build = map.FindAction("Build", true);
                 sprint = map.FindAction("Sprint", true);
+                rotate = map.FindAction("Rotate", false);
             }
         }
 
@@ -65,6 +68,7 @@ namespace JurassicPark.Player
             attack.performed += OnAttack;
             interact.performed += OnInteract;
             build.performed += OnBuild;
+            if (rotate != null) rotate.performed += OnRotate;
         }
 
         private void OnDisable()
@@ -77,6 +81,7 @@ namespace JurassicPark.Player
             attack.performed -= OnAttack;
             interact.performed -= OnInteract;
             build.performed -= OnBuild;
+            if (rotate != null) rotate.performed -= OnRotate;
             controls.FindActionMap("Player").Disable();
         }
 
@@ -130,6 +135,8 @@ namespace JurassicPark.Player
         private void OnAttack(InputAction.CallbackContext _) => AttackPressed?.Invoke();
 
         private void OnBuild(InputAction.CallbackContext _) => BuildPressed?.Invoke();
+
+        private void OnRotate(InputAction.CallbackContext _) => RotatePressed?.Invoke();
 
         private void OnInteract(InputAction.CallbackContext _) => TryInteract();
 

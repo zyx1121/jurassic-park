@@ -1,3 +1,4 @@
+using JurassicPark.Building;
 using JurassicPark.Combat;
 using JurassicPark.Core;
 using JurassicPark.Player;
@@ -74,6 +75,11 @@ namespace JurassicPark.EditorTools
             so.FindProperty("config").objectReferenceValue = config;
             so.FindProperty("controls").objectReferenceValue = controls;
             so.ApplyModifiedPropertiesWithoutUndo();
+
+            PlayerBuilder builder = root.AddComponent<PlayerBuilder>();
+            SerializedObject bso = new SerializedObject(builder);
+            bso.FindProperty("library").objectReferenceValue = AssetDatabase.LoadAssetAtPath<StructureLibrary>(BuildStructureLibrary.LibraryPath);
+            bso.ApplyModifiedPropertiesWithoutUndo();
 
             GameObject quad = GameObject.CreatePrimitive(PrimitiveType.Quad);
             quad.name = "Sprite";

@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 7141970612691108832}
   - component: {fileID: 2355841109452411819}
   - component: {fileID: 4703087292020726508}
+  - component: {fileID: 6334205261296252972}
   - component: {fileID: 6344616595588380111}
   m_Layer: 0
   m_Name: Player
@@ -118,6 +119,22 @@ MonoBehaviour:
   config: {fileID: 11400000, guid: d5225e8adfac94ad9bd703b6644d9c2c, type: 2}
   controls: {fileID: -944628639613478452, guid: 5128914fbea91456fa13e938bab54f2d, type: 3}
   interactMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
+--- !u!114 &6334205261296252972
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6985326838913205496}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 97e1eb6a25d95473e976d0003560adaa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: JurassicPark.Building::JurassicPark.Building.PlayerBuilder
+  library: {fileID: 11400000, guid: f3c4736e096c942cf90d34c62626fbaf, type: 2}
+  blockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
 --- !u!114 &6344616595588380111
