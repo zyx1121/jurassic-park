@@ -2,6 +2,7 @@ using JurassicPark.Core;
 using JurassicPark.Player;
 using JurassicPark.World;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 namespace JurassicPark.Building
 {
@@ -56,6 +57,7 @@ namespace JurassicPark.Building
         public void SetBuilding(bool on)
         {
             IsBuilding = on && library != null && library.structures.Length > 0;
+            if (player != null) player.InteractionSuppressed = IsBuilding;
             if (!IsBuilding && preview != null)
             {
                 Destroy(preview);
@@ -97,6 +99,9 @@ namespace JurassicPark.Building
 
         private void Update()
         {
+            if (!player.isActiveAndEnabled) { SetBuilding(false); return; }
+            if (Keyboard.current != null && Keyboard.current.escapeKey.wasPressedThisFrame && !WorldInputBlockers.BlocksWorldInput)
+                SetBuilding(false);
             if (!IsBuilding || Selected == null) return;
             UpdatePreview();
         }
@@ -134,16 +139,26 @@ namespace JurassicPark.Building
 
             Vector3 half = new Vector3(size.x * 0.5f - 0.02f, def.height * 0.5f, size.y * 0.5f - 0.02f);
             int n = Physics.OverlapBoxNonAlloc(center + Vector3.up * def.height * 0.5f, half, overlap, Quaternion.identity, blockingMask, QueryTriggerInteraction.Collide);
+            Collider[] candidates = overlap;
+            if (n == overlap.Length)
+            {
+                candidates = Physics.OverlapBox(center + Vector3.up * def.height * 0.5f, half, Quaternion.identity, blockingMask, QueryTriggerInteraction.Collide);
+                n = candidates.Length;
+            }
             for (int i = 0; i < n; i++)
             {
-                Collider c = overlap[i];
+                Collider c = candidates[i];
                 if (c.GetComponentInParent<Terrain>() != null) continue;
                 if (c.GetComponentInParent<Pickup>() != null) continue; // pickups are collected, not obstacles
                 if (c.isTrigger && c.GetComponentInParent<JurassicPark.Scene.Occluder>() != null) continue; // canopy volume for see-through, not a footprint
                 if (preview != null && c.transform.IsChildOf(preview.transform)) continue;
-                if (c.GetComponentInParent<Structure>() != null || c.GetComponentInParent<PropInstance>() != null || c.GetComponentInParent<PlayerController>() != null || c.GetComponent<UnityEngine.AI.NavMeshAgent>() != null)
+                if (c.GetComponentInParent<Structure>() != null || c.GetComponentInParent<PropInstance>() != null || c.GetComponentInParent<FacilityMarker>() != null || c.GetComponentInParent<PlayerController>() != null || c.GetComponent<UnityEngine.AI.NavMeshAgent>() != null)
                 {
-                    reason = "blocked by " + c.transform.root.name;
+                    string name = c.GetComponentInParent<FacilityMarker>()?.facilityName
+                        ?? c.GetComponentInParent<PropInstance>()?.variant?.name
+                        ?? c.GetComponentInParent<Structure>()?.Def?.displayName
+                        ?? c.gameObject.name;
+                    reason = "blocked by " + name.Replace("_", " ");
                     return false;
                 }
             }

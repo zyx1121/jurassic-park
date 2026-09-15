@@ -53,7 +53,8 @@ namespace JurassicPark.World
         public bool CanInteract(GameObject actor)
         {
             ResourceInventory inv = actor.GetComponent<ResourceInventory>();
-            return inv != null && (kind == ResourceKind.BoatPart ? inv.Space(ResourceKind.BoatPart) > 0 : inv.Space(kind) > 0);
+            return amount > 0 && inv != null && inv.Space(kind) > 0
+                && (kind != ResourceKind.BoatPart || !inv.HasBoatPart(boatPartId));
         }
 
         public void Interact(GameObject actor)

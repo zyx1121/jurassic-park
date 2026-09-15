@@ -40,11 +40,12 @@ namespace JurassicPark.Building
                 && Mathf.Abs(centerA.z - centerB.z) < (sizeA.y + sizeB.y) * 0.5f - eps;
         }
 
-        public static bool CanAfford(ResourceInventory inv, StructureDef def)
+        public static bool CanAfford(ResourceInventory inv, StructureDef def, float fraction = 1f)
         {
             foreach (ResourceCost c in def.cost)
             {
-                if (!inv.Has(c.kind, c.amount)) return false;
+                int amount = fraction < 1f ? Mathf.CeilToInt(c.amount * fraction) : c.amount;
+                if (!inv.Has(c.kind, amount)) return false;
             }
 
             return true;
@@ -52,19 +53,9 @@ namespace JurassicPark.Building
 
         public static bool Pay(ResourceInventory inv, StructureDef def, float fraction = 1f)
         {
-            if (fraction < 1f)
-            {
-                foreach (ResourceCost c in def.cost)
-                {
-                    if (!inv.Has(c.kind, Mathf.CeilToInt(c.amount * fraction))) return false;
-                }
-
-                foreach (ResourceCost c in def.cost) inv.TryTake(c.kind, Mathf.CeilToInt(c.amount * fraction));
-                return true;
-            }
-
-            if (!CanAfford(inv, def)) return false;
-            foreach (ResourceCost c in def.cost) inv.TryTake(c.kind, c.amount);
+            if (!CanAfford(inv, def, fraction)) return false;
+            foreach (ResourceCost c in def.cost)
+                inv.TryTake(c.kind, fraction < 1f ? Mathf.CeilToInt(c.amount * fraction) : c.amount);
             return true;
         }
     }

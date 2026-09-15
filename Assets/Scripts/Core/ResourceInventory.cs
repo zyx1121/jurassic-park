@@ -62,6 +62,8 @@ namespace JurassicPark.Core
 
         public bool Has(ResourceKind kind, int amount) => Get(kind) >= amount;
 
+        public bool HasBoatPart(int partId) => boatParts.Contains(partId);
+
         /// <summary>Boat parts are unique: the same id can never be carried twice, and the cap limits how many at once.</summary>
         public bool TryAddBoatPart(int partId)
         {

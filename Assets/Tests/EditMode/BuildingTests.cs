@@ -5,6 +5,7 @@ using UnityEngine;
 
 namespace JurassicPark.Tests
 {
+    [Category("PlayerFeedback")]
     public class BuildingTests
     {
         [Test]
@@ -60,6 +61,7 @@ namespace JurassicPark.Tests
             Assert.IsFalse(BuildGrid.Pay(inv, def), "cannot pay twice");
             Assert.IsFalse(BuildGrid.Pay(inv, def, 0.5f), "half repair cost still needs 1 stone (rounded up)");
             inv.Add(ResourceKind.Stone, 1);
+            Assert.IsTrue(BuildGrid.CanAfford(inv, def, 0.5f));
             Assert.IsTrue(BuildGrid.Pay(inv, def, 0.5f));
             Assert.AreEqual(0, inv.Get(ResourceKind.Wood), "half of 3 wood rounds up to 2");
             Object.DestroyImmediate(go);

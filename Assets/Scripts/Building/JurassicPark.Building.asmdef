@@ -7,7 +7,8 @@
         "JurassicPark.World",
         "JurassicPark.Player",
         "Unity.AI.Navigation",
-        "JurassicPark.Scene"
+        "JurassicPark.Scene",
+        "Unity.InputSystem"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

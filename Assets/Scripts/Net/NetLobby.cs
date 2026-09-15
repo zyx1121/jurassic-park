@@ -136,7 +136,7 @@ namespace JurassicPark.Net
 
         private void OnGUI()
         {
-            if (!showDebugGui) return;
+            if (!showDebugGui || Started) return;
             GUILayout.BeginArea(new Rect(10, 10, 260, 120), GUI.skin.box);
             GUILayout.Label($"Net: {Status}   {fps:F0} fps");
             if (!Started)
