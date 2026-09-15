@@ -1,5 +1,6 @@
 using JurassicPark.Dinosaurs;
 using JurassicPark.Net;
+using JurassicPark.UI;
 using Unity.Netcode;
 using Unity.Netcode.Transports.UTP;
 using JurassicPark.Scene;
@@ -113,6 +114,9 @@ namespace JurassicPark.EditorTools
             Volume vol = volGo.AddComponent<Volume>();
             vol.isGlobal = true;
             vol.sharedProfile = profile;
+
+            GameObject hud = new GameObject("HUD");
+            hud.AddComponent<Minimap>();
 
             EditorSceneManager.SaveScene(scene, ScenePath);
             nav.BuildNavMesh();

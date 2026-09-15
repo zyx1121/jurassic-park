@@ -53,14 +53,15 @@ namespace JurassicPark.World
                 float r = ring + ((float)rng.NextDouble() - 0.5f) * 2f * half * cfg.facilityJitter;
                 Vector3 p = new Vector3(Mathf.Cos(a) * r, 0f, Mathf.Sin(a) * r);
                 bool isDock = i == count - 1;
-                if (isDock)
+                bool isCrash = i == 0; // the crash site is where the player wakes up: on the beach
+                if (isDock || isCrash)
                 {
                     p = PushToShore(p, h, tc, cfg.dockShoreTolerance);
                     if (float.IsNaN(p.x)) return null;
                 }
                 else if (HeightAt(h, p, tc) < seaNorm + (cfg.beachBand * 0.5f) / tc.maxHeight)
                 {
-                    return null; // facility would be in the water or on the beach
+                    return null; // inland facility would be in the water or on the beach
                 }
 
                 p.y = HeightAt(h, p, tc) * tc.maxHeight;
@@ -78,16 +79,17 @@ namespace JurassicPark.World
 
             plan.facilities = slots;
 
-            // Base clearing next to the crash site: flatten the heightmap there
+            // Base clearing just inland of the crash site: flatten the heightmap there
             FacilitySlot crash = slots[0];
             Vector3 toCenter = -new Vector3(crash.position.x, 0f, crash.position.z).normalized;
-            plan.baseCenter = crash.position + toCenter * (cfg.baseClearingRadius + cfg.facilityClearRadius * 0.6f);
+            plan.baseCenter = crash.position + toCenter * (cfg.baseClearingRadius + cfg.facilityClearRadius * 0.8f);
             plan.baseCenter.y = HeightAt(h, plan.baseCenter, tc) * tc.maxHeight;
             Flatten(h, plan.baseCenter, cfg.baseClearingRadius, tc);
             TerrainNoise.LimitSlope(h, maxStepNorm, 2);
             plan.baseCenter.y = HeightAt(h, plan.baseCenter, tc) * tc.maxHeight;
-            plan.playerSpawn = plan.baseCenter + new Vector3(3f, 0f, -3f);
-            plan.playerSpawn.y = HeightAt(h, plan.playerSpawn, tc) * tc.maxHeight;
+            // The player wakes up on the sand between the wreck and the water
+            plan.playerSpawn = crash.position - toCenter * 2.5f;
+            plan.playerSpawn.y = Mathf.Max(HeightAt(h, plan.playerSpawn, tc) * tc.maxHeight, tc.seaLevel + 0.05f);
             plan.heights = h;
 
             // Props: Poisson-disk candidates over the whole island, accepted by biome density
@@ -225,8 +227,8 @@ namespace JurassicPark.World
                 float hn = HeightAt(h, q, tc);
                 if (hn <= seaNorm + tolNorm)
                 {
-                    // step back onto land just above the water line
-                    return dir * (r - 1f);
+                    // step back onto the sand just above the water line
+                    return dir * (r - 2.5f);
                 }
             }
 

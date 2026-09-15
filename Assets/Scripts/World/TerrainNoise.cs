@@ -8,9 +8,10 @@ namespace JurassicPark.World
         public const int Sand = 0;
         public const int GrassA = 1;
         public const int GrassB = 2;
-        public const int Dirt = 3;
-        public const int Rock = 4;
-        public const int LayerCount = 5;
+        public const int GrassC = 3;
+        public const int Dirt = 4;
+        public const int Rock = 5;
+        public const int LayerCount = 6;
 
         /// <summary>Normalized heights [0,1], resolution x resolution, seeded, with radial island falloff.</summary>
         public static float[,] Heightmap(int seed, TerrainConfig c)
@@ -154,7 +155,10 @@ namespace JurassicPark.World
                     int hy = Mathf.Clamp(Mathf.RoundToInt(v * (n - 1)), 0, n - 2);
                     float height = h[hy, hx];
                     float slope = Mathf.Max(Mathf.Abs(h[hy, hx] - h[hy, hx + 1]), Mathf.Abs(h[hy, hx] - h[hy + 1, hx])) / Mathf.Max(maxStepNorm, 1e-5f);
-                    float variety = Mathf.PerlinNoise(u * 6f + ox, v * 6f + oy);
+                    // Two grass mixing frequencies: broad meadows plus fine patches, so the ground never tiles visibly
+                    float broad = Mathf.PerlinNoise(u * 4f + ox, v * 4f + oy);
+                    float fine = Mathf.PerlinNoise(u * 14f + oy * 0.5f, v * 14f + ox * 0.5f);
+                    float variety = broad * 0.6f + fine * 0.4f;
                     float clearing = Mathf.PerlinNoise(u * 3f + oy, v * 3f + ox);
 
                     int layer;
@@ -170,9 +174,13 @@ namespace JurassicPark.World
                     {
                         layer = Dirt;
                     }
+                    else if (variety > c.grassMix + 0.12f)
+                    {
+                        layer = GrassC;
+                    }
                     else
                     {
-                        layer = variety > c.grassMix ? GrassB : GrassA;
+                        layer = variety > c.grassMix - 0.08f ? GrassB : GrassA;
                     }
 
                     // Soft edge between sand and grass so the beach does not cut hard
@@ -182,10 +190,21 @@ namespace JurassicPark.World
                         w[ay, ax, l] = l == layer ? 1f : 0f;
                     }
 
+                    if (layer == GrassA || layer == GrassB || layer == GrassC)
+                    {
+                        // soft transitions between grasses hide the tile grid
+                        float t = Mathf.InverseLerp(c.grassMix - 0.2f, c.grassMix + 0.25f, variety);
+                        w[ay, ax, GrassA] = Mathf.Clamp01(1f - t * 2f);
+                        w[ay, ax, GrassB] = Mathf.Clamp01(1f - Mathf.Abs(t - 0.5f) * 2f);
+                        w[ay, ax, GrassC] = Mathf.Clamp01(t * 2f - 1f);
+                        float sum = w[ay, ax, GrassA] + w[ay, ax, GrassB] + w[ay, ax, GrassC];
+                        if (sum > 0f) { w[ay, ax, GrassA] /= sum; w[ay, ax, GrassB] /= sum; w[ay, ax, GrassC] /= sum; }
+                    }
+
                     if (layer != Sand && sandBlend > 0f)
                     {
-                        w[ay, ax, layer] = 1f - sandBlend * 0.6f;
-                        w[ay, ax, Sand] = sandBlend * 0.6f;
+                        for (int l = 0; l < LayerCount; l++) w[ay, ax, l] *= 1f - sandBlend * 0.6f;
+                        w[ay, ax, Sand] += sandBlend * 0.6f;
                     }
                 }
             }
