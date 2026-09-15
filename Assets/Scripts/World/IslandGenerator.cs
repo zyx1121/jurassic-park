@@ -134,7 +134,9 @@ namespace JurassicPark.World
                 float hn = HeightAt(h, p, tc);
                 if (hn <= seaNorm) continue;
                 if (SlopeAt(h, p, tc) > cfg.maxPropSlope * maxStepNorm) continue;
-                if (Vector2.Distance(c, new Vector2(plan.baseCenter.x, plan.baseCenter.z)) < cfg.baseClearingRadius) continue;
+                float toBase = Vector2.Distance(c, new Vector2(plan.baseCenter.x, plan.baseCenter.z));
+                bool inBase = toBase < cfg.baseClearingRadius;
+                bool baseFringe = toBase < cfg.baseClearingRadius * 1.6f;
                 bool nearFacility = false;
                 foreach (FacilitySlot f in slots)
                 {
@@ -147,6 +149,8 @@ namespace JurassicPark.World
                 BiomeDensity d = Density(cfg, biome);
                 PropKind? kind = PickKind(d, cellArea, rng);
                 if (kind == null) continue;
+                if (inBase && kind != PropKind.Grass && kind != PropKind.Clutter) continue; // the base stays buildable, but not bare
+                if (baseFringe && (kind == PropKind.Boulder || kind == PropKind.Tree) && rng.NextDouble() < 0.5) continue;
                 PropVariant v = cfg.props.Pick(kind.Value, rng);
                 if (v == null) continue;
                 if (lastOfKind.TryGetValue(kind.Value, out PropVariant prev) && prev == v)
