@@ -24,3 +24,6 @@
 *.exr filter=lfs diff=lfs merge=lfs -text
 *.hdr filter=lfs diff=lfs merge=lfs -text
 *.mp4 filter=lfs diff=lfs merge=lfs -text
+
+# Generated TerrainData and NavMeshData are always binary; never normalize line endings
+Assets/Data/Generated/*.asset filter=lfs diff=lfs merge=lfs -text
