@@ -128,6 +128,7 @@ namespace JurassicPark.EditorTools
             cam.clearFlags = CameraClearFlags.SolidColor;
             cam.backgroundColor = new Color(0.13f, 0.1f, 0.22f);
             FollowCamera follow = camGo.AddComponent<FollowCamera>();
+            camGo.AddComponent<SeeThrough>();
             follow.Target = player != null ? player.transform : null;
             follow.Bounds = new Rect(-terrainConfig.size * 0.42f, -terrainConfig.size * 0.42f, terrainConfig.size * 0.84f, terrainConfig.size * 0.84f);
             camGo.transform.position = new Vector3(0f, 9f, -14f);

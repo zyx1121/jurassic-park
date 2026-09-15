@@ -46,6 +46,8 @@ namespace JurassicPark.EditorTools
             }
 
             config.layers = layers;
+            config.size = 192f;
+            config.heightmapResolution = 257;
             config.maxHeight = 14f;
             config.seaLevel = 3.5f;
             config.featureSize = 28f;

@@ -1,4 +1,5 @@
 using JurassicPark.Core;
+using JurassicPark.Scene;
 using UnityEngine;
 using UnityEngine.Rendering;
 
@@ -68,6 +69,17 @@ namespace JurassicPark.World
                 col.radius = v.footprintRadius * scale;
                 col.height = size;
                 col.center = new Vector3(0f, size * 0.5f, 0f);
+                if (v.fadeMaterial != null && (v.kind == PropKind.Tree || v.kind == PropKind.Boulder))
+                {
+                    // A tall trigger volume so the camera cast also catches the canopy above the trunk collider
+                    CapsuleCollider canopy = root.AddComponent<CapsuleCollider>();
+                    canopy.isTrigger = true;
+                    canopy.radius = Mathf.Max(v.footprintRadius * scale, size * 0.28f);
+                    canopy.height = size;
+                    canopy.center = new Vector3(0f, size * 0.5f, 0f);
+                    Occluder occ = root.AddComponent<Occluder>();
+                    occ.Configure(mr, mat, v.fadeMaterial);
+                }
             }
 
             if (v.resource != ResourceKind.None && v.resourceAmount > 0 && rules != null && rules.TryGet(v.resource, out GatherRule rule))

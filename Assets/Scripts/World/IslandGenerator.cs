@@ -127,6 +127,7 @@ namespace JurassicPark.World
             }
 
             float cellArea = cfg.minPropSpacing * cfg.minPropSpacing * 2f; // rough area each candidate represents
+            var lastOfKind = new Dictionary<PropKind, PropVariant>();
             foreach (Vector2 c in accepted)
             {
                 Vector3 p = new Vector3(c.x, 0f, c.y);
@@ -148,6 +149,12 @@ namespace JurassicPark.World
                 if (kind == null) continue;
                 PropVariant v = cfg.props.Pick(kind.Value, rng);
                 if (v == null) continue;
+                if (lastOfKind.TryGetValue(kind.Value, out PropVariant prev) && prev == v)
+                {
+                    PropVariant alt = cfg.props.Pick(kind.Value, rng); // one re-roll keeps neighbours from repeating
+                    if (alt != null) v = alt;
+                }
+                lastOfKind[kind.Value] = v;
                 p.y = heightM;
                 plan.props.Add(new PropPlacement
                 {
@@ -187,7 +194,8 @@ namespace JurassicPark.World
         {
             float k = cellArea / 100f;
             float pt = d.trees * k, pr = d.rocks * k, pg = d.grass * k, pb = d.bushes * k, pl = d.logs * k;
-            float total = pt + pr + pg + pb + pl;
+            float pbo = d.boulders * k, ps = d.stones * k, pc = d.clutter * k;
+            float total = pt + pr + pg + pb + pl + pbo + ps + pc;
             float r = (float)rng.NextDouble();
             if (r >= Mathf.Min(1f, total)) return null;
             r *= total / Mathf.Min(1f, total);
@@ -195,7 +203,10 @@ namespace JurassicPark.World
             if ((r -= pr) < 0f) return PropKind.Rock;
             if ((r -= pg) < 0f) return PropKind.Grass;
             if ((r -= pb) < 0f) return PropKind.Bush;
-            return PropKind.Log;
+            if ((r -= pl) < 0f) return PropKind.Log;
+            if ((r -= pbo) < 0f) return PropKind.Boulder;
+            if ((r -= ps) < 0f) return PropKind.Stone;
+            return PropKind.Clutter;
         }
 
         private static bool FarEnough(Vector2 c, List<Vector2> pts, Dictionary<(int, int), List<int>> grid, float cellSize, float minDist)

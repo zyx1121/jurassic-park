@@ -103,6 +103,7 @@ namespace JurassicPark.EditorTools
             camData.renderPostProcessing = true;
             camData.antialiasing = AntialiasingMode.None;
             FollowCamera follow = camGo.AddComponent<FollowCamera>();
+            camGo.AddComponent<SeeThrough>();
             follow.Target = null; // set by NetLobby when the local player spawns
             float b = cfg.terrain.size * 0.45f;
             follow.Bounds = new Rect(-b, -b, b * 2f, b * 2f);

@@ -1,0 +1,29 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0b657c436194440e993e8b4a189eb102, type: 3}
+  m_Name: tree_canopy_b_Tree
+  m_EditorClassIdentifier: JurassicPark.World::JurassicPark.World.PropVariant
+  kind: 0
+  sprite: {fileID: 2800000, guid: c3db6bd725e7a4a69941454a8fa6c233, type: 3}
+  cellPixels: 192
+  pixelsPerUnit: 64
+  footprintRadius: 0.55
+  solid: 1
+  resource: 1
+  resourceAmount: 5
+  weight: 1
+  baseScale: 2.2
+  scaleJitter: 0.12
+  tintMaterials:
+  - {fileID: 2100000, guid: 7d33221275ae54175af5cc7ac08d1ae0, type: 2}
+  depletedMaterial: {fileID: 2100000, guid: 4b64dee57fcdf413bb620e12e8f165ba, type: 2}
+  fadeMaterial: {fileID: 2100000, guid: a3210dd596b6f4b3e9e11b66fbd80cbd, type: 2}

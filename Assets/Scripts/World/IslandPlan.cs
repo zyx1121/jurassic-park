@@ -30,6 +30,6 @@ namespace JurassicPark.World
         public Vector3 baseCenter;
         public Vector3 playerSpawn;
         public List<PropPlacement> props = new List<PropPlacement>();
-        public int[] propCountsByKind = new int[5];
+        public int[] propCountsByKind = new int[8];
     }
 }

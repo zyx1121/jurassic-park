@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3b591e63808624551b77b134bdac2a23, type: 3}
   m_Name: Terrain
   m_EditorClassIdentifier: JurassicPark.World::JurassicPark.World.TerrainConfig
-  size: 128
-  heightmapResolution: 129
+  size: 192
+  heightmapResolution: 257
   maxHeight: 14
   seaLevel: 3.5
   featureSize: 28
