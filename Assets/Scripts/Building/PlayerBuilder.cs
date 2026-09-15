@@ -176,6 +176,7 @@ namespace JurassicPark.Building
             }
 
             Structure s = StructureFactory.Place(library, Selected, center, RotationSteps, structuresRoot);
+            NoiseBus.Emit(center, 25f, gameObject);
             RebuildPreview();
             return s;
         }

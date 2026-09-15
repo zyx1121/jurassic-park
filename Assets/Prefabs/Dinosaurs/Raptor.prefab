@@ -132,7 +132,7 @@ GameObject:
   - component: {fileID: 3142331637264047790}
   - component: {fileID: 763932920478842619}
   - component: {fileID: 6980541680665330231}
-  - component: {fileID: 6150455555251477259}
+  - component: {fileID: 1727162545370229466}
   m_Layer: 0
   m_Name: Raptor
   m_TagString: Untagged
@@ -228,7 +228,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: JurassicPark.Combat::JurassicPark.Combat.HitFlash
   flashColor: {r: 1, g: 0.35, b: 0.35, a: 1}
   duration: 0.12
---- !u!114 &6150455555251477259
+--- !u!114 &1727162545370229466
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -237,9 +237,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 3561091559587139490}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8435bef7cb45f4daea85d48f0dd772f9, type: 3}
+  m_Script: {fileID: 11500000, guid: 92971660c07394aeba49a0c78c9a3cc1, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: JurassicPark.Dinosaurs::JurassicPark.Dinosaurs.RaptorBrain
+  m_EditorClassIdentifier: JurassicPark.Dinosaurs::JurassicPark.Dinosaurs.DinosaurBrain
   stats: {fileID: 11400000, guid: 693d01db3594746a7887571df0540f94, type: 2}
   animator: {fileID: 3949439136992824788}
   targetTag: Player

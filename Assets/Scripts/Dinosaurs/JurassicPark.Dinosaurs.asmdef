@@ -3,7 +3,9 @@
     "rootNamespace": "JurassicPark.Dinosaurs",
     "references": [
         "JurassicPark.Core",
-        "JurassicPark.Combat"
+        "JurassicPark.Combat",
+        "JurassicPark.Scene",
+        "JurassicPark.Building"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],
