@@ -48,7 +48,7 @@ namespace JurassicPark.Scene
                 return;
             }
 
-            if (advance && Application.isPlaying)
+            if (advance && Application.isPlaying && JurassicPark.Core.Authority.IsAuthority)
             {
                 Advance(Time.deltaTime / config.dayLengthSeconds);
             }

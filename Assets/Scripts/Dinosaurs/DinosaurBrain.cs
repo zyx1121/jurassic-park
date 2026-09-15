@@ -82,7 +82,7 @@ namespace JurassicPark.Dinosaurs
 
         private void Update()
         {
-            if (State == DinosaurState.Dead || stats == null) return;
+            if (State == DinosaurState.Dead || stats == null || !Authority.IsAuthority) return;
 
             stateTimer -= Time.deltaTime;
             Perceive();

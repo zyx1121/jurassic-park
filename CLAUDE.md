@@ -5,9 +5,9 @@ Unity 6000.3 LTS, URP, C#. HD-2D co-op dinosaur survival game for the NYCU 3D Ga
 ## Rules
 
 - Never hand-edit `.unity`, `.prefab`, or `.asset` YAML while an Editor is open. Use `unity status` first; drive the live Editor or run batchmode.
-- Scripts live in `Assets/Scripts/<System>/`; one MonoBehaviour per file, namespace `JurassicPark.<System>`.
+- Scripts live in `Assets/Scripts/<System>/`; namespace `JurassicPark.<System>`. Every MonoBehaviour, ScriptableObject and NetworkBehaviour lives in its own file and the file name must equal the class name, otherwise builds lose the script reference (assets load as null in the player).
 - Every gameplay number (speeds, costs, HP, spawn tables) goes in a ScriptableObject under `Assets/Data/`, not a literal in code.
-- Networking is host-authoritative. Gameplay logic must run correctly with `NetworkManager` absent (single-player path).
+- Networking is host-authoritative. Gameplay logic must run correctly with `NetworkManager` absent (single-player path). Simulation code gates on `Authority.IsAuthority` (Core); the Net assembly plugs the NetworkManager in. Players are spawned by `NetLobby` (`--host`, `--join ip`, `--offline`, or the debug GUI), never placed in scenes.
 - Binary assets go through Git LFS (see `.gitattributes`). Sprites are point filtered, no compression, no mipmaps.
 - Verify before claiming done: `tools/test.sh` (EditMode tests; exits non-zero unless a fresh report shows zero failures), `unity build . --target StandaloneOSX --output-path Builds/macOS/JurassicPark.app`, or a Play-mode check in the Editor. CI only checks repo hygiene; tests and builds run locally.
 - Branch, PR, CI green, squash-merge. Commit messages in English, imperative mood.
