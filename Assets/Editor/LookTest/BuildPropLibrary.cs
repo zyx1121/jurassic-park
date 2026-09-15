@@ -93,6 +93,19 @@ namespace JurassicPark.EditorTools
             }
 
             lib.gatherRules = rules;
+            PickupLibrary pickups = AssetDatabase.LoadAssetAtPath<PickupLibrary>("Assets/Data/PickupLibrary.asset");
+            if (pickups == null)
+            {
+                pickups = ScriptableObject.CreateInstance<PickupLibrary>();
+                AssetDatabase.CreateAsset(pickups, "Assets/Data/PickupLibrary.asset");
+            }
+            pickups.wood = AssetDatabase.LoadAssetAtPath<Texture2D>("Assets/Sprites/Items/pickup_wood.png");
+            pickups.stone = AssetDatabase.LoadAssetAtPath<Texture2D>("Assets/Sprites/Items/pickup_stone.png");
+            pickups.food = AssetDatabase.LoadAssetAtPath<Texture2D>("Assets/Sprites/Items/pickup_food.png");
+            pickups.boatPart = AssetDatabase.LoadAssetAtPath<Texture2D>("Assets/Sprites/Items/pickup_boatpart.png");
+            pickups.spriteMaterial = AssetDatabase.LoadAssetAtPath<Material>("Assets/Materials/PropSprite.mat");
+            EditorUtility.SetDirty(pickups);
+            lib.pickups = pickups;
             lib.variants = variants.ToArray();
             EditorUtility.SetDirty(lib);
             AssetDatabase.SaveAssets();

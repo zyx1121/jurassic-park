@@ -18,6 +18,7 @@ namespace JurassicPark.World
         [SerializeField] private int amount;
         [SerializeField] private GatherRule rule;
         [SerializeField] private Color baseTint = Color.white;
+        [SerializeField] private PickupLibrary pickups;
 
         public ResourceKind Kind => kind;
         public ResourceStock Stock { get; private set; }
@@ -32,8 +33,9 @@ namespace JurassicPark.World
         private Vector3 spriteScale;
         private float punchUntil;
 
-        public void Configure(ResourceKind newKind, int newAmount, GatherRule newRule, Color tint)
+        public void Configure(ResourceKind newKind, int newAmount, GatherRule newRule, Color tint, PickupLibrary pickupLibrary = null)
         {
+            pickups = pickupLibrary;
             kind = newKind;
             amount = newAmount;
             rule = newRule;
@@ -75,7 +77,8 @@ namespace JurassicPark.World
 
         public bool CanInteract(GameObject actor)
         {
-            return Stock != null && !Stock.Depleted && actor.GetComponent<ResourceInventory>() != null;
+            ResourceInventory inv = actor.GetComponent<ResourceInventory>();
+            return Stock != null && !Stock.Depleted && inv != null && inv.Space(Kind) > 0;
         }
 
         public void Interact(GameObject actor)
@@ -89,7 +92,11 @@ namespace JurassicPark.World
             Punch();
             if (units > 0)
             {
-                actor.GetComponent<ResourceInventory>().Add(Kind, units);
+                int accepted = actor.GetComponent<ResourceInventory>().Add(Kind, units);
+                if (accepted < units && pickups != null)
+                {
+                    PickupFactory.Spawn(pickups, Kind, units - accepted, actor.transform.position + (transform.position - actor.transform.position).normalized * 0.6f);
+                }
             }
 
             if (Stock.Depleted)

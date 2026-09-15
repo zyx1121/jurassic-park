@@ -28,10 +28,10 @@ namespace JurassicPark.World
         {
             float scale = PickScale(lib, rng);
             Color tint = PickTint(lib, rng);
-            return Place(v, groundPosition, scale, tint, parent, spriteMaterial, lib.gatherRules);
+            return Place(v, groundPosition, scale, tint, parent, spriteMaterial, lib.gatherRules, lib.pickups);
         }
 
-        public static GameObject Place(PropVariant v, Vector3 groundPosition, float scale, Color tint, Transform parent = null, Material spriteMaterial = null, GatherRules rules = null)
+        public static GameObject Place(PropVariant v, Vector3 groundPosition, float scale, Color tint, Transform parent = null, Material spriteMaterial = null, GatherRules rules = null, PickupLibrary pickups = null)
         {
             GameObject root = new GameObject(v.name);
             root.transform.SetParent(parent, false);
@@ -77,7 +77,7 @@ namespace JurassicPark.World
                 }
 
                 ResourceNode node = root.AddComponent<ResourceNode>();
-                node.Configure(v.resource, v.resourceAmount, rule, tint);
+                node.Configure(v.resource, v.resourceAmount, rule, tint, pickups);
             }
 
             return root;

@@ -58,7 +58,16 @@ namespace JurassicPark.EditorTools
             healthSo.FindProperty("config").objectReferenceValue = healthConfig;
             healthSo.ApplyModifiedPropertiesWithoutUndo();
             root.AddComponent<HitFlash>();
-            root.AddComponent<ResourceInventory>();
+            InventoryConfig invCfg = AssetDatabase.LoadAssetAtPath<InventoryConfig>("Assets/Data/Inventory.asset");
+            if (invCfg == null)
+            {
+                invCfg = ScriptableObject.CreateInstance<InventoryConfig>();
+                AssetDatabase.CreateAsset(invCfg, "Assets/Data/Inventory.asset");
+            }
+            ResourceInventory inventory = root.AddComponent<ResourceInventory>();
+            SerializedObject invSo = new SerializedObject(inventory);
+            invSo.FindProperty("config").objectReferenceValue = invCfg;
+            invSo.ApplyModifiedPropertiesWithoutUndo();
 
             PlayerController pc = root.AddComponent<PlayerController>();
             SerializedObject so = new SerializedObject(pc);

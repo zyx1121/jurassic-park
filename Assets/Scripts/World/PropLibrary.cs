@@ -9,6 +9,7 @@ namespace JurassicPark.World
     {
         public PropVariant[] variants = new PropVariant[0];
         public GatherRules gatherRules;
+        public PickupLibrary pickups;
 
         [Header("Per-placement variation")]
         public Vector2 scaleRange = new Vector2(0.8f, 1.3f);
