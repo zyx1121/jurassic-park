@@ -32,6 +32,13 @@ namespace JurassicPark.Building
             return snappedCell + new Vector3(ox, 0f, oz);
         }
 
+        /// <summary>Nearest grid-aligned footprint center to the pointer, including even-sized footprints.</summary>
+        public static Vector3 SnapFootprint(Vector3 world, Vector2Int footprint, int rotationSteps, float cellSize)
+        {
+            Vector3 offset = FootprintCenter(Vector3.zero, footprint, rotationSteps, cellSize);
+            return Snap(world - offset, cellSize) + offset;
+        }
+
         /// <summary>Axis-aligned XZ overlap of two rotated footprints (rotations are 90-degree steps, so AABB is exact).</summary>
         public static bool Overlaps(Vector3 centerA, Vector2 sizeA, Vector3 centerB, Vector2 sizeB)
         {

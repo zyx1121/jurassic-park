@@ -18,3 +18,4 @@ MonoBehaviour:
   gravity: 25
   interactRadius: 1.6
   interactionEyeHeight: 0.9
+  gatherRepeatInterval: 0.35

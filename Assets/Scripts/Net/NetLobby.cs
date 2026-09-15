@@ -18,13 +18,12 @@ namespace JurassicPark.Net
     {
         [SerializeField] private GameObject playerPrefab;
         [SerializeField] private ushort defaultPort = 7777;
-        [SerializeField] private bool showDebugGui = true;
 
         public string Status { get; private set; } = "offline";
         public bool Started { get; private set; }
+        public bool IsNetworkSession => nm != null && nm.IsListening;
 
         private NetworkManager nm;
-        private string joinAddress = "127.0.0.1";
         private float fpsAccum;
         private int fpsFrames;
         private float fps;
@@ -97,10 +96,18 @@ namespace JurassicPark.Net
         public bool Join(string address)
         {
             if (Started || nm == null) return false;
-            string[] parts = address.Split(':');
-            ushort port = parts.Length > 1 && ushort.TryParse(parts[1], out ushort p) ? p : defaultPort;
+            string[] parts = (address ?? "").Trim().Split(':');
+            string host = parts[0].Equals("localhost", StringComparison.OrdinalIgnoreCase) ? "127.0.0.1" : parts[0];
+            ushort port = defaultPort;
+            if (parts.Length > 2 || !System.Net.IPAddress.TryParse(host, out var ip)
+                || ip.AddressFamily != System.Net.Sockets.AddressFamily.InterNetwork
+                || (parts.Length == 2 && (!ushort.TryParse(parts[1], out port) || port == 0)))
+            {
+                Status = "Enter a LAN IPv4 address, optionally followed by :port (1-65535).";
+                return false;
+            }
             var utp = nm.GetComponent<UnityTransport>();
-            utp.SetConnectionData(parts[0], port);
+            utp.SetConnectionData(host, port);
             Started = nm.StartClient();
             Status = Started ? $"joining {parts[0]}:{port}" : "join failed";
             return Started;
@@ -134,22 +141,5 @@ namespace JurassicPark.Net
             }
         }
 
-        private void OnGUI()
-        {
-            if (!showDebugGui || Started) return;
-            GUILayout.BeginArea(new Rect(10, 10, 260, 120), GUI.skin.box);
-            GUILayout.Label($"Net: {Status}   {fps:F0} fps");
-            if (!Started)
-            {
-                if (GUILayout.Button("Host")) Host();
-                GUILayout.BeginHorizontal();
-                joinAddress = GUILayout.TextField(joinAddress, GUILayout.Width(140));
-                if (GUILayout.Button("Join")) Join(joinAddress);
-                GUILayout.EndHorizontal();
-                if (GUILayout.Button("Play offline")) StartOffline();
-            }
-
-            GUILayout.EndArea();
-        }
     }
 }

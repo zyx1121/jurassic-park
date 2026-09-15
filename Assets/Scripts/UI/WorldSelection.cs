@@ -19,8 +19,6 @@ namespace JurassicPark.UI
         public PlayerController LocalPlayer { get; private set; }
         public Component Target { get; private set; }
         public Component HoveredTarget { get; private set; }
-        public Component SelectedTarget { get; private set; }
-        public bool HasSelection => SelectedTarget != null;
         public string TargetName { get; private set; } = "";
         public string TargetDetails => Describe(Target);
         public float TargetDistance => LocalPlayer != null ? LocalPlayer.InteractionDistance(Target) : float.PositiveInfinity;
@@ -30,13 +28,10 @@ namespace JurassicPark.UI
         private Camera cam;
         private PlayerBuilder builder;
         private Renderer hoveredRenderer;
-        private Renderer selectedRenderer;
         private Renderer targetRenderer;
         private Component namedTarget;
         private readonly RaycastHit[] hits = new RaycastHit[128];
         private readonly List<Renderer> structureRenderers = new List<Renderer>();
-        private Texture2D[] cursors;
-        private int cursorState = -1;
 
         public void Configure(SelectionConfig value) => config = value;
 
@@ -48,12 +43,7 @@ namespace JurassicPark.UI
                 enabled = false;
                 return;
             }
-            cursors = new[]
-            {
-                CreateCursor(config.normalCursorColor),
-                CreateCursor(config.readyCursorColor),
-                CreateCursor(config.unavailableCursorColor),
-            };
+            Cursor.SetCursor(null, Vector2.zero, CursorMode.Auto);
             Cursor.visible = true;
             Cursor.lockState = CursorLockMode.None;
         }
@@ -63,23 +53,19 @@ namespace JurassicPark.UI
             if (config == null) return;
             if (cam == null) cam = Camera.main;
             BindLocalPlayer();
-            if (SelectedTarget == null || !SelectedTarget.gameObject.activeInHierarchy) { SelectedTarget = null; selectedRenderer = null; }
-
             if (LocalPlayer == null || Mouse.current == null)
             {
                 HoveredTarget = null;
                 RefreshTarget();
-                SetCursor(0);
                 return;
             }
-            if (Keyboard.current != null && Keyboard.current.escapeKey.wasPressedThisFrame)
-                ClearSelection();
             if (WorldInputBlockers.BlocksWorldInput || (builder != null && builder.IsBuilding))
             {
                 HoveredTarget = null;
-                LocalPlayer.InteractionTarget = SelectedTarget;
+                LocalPlayer.InteractionTarget = null;
                 Target = null;
-                SetCursor(0);
+                TargetName = "";
+                namedTarget = null;
                 return;
             }
 
@@ -88,15 +74,8 @@ namespace JurassicPark.UI
             HoveredTarget = !overUi && cam != null
                 ? PickTarget(cam.ScreenPointToRay(pointer), out hoveredRenderer)
                 : null;
-            if (!overUi && Mouse.current.leftButton.wasPressedThisFrame)
-                SelectTarget(HoveredTarget, hoveredRenderer);
-            if (!overUi && Mouse.current.rightButton.wasPressedThisFrame)
-                ClearSelection();
+            if (!(HoveredTarget is IInteractable)) HoveredTarget = null;
             RefreshTarget();
-            int state = !overUi && HoveredTarget is IInteractable
-                ? (LocalPlayer.CanInteractWith(HoveredTarget) ? 1 : 2)
-                : 0;
-            SetCursor(state);
         }
 
         private void BindLocalPlayer()
@@ -117,30 +96,14 @@ namespace JurassicPark.UI
             if (LocalPlayer != null) LocalPlayer.InteractionTarget = null;
             LocalPlayer = local;
             builder = local != null ? local.GetComponent<PlayerBuilder>() : null;
-            ClearSelection();
-        }
-
-        public void SelectTarget(Component target) => SelectTarget(target, target != null ? target.GetComponentInChildren<Renderer>() : null);
-
-        private void SelectTarget(Component target, Renderer renderer)
-        {
-            SelectedTarget = target;
-            selectedRenderer = renderer;
-            RefreshTarget();
-        }
-
-        public void ClearSelection()
-        {
-            SelectedTarget = null;
-            selectedRenderer = null;
-            if (LocalPlayer != null) LocalPlayer.InteractionTarget = null;
+            HoveredTarget = null;
             RefreshTarget();
         }
 
         private void RefreshTarget()
         {
-            Target = SelectedTarget != null ? SelectedTarget : HoveredTarget;
-            targetRenderer = SelectedTarget != null ? selectedRenderer : hoveredRenderer;
+            Target = HoveredTarget;
+            targetRenderer = hoveredRenderer;
             if (LocalPlayer != null)
             {
                 LocalPlayer.InteractionTarget = Target;
@@ -171,6 +134,9 @@ namespace JurassicPark.UI
             float nearest = float.PositiveInfinity;
             float obstruction = float.PositiveInfinity;
             Component best = null;
+            Component fadedBest = null;
+            Renderer fadedRenderer = null;
+            float fadedDistance = float.PositiveInfinity;
             for (int i = 0; i < count; i++)
             {
                 RaycastHit hit = candidates[i];
@@ -195,17 +161,32 @@ namespace JurassicPark.UI
                     Bounds bounds = mesh.sharedMesh.bounds;
                     if (point.x < bounds.min.x || point.x > bounds.max.x || point.y < bounds.min.y || point.y > bounds.max.y) continue;
                 }
-                if (distance >= nearest || distance > config.maxPickDistance) continue;
+                if (distance > config.maxPickDistance) continue;
+                Occluder occluder = target.GetComponent<Occluder>();
+                // Visible resources win over the canopy that was faded specifically to reveal them.
+                if (occluder != null && occluder.Fade > 0f && occluder.Fade >= config.fadedPickThreshold)
+                {
+                    if (distance < fadedDistance)
+                    {
+                        fadedDistance = distance;
+                        fadedBest = target;
+                        fadedRenderer = visual;
+                    }
+                    continue;
+                }
+                if (distance >= nearest) continue;
                 nearest = distance;
                 best = target;
                 renderer = visual;
             }
-            if (nearest > obstruction)
+            if (best != null && nearest <= obstruction) return best;
+            if (fadedBest != null && fadedDistance <= obstruction)
             {
-                renderer = null;
-                return null;
+                renderer = fadedRenderer;
+                return fadedBest;
             }
-            return best;
+            renderer = null;
+            return null;
         }
 
         public static Component ResolveSelectable(Collider collider)
@@ -301,60 +282,13 @@ namespace JurassicPark.UI
                 if (inventory != null && !BuildGrid.CanAfford(inventory, structure.Def, structure.Def.repairCostFraction)) return "Not enough resources to repair";
             }
             if (!LocalPlayer.HasClearInteractionPath(Target)) return "Path blocked";
-            return action.CanInteract(LocalPlayer.gameObject) ? $"E  {action.Prompt}" : "Unavailable";
-        }
-
-        private Texture2D CreateCursor(Color fill)
-        {
-            int size = config.cursorSize;
-            var texture = new Texture2D(size, size, TextureFormat.RGBA32, false)
-            {
-                name = "Interaction cursor",
-                filterMode = FilterMode.Point,
-                hideFlags = HideFlags.DontSave,
-            };
-            var pixels = new Color32[size * size];
-            float scale = size / 24f;
-            for (int y = 0; y < size; y++)
-            for (int x = 0; x < size; x++)
-            {
-                int u = Mathf.FloorToInt(x / scale), v = Mathf.FloorToInt(y / scale);
-                if (!CursorPixel(u, v)) continue;
-                bool edge = !CursorPixel(u - 1, v) || !CursorPixel(u + 1, v) || !CursorPixel(u, v - 1) || !CursorPixel(u, v + 1);
-                pixels[(size - 1 - y) * size + x] = edge ? new Color32(20, 18, 26, 255) : (Color32)fill;
-            }
-            texture.SetPixels32(pixels);
-            texture.Apply();
-            return texture;
-        }
-
-        private static bool CursorPixel(int x, int y) =>
-            (y >= 2 && y <= 17 && x >= 2 && x <= 2 + (y - 2) / 2) || (x >= 6 && x <= 8 && y >= 12 && y <= 21);
-
-        private void SetCursor(int state)
-        {
-            if (cursors == null || cursorState == state || !Application.isFocused) return;
-            cursorState = state;
-            Cursor.SetCursor(cursors[state], Vector2.one * (config.cursorSize / 12f), CursorMode.Auto);
-        }
-
-        private void OnApplicationFocus(bool focused)
-        {
-            cursorState = -1;
-            if (!focused) Cursor.SetCursor(null, Vector2.zero, CursorMode.Auto);
+            return action.CanInteract(LocalPlayer.gameObject) ? action.Prompt : "Unavailable";
         }
 
         private void OnDisable()
         {
             if (LocalPlayer != null) LocalPlayer.InteractionTarget = null;
             Cursor.SetCursor(null, Vector2.zero, CursorMode.Auto);
-            cursorState = -1;
-        }
-
-        private void OnDestroy()
-        {
-            if (cursors == null) return;
-            foreach (Texture2D cursor in cursors) Destroy(cursor);
         }
     }
 }

@@ -15,5 +15,7 @@ namespace JurassicPark.Player
         [Min(0f)] public float interactRadius = 1.6f;
         [Tooltip("Height of the interaction visibility ray above the player's feet.")]
         [Min(0f)] public float interactionEyeHeight = 0.9f;
+        [Tooltip("Delay between gathering hits while holding the primary action.")]
+        [Min(0.1f)] public float gatherRepeatInterval = 0.35f;
     }
 }

@@ -1,8 +1,9 @@
+using System.Collections.Generic;
 using JurassicPark.Core;
 using JurassicPark.Player;
 using JurassicPark.World;
 using UnityEngine;
-using UnityEngine.InputSystem;
+using UnityEngine.UI;
 
 namespace JurassicPark.UI
 {
@@ -13,28 +14,21 @@ namespace JurassicPark.UI
     /// </summary>
     public sealed class Minimap : MonoBehaviour, IWorldInputBlocker
     {
-        [SerializeField] private int resolution = 256;
-        [SerializeField] private int cornerSize = 200;
-        [SerializeField] private int largeSize = 640;
-        [SerializeField] private Color seaColor = new Color(0.16f, 0.32f, 0.5f);
-        [SerializeField] private Color[] layerColors =
-        {
-            new Color(0.85f, 0.78f, 0.55f), // sand
-            new Color(0.3f, 0.55f, 0.28f),  // grass a
-            new Color(0.42f, 0.66f, 0.32f), // grass b
-            new Color(0.24f, 0.48f, 0.3f),  // grass c
-            new Color(0.42f, 0.3f, 0.18f),  // dirt
-            new Color(0.5f, 0.48f, 0.55f),  // rock
-        };
+        private HudConfig config;
+        public bool Visible { get; set; } = true;
 
         public Texture2D Map { get; private set; }
         public bool Large { get; private set; }
-        public bool BlocksWorldInput => isActiveAndEnabled && HasLocalPlayer
+        public bool BlocksWorldInput => isActiveAndEnabled && Visible && HasLocalPlayer
             && (Large || closedFrame == Time.frameCount);
         public Rect CornerScreenRect => ToScreenRect(MapRect(false));
 
         public static float ReferenceScale(int width, int height) =>
             Mathf.Sqrt(Mathf.Max(1, width) / 1280f * (Mathf.Max(1, height) / 720f));
+
+        private float CanvasScale => config == null ? ReferenceScale(Screen.width, Screen.height)
+            : Mathf.Pow(Mathf.Max(1, Screen.width) / Mathf.Max(1, config.referenceResolution.x), 1f - config.widthHeightMatch)
+                * Mathf.Pow(Mathf.Max(1, Screen.height) / Mathf.Max(1, config.referenceResolution.y), config.widthHeightMatch);
 
         private static bool HasLocalPlayer
         {
@@ -47,43 +41,54 @@ namespace JurassicPark.UI
         }
 
         private Terrain terrain;
-        private Texture2D dot;
-        private Texture2D facilityIcon;
-        private Texture2D dockIcon;
-        private GUIStyle labelStyle;
-        private GUIStyle legendStyle;
+        private Canvas canvas;
+        private RectTransform canvasRect;
+        private RawImage mapImage;
+        private Image borderImage;
+        private Text legend;
+        private readonly List<Image> markers = new List<Image>();
+        private readonly List<Text> labels = new List<Text>();
+        private readonly List<Image> labelBackdrops = new List<Image>();
+        private int markerCount, labelCount;
         private int closedFrame = -1;
 
         private void OnEnable()
         {
             WorldInputBlockers.Register(this);
+            if (config != null) Configure(config);
+        }
+
+        public void Configure(HudConfig settings)
+        {
+            config = settings;
+            ReleaseTextures();
+            if (config == null) return;
             terrain = Terrain.activeTerrain;
             if (terrain != null) Paint();
-            dot = Solid(new Color(1f, 0.95f, 0.6f));
-            facilityIcon = Solid(new Color(0.95f, 0.35f, 0.3f));
-            dockIcon = Solid(new Color(0.3f, 0.7f, 1f));
+            if (canvas == null) BuildCanvas();
+        }
+
+        public void Toggle()
+        {
+            if (Large) Close();
+            else if (Visible && HasLocalPlayer && Map != null) Large = true;
+        }
+
+        public void Close()
+        {
+            if (!Large) return;
+            Large = false;
+            closedFrame = Time.frameCount;
         }
 
         private void Update()
         {
             if (!HasLocalPlayer) { Large = false; closedFrame = -1; return; }
+            if (config == null) return;
             if (terrain == null || Map == null)
             {
                 terrain = Terrain.activeTerrain;
                 if (terrain != null) Paint();
-            }
-            if (Keyboard.current == null) return;
-            bool toggle = Keyboard.current.mKey.wasPressedThisFrame;
-            bool close = Large && Keyboard.current.escapeKey.wasPressedThisFrame;
-            if (Large && (toggle || close))
-            {
-                Large = false;
-                // Esc belongs to the map even if a build-mode Update runs after this one.
-                closedFrame = Time.frameCount;
-            }
-            else if (toggle && Map != null)
-            {
-                Large = true;
             }
         }
 
@@ -92,6 +97,7 @@ namespace JurassicPark.UI
             WorldInputBlockers.Unregister(this);
             Large = false;
             closedFrame = -1;
+            if (canvas != null) canvas.gameObject.SetActive(false);
             ReleaseTextures();
         }
 
@@ -103,23 +109,25 @@ namespace JurassicPark.UI
 
         private void ReleaseTextures()
         {
-            if (Map != null) Destroy(Map);
-            if (dot != null) Destroy(dot);
-            if (facilityIcon != null) Destroy(facilityIcon);
-            if (dockIcon != null) Destroy(dockIcon);
-            Map = dot = facilityIcon = dockIcon = null;
-            labelStyle = legendStyle = null;
+            if (Map != null)
+            {
+                if (Application.isPlaying) Destroy(Map);
+                else DestroyImmediate(Map);
+            }
+            Map = null;
         }
 
         private Rect MapRect(bool large)
         {
-            float scale = ReferenceScale(Screen.width, Screen.height);
-            float size = large ? Mathf.Min(largeSize * scale, Screen.width - 64f * scale, Screen.height - 112f * scale)
-                : cornerSize * scale;
+            if (config == null) return Rect.zero;
+            float scale = CanvasScale;
+            float margin = config.margin;
+            float size = large ? Mathf.Min(config.largeMapSize * scale, Screen.width - margin * 4 * scale, Screen.height - margin * 7 * scale)
+                : config.cornerMapSize * scale;
             size = Mathf.Max(1f, size);
             return large
-                ? new Rect((Screen.width - size) * 0.5f, (Screen.height - size) * 0.5f - 12f * scale, size, size)
-                : new Rect(Screen.width - size - 16f * scale, 16f * scale, size, size);
+                ? new Rect((Screen.width - size) * 0.5f, (Screen.height - size) * 0.5f, size, size)
+                : new Rect(Screen.width - size - margin * scale, (margin + config.buttonHeight + config.gap) * scale, size, size);
         }
 
         private static Rect ToScreenRect(Rect guiRect) =>
@@ -127,21 +135,30 @@ namespace JurassicPark.UI
 
         public bool BlocksPointer(Vector2 screenPosition)
         {
-            if (!isActiveAndEnabled || !HasLocalPlayer || Map == null) return false;
+            if (!isActiveAndEnabled || !Visible || !HasLocalPlayer || Map == null) return false;
             if (BlocksWorldInput) return true;
-            float scale = ReferenceScale(Screen.width, Screen.height);
+            float scale = CanvasScale;
             Rect rect = MapRect(false);
-            rect = new Rect(rect.x - 4f * scale, rect.y - 4f * scale, rect.width + 8f * scale, rect.height + 36f * scale);
+            rect = new Rect(rect.x - config.progressHeight * scale, rect.y - config.progressHeight * scale,
+                rect.width + config.progressHeight * 2 * scale, rect.height + config.progressHeight * 2 * scale);
             return ToScreenRect(rect).Contains(screenPosition);
         }
 
         /// <summary>Builds the map texture from terrain heights and alphamaps. Public so tests and tools can call it.</summary>
         public void Paint()
         {
+            if (config == null)
+            {
+                SurvivalHud hud = GetComponent<SurvivalHud>();
+                if (hud != null) config = hud.Config;
+                if (config == null) return;
+            }
             if (terrain == null) terrain = Terrain.activeTerrain;
             if (terrain == null) return;
-            if (Map != null) Destroy(Map);
+            ReleaseTextures();
             TerrainData d = terrain.terrainData;
+            int resolution = Mathf.Max(2, config.mapResolution);
+            Color[] layerColors = config.mapLayers;
             Map = new Texture2D(resolution, resolution, TextureFormat.RGBA32, false) { filterMode = FilterMode.Point };
             float sea = SeaLevel();
             float[,,] alpha = d.GetAlphamaps(0, 0, d.alphamapWidth, d.alphamapHeight);
@@ -155,7 +172,7 @@ namespace JurassicPark.UI
                 Color c;
                 if (h <= sea)
                 {
-                    c = seaColor * Mathf.Lerp(0.55f, 1f, Mathf.Clamp01((h - (sea - 4f)) / 4f));
+                    c = config.mapSea * Mathf.Lerp(0.55f, 1f, Mathf.Clamp01((h - (sea - 4f)) / 4f));
                 }
                 else
                 {
@@ -187,14 +204,6 @@ namespace JurassicPark.UI
             return sea != null ? sea.transform.position.y : 0f;
         }
 
-        private static Texture2D Solid(Color c)
-        {
-            var t = new Texture2D(1, 1);
-            t.SetPixel(0, 0, c);
-            t.Apply();
-            return t;
-        }
-
         private Vector2 ToMap(Vector3 world, Rect rect)
         {
             Vector3 local = world - terrain.transform.position;
@@ -203,36 +212,67 @@ namespace JurassicPark.UI
             return new Vector2(rect.x + u * rect.width, rect.y + (1f - v) * rect.height);
         }
 
-        private void OnGUI()
+        private void BuildCanvas()
         {
-            if (Map == null || terrain == null || !HasLocalPlayer) return;
-            float scale = ReferenceScale(Screen.width, Screen.height);
-            Rect rect = MapRect(Large);
-            Color oldColor = GUI.color;
-            if (Large)
-            {
-                GUI.color = new Color(0.04f, 0.07f, 0.07f, 0.94f);
-                GUI.DrawTexture(new Rect(0f, 0f, Screen.width, Screen.height), Texture2D.whiteTexture);
-                GUI.color = oldColor;
-            }
-            GUI.DrawTexture(new Rect(rect.x - 4f * scale, rect.y - 4f * scale, rect.width + 8f * scale, rect.height + 36f * scale), Texture2D.blackTexture);
-            GUI.DrawTexture(rect, Map);
+            var root = new GameObject("Island chart", typeof(RectTransform), typeof(Canvas));
+            root.transform.SetParent(transform, false);
+            canvas = root.GetComponent<Canvas>();
+            canvas.renderMode = RenderMode.ScreenSpaceOverlay;
+            canvas.sortingOrder = 101;
+            canvasRect = root.GetComponent<RectTransform>();
+            borderImage = MakeGraphic<Image>("Map border");
+            mapImage = MakeGraphic<RawImage>("Terrain map");
+            legend = MakeGraphic<Text>("Map legend");
+        }
 
-            labelStyle ??= new GUIStyle(GUI.skin.label) { normal = { textColor = new Color32(239, 231, 209, 255) } };
-            legendStyle ??= new GUIStyle(labelStyle) { alignment = TextAnchor.MiddleCenter };
-            labelStyle.fontSize = Mathf.RoundToInt(14f * scale);
-            legendStyle.fontSize = Mathf.RoundToInt(16f * scale);
-            float m = (Large ? 8f : 5f) * scale;
+        private T MakeGraphic<T>(string name) where T : Graphic
+        {
+            var go = new GameObject(name, typeof(RectTransform));
+            go.transform.SetParent(canvasRect, false);
+            T graphic = go.AddComponent<T>();
+            graphic.raycastTarget = false;
+            return graphic;
+        }
+
+        private static void Place(RectTransform target, Rect guiRect)
+        {
+            Rect screen = ToScreenRect(guiRect);
+            target.anchorMin = target.anchorMax = target.pivot = Vector2.zero;
+            target.anchoredPosition = screen.position;
+            target.sizeDelta = screen.size;
+        }
+
+        private void LateUpdate()
+        {
+            if (canvas == null) return;
+            bool visible = Visible && config != null && config.HasFonts && Map != null && terrain != null && HasLocalPlayer;
+            canvas.gameObject.SetActive(visible);
+            if (!visible) return;
+            float scale = CanvasScale;
+            Rect rect = MapRect(Large);
+            float border = config.progressHeight * scale;
+            Place(borderImage.rectTransform, new Rect(rect.x - border, rect.y - border, rect.width + border * 2, rect.height + border * 2));
+            borderImage.color = config.panel;
+            Place(mapImage.rectTransform, rect);
+            mapImage.texture = Map;
+            markerCount = labelCount = 0;
+            float m = (Large ? config.mapMarkerSize : config.mapMarkerSize * .65f) * scale;
             foreach (FacilityMarker f in FacilityMarker.All)
             {
                 Vector2 p = ToMap(f.transform.position, rect);
-                GUI.DrawTexture(new Rect(p.x - m * 0.5f, p.y - m * 0.5f, m, m), f.isDock ? dockIcon : facilityIcon);
+                Mark(new Rect(p.x - m * .5f, p.y - m * .5f, m, m), f.isDock ? config.mapDock : config.mapFacility);
                 if (Large)
                 {
-                    float width = 160f * scale;
-                    float x = Mathf.Clamp(p.x + 8f * scale, rect.x, rect.xMax - width);
-                    float y = Mathf.Clamp(p.y - 10f * scale, rect.y, rect.yMax - 24f * scale);
-                    GUI.Label(new Rect(x, y, width, 24f * scale), f.facilityName, labelStyle);
+                    Text label = GetLabel();
+                    StyleLabel(label, scale);
+                    label.text = WorldSelection.DisplayName(f);
+                    float width = Mathf.Min(label.preferredWidth + config.gap * 2 * scale, rect.width);
+                    float x = Mathf.Clamp(p.x + config.gap * scale, rect.x, rect.xMax - width);
+                    float y = Mathf.Clamp(p.y - config.gap * scale, rect.y, rect.yMax - config.rowHeight * scale);
+                    Rect bounds = new Rect(x, y, width, config.rowHeight * .75f * scale);
+                    Place(labelBackdrops[labelCount - 1].rectTransform, bounds);
+                    labelBackdrops[labelCount - 1].color = config.panel;
+                    Place(label.rectTransform, bounds);
                 }
             }
 
@@ -240,14 +280,55 @@ namespace JurassicPark.UI
             {
                 Vector2 p = ToMap(pc.transform.position, rect);
                 float s = pc.enabled ? m + 2f * scale : m; // local player is the one with input enabled
-                GUI.DrawTexture(new Rect(p.x - s * 0.5f, p.y - s * 0.5f, s, s), dot);
+                Mark(new Rect(p.x - s * .5f, p.y - s * .5f, s, s), config.mapPlayer);
                 Vector2 f = FacingUtil.ToVector(pc.Facing);
                 Vector2 tip = p + new Vector2(f.x, -f.y) * (s + 3f * scale);
-                GUI.DrawTexture(new Rect(tip.x - 1.5f * scale, tip.y - 1.5f * scale, 3f * scale, 3f * scale), dot);
+                float tipSize = config.progressHeight * scale;
+                Mark(new Rect(tip.x - tipSize * .5f, tip.y - tipSize * .5f, tipSize, tipSize), config.mapPlayer);
             }
 
-            GUI.Label(new Rect(rect.x, rect.yMax + 2f * scale, rect.width, 28f * scale),
-                Large ? "Red: facilities   ·   Blue: dock   ·   M / Esc: close" : "Island map  ·  M to expand", legendStyle);
+            for (int i = markerCount; i < markers.Count; i++) markers[i].gameObject.SetActive(false);
+            for (int i = labelCount; i < labels.Count; i++)
+            {
+                labels[i].gameObject.SetActive(false);
+                labelBackdrops[i].gameObject.SetActive(false);
+            }
+            legend.gameObject.SetActive(Large);
+            StyleLabel(legend, scale);
+            legend.text = "Coral: facilities   ·   Blue: dock   ·   Gold: survivors";
+            Place(legend.rectTransform, new Rect(rect.x, rect.yMax + config.gap * scale, rect.width, config.rowHeight * scale));
+        }
+
+        private void Mark(Rect bounds, Color color)
+        {
+            if (markerCount == markers.Count) markers.Add(MakeGraphic<Image>("Map marker"));
+            Image marker = markers[markerCount++];
+            marker.gameObject.SetActive(true);
+            marker.color = color;
+            Place(marker.rectTransform, bounds);
+        }
+
+        private Text GetLabel()
+        {
+            if (labelCount == labels.Count)
+            {
+                labelBackdrops.Add(MakeGraphic<Image>("Facility label backdrop"));
+                labels.Add(MakeGraphic<Text>("Facility name"));
+            }
+            labelBackdrops[labelCount].gameObject.SetActive(true);
+            Text label = labels[labelCount++];
+            label.gameObject.SetActive(true);
+            return label;
+        }
+
+        private void StyleLabel(Text label, float scale)
+        {
+            label.font = config.bodyFont;
+            label.fontSize = Mathf.RoundToInt(config.smallFontSize * scale);
+            label.color = config.text;
+            label.alignment = TextAnchor.MiddleCenter;
+            label.supportRichText = false;
+            label.horizontalOverflow = HorizontalWrapMode.Overflow;
         }
     }
 }

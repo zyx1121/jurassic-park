@@ -14,7 +14,7 @@ using UnityEngine.InputSystem;
 namespace JurassicPark.Tests
 {
     [Category("PlayerFeedback")]
-    public class InteractionTests
+    public class InteractionTests : InputTestFixture
     {
         private readonly List<Object> objects = new List<Object>();
         private PlayerController player;
@@ -39,13 +39,15 @@ namespace JurassicPark.Tests
         }
 
         [SetUp]
-        public void SetUp()
+        public override void Setup()
         {
+            base.Setup();
             var go = Keep(new GameObject("Interaction test player"));
             go.transform.position = origin;
             inventory = go.AddComponent<ResourceInventory>();
             player = go.AddComponent<PlayerController>();
             var config = Keep(ScriptableObject.CreateInstance<PlayerMovementConfig>());
+            config.gravity = 0f;
             var so = new SerializedObject(player);
             so.FindProperty("config").objectReferenceValue = config;
             so.ApplyModifiedPropertiesWithoutUndo();
@@ -53,12 +55,13 @@ namespace JurassicPark.Tests
         }
 
         [TearDown]
-        public void TearDown()
+        public override void TearDown()
         {
             PlayerController.All.Remove(player);
             for (int i = objects.Count - 1; i >= 0; i--)
                 if (objects[i] != null) Object.DestroyImmediate(objects[i]);
             objects.Clear();
+            base.TearDown();
         }
 
         private ResourceNode Node(Vector3 offset, bool childCollider = false)
@@ -86,6 +89,76 @@ namespace JurassicPark.Tests
             Assert.AreEqual(19, selected.Stock.Remaining);
             Assert.AreEqual(20, near.Stock.Remaining);
             Assert.AreEqual(1, inventory.Get(ResourceKind.Wood));
+        }
+
+        [Test]
+        public void PrimaryClickGathersPointedObjectWithoutSelectionStep()
+        {
+            ResourceNode near = Node(Vector3.left * 0.5f);
+            ResourceNode pointed = Node(Vector3.right);
+            player.InteractionTarget = pointed;
+            Invoke(player, "OnAttack", default(InputAction.CallbackContext));
+            Assert.AreEqual(20, pointed.Stock.Remaining, "wait for this frame's pointer resolution");
+            Invoke(player, "Update");
+            Assert.AreEqual(19, pointed.Stock.Remaining);
+            Assert.AreEqual(20, near.Stock.Remaining);
+        }
+
+        [Test]
+        public void PrimaryClickOnEmptyGroundDoesNotGatherNearbyResource()
+        {
+            ResourceNode near = Node(Vector3.left);
+            player.TryPrimaryAction();
+            Assert.AreEqual(20, near.Stock.Remaining);
+        }
+
+        [Test]
+        public void HeldGatheringRepeatsAtIntervalsAndStopsWhenPointerEntersUi()
+        {
+            ResourceNode node = Node(Vector3.left);
+            player.InteractionTarget = node;
+            Mouse mouse = InputSystem.AddDevice<Mouse>();
+            using var action = new InputAction(type: InputActionType.Button, binding: "<Mouse>/leftButton");
+            typeof(PlayerController).GetField("attack", BindingFlags.Instance | BindingFlags.NonPublic).SetValue(player, action);
+            action.performed += context => Invoke(player, "OnAttack", context);
+            action.Enable();
+            var blocker = new Blocker { Pointer = true };
+            try
+            {
+                InputSystem.QueueStateEvent(mouse, new UnityEngine.InputSystem.LowLevel.MouseState { buttons = 1 });
+                InputSystem.Update();
+                Invoke(player, "Update");
+                Assert.AreEqual(19, node.Stock.Remaining);
+                Invoke(player, "Update");
+                Assert.AreEqual(19, node.Stock.Remaining, "holding cannot gather every frame");
+                FieldInfo deadline = typeof(PlayerController).GetField("nextPrimaryTime", BindingFlags.Instance | BindingFlags.NonPublic);
+                deadline.SetValue(player, Time.time - 1f);
+                Invoke(player, "Update");
+                Assert.AreEqual(18, node.Stock.Remaining);
+
+                WorldInputBlockers.Register(blocker);
+                Invoke(player, "Update");
+                WorldInputBlockers.Unregister(blocker);
+                deadline.SetValue(player, Time.time - 1f);
+                Invoke(player, "Update");
+                Assert.AreEqual(18, node.Stock.Remaining, "leaving UI requires a fresh world press");
+            }
+            finally
+            {
+                WorldInputBlockers.Unregister(blocker);
+                InputSystem.RemoveDevice(mouse);
+            }
+        }
+
+        [Test]
+        public void OnlyGatheringOptsIntoHeldInteraction()
+        {
+            Assert.IsInstanceOf<IRepeatableInteractable>(Node(Vector3.right));
+            IInteractable gate = Gate(true);
+            Assert.IsFalse(gate is IRepeatableInteractable);
+            var go = Keep(new GameObject("Pickup"));
+            IInteractable pickup = go.AddComponent<Pickup>();
+            Assert.IsFalse(pickup is IRepeatableInteractable);
         }
 
         [Test]
@@ -202,9 +275,11 @@ namespace JurassicPark.Tests
             try
             {
                 Invoke(player, "OnAttack", default(InputAction.CallbackContext));
+                Invoke(player, "Update");
                 Assert.AreEqual(0, attacks);
                 WorldInputBlockers.Unregister(blocker);
                 Invoke(player, "OnAttack", default(InputAction.CallbackContext));
+                Invoke(player, "Update");
                 Assert.AreEqual(1, attacks, "one unregister removes duplicate registrations");
             }
             finally
@@ -250,18 +325,107 @@ namespace JurassicPark.Tests
         }
 
         [Test]
-        public void SelectionReportsResourceStateAndReadableName()
+        public void FadedCanopyDoesNotStealClicksFromVisibleResourceBehindIt()
+        {
+            ResourceNode front = Node(Vector3.forward * 2f);
+            ResourceNode behind = Node(Vector3.forward * 3f);
+            var fade = front.gameObject.AddComponent<JurassicPark.Scene.Occluder>();
+            var go = Keep(new GameObject("Context picker"));
+            var picker = go.AddComponent<WorldSelection>();
+            picker.Configure(Keep(ScriptableObject.CreateInstance<SelectionConfig>()));
+            Ray ray = new Ray(origin + Vector3.up, Vector3.forward);
+            Assert.AreSame(front, picker.PickTarget(ray, out _));
+            typeof(JurassicPark.Scene.Occluder).GetProperty("Fade").SetValue(fade, 1f);
+            Assert.AreSame(behind, picker.PickTarget(ray, out _));
+            var wall = Keep(new GameObject("Opaque wall"));
+            wall.transform.position = origin + Vector3.forward * 2.5f + Vector3.up;
+            wall.AddComponent<BoxCollider>().size = new Vector3(1f, 2f, 0.1f);
+            Physics.SyncTransforms();
+            Assert.AreSame(front, picker.PickTarget(ray, out _), "An opaque candidate behind a wall must not discard the faded foreground fallback.");
+            wall.SetActive(false);
+            behind.gameObject.SetActive(false);
+            Assert.AreSame(front, picker.PickTarget(ray, out _), "A faded tree remains usable when nothing visible is behind it.");
+        }
+
+        [Test]
+        public void HoverReportsResourceStateAndClearsWithoutStickySelection()
         {
             ResourceNode node = Node(Vector3.right);
             var go = Keep(new GameObject("Selection"));
             var selection = go.AddComponent<WorldSelection>();
-            selection.SelectTarget(node);
-            Assert.IsTrue(selection.HasSelection);
+            typeof(WorldSelection).GetProperty("HoveredTarget").SetValue(selection, node);
+            Invoke(selection, "RefreshTarget");
             Assert.AreSame(node, selection.Target);
             Assert.AreEqual("Tree Test", selection.TargetName);
             StringAssert.Contains("20 Wood remaining", selection.TargetDetails);
-            selection.ClearSelection();
-            Assert.IsFalse(selection.HasSelection);
+            typeof(WorldSelection).GetProperty("HoveredTarget").SetValue(selection, null);
+            Invoke(selection, "RefreshTarget");
+            Assert.IsNull(selection.Target);
+            Assert.AreEqual("", selection.TargetName);
+        }
+
+        private PlayerBuilder Builder()
+        {
+            var library = Keep(ScriptableObject.CreateInstance<StructureLibrary>());
+            var def = Keep(ScriptableObject.CreateInstance<StructureDef>());
+            def.footprint = new Vector2Int(2, 1);
+            library.structures = new[] { def };
+            var builder = player.gameObject.AddComponent<PlayerBuilder>();
+            var serialized = new SerializedObject(builder);
+            serialized.FindProperty("library").objectReferenceValue = library;
+            serialized.ApplyModifiedPropertiesWithoutUndo();
+            Invoke(builder, "Awake");
+            return builder;
+        }
+
+        [Test]
+        public void BuildPaletteExposesRealDefinitionsAndRejectsDistantPlacement()
+        {
+            PlayerBuilder builder = Builder();
+            Assert.AreEqual(1, builder.Definitions.Count);
+            Assert.AreSame(builder.Definitions[0], builder.Selected);
+            Assert.IsFalse(builder.Validate(origin + Vector3.right * 7f, out string reason));
+            StringAssert.Contains("move closer", reason);
+        }
+
+        [Test]
+        public void CancelWinsEvenWhenPlacementRunsBeforeBuilderUpdate()
+        {
+            PlayerBuilder builder = Builder();
+            typeof(PlayerBuilder).GetProperty("IsBuilding").SetValue(builder, true);
+            Mouse mouse = InputSystem.AddDevice<Mouse>();
+            try
+            {
+                InputSystem.QueueStateEvent(mouse, new UnityEngine.InputSystem.LowLevel.MouseState { buttons = 3 });
+                InputSystem.Update();
+                Assert.IsNull(builder.TryPlace());
+                Assert.IsFalse(builder.IsBuilding);
+            }
+            finally { InputSystem.RemoveDevice(mouse); }
+        }
+
+        [Test]
+        public void PlacementUsesPointerTerrainHitRatherThanPlayerFacing()
+        {
+            PlayerBuilder builder = Builder();
+            var data = Keep(new TerrainData { heightmapResolution = 33, size = new Vector3(20f, 1f, 20f) });
+            GameObject terrain = Keep(Terrain.CreateTerrainGameObject(data));
+            terrain.transform.position = origin - new Vector3(10f, 0f, 10f);
+            Physics.SyncTransforms();
+            Assert.IsTrue(builder.TryGetGround(new Ray(origin + new Vector3(3f, 10f, 4f), Vector3.down), out Vector3 ground));
+            Assert.AreEqual(origin.x + 3f, ground.x, 0.01f);
+            Assert.AreEqual(origin.z + 4f, ground.z, 0.01f);
+            Assert.AreEqual(origin.y, ground.y, 0.01f);
+            Assert.IsFalse(builder.TryGetGround(new Ray(origin + Vector3.up * 10f, Vector3.up), out _));
+        }
+
+        [Test]
+        public void DefaultBuildAndRotateKeysDoNotStealInventoryOrInteract()
+        {
+            var controls = AssetDatabase.LoadAssetAtPath<InputActionAsset>("Assets/Input/PlayerControls.inputactions");
+            Assert.AreEqual("<Keyboard>/b", controls.FindAction("Player/Build").bindings[0].path);
+            Assert.AreEqual("<Keyboard>/r", controls.FindAction("Player/Rotate").bindings[0].path);
+            Assert.AreEqual("<Keyboard>/e", controls.FindAction("Player/Interact").bindings[0].path);
         }
 
         [Test]

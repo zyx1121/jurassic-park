@@ -33,6 +33,26 @@ namespace JurassicPark.Tests
             Assert.AreEqual(1.0f, c1.z, 1e-5f);
         }
 
+        [TestCase(0.1f, 0.4f, 0, 1f)]
+        [TestCase(-0.1f, -0.4f, 1, 1f)]
+        [TestCase(9.4f, 2.9f, 0, 0.5f)]
+        [TestCase(9.6f, -2.1f, 1, 0.75f)]
+        public void PointerSnapsToNearestFootprintCenter(float x, float z, int rotation, float cellSize)
+        {
+            var pointer = new Vector3(x, 7f, z);
+            var footprint = new Vector2Int(2, 1);
+            Vector3 center = BuildGrid.SnapFootprint(pointer, footprint, rotation, cellSize);
+            Vector2 size = BuildGrid.RotatedFootprint(footprint, rotation, cellSize);
+            Assert.That(Mathf.Abs(center.x - x), Is.LessThanOrEqualTo(cellSize * 0.5f + 1e-5f));
+            Assert.That(Mathf.Abs(center.z - z), Is.LessThanOrEqualTo(cellSize * 0.5f + 1e-5f));
+            float edgeX = (center.x - size.x * 0.5f) / cellSize;
+            float edgeZ = (center.z - size.y * 0.5f) / cellSize;
+            Assert.AreEqual(Mathf.Round(edgeX), edgeX, 1e-5f);
+            Assert.AreEqual(Mathf.Round(edgeZ), edgeZ, 1e-5f);
+            Assert.AreEqual(7f, center.y);
+            Assert.AreEqual(center, BuildGrid.SnapFootprint(center, footprint, rotation, cellSize));
+        }
+
         [Test]
         public void OverlapDetectsTouchingButNotAdjacent()
         {

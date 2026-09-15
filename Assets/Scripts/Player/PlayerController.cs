@@ -45,6 +45,10 @@ namespace JurassicPark.Player
         private InputAction rotate;
         private Vector3 velocity;
         private bool interactionRequested;
+        private bool primaryRequested;
+        private bool repeatingPrimary;
+        private float nextPrimaryTime;
+        private bool ownsControls;
         private readonly Collider[] overlap = new Collider[64];
         private readonly RaycastHit[] interactionHits = new RaycastHit[32];
         private readonly List<Collider> targetColliders = new List<Collider>(8);
@@ -52,7 +56,11 @@ namespace JurassicPark.Player
         /// <summary>Every player in the scene, local or remote, for HUD and minimap lookups.</summary>
         public static readonly List<PlayerController> All = new List<PlayerController>();
 
-        private void OnDestroy() => All.Remove(this);
+        private void OnDestroy()
+        {
+            All.Remove(this);
+            if (ownsControls) Destroy(controls);
+        }
 
         private void Awake()
         {
@@ -60,6 +68,8 @@ namespace JurassicPark.Player
             controller = GetComponent<CharacterController>();
             if (controls != null)
             {
+                controls = Instantiate(controls);
+                ownsControls = true;
                 InputActionMap map = controls.FindActionMap("Player", throwIfNotFound: true);
                 move = map.FindAction("Move", true);
                 attack = map.FindAction("Attack", true);
@@ -87,6 +97,8 @@ namespace JurassicPark.Player
         private void OnDisable()
         {
             interactionRequested = false;
+            primaryRequested = false;
+            repeatingPrimary = false;
             if (controls == null)
             {
                 return;
@@ -108,6 +120,14 @@ namespace JurassicPark.Player
             {
                 interactionRequested = false;
                 TryInteract();
+            }
+            if (attack == null || !attack.IsPressed() || InteractionSuppressed || WorldInputBlockers.BlocksWorldInput ||
+                (Mouse.current != null && WorldInputBlockers.BlocksPointer(Mouse.current.position.ReadValue())))
+                repeatingPrimary = false;
+            if (primaryRequested || (repeatingPrimary && Time.time >= nextPrimaryTime && InteractionTarget is IRepeatableInteractable))
+            {
+                primaryRequested = false;
+                TryPrimaryAction();
             }
         }
 
@@ -157,7 +177,25 @@ namespace JurassicPark.Player
         {
             if (WorldInputBlockers.BlocksWorldInput ||
                 (Mouse.current != null && WorldInputBlockers.BlocksPointer(Mouse.current.position.ReadValue()))) return;
-            AttackPressed?.Invoke();
+            primaryRequested = true;
+        }
+
+        /// <summary>A world click uses the pointed-at object directly; it never gathers a different nearby object.</summary>
+        public void TryPrimaryAction()
+        {
+            if (WorldInputBlockers.BlocksWorldInput ||
+                (Mouse.current != null && WorldInputBlockers.BlocksPointer(Mouse.current.position.ReadValue()))) return;
+            if (!InteractionSuppressed && InteractionTarget is IInteractable)
+            {
+                repeatingPrimary = InteractionTarget is IRepeatableInteractable;
+                nextPrimaryTime = Time.time + (config != null ? config.gatherRepeatInterval : 0.35f);
+                TryInteract();
+            }
+            else
+            {
+                repeatingPrimary = false;
+                AttackPressed?.Invoke();
+            }
         }
 
         private void OnBuild(InputAction.CallbackContext _)
@@ -183,6 +221,8 @@ namespace JurassicPark.Player
             Component target = InteractionTarget != null ? InteractionTarget : FindNearestInteractable();
             if (!CanInteractWith(target)) return null;
             var interactable = (IInteractable)target;
+            Vector3 toward = target.transform.position - transform.position;
+            Facing = FacingUtil.FromDirection(new Vector2(toward.x, toward.z), Facing);
             interactable.Interact(gameObject);
             Interacted?.Invoke(interactable);
             return interactable;
