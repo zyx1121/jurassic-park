@@ -29,5 +29,8 @@ namespace JurassicPark.Simulation
 
         /// <summary>A queued order, and every actor that could take it already has a full queue. Nothing was created.</summary>
         QueueFull = 13,
+
+        /// <summary>The target exists but this seat may not use it, for example an enemy depot or another unit's pack.</summary>
+        NotAllowedOnTarget = 14,
     }
 }

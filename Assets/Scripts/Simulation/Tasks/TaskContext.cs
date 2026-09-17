@@ -10,12 +10,20 @@ namespace JurassicPark.Simulation
         public DefinitionCatalog Catalog { get; }
         public TaskConfig Config { get; }
 
-        public TaskContext(World world, GridMap map, DefinitionCatalog catalog, TaskConfig config)
+        /// <summary>Null in a world without goods, for example a pure movement test.</summary>
+        public Logistics Logistics { get; }
+
+        /// <summary>Null when nothing needs to ask who may use whose property.</summary>
+        public SeatRegistry Seats { get; }
+
+        public TaskContext(World world, GridMap map, DefinitionCatalog catalog, TaskConfig config, Logistics logistics = null, SeatRegistry seats = null)
         {
             World = world ?? throw new ArgumentNullException(nameof(world));
             Map = map ?? throw new ArgumentNullException(nameof(map));
             Catalog = catalog ?? throw new ArgumentNullException(nameof(catalog));
             Config = config ?? throw new ArgumentNullException(nameof(config));
+            Logistics = logistics;
+            Seats = seats;
         }
 
         /// <summary>Seconds simulated by one tick.</summary>
