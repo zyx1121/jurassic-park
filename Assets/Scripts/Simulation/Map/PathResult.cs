@@ -27,20 +27,24 @@ namespace JurassicPark.Simulation
         /// <summary>Total cost of the route including breach charges, zero unless the status is Found.</summary>
         public int Cost { get; }
 
+        /// <summary>How many cells the search settled to answer. It is the price of the query, so a test or a profiler can hold the pathfinder to a budget instead of guessing.</summary>
+        public int Expanded { get; }
+
         public bool IsFound => Status == PathStatus.Found;
 
-        public PathResult(PathStatus status, IReadOnlyList<Cell> cells, IReadOnlyList<EntityId> breached, long mapVersion, int cost)
+        public PathResult(PathStatus status, IReadOnlyList<Cell> cells, IReadOnlyList<EntityId> breached, long mapVersion, int cost, int expanded = 0)
         {
             Status = status;
             Cells = cells ?? NoCells;
             Breached = breached ?? NoBreaches;
             MapVersion = mapVersion;
             Cost = cost;
+            Expanded = expanded;
         }
 
-        public static PathResult Failed(PathStatus status, long mapVersion) =>
-            new PathResult(status, NoCells, NoBreaches, mapVersion, 0);
+        public static PathResult Failed(PathStatus status, long mapVersion, int expanded = 0) =>
+            new PathResult(status, NoCells, NoBreaches, mapVersion, 0, expanded);
 
-        public override string ToString() => $"Path({Status}, {Cells.Count} cells, cost {Cost}, {Breached.Count} breached, v{MapVersion})";
+        public override string ToString() => $"Path({Status}, {Cells.Count} cells, cost {Cost}, {Breached.Count} breached, {Expanded} expanded, v{MapVersion})";
     }
 }

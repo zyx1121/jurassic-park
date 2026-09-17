@@ -77,6 +77,53 @@ namespace JurassicPark.Tests.EditMode
 
         public static GridMap OpenGrid(int width, int height) => new GridMap(OpenGround(width, height));
 
+        /// <summary>An open square with one cell ringed by cliffs: a goal a search can only call unreachable after sweeping the whole map.</summary>
+        public static GridMap OpenGridWithSealedCell(int size, Cell pocket)
+        {
+            CellFlags[] flags = OpenFlags(size);
+            for (int d = 0; d < GridDirections.Count; d++)
+            {
+                var wall = new Cell(pocket.X + GridDirections.X[d], pocket.Y + GridDirections.Y[d]);
+                flags[wall.Y * size + wall.X] = CellFlags.None;
+            }
+
+            return new GridMap(new MapDefinition(size, size, CellSize, flags, new CampDefinition[0], new RegionDefinition[0]));
+        }
+
+        /// <summary>
+        /// An open square with a three by three building behind a cliff ring. Every cell beside the building is
+        /// walkable, so a search for an operating position has sixteen candidates, and none of them can be reached:
+        /// the case that punishes asking about each candidate separately.
+        /// </summary>
+        public static GridMap OpenGridWithWalledInBuilding(int size, out List<Cell> footprint)
+        {
+            CellFlags[] flags = OpenFlags(size);
+            int centre = size / 2;
+            footprint = new List<Cell>();
+            for (int y = centre - 1; y <= centre + 1; y++)
+            {
+                for (int x = centre - 1; x <= centre + 1; x++) footprint.Add(new Cell(x, y));
+            }
+
+            for (int y = centre - 3; y <= centre + 3; y++)
+            {
+                for (int x = centre - 3; x <= centre + 3; x++)
+                {
+                    bool onRing = x == centre - 3 || x == centre + 3 || y == centre - 3 || y == centre + 3;
+                    if (onRing) flags[y * size + x] = CellFlags.None;
+                }
+            }
+
+            return new GridMap(new MapDefinition(size, size, CellSize, flags, new CampDefinition[0], new RegionDefinition[0]));
+        }
+
+        private static CellFlags[] OpenFlags(int size)
+        {
+            var flags = new CellFlags[size * size];
+            for (int i = 0; i < flags.Length; i++) flags[i] = CellFlags.Walkable | CellFlags.Buildable;
+            return flags;
+        }
+
         public static GridMap GridFromRows(IReadOnlyList<string> rowsTopFirst) =>
             new GridMap(FromRows(rowsTopFirst, Array.Empty<CampDefinition>(), Array.Empty<RegionDefinition>()));
 

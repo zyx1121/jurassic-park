@@ -110,6 +110,59 @@ namespace JurassicPark.Tests.EditMode
         }
 
         [Test]
+        public void ValidateReportsACampWithNoWalkableCell()
+        {
+            // The whole rectangle is the cliff ring, so the camp is a wall, not a place.
+            MapDefinition definition = SealedCampMap(
+                new[] { Camp("cliff-block", new CellBounds(2, 4, 5, 4), new Cell(2, 5)) },
+                new List<RegionDefinition>());
+
+            AssertReports(definition.Validate(), "Camp 'cliff-block' bounds [2,4..5,4] hold no walkable cell");
+        }
+
+        [Test]
+        public void ValidateReportsAnEntranceThatIsNowhereNearItsCamp()
+        {
+            // Open ground far away used to satisfy every entrance rule while the camp itself stayed sealed.
+            MapDefinition definition = SealedCampMap(
+                new[] { Camp("sealed-camp", new CellBounds(3, 2, 4, 3), Cell.Zero) },
+                new List<RegionDefinition>());
+
+            AssertReports(definition.Validate(), "entrance Cell(0, 0) is neither inside camp bounds [3,2..4,3] nor beside them");
+        }
+
+        [Test]
+        public void ValidateReportsAnEntranceThatCannotReachInsideTheCamp()
+        {
+            // The gap is beside the camp and on the open ground, but the cliff ring between them has no opening.
+            MapDefinition definition = SealedCampMap(
+                new[] { Camp("ringed-camp", new CellBounds(2, 1, 5, 4), new Cell(2, 0)) },
+                new List<RegionDefinition>());
+
+            AssertReports(definition.Validate(), "entrance Cell(2, 0) cannot reach any walkable cell inside camp bounds [2,1..5,4]");
+        }
+
+        [Test]
+        public void ValidateReportsBuildableTerrainThatIsNotWalkable()
+        {
+            var flags = new CellFlags[4];
+            for (int i = 0; i < flags.Length; i++) flags[i] = CellFlags.Walkable | CellFlags.Buildable;
+            flags[3] = CellFlags.Buildable;
+
+            var definition = new MapDefinition(2, 2, FixtureMaps.CellSize, flags, new List<CampDefinition>(), new List<RegionDefinition>());
+
+            AssertReports(definition.Validate(), "Cell(1, 1) is buildable but not walkable (1 cells like it)");
+        }
+
+        [Test]
+        public void BoundsWithSwappedCornersAreRefusedWhereTheyAreBuilt()
+        {
+            // The simulation never holds an inverted rectangle, so authoring has to straighten it before this point.
+            Assert.That(() => new CellBounds(4, 3, 1, 1), Throws.ArgumentException);
+            Assert.That(() => new CellBounds(new Cell(0, 0), new Cell(0, -1)), Throws.ArgumentException);
+        }
+
+        [Test]
         public void ValidateReportsDuplicateCampAndRegionIds()
         {
             MapDefinition definition = SealedCampMap(

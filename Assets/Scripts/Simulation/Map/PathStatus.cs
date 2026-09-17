@@ -7,7 +7,10 @@ namespace JurassicPark.Simulation
     /// </summary>
     public enum PathStatus
     {
-        /// <summary>A complete route from start to goal. Partial progress is never reported as success.</summary>
+        /// <summary>
+        /// A complete route from start to goal. There is deliberately no partial status: a route that only gets closer
+        /// is not an arrival, and returning one would let a task walk its unit somewhere and call the work done.
+        /// </summary>
         Found = 0,
 
         /// <summary>The reachable area was searched out and the goal was not in it.</summary>

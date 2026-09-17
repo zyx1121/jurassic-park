@@ -68,6 +68,24 @@ namespace JurassicPark.Tests.EditMode
         }
 
         [Test]
+        public void AFootprintThatListsTheSameCellTwiceClaimsItOnce()
+        {
+            GridMap map = FixtureMaps.CampValleyGrid();
+            long before = map.Version;
+            var cell = new Cell(5, 4);
+
+            Assert.That(map.TryOccupy(new[] { cell, cell, new Cell(6, 4) }, Depot, true), Is.True);
+
+            Assert.That(map.Version, Is.EqualTo(before + 1), "one placement, one version");
+            Assert.That(map.FootprintOf(Depot), Has.Count.EqualTo(2));
+            Assert.That(map.BlockerAt(cell), Is.EqualTo(Depot));
+
+            Assert.That(map.Release(Depot), Is.True);
+            Assert.That(map.IsWalkable(cell), Is.True, "a cell claimed twice must not stay claimed once");
+            Assert.That(map.IsWalkable(new Cell(6, 4)), Is.True);
+        }
+
+        [Test]
         public void ReleaseFreesTheCellsAndMovesTheVersion()
         {
             GridMap map = FixtureMaps.CampValleyGrid();

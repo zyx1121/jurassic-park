@@ -8,6 +8,9 @@ namespace JurassicPark.Simulation
     /// equal and the same query always returns the same cells. Destructible blockers are the one thing that is not
     /// simply passable or solid: a breach is a route priced above going around, so a dinosaur breaks a wall when that
     /// is genuinely the cheaper way in, never because the wall happens to be nearby.
+    ///
+    /// Every query runs on the map's own <see cref="PathScratch"/>, so the search allocates nothing per cell. That
+    /// makes it single threaded by construction: the host runs one query at a time, and searches never nest.
     /// </summary>
     public static class GridPathfinder
     {
@@ -18,37 +21,63 @@ namespace JurassicPark.Simulation
         public static PathResult FindPath(GridMap map, Cell start, Cell goal, PathOptions options)
         {
             if (map == null) throw new ArgumentNullException(nameof(map));
+            return FindPathToAny(map, start, new[] { goal }, options);
+        }
+
+        /// <summary>
+        /// The cheapest route from start to whichever of these goals is cheapest to reach, found by one search rather
+        /// than one search per goal: asking about sixteen cells around a building must not cost sixteen sweeps of the
+        /// map. Ties go to the lower cell index, so the answer does not depend on the order the goals were listed.
+        /// An empty goal list is <see cref="PathStatus.NoRoute"/>; goals that terrain rules out are skipped, and if
+        /// that leaves none the query itself was wrong, which is <see cref="PathStatus.InvalidEndpoint"/>.
+        /// </summary>
+        public static PathResult FindPathToAny(GridMap map, Cell start, IReadOnlyList<Cell> goals, PathOptions options)
+        {
+            if (map == null) throw new ArgumentNullException(nameof(map));
+            if (goals == null) throw new ArgumentNullException(nameof(goals));
             if (options == null) throw new ArgumentNullException(nameof(options));
             long version = map.Version;
 
             // Terrain decides whether an endpoint is even askable; occupancy only decides whether it is reachable.
-            if (!IsUsableEndpoint(map, start) || !IsUsableEndpoint(map, goal)) return PathResult.Failed(PathStatus.InvalidEndpoint, version);
-
-            int startIndex = map.IndexOf(start);
-            int goalIndex = map.IndexOf(goal);
-            if (startIndex == goalIndex) return BuildResult(map, new[] { start }, version, 0);
+            if (!IsUsableEndpoint(map, start)) return PathResult.Failed(PathStatus.InvalidEndpoint, version);
+            if (goals.Count == 0) return PathResult.Failed(PathStatus.NoRoute, version);
 
             int cellCount = map.Width * map.Height;
-            var cost = new int[cellCount];
-            var cameFrom = new int[cellCount];
-            var closed = new bool[cellCount];
-            var reached = new bool[cellCount];
-            for (int i = 0; i < cellCount; i++) cameFrom[i] = -1;
+            var goalIndices = new List<int>(goals.Count);
+            var goalCells = new List<Cell>(goals.Count);
+            int startIndex = map.IndexOf(start);
+            for (int i = 0; i < goals.Count; i++)
+            {
+                Cell goal = goals[i];
+                if (!IsUsableEndpoint(map, goal)) continue;
+                int index = map.IndexOf(goal);
+                if (index == startIndex) return BuildResult(map, new[] { start }, version, 0, 0);
+                if (goalIndices.Contains(index)) continue;
+                goalIndices.Add(index);
+                goalCells.Add(goal);
+            }
 
-            var open = new OpenSet(cellCount);
-            cost[startIndex] = 0;
-            reached[startIndex] = true;
-            open.Push(startIndex, Heuristic(start, goal, options), 0);
+            if (goalIndices.Count == 0) return PathResult.Failed(PathStatus.InvalidEndpoint, version);
+
+            int budget = options.MaxExpandedNodes > 0 ? options.MaxExpandedNodes : cellCount;
+            PathScratch scratch = map.Scratch;
+            scratch.Begin(cellCount);
+            scratch.Visit(startIndex, 0, -1);
+            scratch.Push(startIndex, Heuristic(start, goalCells, options), 0);
 
             int expanded = 0;
-            while (open.Count > 0)
+            while (scratch.OpenCount > 0)
             {
-                int currentIndex = open.Pop();
-                if (closed[currentIndex]) continue; // an outdated entry for a cell already settled
-                if (currentIndex == goalIndex) return BuildResult(map, Reconstruct(map, cameFrom, goalIndex), version, cost[goalIndex]);
-                if (expanded == options.MaxExpandedNodes) return PathResult.Failed(PathStatus.BudgetExceeded, version);
+                int currentIndex = scratch.Pop();
+                if (scratch.IsClosed(currentIndex)) continue; // an outdated entry for a cell already settled
+                if (goalIndices.Contains(currentIndex))
+                {
+                    return BuildResult(map, Reconstruct(map, scratch, currentIndex), version, scratch.CostOf(currentIndex), expanded);
+                }
 
-                closed[currentIndex] = true;
+                if (expanded == budget) return PathResult.Failed(PathStatus.BudgetExceeded, version, expanded);
+
+                scratch.Close(currentIndex);
                 expanded++;
                 var current = new Cell(currentIndex % map.Width, currentIndex / map.Width);
                 for (int d = 0; d < GridDirections.Count; d++)
@@ -61,26 +90,24 @@ namespace JurassicPark.Simulation
                     if (diagonal && !CanTurnCorner(map, current, dx, dy)) continue;
 
                     int nextIndex = map.IndexOf(next);
-                    if (closed[nextIndex]) continue;
-                    int candidate = cost[currentIndex] + (diagonal ? options.DiagonalCost : options.StraightCost) + breachCost;
-                    if (reached[nextIndex] && candidate >= cost[nextIndex]) continue;
+                    if (scratch.IsClosed(nextIndex)) continue;
+                    int candidate = scratch.CostOf(currentIndex) + (diagonal ? options.DiagonalCost : options.StraightCost) + breachCost;
+                    if (scratch.IsVisited(nextIndex) && candidate >= scratch.CostOf(nextIndex)) continue;
 
-                    reached[nextIndex] = true;
-                    cost[nextIndex] = candidate;
-                    cameFrom[nextIndex] = currentIndex;
-                    int remaining = Heuristic(next, goal, options);
-                    open.Push(nextIndex, candidate + remaining, remaining);
+                    scratch.Visit(nextIndex, candidate, currentIndex);
+                    int remaining = Heuristic(next, goalCells, options);
+                    scratch.Push(nextIndex, candidate + remaining, remaining);
                 }
             }
 
-            return PathResult.Failed(PathStatus.NoRoute, version);
+            return PathResult.Failed(PathStatus.NoRoute, version, expanded);
         }
 
         /// <summary>
         /// The cheapest reachable cell next to a footprint, which is where a unit stands to gather, deliver, build or
         /// attack. It is never a cell inside the footprint, because standing inside a rock or a building is what makes
         /// units teleport through walls, and the returned path is the route to that exact cell rather than to the
-        /// target's centre.
+        /// target's centre. One search answers for every side at once.
         /// </summary>
         public static bool TryFindApproachCell(
             GridMap map,
@@ -95,35 +122,13 @@ namespace JurassicPark.Simulation
             if (options == null) throw new ArgumentNullException(nameof(options));
 
             approach = default;
-            path = PathResult.Failed(PathStatus.NoRoute, map.Version);
-
             List<Cell> candidates = CollectApproachCells(map, footprint);
-            PathResult best = null;
-            int bestIndex = int.MaxValue;
-            bool pending = false;
-            for (int i = 0; i < candidates.Count; i++)
-            {
-                Cell candidate = candidates[i];
-                PathResult result = FindPath(map, from, candidate, options);
-                if (result.Status == PathStatus.BudgetExceeded) pending = true;
-                if (!result.IsFound) continue;
-                int candidateIndex = map.IndexOf(candidate);
-                // Cheapest wins; the lower cell index breaks ties so two equal sides never swap between calls.
-                if (best != null && (result.Cost > best.Cost || (result.Cost == best.Cost && candidateIndex >= bestIndex))) continue;
-                best = result;
-                bestIndex = candidateIndex;
-                approach = candidate;
-            }
+            path = FindPathToAny(map, from, candidates, options);
+            // A failure keeps its own status: a budget cut off leaves the question open and must not read as an
+            // enclosed target, while an empty candidate list really is one.
+            if (!path.IsFound) return false;
 
-            if (best == null)
-            {
-                // A budget cut off leaves the question open, so it must not be reported as an enclosed target.
-                path = PathResult.Failed(pending ? PathStatus.BudgetExceeded : PathStatus.NoRoute, map.Version);
-                approach = default;
-                return false;
-            }
-
-            path = best;
+            approach = path.Cells[path.Cells.Count - 1];
             return true;
         }
 
@@ -175,22 +180,33 @@ namespace JurassicPark.Simulation
         private static bool CanTurnCorner(GridMap map, Cell from, int dx, int dy) =>
             map.IsWalkable(new Cell(from.X + dx, from.Y)) && map.IsWalkable(new Cell(from.X, from.Y + dy));
 
-        /// <summary>Octile distance: the cost of the same move on an empty map, so it never overestimates and A* stays optimal.</summary>
-        private static int Heuristic(Cell from, Cell to, PathOptions options)
+        /// <summary>
+        /// Octile distance to the nearest goal: the cost of that move on an empty map, so it never overestimates and
+        /// A* stays optimal. Taking the minimum over the goals keeps it admissible for a search that may end at any of
+        /// them, and consistent, so a settled cell never has to be reopened.
+        /// </summary>
+        private static int Heuristic(Cell from, List<Cell> goals, PathOptions options)
         {
-            int dx = Math.Abs(from.X - to.X);
-            int dy = Math.Abs(from.Y - to.Y);
-            int diagonal = Math.Min(dx, dy);
-            return options.DiagonalCost * diagonal + options.StraightCost * (Math.Max(dx, dy) - diagonal);
+            int best = int.MaxValue;
+            for (int i = 0; i < goals.Count; i++)
+            {
+                int dx = Math.Abs(from.X - goals[i].X);
+                int dy = Math.Abs(from.Y - goals[i].Y);
+                int diagonal = Math.Min(dx, dy);
+                int estimate = options.DiagonalCost * diagonal + options.StraightCost * (Math.Max(dx, dy) - diagonal);
+                if (estimate < best) best = estimate;
+            }
+
+            return best;
         }
 
-        private static Cell[] Reconstruct(GridMap map, int[] cameFrom, int goalIndex)
+        private static Cell[] Reconstruct(GridMap map, PathScratch scratch, int goalIndex)
         {
             int length = 0;
-            for (int index = goalIndex; index >= 0; index = cameFrom[index]) length++;
+            for (int index = goalIndex; index >= 0; index = scratch.CameFrom(index)) length++;
             var cells = new Cell[length];
             int position = length - 1;
-            for (int index = goalIndex; index >= 0; index = cameFrom[index])
+            for (int index = goalIndex; index >= 0; index = scratch.CameFrom(index))
             {
                 cells[position--] = new Cell(index % map.Width, index / map.Width);
             }
@@ -199,7 +215,7 @@ namespace JurassicPark.Simulation
         }
 
         /// <summary>Wraps the route and lists the destructible blockers it crosses, each once, in travel order. The start cell is never a breach: the unit is already standing there.</summary>
-        private static PathResult BuildResult(GridMap map, IReadOnlyList<Cell> cells, long version, int cost)
+        private static PathResult BuildResult(GridMap map, IReadOnlyList<Cell> cells, long version, int cost, int expanded)
         {
             var breached = new List<EntityId>();
             for (int i = 1; i < cells.Count; i++)
@@ -209,91 +225,7 @@ namespace JurassicPark.Simulation
                 if (!breached.Contains(blocker)) breached.Add(blocker);
             }
 
-            return new PathResult(PathStatus.Found, new List<Cell>(cells).AsReadOnly(), breached.AsReadOnly(), version, cost);
-        }
-
-        /// <summary>
-        /// Binary heap of cell indices ordered by total cost, then by the remaining estimate, then by index. The last
-        /// two keys are what make ties resolve the same way on every run instead of following allocation order.
-        /// </summary>
-        private sealed class OpenSet
-        {
-            private int[] cells;
-            private int[] totals;
-            private int[] remainders;
-
-            public OpenSet(int capacity)
-            {
-                int size = Math.Max(capacity, 4);
-                cells = new int[size];
-                totals = new int[size];
-                remainders = new int[size];
-            }
-
-            public int Count { get; private set; }
-
-            public void Push(int cell, int total, int remaining)
-            {
-                if (Count == cells.Length) Grow();
-                int child = Count++;
-                cells[child] = cell;
-                totals[child] = total;
-                remainders[child] = remaining;
-                while (child > 0)
-                {
-                    int parent = (child - 1) / 2;
-                    if (!IsBefore(child, parent)) break;
-                    Swap(child, parent);
-                    child = parent;
-                }
-            }
-
-            public int Pop()
-            {
-                int top = cells[0];
-                Count--;
-                if (Count > 0)
-                {
-                    cells[0] = cells[Count];
-                    totals[0] = totals[Count];
-                    remainders[0] = remainders[Count];
-                    int parent = 0;
-                    while (true)
-                    {
-                        int left = parent * 2 + 1;
-                        if (left >= Count) break;
-                        int best = left;
-                        int right = left + 1;
-                        if (right < Count && IsBefore(right, left)) best = right;
-                        if (!IsBefore(best, parent)) break;
-                        Swap(best, parent);
-                        parent = best;
-                    }
-                }
-
-                return top;
-            }
-
-            private bool IsBefore(int a, int b)
-            {
-                if (totals[a] != totals[b]) return totals[a] < totals[b];
-                if (remainders[a] != remainders[b]) return remainders[a] < remainders[b];
-                return cells[a] < cells[b];
-            }
-
-            private void Swap(int a, int b)
-            {
-                (cells[a], cells[b]) = (cells[b], cells[a]);
-                (totals[a], totals[b]) = (totals[b], totals[a]);
-                (remainders[a], remainders[b]) = (remainders[b], remainders[a]);
-            }
-
-            private void Grow()
-            {
-                Array.Resize(ref cells, cells.Length * 2);
-                Array.Resize(ref totals, totals.Length * 2);
-                Array.Resize(ref remainders, remainders.Length * 2);
-            }
+            return new PathResult(PathStatus.Found, new List<Cell>(cells).AsReadOnly(), breached.AsReadOnly(), version, cost, expanded);
         }
     }
 }

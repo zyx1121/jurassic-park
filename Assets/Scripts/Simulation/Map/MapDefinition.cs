@@ -85,6 +85,8 @@ namespace JurassicPark.Simulation
                 errors.Add($"Terrain flags hold {flags.Length} cells but the map is {Width}x{Height} = {expected} cells.");
             }
 
+            AddBuildableTerrainErrors(errors);
+
             int[] components = BuildConnectivity(out int openGround);
             var campIds = new HashSet<string>(StringComparer.Ordinal);
             for (int i = 0; i < camps.Count; i++)
@@ -97,6 +99,11 @@ namespace JurassicPark.Simulation
                 if (!InBounds(camp.Bounds.Min) || !InBounds(camp.Bounds.Max))
                 {
                     errors.Add($"Camp '{id}' bounds {camp.Bounds} lie outside the {Width}x{Height} map.");
+                }
+
+                if (!HasWalkableCell(camp.Bounds))
+                {
+                    errors.Add($"Camp '{id}' bounds {camp.Bounds} hold no walkable cell, so nothing could ever camp there.");
                 }
 
                 if (camp.Entrances.Count == 0) errors.Add($"Camp '{id}' has no entrance cell, so nothing can enter it.");
@@ -115,9 +122,23 @@ namespace JurassicPark.Simulation
                         continue;
                     }
 
+                    // An entrance somewhere else on the map is not this camp's entrance, however open it is.
+                    if (!IsOnOrNextTo(camp.Bounds, entrance))
+                    {
+                        errors.Add($"Camp '{id}' entrance {entrance} is neither inside camp bounds {camp.Bounds} nor beside them.");
+                        continue;
+                    }
+
                     if (openGround >= 0 && components[IndexOf(entrance)] != openGround)
                     {
                         errors.Add($"Camp '{id}' entrance {entrance} is cut off from the map's open ground.");
+                        continue;
+                    }
+
+                    // Standing in the gap is not entering: the walk from the gap into the camp has to exist.
+                    if (openGround >= 0 && !ReachesInside(camp.Bounds, components, components[IndexOf(entrance)]))
+                    {
+                        errors.Add($"Camp '{id}' entrance {entrance} cannot reach any walkable cell inside camp bounds {camp.Bounds}.");
                     }
                 }
             }
@@ -147,15 +168,67 @@ namespace JurassicPark.Simulation
 
         private bool HasWalkableCell(CellBounds bounds)
         {
-            for (int y = bounds.MinY; y <= bounds.MaxY; y++)
+            int minX = Math.Max(bounds.MinX, 0);
+            int minY = Math.Max(bounds.MinY, 0);
+            int maxX = Math.Min(bounds.MaxX, Width - 1);
+            int maxY = Math.Min(bounds.MaxY, Height - 1);
+            for (int y = minY; y <= maxY; y++)
             {
-                for (int x = bounds.MinX; x <= bounds.MaxX; x++)
+                for (int x = minX; x <= maxX; x++)
                 {
                     if (IsStaticWalkable(new Cell(x, y))) return true;
                 }
             }
 
             return false;
+        }
+
+        /// <summary>A cell inside the rectangle or touching it, diagonals included: where a gap in the cliff line around a camp sits.</summary>
+        private static bool IsOnOrNextTo(CellBounds bounds, Cell cell) =>
+            cell.X >= bounds.MinX - 1 && cell.X <= bounds.MaxX + 1 && cell.Y >= bounds.MinY - 1 && cell.Y <= bounds.MaxY + 1;
+
+        /// <summary>True when some walkable cell inside the rectangle belongs to the same connected area as the entrance.</summary>
+        private bool ReachesInside(CellBounds bounds, int[] components, int fromComponent)
+        {
+            int minX = Math.Max(bounds.MinX, 0);
+            int minY = Math.Max(bounds.MinY, 0);
+            int maxX = Math.Min(bounds.MaxX, Width - 1);
+            int maxY = Math.Min(bounds.MaxY, Height - 1);
+            for (int y = minY; y <= maxY; y++)
+            {
+                for (int x = minX; x <= maxX; x++)
+                {
+                    var cell = new Cell(x, y);
+                    if (IsStaticWalkable(cell) && components[IndexOf(cell)] == fromComponent) return true;
+                }
+            }
+
+            return false;
+        }
+
+        /// <summary>
+        /// Buildable ground that is not walkable would pass a blueprint's terrain check and then fail the occupancy
+        /// claim, which asks for walkable cells, so the map would promise a site nothing can ever be built on.
+        /// </summary>
+        private void AddBuildableTerrainErrors(List<string> errors)
+        {
+            int offenders = 0;
+            var first = Cell.Zero;
+            for (int y = 0; y < Height; y++)
+            {
+                for (int x = 0; x < Width; x++)
+                {
+                    var cell = new Cell(x, y);
+                    if (!IsStaticBuildable(cell) || IsStaticWalkable(cell)) continue;
+                    if (offenders == 0) first = cell;
+                    offenders++;
+                }
+            }
+
+            if (offenders > 0)
+            {
+                errors.Add($"{first} is buildable but not walkable ({offenders} cells like it); nothing could stand where a building was placed.");
+            }
         }
 
         /// <summary>

@@ -23,7 +23,13 @@ namespace JurassicPark.Tests.EditMode
 
         private static readonly Cell Pocket = new Cell(2, 2);
 
-        private static PathOptions Walk(int maxExpandedNodes = PathOptions.DefaultMaxExpandedNodes) =>
+        /// <summary>The route through the walled main entrance, hand counted on the fixture: 14 + 3 * 10 up the east lane, 10 through the gap, 6 * 10 west to the camp ground.</summary>
+        private const int ThroughTheEntrance = 114;
+
+        /// <summary>The way round through the far gate, hand counted: 14 + 7 * 10 north, 6 * 10 west, 10 + 10 in through the gate, then 14 + 10 to the camp ground.</summary>
+        private const int RoundTheDetour = 188;
+
+        private static PathOptions Walk(int maxExpandedNodes = PathOptions.BudgetFromMapSize) =>
             new PathOptions(false, 0, maxExpandedNodes);
 
         private static PathOptions Breach(int breachCost = BreachCost) =>
@@ -139,6 +145,28 @@ namespace JurassicPark.Tests.EditMode
         }
 
         [Test]
+        public void TheOpenRouteIsUsedUntilTheBreachIsActuallyCheaper()
+        {
+            // PLAN section 6, P4: the choice between walking round and breaking through has to be explainable, so it
+            // is the arithmetic that decides it. Through the walled entrance is 114 plus the breach, round is 188.
+            GridMap map = FixtureMaps.CampValleyGrid();
+            map.TryOccupy(new[] { FixtureMaps.MainEntrance }, EntranceWall, true);
+
+            PathResult round = Route(map, Breach(200));
+            PathResult through = Route(map, Breach(50));
+
+            Assert.That(round.Status, Is.EqualTo(PathStatus.Found));
+            Assert.That(round.Cost, Is.EqualTo(RoundTheDetour));
+            Assert.That(round.Cells, Has.Member(FixtureMaps.DetourGate));
+            Assert.That(round.Breached, Is.Empty, "a breach dearer than the way round is not taken");
+
+            Assert.That(through.Status, Is.EqualTo(PathStatus.Found));
+            Assert.That(through.Cost, Is.EqualTo(ThroughTheEntrance + 50));
+            Assert.That(through.Cells, Has.Member(FixtureMaps.MainEntrance));
+            Assert.That(through.Breached, Is.EqualTo(new[] { EntranceWall }));
+        }
+
+        [Test]
         public void AWeakWallThatIsNotOnTheWayIsNeverBreached()
         {
             GridMap map = FixtureMaps.CampValleyGrid();
@@ -250,6 +278,50 @@ namespace JurassicPark.Tests.EditMode
             Assert.That(starved.Status, Is.EqualTo(PathStatus.BudgetExceeded));
             Assert.That(searchedOut.Status, Is.EqualTo(PathStatus.NoRoute));
             Assert.That(GridPathfinder.FindPath(open, Cell.Zero, new Cell(19, 19), Walk()).Status, Is.EqualTo(PathStatus.Found), "the same query answers once the budget allows it");
+        }
+
+        [Test]
+        public void ASearchForManyGoalsEndsAtTheCheapestOne()
+        {
+            GridMap map = FixtureMaps.OpenGrid(9, 9);
+            var goals = new[] { new Cell(8, 8), new Cell(2, 0), new Cell(0, 5) };
+
+            PathResult path = GridPathfinder.FindPathToAny(map, Cell.Zero, goals, Walk());
+
+            Assert.That(path.Status, Is.EqualTo(PathStatus.Found));
+            Assert.That(path.Cells[path.Cells.Count - 1], Is.EqualTo(new Cell(2, 0)));
+            Assert.That(path.Cost, Is.EqualTo(2 * PathOptions.DefaultStraightCost));
+            Assert.That(GridPathfinder.FindPathToAny(map, Cell.Zero, new Cell[0], Walk()).Status, Is.EqualTo(PathStatus.NoRoute), "nowhere to go is not a broken query");
+        }
+
+        [Test]
+        public void ADefaultBudgetLetsALargeMapBeSearchedOutInsteadOfTimingOut()
+        {
+            // A fixed budget smaller than the map would report BudgetExceeded forever and NoRoute could never happen.
+            var pocket = new Cell(128, 128);
+            GridMap map = FixtureMaps.OpenGridWithSealedCell(256, pocket);
+
+            PathResult path = GridPathfinder.FindPath(map, Cell.Zero, pocket, Walk());
+
+            Assert.That(path.Status, Is.EqualTo(PathStatus.NoRoute));
+            Assert.That(path.Expanded, Is.LessThanOrEqualTo(map.Width * map.Height));
+            Assert.That(GridPathfinder.FindPath(map, Cell.Zero, pocket, Walk(1000)).Status, Is.EqualTo(PathStatus.BudgetExceeded), "an explicit budget still cuts the search off");
+        }
+
+        [Test]
+        public void EverySideOfAFootprintIsAnsweredByOneSearch()
+        {
+            // Sixteen candidates sealed behind a cliff ring: one search per candidate would sweep the map sixteen times.
+            GridMap map = FixtureMaps.OpenGridWithWalledInBuilding(128, out List<Cell> footprint);
+
+            bool found = GridPathfinder.TryFindApproachCell(map, new Cell(1, 1), footprint, Walk(), out Cell approach, out PathResult path);
+
+            Assert.That(found, Is.False);
+            Assert.That(path.Status, Is.EqualTo(PathStatus.NoRoute));
+            Assert.That(approach, Is.EqualTo(default(Cell)));
+            // Measured here: 16,335 expansions, one sweep of the reachable ground. Asking each candidate on its own
+            // cost 16 sweeps, 261,360 expansions, for the same answer.
+            Assert.That(path.Expanded, Is.LessThanOrEqualTo(map.Width * map.Height), "the whole question costs at most one sweep of the map");
         }
 
         [Test]

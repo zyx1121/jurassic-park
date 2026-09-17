@@ -14,6 +14,7 @@ namespace JurassicPark.Simulation
         private readonly EntityId[] blockers;
         private readonly bool[] destructibleCells;
         private readonly Dictionary<EntityId, List<Cell>> footprints = new Dictionary<EntityId, List<Cell>>();
+        private readonly PathScratch scratch = new PathScratch();
 
         public MapDefinition Definition { get; }
         public int Width { get; }
@@ -43,6 +44,12 @@ namespace JurassicPark.Simulation
             blockers = new EntityId[count];
             destructibleCells = new bool[count];
         }
+
+        /// <summary>
+        /// The working memory path queries borrow, so a search costs no map sized allocation. One search runs at a
+        /// time: the simulation is single threaded on the host, and a second caller would overwrite the first's state.
+        /// </summary>
+        internal PathScratch Scratch => scratch;
 
         public bool InBounds(Cell cell) => cell.X >= 0 && cell.X < Width && cell.Y >= 0 && cell.Y < Height;
 
