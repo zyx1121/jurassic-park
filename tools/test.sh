@@ -27,7 +27,12 @@ for i,ch in enumerate(text):
 print('1' if last and last.get('success') else '0')
 if last and not last.get('success'): print(json.dumps(last.get('errors'))[:300], file=sys.stderr)
 ")
-if [ ! -f TestResults/editmode.xml ]; then echo "test: no report written (cli success=$ok)"; exit 1; fi
+if [ ! -f TestResults/editmode.xml ]; then
+  # Usually a compile error: the Editor exits before the run starts and the CLI only says "did not complete".
+  elog="$HOME/Library/Logs/Unity/Editor.log"
+  [ -f "$elog" ] && grep -E "error CS[0-9]+" "$elog" | sort -u | head -20
+  echo "test: no report written (cli success=$ok)"; exit 1
+fi
 python3 - <<'PY'
 import sys, xml.etree.ElementTree as ET
 r = ET.parse('TestResults/editmode.xml').getroot()
