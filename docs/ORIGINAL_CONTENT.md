@@ -19,7 +19,7 @@
 - **`war3mapUnits.doo`（預放單位）不存在**：代表地圖上沒有編輯器裡預先擺放的單位，所有生存者/恐龍都是腳本 runtime `CreateUnit`/`CreateNUnitsAtLoc` 生成，森林地形上的裝飾物在 `war3map.doo`（342,490 bytes，已解出但未逐一 parse 座標，因為對 Unity 重製「內容清單」意義不大，只影響地形擺設細節）。
 - **恐龍/物品/技能的完整 tooltip 全文、圖示路徑**已在 JSON 中（`extracted/w3u.json` 等）但**未在下表逐字列出**（表格只列數值型關鍵欄位，避免表格爆版），需要原文時可直接查 `extracted/*.json`。
 - **base 40 種原版 WC3 單位/技能的「未被覆寫欄位」預設值**（例如自訂單位沒改的攻擊動畫、移動類型等）不在地圖檔案裡，這些欄位繼承自 Blizzard 內建物件資料庫（不在這張自訂地圖 MPQ 內），若 Unity 重製需要那些欄位，需另外查 Blizzard 官方 unit data（此地圖檔案本身查不到，非我方解析工具的限制，而是格式設計就是「只存差異」）。
-- **日夜週期長度**：腳本裡找不到 `SetTimeOfDayScale` / `GameTimeOfDay` 相關呼叫，判斷這張地圖沒有自訂日夜週期，使用 WC3 預設（**uncertain**，因為找不到不等於絕對沒有，只是關鍵字搜尋範圍內查無結果，不排除藏在其他變數命名下）。
+- **日夜週期長度**（已解決，見文末「深挖結果」）：初次搜尋時腳本裡找不到 `SetTimeOfDayScale` / `GameTimeOfDay` 相關呼叫，判斷這張地圖沒有自訂日夜週期，使用 WC3 預設（**uncertain**，因為找不到不等於絕對沒有，只是關鍵字搜尋範圍內查無結果，不排除藏在其他變數命名下）。
 - 沒有找到固定「波次時間表」（wave 1 幾分幾秒、wave 2 幾分幾秒這種結構）。找到的是 **20+ 組隨機區間的週期計時器**（`TriggerRegisterTimerEventPeriodic`，間隔多為 `GetRandomReal(a,b)`，範圍從 1.4 秒到 750 秒不等），推斷恐龍威脅是「隨機遊走 / 隨機攻擊事件」而非固定波次，這點請 Kilo 在 Unity 重製前跟 Loki 確認是否要照抄隨機性還是改成可控波次。
 
 ## 1. 玩家席位數與陣營設定
@@ -707,3 +707,151 @@
 | D004 | ZPvp | dtil, dvr1, dvg1, dvb1, dwlk, dptx, dmar, dmap, dimc, dmas, dmis |
 | D005 | OPop | dtil, dmas, dvr1, dvb1, dcat, dwlk, dimc, dptx, dmis |
 | D006 | ISs1 | dptx |
+
+## 深挖結果：日夜、視野、恐龍生成計時器（2026-09-17）
+
+以下取代前文對應的 uncertain 標記。
+
+來源：`extracted/war3map.j`（685,007 bytes，16,731 行，StormLib 解出的真正完整檔，非 `w3x/out_war3map.j` 那份 130KB 的舊/不完整版本）。
+所有行號皆指這份 `extracted/war3map.j`。
+
+---
+
+### 1. 日夜週期
+
+**結論：地圖有覆寫「開局時刻」與「終局凍結時刻」，但沒有覆寫日夜「流速」；日夜循環速度採用 WC3 引擎預設（一天 = 480 秒）。**
+
+證據：
+
+- `SetTimeOfDay` 全檔僅 3 處非除錯呼叫：
+  - `2885: call SetTimeOfDay(17.5)` — 在函式 `vC`（開局初始化，2870-2960 行）裡，`vC` 由 `TriggerRegisterTimerEventSingle(li,1.)`（14273 行的觸發器 `Li`… 實際掛的是 `li` 觸發器 `14270: TriggerRegisterTimerEventSingle(li,.1)` → `14271: TriggerAddAction(li,function vC)`）在地圖載入後 0.1 秒執行一次。**每局開局固定把時刻設為 17:30（傍晚）**。
+  - `8105: call SetTimeOfDay(3.)` + `8106: call UseTimeOfDayBJ(false)` — 在函式 `rM` 裡，由 `15051: call TriggerAddAction(RE,function rM)` 掛在觸發器 `RE` 上，`RE` 註冊了 `TriggerRegisterTimerExpireEvent` 監聽 3 個生存倒數計時器 `e`/`Rv`/`Iv`（對應 30/45/60 分鐘模式，見第 3220 行附近 `StartTimerBJ(e,false,1800.)` 等）。**生存倒數歸零、直升機撤離階段開始時，把時刻凍結在 03:00（深夜）**，之後 `UseTimeOfDayBJ(false)` 停止日夜自動流動，同一函式接著執行撤離相關的怪物解放/隊形調整。
+  - `1600: call SetTimeOfDay(S2R(SubString(s2s,6,9)))` — 這是聊天指令 `-time #`（GM/除錯用），不是自動遊戲邏輯。
+- 全檔 `grep -c "TimeOfDay"` = 6 處（上述 3 個 SetTimeOfDay + 1 個 `UseTimeOfDayBJ` + 2 個下述的 `TriggerRegisterGameStateEventTimeOfDay`），**沒有任何 `SetTimeOfDayScale`／`SuspendTimeOfDay`／`GetFloatGameState`／`SetFloatGameState(GAME_STATE_TIME_OF_DAY,...)` 呼叫**（逐一 grep 皆 0 命中）。代表腳本從未調整日夜流速，流速沿用引擎預設（1 天 = 480 秒現實時間，06:00 日出、18:00 日落）。
+- `TriggerRegisterGameStateEvent` 全檔僅用於時刻兩處：
+  - `14246: call TriggerRegisterGameStateEventTimeOfDay(gi,EQUAL,17.)` → `14247: TriggerAddAction(gi,function Ec)`。`Ec`（函式本體）：`TriggerSleepAction(GetRandomReal(80.,160.))` 然後 `EnableTrigger(hi)`。即**每天 17:00（日落）觸發，延遲 80-160 秒後啟用 `hi`**。
+  - `14249: call TriggerRegisterGameStateEventTimeOfDay(Gi,EQUAL,7.)` → `14250: TriggerAddAction(Gi,function Xc)`。`Xc`：`DisableTrigger(hi)`。即**每天 07:00（日出）關閉 `hi`**。
+  - `hi` 觸發器本體（14251-14254 行）：監聽 `EVENT_PLAYER_UNIT_CONSTRUCT_START`，條件 `Oc`＝`GetUnitTypeId(GetConstructingStructure())=='h00J'`（營火(Mag)），動作 `Rc`＝`RemoveUnit(GetTriggerUnit())`。**唯一與 TIME_OF_DAY 事件掛鉤的遊戲效果：夜間（17:00~隔天07:00 之間，且要等 80-160 秒隨機延遲後才生效）禁止建造 `h00J`「營火(Mag)」，一開工就被移除；白天恢復可建**。這看起來是防重複/防 bug 的補丁邏輯，而非設計上的「夜間視野/生成」機制。
+- 沒有找到任何其他「夜晚生成怪物增加」或「夜晚視野改變」的 TIME_OF_DAY 掛鉤觸發器——關鍵字掃描（`GetTimeOfDay`、`IsNight`、`bj_isNight` 之類）在全檔中沒有额外命中除上述。
+
+**修正 ORIGINAL_CONTENT.md 第 22/92 行的 uncertain**：原本寫「找不到 SetTimeOfDayScale/GameTimeOfDay」是對的，但漏掉了 `SetTimeOfDay(17.5)`（開局時刻）、`SetTimeOfDay(3.)+UseTimeOfDayBJ(false)`（撤離階段凍結）與兩個 `TriggerRegisterGameStateEventTimeOfDay` 掛鉤（僅影響 `h00J` 建造限制），這些應補進清單。
+
+---
+
+### 2. 營火與視野
+
+**結論：地圖檔案裡沒有任何「營火/篝火給周圍玩家視野加成」的腳本邏輯；營火類單位的視野純粹是 `war3map.w3u` 裡的靜態日/夜視野欄位（usid/usin），沒有光環、沒有 Ultravision。真正的「夜視」是靠道具（夜視鏡）與望遠鏡疊加視野，不是靠營火。**
+
+證據：
+
+- 全檔 `grep "Ault"`（Ultravision 原始技能 rawcode）：**0 命中**，`w3u.json`/`w3a.json` 全部也 0 命中。地圖裡沒有任何單位掛 Ultravision。
+- 營火類單位在 `war3map.w3u`（經 `w3u.json` 的 `custom` 表逐欄核對）：
+  - `h001` 營火：`usid=400`／`usin=400`，技能欄 `uabi=A012`。
+  - `h003` 篝火：`usid=500`／`usin=500`，技能欄 `uabi=A022,A012`。
+  - `h00J` 營火(Mag)：`usid=400`／`usin=400`，技能欄 `uabi=A012`。
+  - （對照：`h000` 倖存者 `usid=700`／`usin=175`；`h00P` 倖存者(複製人) 同倖存者。）
+- `A012`（`w3a.json` custom 表）base=`Abrf`，`anam`＝「破壞」，`atp1`＝「破壞建築」，`aub1`＝「將建築物拆除，不會得到任何回饋」——**這是所有建築通用的自爆/拆除技能，跟視野或光源無關**，只是剛好被重複掛在很多建築（包含 h001/h00J）身上。
+- `A022`（篝火 h003 的第二個技能）base=`AIcf`，`anam`＝「物品獻祭 (篝火 - MOS)」，`aare=200.0`，`aub1`＝「燃燒附近的敵方單位，造成每秒5點傷害」——**這是範圍灼燒攻擊技能，不是視野光環**。
+- 全檔搜尋 `'h001'`/`'h003'`/`'h00J'` 共 18 處呼叫（2710/5916/5920/6184/6196/6224/6675/6753-6942/12180/13398 行），內容全是「h00J 建成後自動換皮成 h001」「AI 玩家的篝火被摧毀後自動重建」「篝火升級鏈」等**建造流程邏輯**，沒有任何一處呼叫視野相關 API（`SetUnitAcquireRange`、`CreateFogModifierRect`、`UnitAddAbility` 掛視野技能）。
+- `13390-13396` 行找到的兩個「建築完工/升級時加技能」掛鉤（`y1`/`z1` 條件 + `Y1`/`Z1` 動作）：對「force fx 陣營建成的任何建築」加 `A04G`（base `AId1`，「盔甲增加」），對「force fx 陣營建成的 h003 篝火」額外加 `A04F`（base `ANre`，`anam`「法力」，`aare=400.0`，疑似法力回復光環）。**這兩個都跟視野無關**（一個是防禦加成、一個疑似魔力回復光環），沒有視野加成技能。
+- 道具端才是真正的夜視來源（`war3map.w3t` / `w3t.json`）：
+  - `I008` 夜視鏡：`utub`/`ides`＝「在夜間增加700視野」，但**沒有 `iabi` 覆寫欄位**——它的實際效果技能繼承自基礎道具 `tels`（該基礎道具本身在這張地圖檔案內查不到定義，屬於「只存差異」格式的已知限制，見 ORIGINAL_CONTENT.md 第 21 行），**無法百分之百確認是被動光環還是主動效果，標記 uncertain**。
+  - `I00J` 望遠鏡：`iabi=A00P`（base `AIsi`），`utub`/`ides`＝「增加400視野」，全天候生效（非僅夜間）。
+
+**結論回答清單原問題**：營火(`h001`/`h003`/`h00J`)給的視野是**單位自身固定的日/夜視野半徑**（400/400 或 500/500），**不是光環、不是對隊友的額外視野增益**；夜間額外視野是靠撿到的「夜視鏡」道具（+700，僅夜間），全天候額外視野靠「望遠鏡」道具（+400）。
+
+---
+
+### 3. 恐龍生成計時器表
+
+**結論：找不到固定波次表；找到 31 組週期性生成計時器（`TriggerRegisterTimerEventPeriodic`），分兩層啟用機制：(a) 難度選擇當下（開局 ~20 秒內）就立刻啟用一批「基礎」計時器，因難度而異；(b) 一條以地圖載入時刻(t=0)為基準、用 `TriggerSleepAction` 串接的「時間軸」（函式 `vl`/`xl`/`ol`），在 t=600/750/900/1050/1200/1350/1500/1800/2050/2300/2700/2900 秒陸續加開或替換計時器，部分受難度變數 `pv`(1-6) 閘門控制。由於「生存」倒數（1800/2700/3600秒）要等難度+時長選擇完+55.75秒過場後才開始（大約是地圖載入後 76-96 秒），時間軸的絕對秒數可近似視為「生存倒數開始後的秒數」，誤差在一分半鐘內。**
+
+全部 31 個週期計時器與其生成內容（`CreateNUnitsAtLoc`，全部在 `bj_mapInitialPlayableArea`＝整張可玩地圖矩形內隨機取點，沒有分區域）：
+
+| 觸發器變數 | 週期(秒) | Callback | 生成內容 | rawcode 對照(ORIGINAL_CONTENT.md) |
+|---|---|---|---|---|
+| vV | 隨機90-100 | rl(7124) | e001×2 + e002×2，acquire range 3000，之後 PATROL(order 851990) 到另一隨機點 | 小群蚊子＋蒼蠅 |
+| eV | 固定750 | il(7136) | o000×2，acquire range 10000，PATROL | 棘龍(Spinosaurus) |
+| xV | 隨機300-350 | al(7145) | o00J×3，acquire range 10000，PATROL | 大型棘龍 |
+| oV | 固定160 | Vl(7156) | 1/3機率o013×2，否則o00F×2；恆定再+o007×1 | 異特龍／中型暴龍／暴龍寶寶 |
+| rV | 固定200 | Rl(7179) | 50/50 o00Z×1 或 o00L×1；pv==6加技能A046/A043，pv==5加A045/A044 | 大型異特龍／成年的暴龍 |
+| iV | 隨機120-130 | Il | o00J×1 | 大型棘龍 |
+| aV | 隨機40-45 | Al | o00G×1 | 中型翼手龍 |
+| nV | 隨機200-250 | Nl | o008×1 + Wv(難度對應迅猛龍)×6 | 迅猛龍寶寶＋難度版迅猛龍 |
+| VV | 固定190 | bl | o001×1 + o007×1 | 小型暴龍＋暴龍寶寶 |
+| EV | 固定160 | Bl | o001×2 + o007×1 | 同上 |
+| XV | 固定170 | cl | o001×3 + o007×1 | 同上 |
+| OV | 固定310 | Cl | o00B×1 | 三角龍 |
+| RV | 固定310 | dl | o00B×2 | 三角龍 |
+| IV | 固定310 | Dl | o00C×1 | 帆龍 |
+| AV | 固定310 | fl | o00C×2 | 帆龍 |
+| NV | 固定160 | Fl | o000×1 | 棘龍 |
+| bV | 固定150 | gl | o000×1 | 棘龍 |
+| BV | 固定160 | Gl | o000×2 | 棘龍 |
+| cV | 隨機70-80 | hl | o004×1 + o008×1 | 迅猛龍＋迅猛龍寶寶(固定用o004,不受Wv影響) |
+| CV | 隨機70-90 | Hl | o004×2 + o008×1 | 同上 |
+| dV | 隨機90-110 | jl | o004×3 + o008×1 | 同上 |
+| DV | 隨機250-275 | Jl | Wv×1 + o008×1 | 難度版迅猛龍＋寶寶 |
+| fV | 隨機35-50 | kl | o002×1 | 雙棘龍 |
+| FV | 隨機200-210 | Kl | o002×1 | 雙棘龍 |
+| gV | 隨機150-340 | ll | o00Y×2 | 大型雙棘龍 |
+| GV | 隨機45-50 | Ll | o002×2 | 雙棘龍 |
+| hV | 隨機35-50 | ml | o005×1 + o00G×1 | 小翼手龍＋中型翼手龍 |
+| HV | 隨機100-200 | Ml | o00W×1 + o00G×1 | 巨型翼手龍＋中型翼手龍 |
+| jV | 隨機100-200 | pl | o00W×1 + o00G×3 | 巨型翼手龍＋中型翼手龍×3 |
+| JV | 隨機30-45 | Pl | o006×1(棕色) | 劍龍 |
+| kV | 隨機30-45 | ql | o006×2(棕色) | 劍龍 |
+
+只有 `vV`/`eV`/`xV`（rl/il/al）三組會額外設定 `SetUnitAcquireRange` 並下 PATROL(851990) 指令去另一隨機點；其餘 28 組單純在隨機點生成後不下任何指令，交給單位預設 AI 行為。（851990=patrol、851986=move，來源見文末。）
+
+#### (a) 開局立即啟用（依難度分支，函式 `bC`，2870+～3230 行）
+
+| 難度(pv) | 顯示文字 | Wv(迅猛龍版本) | 立即啟用的計時器 |
+|---|---|---|---|
+| 1 簡單 | 選擇了簡單模式 | o004 | VV, NV, cV, fV, hV, JV, IV, OV |
+| 2 普通(含20秒逾時預設,函式FC 3298行) | 選擇了普通模式 | o00N | EV, NV, CV, fV, hV, JV, IV, OV |
+| 3 中等 | 選擇了中等模式 | o00N | EV, BV, CV, fV, JV, AV, OV |
+| 4 困難 | 選擇了困難模式 | o00O | EV, BV, CV, GV, JV, AV, RV |
+| 5 侏儸紀公園 | 選擇了侏儸紀公園模式 | o00P | XV, BV, dV, GV, kV, AV, RV |
+| 6 侏儸紀公園II | 選擇了侏儸紀公園II模式 | o00Q | XV, BV, dV, GV, kV, AV, RV（另對Player7-11疊加R00B兇猛度） |
+
+這批計時器在難度選定當下（開局頭 20 秒內）就開始跑，跟遊戲時長(30/45/60分鐘)無關，全部三種時長模式都會遇到。
+
+#### (b) 時間軸式加開/替換（以地圖載入 t=0 為基準）
+
+函式 `Yn`觸發器 → `vl`(7068)，地圖初始化時 `ConditionalTriggerExecute(Yn)` 立即啟動（16565行附近的初始化函式尾端），內部用 `TriggerSleepAction` 串接：
+
+- t=600s：若 `pv>=2`（非簡單難度）→ 開 `vV`
+- t=1200s：若 `pv==6` → 開 `jV`；否則若 `pv==5` → 開 `HV`；接著無條件開 `bV`
+- t=1500s：開 `eV`
+- t=1800s：開 `nV` 與 `aV`
+- t=2050s：開 `iV`
+- t=2300s：開 `oV`
+- t=2700s：若 `pv>=6` → 開 `xV`
+- t=2900s：若 `pv>=5` → 開 `rV`
+
+`zn`觸發器（`TriggerRegisterTimerEventSingle(zn,600.)`）→ `xl`(7103)：t=600s 時若 `pv>=5` → 開 `gV`。
+
+`Zn`觸發器 → `ol`(7108)，地圖初始化時同樣立即 `ConditionalTriggerExecute(Zn)`，內部：
+
+- t=750s：關 `hV`
+- t=900s：關 `JV`、`kV`
+- t=1050s：關 `cV`、`CV`、`dV`；開 `DV`
+- t=1350s：關 `fV`、`GV`；開 `FV`
+
+#### 30 分鐘模式 vs 45/60 分鐘模式
+
+「生存」倒數（1800/2700/3600秒）在難度+時長選好、55.75秒過場播完後才開始（`dC`函式 3241-3288行：`5.75+40+10`秒過場），相當於地圖載入後約 76-96 秒（難度20秒視窗+過場55.75秒+雜項延遲）。把上面時間軸的絕對秒數近似當作「生存倒數開始後的秒數」：
+
+- **30 分鐘模式(1800秒)內一定會出現**：所有難度啟用的「開局立即」批次（VV/EV/XV/NV/cV/CV/dV/fV/hV/GV/JV/AV/kV/IV/OV/RV，視難度而定）＋時間軸 t=600s(`vV`,若pv>=2)、t=600s(`gV`,若pv>=5)、t=750-1350s的`ol`替換批次(`DV`/`FV`開，`hV`/`JV`/`kV`/`cV`/`CV`/`dV`/`fV`/`GV`關)、t=1200s(`bV`，+`jV`或`HV`視pv)、t=1500s(`eV`)、**t=1800s 剛好卡在倒數歸零那一刻**(`nV`、`aV`)——這兩個是否來得及在恰好1800秒觸發存在時序賽跑，實務上等同「30分鐘模式末段才勉強出現，能否真的生成要看兩邊計時器誰先觸發，標記 uncertain」。
+- **只有 45 分鐘(2700秒)或 60 分鐘(3600秒)模式才會出現**：t=2050s(`iV`)、t=2300s(`oV`)一定要 45 分鐘以上才會摸到；t=2700s(`xV`，且需pv>=6)、t=2900s(`rV`，且需pv>=5)則連 45 分鐘模式都不一定跑滿（2700s過場後45分鐘模式的"生存"倒數是從t≈2700才耗盡的2700秒，即絕對時間到t≈5400s結束，所以2700/2900能出現；但30分鐘模式在t=1800s就進入撤離凍結，這兩個必定摸不到）。
+
+---
+
+### 附錄：查不到 / 標記 uncertain 的部分
+
+1. **I008 夜視鏡的視野加成實作方式**（被動光環 vs 主動效果）查不到，因為它沒有覆寫 `iabi` 欄位，效果繼承自基礎道具 `tels`，該基礎道具定義不在這張地圖檔案內（只存差異格式的既有限制）。
+2. **t=1800s 的 `nV`/`aV` 是否真的能在 30 分鐘模式跑出來**：時間軸用的是地圖載入時刻，倒數計時器用的是難度/時長選擇完後才開始，兩者相差約 76-96 秒，本檔案分析無法精確重建兩個獨立計時器誰先觸發，只能說「非常接近臨界值」，標記 uncertain。
+3. **851990/851986 order id 對照**（PATROL/MOVE）不是來自地圖檔案本身，是查外部 Hive Workshop 的 order id 對照表確認，不是逐字反編譯得到的字串（JASS 反編譯只留數字常數）。
+
+來源：[List of Order Ids - Hive Workshop](https://www.hiveworkshop.com/threads/list-of-order-ids.350361/)
