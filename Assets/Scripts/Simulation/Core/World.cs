@@ -40,12 +40,8 @@ namespace JurassicPark.Simulation
         /// <summary>Entities in spawn order. Stable during a tick: spawns and removals take effect on it at commit. Read-only view.</summary>
         public IReadOnlyList<Entity> Entities => orderedView;
 
-        /// <summary>
-        /// Every event committed since the current batch began, across all ticks in it, each stamped with its tick.
-        /// Advance begins a new batch, so after Advance this is everything that happened in that call however many ticks it ran.
-        /// A held batch is never appended to once the next one begins.
-        /// </summary>
-        public IReadOnlyList<SimEvent> Events => batch;
+        /// <summary>Number of committed events waiting to be drained.</summary>
+        public int PendingEventCount => batch.Count;
 
         public World(SimConfig config)
         {
@@ -57,6 +53,7 @@ namespace JurassicPark.Simulation
         public void AddSystem(ISimSystem system)
         {
             if (system == null) throw new ArgumentNullException(nameof(system));
+            ThrowIfFaulted();
             if (ticking) throw new InvalidOperationException("Systems cannot be added during a tick.");
             systems.Add(system);
         }
@@ -64,6 +61,7 @@ namespace JurassicPark.Simulation
         /// <summary>Creates an entity. It resolves through TryGet at once, and joins Entities at the next commit.</summary>
         public Entity Spawn(EntityKind kind, string definitionId, SeatId owner, SimVector2 position)
         {
+            ThrowIfFaulted();
             if (string.IsNullOrEmpty(definitionId)) throw new ArgumentException("An entity needs a definition id.", nameof(definitionId));
             var entity = new Entity(new EntityId(nextEntityId++), kind, definitionId, owner, position);
             byId.Add(entity.Id, entity);
@@ -75,6 +73,7 @@ namespace JurassicPark.Simulation
         /// <summary>Requests removal. The entity stops being alive now and leaves the world at the next commit. Returns false if it is unknown or already leaving.</summary>
         public bool Despawn(EntityId id, string reason)
         {
+            ThrowIfFaulted();
             if (!byId.TryGetValue(id, out Entity entity) || !entity.IsAlive) return false;
             entity.MarkRemoved();
             pendingRemovals.Add(id);
@@ -91,25 +90,28 @@ namespace JurassicPark.Simulation
         public void Raise(SimEvent simEvent)
         {
             if (simEvent == null) throw new ArgumentNullException(nameof(simEvent));
+            ThrowIfFaulted();
             raised.Add(simEvent);
         }
 
-        /// <summary>Starts a new event batch. Advance calls it; call it yourself only when driving the world with Step.</summary>
-        public void BeginEventBatch()
+        /// <summary>
+        /// Hands over every event committed since the previous drain, in order and stamped with its tick, and starts a new batch.
+        /// The consumer owns the boundary: events are lost only by draining and discarding them, never by setup commits,
+        /// by an Advance that runs zero ticks, or by one that runs several. The host loop drains once per frame and fans out.
+        /// </summary>
+        public IReadOnlyList<SimEvent> DrainEvents()
         {
-            if (ticking) throw new InvalidOperationException("The event batch cannot change during a tick.");
+            if (ticking) throw new InvalidOperationException("Events cannot be drained during a tick.");
+            List<SimEvent> drained = batch;
             batch = new List<SimEvent>();
+            return drained.AsReadOnly();
         }
 
-        /// <summary>
-        /// Converts elapsed real time into whole fixed steps and keeps the sub-tick remainder. Returns the number of ticks run.
-        /// Events from every tick run here are in Events afterwards.
-        /// </summary>
+        /// <summary>Converts elapsed real time into whole fixed steps and keeps the sub-tick remainder. Returns the number of ticks run.</summary>
         public int Advance(float elapsedSeconds)
         {
             if (!(elapsedSeconds >= 0f) || float.IsInfinity(elapsedSeconds)) throw new ArgumentOutOfRangeException(nameof(elapsedSeconds));
             ThrowIfFaulted();
-            BeginEventBatch();
             double tickSeconds = Config.TickSeconds;
             accumulator += elapsedSeconds;
             int steps = 0;
@@ -124,7 +126,7 @@ namespace JurassicPark.Simulation
             return steps;
         }
 
-        /// <summary>Runs exactly one tick and appends its events to the current batch.</summary>
+        /// <summary>Runs exactly one tick and appends its events to the undrained batch.</summary>
         public void Step()
         {
             if (ticking) throw new InvalidOperationException("Step is not re-entrant.");

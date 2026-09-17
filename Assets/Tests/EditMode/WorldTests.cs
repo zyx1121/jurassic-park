@@ -76,28 +76,44 @@ namespace JurassicPark.Tests.EditMode
             world.Commit();
             Assert.That(world.TryGet(wall.Id, out _), Is.False);
             Assert.That(world.Entities, Is.Empty);
-            Assert.That(world.Events.OfType<EntityRemoved>().Count(), Is.EqualTo(1));
+            Assert.That(world.DrainEvents().OfType<EntityRemoved>().Count(), Is.EqualTo(1));
         }
 
         [Test]
-        public void EventsAreVisibleOnlyAfterCommitAndAHeldBatchIsNeverAppendedTo()
+        public void EventsAppearOnlyAfterCommitAndADrainedBatchNeverGrows()
         {
             World world = NewWorld();
             world.Spawn(EntityKind.Unit, "survivor", new SeatId(1), SimVector2.Zero);
-            Assert.That(world.Events, Is.Empty);
+            Assert.That(world.PendingEventCount, Is.EqualTo(0), "raised but not committed");
 
             world.Step();
-            IReadOnlyList<SimEvent> firstBatch = world.Events;
-            Assert.That(firstBatch, Has.Count.EqualTo(1));
-            Assert.That(firstBatch[0], Is.InstanceOf<EntitySpawned>());
+            IReadOnlyList<SimEvent> first = world.DrainEvents();
+            Assert.That(first, Has.Count.EqualTo(1));
+            Assert.That(first[0], Is.InstanceOf<EntitySpawned>());
 
-            world.BeginEventBatch();
             world.Spawn(EntityKind.Unit, "raptor", SeatId.None, SimVector2.Zero);
             world.Step();
 
-            Assert.That(firstBatch, Has.Count.EqualTo(1));
-            Assert.That(world.Events, Has.Count.EqualTo(1));
-            Assert.That(world.Events[0].Tick, Is.EqualTo(2));
+            Assert.That(first, Has.Count.EqualTo(1));
+            Assert.That(world.DrainEvents().Select(e => e.Tick), Is.EqualTo(new long[] { 2 }));
+            Assert.That(world.DrainEvents(), Is.Empty);
+            Assert.Throws<System.NotSupportedException>(() => ((IList<SimEvent>)first).Clear());
+        }
+
+        [Test]
+        public void SetupEventsSurviveAdvanceWhetherOrNotItTicks()
+        {
+            World world = NewWorld();
+            world.Spawn(EntityKind.Building, "depot", new SeatId(1), SimVector2.Zero);
+            world.Spawn(EntityKind.ResourceNode, "tree", SeatId.None, SimVector2.Zero);
+            world.Commit();
+
+            Assert.That(world.Advance(0.016f), Is.EqualTo(0), "a 60 fps frame is shorter than a 10 Hz tick");
+            Assert.That(world.PendingEventCount, Is.EqualTo(2));
+            Assert.That(world.Advance(0.2f), Is.GreaterThan(0));
+
+            IReadOnlyList<SimEvent> drained = world.DrainEvents();
+            Assert.That(drained.Select(e => e.Tick), Is.EqualTo(new long[] { 0, 0 }));
         }
 
         private sealed class SpawnEveryTick : ISimSystem
@@ -118,10 +134,10 @@ namespace JurassicPark.Tests.EditMode
 
             Assert.That(world.Advance(0.35f), Is.EqualTo(3));
 
-            Assert.That(world.Events.Select(e => e.Tick), Is.EqualTo(new long[] { 1, 2, 3 }));
+            Assert.That(world.DrainEvents().Select(e => e.Tick), Is.EqualTo(new long[] { 1, 2, 3 }));
 
             world.Advance(0.1f);
-            Assert.That(world.Events.Select(e => e.Tick), Is.EqualTo(new long[] { 4 }), "a new Advance starts a new batch");
+            Assert.That(world.DrainEvents().Select(e => e.Tick), Is.EqualTo(new long[] { 4 }));
         }
 
         [Test]
@@ -135,7 +151,7 @@ namespace JurassicPark.Tests.EditMode
             world.Step();
 
             Assert.That(system.TicksSeen, Is.EqualTo(new long[] { 1, 2 }));
-            Assert.That(world.Events.Select(e => e.Tick), Is.EqualTo(system.TicksSeen));
+            Assert.That(world.DrainEvents().Select(e => e.Tick), Is.EqualTo(system.TicksSeen));
             Assert.That(world.Time, Is.EqualTo(0.2).Within(1e-12));
         }
 
@@ -169,26 +185,39 @@ namespace JurassicPark.Tests.EditMode
             Assert.That(world.Entities.Select(e => e.DefinitionId), Is.EqualTo(new[] { "raptor", "raptor" }));
         }
 
+        private sealed class PileFlicker : ISimSystem
+        {
+            public EntityId ShortLived, Kept;
+            public void Tick(World world)
+            {
+                ShortLived = world.Spawn(EntityKind.GroundPile, "wood", SeatId.None, SimVector2.Zero).Id;
+                world.Despawn(ShortLived, "picked up");
+                Kept = world.Spawn(EntityKind.GroundPile, "wood", SeatId.None, SimVector2.Zero).Id;
+            }
+        }
+
         [Test]
-        public void AnEntityBornAndRemovedInOneTickLeavesNoTraceButItsEvents()
+        public void AnEntityBornAndRemovedInsideOneTickLeavesNoTraceButItsEvents()
         {
             World world = NewWorld();
-            Entity shortLived = world.Spawn(EntityKind.GroundPile, "wood", SeatId.None, SimVector2.Zero);
-            world.Despawn(shortLived.Id, "picked up");
-            Entity next = world.Spawn(EntityKind.GroundPile, "wood", SeatId.None, SimVector2.Zero);
+            var system = new PileFlicker();
+            world.AddSystem(system);
+
             world.Step();
 
-            Assert.That(world.TryGet(shortLived.Id, out _), Is.False);
-            Assert.That(world.Entities.Select(e => e.Id), Is.EqualTo(new[] { next.Id }));
-            Assert.That(next.Id.Value, Is.GreaterThan(shortLived.Id.Value), "ids only ever grow, even within one tick");
-            Assert.That(world.Events.Select(e => e.GetType()), Is.EqualTo(new[] { typeof(EntitySpawned), typeof(EntityRemoved), typeof(EntitySpawned) }));
+            Assert.That(world.TryGet(system.ShortLived, out _), Is.False);
+            Assert.That(world.Entities.Select(e => e.Id), Is.EqualTo(new[] { system.Kept }));
+            Assert.That(system.Kept.Value, Is.GreaterThan(system.ShortLived.Value), "ids only ever grow, even within one tick");
+            Assert.That(world.DrainEvents().Select(e => e.GetType()), Is.EqualTo(new[] { typeof(EntitySpawned), typeof(EntityRemoved), typeof(EntitySpawned) }));
         }
 
         [Test]
         public void EntitiesIsAReadOnlyView()
         {
             World world = NewWorld();
-            Assert.That(world.Entities, Is.Not.InstanceOf<List<Entity>>());
+            Entity entity = world.Spawn(EntityKind.Unit, "survivor", new SeatId(1), SimVector2.Zero);
+            world.Commit();
+            Assert.Throws<System.NotSupportedException>(() => ((IList<Entity>)world.Entities).Remove(entity));
         }
 
         private sealed class Thrower : ISimSystem
@@ -206,16 +235,18 @@ namespace JurassicPark.Tests.EditMode
             World world = NewWorld();
             world.Spawn(EntityKind.Unit, "survivor", new SeatId(1), SimVector2.Zero);
             world.Commit();
-            world.BeginEventBatch();
+            world.DrainEvents();
             world.AddSystem(new Thrower());
 
             Assert.Throws<System.InvalidOperationException>(() => world.Step());
 
             Assert.That(world.IsFaulted, Is.True);
-            Assert.That(world.Events, Is.Empty, "the half-applied removal must not be published");
+            Assert.That(world.PendingEventCount, Is.EqualTo(0), "the half-applied removal must not be published");
             Assert.Throws<System.InvalidOperationException>(() => world.Step());
             Assert.Throws<System.InvalidOperationException>(() => world.Advance(1f));
             Assert.Throws<System.InvalidOperationException>(() => world.Commit());
+            Assert.Throws<System.InvalidOperationException>(() => world.Spawn(EntityKind.Unit, "late", SeatId.None, SimVector2.Zero));
+            Assert.Throws<System.InvalidOperationException>(() => world.Despawn(new EntityId(1), "late"), "a faulted world must not answer Accepted");
         }
 
         private sealed class Reentrant : ISimSystem
