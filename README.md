@@ -33,12 +33,14 @@ The Warcraft III custom map "Jurassic Park" turned base defense into a co-op sur
 
 ## Getting started
 
-The Unity project is created in milestone M0. Until then the repository holds the design and the art tooling:
-
 ```bash
 git clone https://github.com/zyx1121/jurassic-park && cd jurassic-park
-open docs/PLAN.md
+git lfs install && git lfs pull
+unity open .        # Unity CLI, or open the folder in Unity Hub with 6000.3.24f1
+tools/test.sh       # EditMode tests; exits non-zero unless a fresh report shows zero failures
 ```
+
+Code is split into five assemblies: `Simulation` (pure C#, no engine references), `Presentation`, `Net`, `Editor` and `Tests.EditMode`. Gameplay rules live only in `Simulation`.
 
 ## Documentation
 
