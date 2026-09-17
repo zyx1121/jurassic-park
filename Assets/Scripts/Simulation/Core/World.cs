@@ -5,41 +5,53 @@ namespace JurassicPark.Simulation
 {
     /// <summary>
     /// Authoritative world state and the fixed-step loop that changes it.
-    /// One tick is: run every system in order, then commit. Commit applies queued removals and
-    /// publishes the events raised during the tick. Nothing outside the simulation assembly mutates state.
+    /// One tick is: advance the tick number, run every system in order, then commit. Commit applies queued
+    /// removals and publishes the events raised during the tick. Nothing outside the simulation assembly mutates state.
     /// </summary>
     public sealed class World
     {
         private readonly Dictionary<EntityId, Entity> byId = new Dictionary<EntityId, Entity>();
         private readonly List<Entity> ordered = new List<Entity>();
+        private readonly IReadOnlyList<Entity> orderedView;
         private readonly List<Entity> pendingAdds = new List<Entity>();
         private readonly List<EntityId> pendingRemovals = new List<EntityId>();
         private readonly List<ISimSystem> systems = new List<ISimSystem>();
-        private List<SimEvent> raised = new List<SimEvent>();
-        private List<SimEvent> committed = new List<SimEvent>();
+        private readonly List<SimEvent> raised = new List<SimEvent>();
+        private List<SimEvent> batch = new List<SimEvent>();
         private long nextEntityId = 1;
-        private float accumulator;
+        private double accumulator;
         private bool ticking;
 
         public SimConfig Config { get; }
         public SimRandom Random { get; }
 
-        /// <summary>Number of committed ticks.</summary>
+        /// <summary>
+        /// Number of the tick being simulated, or of the last one committed when idle. It is advanced before systems run,
+        /// so a deadline computed inside a system and the events that system raises carry the same tick.
+        /// </summary>
         public long Tick { get; private set; }
 
-        /// <summary>Simulated seconds elapsed, derived from the tick count so it never drifts.</summary>
-        public double Time => Tick * (double)Config.TickSeconds;
+        /// <summary>Simulated seconds at the end of the current tick. Derived from the tick count, so it never drifts.</summary>
+        public double Time => Tick / (double)Config.TicksPerSecond;
 
-        /// <summary>Entities in spawn order. Stable during a tick: spawns and removals take effect on it at commit.</summary>
-        public IReadOnlyList<Entity> Entities => ordered;
+        /// <summary>Set when a system threw. The world is torn mid-tick and refuses to simulate further; the match is over.</summary>
+        public bool IsFaulted { get; private set; }
 
-        /// <summary>Events published by the most recent commit. Replaced, not appended, on every commit.</summary>
-        public IReadOnlyList<SimEvent> Events => committed;
+        /// <summary>Entities in spawn order. Stable during a tick: spawns and removals take effect on it at commit. Read-only view.</summary>
+        public IReadOnlyList<Entity> Entities => orderedView;
+
+        /// <summary>
+        /// Every event committed since the current batch began, across all ticks in it, each stamped with its tick.
+        /// Advance begins a new batch, so after Advance this is everything that happened in that call however many ticks it ran.
+        /// A held batch is never appended to once the next one begins.
+        /// </summary>
+        public IReadOnlyList<SimEvent> Events => batch;
 
         public World(SimConfig config)
         {
             Config = config ?? throw new ArgumentNullException(nameof(config));
             Random = new SimRandom(config.Seed);
+            orderedView = ordered.AsReadOnly();
         }
 
         public void AddSystem(ISimSystem system)
@@ -64,7 +76,7 @@ namespace JurassicPark.Simulation
         public bool Despawn(EntityId id, string reason)
         {
             if (!byId.TryGetValue(id, out Entity entity) || !entity.IsAlive) return false;
-            entity.IsAlive = false;
+            entity.MarkRemoved();
             pendingRemovals.Add(id);
             Raise(new EntityRemoved(id, reason ?? string.Empty));
             return true;
@@ -82,37 +94,57 @@ namespace JurassicPark.Simulation
             raised.Add(simEvent);
         }
 
-        /// <summary>Converts elapsed real time into whole fixed steps and keeps the remainder. Returns the number of ticks run.</summary>
+        /// <summary>Starts a new event batch. Advance calls it; call it yourself only when driving the world with Step.</summary>
+        public void BeginEventBatch()
+        {
+            if (ticking) throw new InvalidOperationException("The event batch cannot change during a tick.");
+            batch = new List<SimEvent>();
+        }
+
+        /// <summary>
+        /// Converts elapsed real time into whole fixed steps and keeps the sub-tick remainder. Returns the number of ticks run.
+        /// Events from every tick run here are in Events afterwards.
+        /// </summary>
         public int Advance(float elapsedSeconds)
         {
-            if (elapsedSeconds < 0f) throw new ArgumentOutOfRangeException(nameof(elapsedSeconds));
+            if (!(elapsedSeconds >= 0f) || float.IsInfinity(elapsedSeconds)) throw new ArgumentOutOfRangeException(nameof(elapsedSeconds));
+            ThrowIfFaulted();
+            BeginEventBatch();
+            double tickSeconds = Config.TickSeconds;
             accumulator += elapsedSeconds;
             int steps = 0;
-            while (accumulator >= Config.TickSeconds && steps < Config.MaxStepsPerAdvance)
+            while (accumulator >= tickSeconds && steps < Config.MaxStepsPerAdvance)
             {
-                accumulator -= Config.TickSeconds;
+                accumulator -= tickSeconds;
                 Step();
                 steps++;
             }
-            // Drop time the host could not catch up on instead of spiralling.
-            if (steps == Config.MaxStepsPerAdvance && accumulator > Config.TickSeconds) accumulator = 0f;
+            // After a stall, drop the whole ticks the host cannot catch up on but keep the phase.
+            if (accumulator >= tickSeconds) accumulator %= tickSeconds;
             return steps;
         }
 
-        /// <summary>Runs exactly one tick.</summary>
+        /// <summary>Runs exactly one tick and appends its events to the current batch.</summary>
         public void Step()
         {
             if (ticking) throw new InvalidOperationException("Step is not re-entrant.");
+            ThrowIfFaulted();
             ticking = true;
+            Tick++;
             try
             {
                 for (int i = 0; i < systems.Count; i++) systems[i].Tick(this);
+            }
+            catch
+            {
+                // Earlier systems already changed state, so this tick can be neither committed nor cleanly undone.
+                IsFaulted = true;
+                throw;
             }
             finally
             {
                 ticking = false;
             }
-            Tick++;
             Commit();
         }
 
@@ -120,6 +152,7 @@ namespace JurassicPark.Simulation
         public void Commit()
         {
             if (ticking) throw new InvalidOperationException("Commit cannot run inside a tick.");
+            ThrowIfFaulted();
             if (pendingAdds.Count > 0)
             {
                 ordered.AddRange(pendingAdds);
@@ -131,10 +164,17 @@ namespace JurassicPark.Simulation
                 ordered.RemoveAll(e => !e.IsAlive);
                 pendingRemovals.Clear();
             }
-            // A fresh list per commit: a consumer still holding the previous Events must never see the next tick filling up.
-            committed = raised;
-            raised = new List<SimEvent>();
-            for (int i = 0; i < committed.Count; i++) committed[i].Tick = Tick;
+            for (int i = 0; i < raised.Count; i++)
+            {
+                raised[i].Tick = Tick;
+                batch.Add(raised[i]);
+            }
+            raised.Clear();
+        }
+
+        private void ThrowIfFaulted()
+        {
+            if (IsFaulted) throw new InvalidOperationException("The world faulted during a tick and cannot simulate further.");
         }
     }
 }

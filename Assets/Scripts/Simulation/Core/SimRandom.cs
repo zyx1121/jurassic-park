@@ -36,7 +36,7 @@ namespace JurassicPark.Simulation
         }
 
         /// <summary>Uniform float in [minInclusive, maxInclusive], the shape the original map uses for its spawn timers.</summary>
-        public float Range(float minInclusive, float maxInclusive)
+        public float RangeInclusive(float minInclusive, float maxInclusive)
         {
             if (maxInclusive < minInclusive) throw new ArgumentException("Range is inverted.");
             double unit = (NextUInt64() >> 11) * (1.0 / 9007199254740991.0);
