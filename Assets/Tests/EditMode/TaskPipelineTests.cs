@@ -494,5 +494,24 @@ namespace JurassicPark.Tests.EditMode
             Assert.That(TaskLog(unit).Last().State, Is.EqualTo(TaskState.Completed));
             Assert.That(TaskLog(unit).Count(e => e.Reason == TaskReason.RouteBlocked), Is.EqualTo(6));
         }
+
+        [Test]
+        public void AQueuedGroupOrderIsAcceptedWhenOneMoverHasRoomAndSkipsTheOneWhoseQueueIsFull()
+        {
+            Entity full = Survivor(new Cell(1, 1)), free = Survivor(new Cell(2, 1));
+            SimVector2 far = map.CenterOf(new Cell(13, 1));
+            sender.Send(CommandKind.Move, new[] { full.Id, free.Id }, far);
+            sender.Send(CommandKind.Move, new[] { full.Id }, far, mode: CommandMode.Queue);
+            sender.Send(CommandKind.Move, new[] { full.Id }, far, mode: CommandMode.Queue);
+            Run(1);
+            log.Clear();
+
+            sender.Send(CommandKind.Move, new[] { full.Id, free.Id }, far, mode: CommandMode.Queue);
+            Run(1);
+
+            Assert.That(log.OfType<CommandResolved>().Single().Accepted, Is.True);
+            Assert.That(tasks.QueuedCountOf(full.Id), Is.EqualTo(2));
+            Assert.That(tasks.QueuedCountOf(free.Id), Is.EqualTo(1));
+        }
     }
 }

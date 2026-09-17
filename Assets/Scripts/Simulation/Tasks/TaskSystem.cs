@@ -4,8 +4,8 @@ using System.Collections.Generic;
 namespace JurassicPark.Simulation
 {
     /// <summary>
-    /// Owns every actor's current task and the short queue behind it, and steps them once per tick in the order actors first
-    /// received work, so the result never depends on hash order. Register it after the command router: a command accepted this tick starts working this tick.
+    /// Owns every actor's current task and the short queue behind it, and steps them once per tick in the order actors took up
+    /// work (an actor that went idle and returns goes to the back), so the result never depends on hash order. Register it after the command router: a command accepted this tick starts working this tick.
     /// </summary>
     public sealed class TaskSystem : ISimSystem
     {

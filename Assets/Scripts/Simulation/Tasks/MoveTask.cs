@@ -15,6 +15,7 @@ namespace JurassicPark.Simulation
         private long routeMapVersion;
         private long nextPlanTick;
         private int plansWithoutProgress;
+        private long lastSpendTick = -1;
 
         public MoveTask(SimVector2 destination)
         {
@@ -72,7 +73,7 @@ namespace JurassicPark.Simulation
                     return;
                 case PathStatus.BudgetExceeded:
                     // Unknown, not unreachable: try again later at a limited rate, but not for the whole match.
-                    if (plansWithoutProgress++ >= context.Config.MaxReplans)
+                    if (!SpendPlanAttempt(context))
                     {
                         Enter(context, TaskState.Failed, TaskReason.PathSearchBudgetExceeded);
                         return;
@@ -112,7 +113,11 @@ namespace JurassicPark.Simulation
                 if (RemainingRouteIsCut(map) && !Replan(context, actor)) return;
             }
 
-            context.Catalog.TryGet(actor.DefinitionId, out EntityDefinition definition);
+            if (!context.Catalog.TryGet(actor.DefinitionId, out EntityDefinition definition))
+            {
+                Enter(context, TaskState.Failed, TaskReason.ActorCannotMove);
+                return;
+            }
             float budget = definition.MoveSpeed * context.TickSeconds;
             SimVector2 position = actor.Position;
             while (nextWaypoint < waypoints.Count && budget > 0f)
@@ -144,10 +149,23 @@ namespace JurassicPark.Simulation
             if (nextWaypoint >= waypoints.Count) Enter(context, TaskState.Completed, TaskReason.Arrived);
         }
 
+        /// <summary>
+        /// Takes one attempt from the allowance, at most once per tick: a tick that both finds the route cut and runs out of
+        /// search budget is one bad tick, not two. Returns false when the allowance is used up.
+        /// </summary>
+        private bool SpendPlanAttempt(TaskContext context)
+        {
+            if (lastSpendTick == context.World.Tick) return true;
+            if (plansWithoutProgress >= context.Config.MaxReplans) return false;
+            lastSpendTick = context.World.Tick;
+            plansWithoutProgress++;
+            return true;
+        }
+
         /// <summary>Plans again from where the actor stands. Returns true when the task is running on a new route.</summary>
         private bool Replan(TaskContext context, Entity actor)
         {
-            if (plansWithoutProgress++ >= context.Config.MaxReplans)
+            if (!SpendPlanAttempt(context))
             {
                 Enter(context, TaskState.Failed, TaskReason.RouteBlocked);
                 return false;
