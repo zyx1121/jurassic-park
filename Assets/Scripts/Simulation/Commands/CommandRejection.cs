@@ -23,5 +23,11 @@ namespace JurassicPark.Simulation
 
         /// <summary>A field holds a value outside its enum.</summary>
         Malformed = 11,
+
+        /// <summary>None of the living actors can do what the command asks, for example moving a building.</summary>
+        ActorsLackAbility = 12,
+
+        /// <summary>A queued order, and every actor that could take it already has a full queue. Nothing was created.</summary>
+        QueueFull = 13,
     }
 }
