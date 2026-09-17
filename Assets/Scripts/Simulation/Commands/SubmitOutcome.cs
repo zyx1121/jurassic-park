@@ -8,7 +8,7 @@ namespace JurassicPark.Simulation
     {
         Queued = 1,
 
-        /// <summary>The seat already has the maximum number of commands waiting.</summary>
+        /// <summary>The seat already has the maximum number of commands waiting. The id was not consumed: the sender reuses it for its next command.</summary>
         DroppedFlood = 2,
 
         /// <summary>The seat is not registered. Nothing is remembered about it.</summary>

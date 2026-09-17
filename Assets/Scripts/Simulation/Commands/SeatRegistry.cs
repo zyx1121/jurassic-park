@@ -36,10 +36,10 @@ namespace JurassicPark.Simulation
             a != b && byId.TryGetValue(a, out Seat seatA) && byId.TryGetValue(b, out Seat seatB) && seatA.Team == seatB.Team;
 
         /// <summary>
-        /// True when the seat may use a container or site owned by <paramref name="owner"/>: its own, an ally's, or an unowned one.
+        /// True when the seat may use a container or building site (never a unit) owned by <paramref name="owner"/>: its own, an ally's, or an unowned one.
         /// Resource nodes and ground piles belong to no seat and are open to every registered seat, as in the original map.
         /// </summary>
-        public bool MayUse(SeatId seat, SeatId owner) =>
+        public bool MayUsePropertyOf(SeatId seat, SeatId owner) =>
             byId.ContainsKey(seat) && (owner.IsNone || seat == owner || AreAllied(seat, owner));
 
         /// <summary>Hands the seat to a human or a computer ally. Returns false when nothing changed or the seat is unknown.</summary>
@@ -50,6 +50,19 @@ namespace JurassicPark.Simulation
             seat.ControllerEpoch++;
             world.Raise(new SeatControllerChanged(id, controller, seat.ControllerEpoch));
             return true;
+        }
+
+        /// <summary>
+        /// Starts a new command epoch without changing who controls the seat. The network layer calls it when it binds a new
+        /// connection to the seat (a reconnect that never went through the computer ally) and sends the returned epoch in the
+        /// bind handshake, because a late joiner cannot learn it from events that were already drained.
+        /// </summary>
+        public int BeginControllerEpoch(SeatId id)
+        {
+            if (!byId.TryGetValue(id, out Seat seat)) throw new ArgumentException($"{id} is not registered.", nameof(id));
+            seat.ControllerEpoch++;
+            world.Raise(new SeatControllerChanged(id, seat.Controller, seat.ControllerEpoch));
+            return seat.ControllerEpoch;
         }
     }
 }

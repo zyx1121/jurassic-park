@@ -258,12 +258,12 @@ namespace JurassicPark.Tests.EditMode
         [Test]
         public void AlliesMayUseEachOthersThingsEnemiesMayNot()
         {
-            Assert.That(seats.MayUse(Red, Red), Is.True);
-            Assert.That(seats.MayUse(Red, Blue), Is.True);
-            Assert.That(seats.MayUse(Red, Dinosaurs), Is.False);
-            Assert.That(seats.MayUse(Red, SeatId.None), Is.True, "resource nodes and ground piles belong to no seat and are open to all");
-            Assert.That(seats.MayUse(SeatId.None, SeatId.None), Is.False);
-            Assert.That(seats.MayUse(new SeatId(5), SeatId.None), Is.False, "an unregistered seat may use nothing");
+            Assert.That(seats.MayUsePropertyOf(Red, Red), Is.True);
+            Assert.That(seats.MayUsePropertyOf(Red, Blue), Is.True);
+            Assert.That(seats.MayUsePropertyOf(Red, Dinosaurs), Is.False);
+            Assert.That(seats.MayUsePropertyOf(Red, SeatId.None), Is.True, "resource nodes and ground piles belong to no seat and are open to all");
+            Assert.That(seats.MayUsePropertyOf(SeatId.None, SeatId.None), Is.False);
+            Assert.That(seats.MayUsePropertyOf(new SeatId(5), SeatId.None), Is.False, "an unregistered seat may use nothing");
             Assert.That(seats.AreAllied(Red, Red), Is.False);
         }
 
@@ -341,6 +341,63 @@ namespace JurassicPark.Tests.EditMode
             world.Step();
 
             Assert.That(move.ExecutedActors.Single(), Is.EqualTo(new[] { red.Id }));
+        }
+
+        [Test]
+        public void AClickBurstThatOverflowsTheQueueDoesNotLockTheSeatOut()
+        {
+            var sender = new CommandSender(router, Red, epoch: 1);
+            var outcomes = new List<SubmitOutcome>();
+            for (int i = 0; i < 12; i++) outcomes.Add(sender.Send(CommandKind.Move, new[] { red.Id }));
+
+            Assert.That(outcomes.Count(o => o == SubmitOutcome.Queued), Is.EqualTo(3));
+            Assert.That(outcomes.Count(o => o == SubmitOutcome.DroppedFlood), Is.EqualTo(9));
+            world.Step();
+            world.DrainEvents();
+
+            Assert.That(sender.Send(CommandKind.Move, new[] { red.Id }), Is.EqualTo(SubmitOutcome.Queued));
+            CommandResolved next = StepAndResults().Single();
+            Assert.That(next.CommandId, Is.EqualTo(4), "dropped commands did not consume ids");
+            Assert.That(next.Accepted, Is.True);
+        }
+
+        [Test]
+        public void ASenderThatRanAheadIsToldWhichIdToUseAndRecovers()
+        {
+            for (long id = 1; id <= 3; id++) router.Submit(Move(id, Red, red));
+            world.Step();
+            world.DrainEvents();
+
+            router.Submit(Move(3 + 8 + 1, Red, red));
+            CommandResolved refused = StepAndResults().Single();
+            Assert.That(refused.Rejection, Is.EqualTo(CommandRejection.InvalidCommandId), "one past the allowed gap");
+            Assert.That(refused.NextCommandId, Is.EqualTo(4));
+            Assert.That(refused.CurrentEpoch, Is.EqualTo(1));
+
+            router.Submit(Move(refused.NextCommandId, Red, red));
+            Assert.That(StepAndResults().Single().Accepted, Is.True);
+        }
+
+        [Test]
+        public void ASenderWithAStaleEpochAdoptsTheCurrentOneFromTheAnswer()
+        {
+            var sender = new CommandSender(router, Red, epoch: 1);
+            sender.Send(CommandKind.Move, new[] { red.Id });
+            world.Step();
+            Assert.That(seats.BeginControllerEpoch(Red), Is.EqualTo(2));
+            world.DrainEvents();
+
+            sender.Send(CommandKind.Move, new[] { red.Id });
+            CommandResolved refused = StepAndResults().Single();
+            Assert.That(refused.Rejection, Is.EqualTo(CommandRejection.WrongEpoch));
+            Assert.That(sender.Observe(refused), Is.True);
+            Assert.That(sender.Epoch, Is.EqualTo(2));
+
+            sender.Send(CommandKind.Move, new[] { red.Id });
+            CommandResolved accepted = StepAndResults().Single();
+            Assert.That(accepted.Accepted, Is.True);
+            Assert.That(accepted.CommandId, Is.EqualTo(1), "ids start again in the new epoch");
+            Assert.That(move.Executed, Has.Count.EqualTo(2));
         }
     }
 }

@@ -78,30 +78,35 @@ namespace JurassicPark.Simulation
 
         private void Resolve(World world, Command command, SeatLedger ledger)
         {
-            seats.TryGet(command.Seat, out Seat seat);
-            if (command.Epoch != seat.ControllerEpoch)
+            if (!seats.TryGet(command.Seat, out Seat seat))
             {
-                Answer(world, command, CommandRejection.WrongEpoch, false);
+                // Submit turns unknown seats away, so this is unreachable today; answer rather than fault the match if that ever changes.
+                world.Raise(new CommandResolved(command.Seat, command.Epoch, command.CommandId, CommandRejection.UnknownSeat, false, 0, 0));
                 return;
             }
             // Ids restart with every controller, so a returning human's id 41 is never mistaken for the computer's id 41.
             if (ledger.Epoch != seat.ControllerEpoch) ledger.StartEpoch(seat.ControllerEpoch);
+            if (command.Epoch != seat.ControllerEpoch)
+            {
+                Answer(world, command, ledger, CommandRejection.WrongEpoch, false);
+                return;
+            }
 
             if (command.CommandId <= 0)
             {
-                Answer(world, command, CommandRejection.InvalidCommandId, false);
+                Answer(world, command, ledger, CommandRejection.InvalidCommandId, false);
                 return;
             }
             if (command.CommandId <= ledger.LastCommandId)
             {
                 bool remembered = ledger.Results.TryGetValue(command.CommandId, out CommandRejection original);
-                Answer(world, command, remembered ? original : CommandRejection.StaleCommandId, remembered);
+                Answer(world, command, ledger, remembered ? original : CommandRejection.StaleCommandId, remembered);
                 return;
             }
-            // Never adopt an arbitrary id as the watermark: one huge id would lock the seat out for the rest of the match.
+            // Never adopt an arbitrary id as the watermark. The answer carries NextCommandId, so a sender that ran ahead resynchronises.
             if (command.CommandId - ledger.LastCommandId > config.MaxCommandIdGap)
             {
-                Answer(world, command, CommandRejection.InvalidCommandId, false);
+                Answer(world, command, ledger, CommandRejection.InvalidCommandId, false);
                 return;
             }
 
@@ -113,11 +118,11 @@ namespace JurassicPark.Simulation
             ledger.Results[command.CommandId] = rejection;
             ledger.ResultOrder.Enqueue(command.CommandId);
             while (ledger.ResultOrder.Count > config.RememberedResultsPerSeat) ledger.Results.Remove(ledger.ResultOrder.Dequeue());
-            Answer(world, command, rejection, false);
+            Answer(world, command, ledger, rejection, false);
         }
 
-        private static void Answer(World world, Command command, CommandRejection rejection, bool isRepeat) =>
-            world.Raise(new CommandResolved(command.Seat, command.Epoch, command.CommandId, rejection, isRepeat));
+        private static void Answer(World world, Command command, SeatLedger ledger, CommandRejection rejection, bool isRepeat) =>
+            world.Raise(new CommandResolved(command.Seat, command.Epoch, command.CommandId, rejection, isRepeat, ledger.Epoch, ledger.LastCommandId + 1));
 
         private CommandRejection Validate(World world, Command command, out ICommandHandler handler)
         {
