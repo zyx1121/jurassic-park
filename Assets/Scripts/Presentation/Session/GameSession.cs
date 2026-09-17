@@ -70,6 +70,9 @@ namespace JurassicPark.Presentation
         /// <summary>Authority only: the seat table changed.</summary>
         public event Action<IReadOnlyList<SeatSnapshot>> SeatsChanged;
 
+        /// <summary>The match stopped with a message. A host uses it to let go of its clients instead of leaving them frozen.</summary>
+        public event Action<string> Failed;
+
         /// <summary>An answer to one of the local player's commands, in any role.</summary>
         public event Action<CommandResolved> CommandAnswered;
 
@@ -139,7 +142,8 @@ namespace JurassicPark.Presentation
 
         public void ApplyRemoteSeats(IReadOnlyList<SeatSnapshot> seats) => Model?.SetSeats(seats);
 
-        public void ApplyRemoteSnapshot(long tick, IReadOnlyList<EntitySnapshot> entities) => Model?.Apply(tick, entities);
+        /// <summary>Returns true when the snapshot was newer than what is shown and replaced it.</summary>
+        public bool ApplyRemoteSnapshot(long tick, IReadOnlyList<EntitySnapshot> entities) => Model != null && Model.Apply(tick, entities);
 
         /// <summary>An answer to a local command, from the local router or from the wire.</summary>
         public void ObserveAnswer(CommandResolved answer)
@@ -155,6 +159,7 @@ namespace JurassicPark.Presentation
             if (Failure != null) return;
             Failure = message;
             Debug.LogError("[GameSession] " + message, this);
+            Failed?.Invoke(message);
         }
 
         private void Update()

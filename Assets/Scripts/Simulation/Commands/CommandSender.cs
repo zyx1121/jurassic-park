@@ -45,6 +45,8 @@ namespace JurassicPark.Simulation
         public bool Observe(CommandResolved answer)
         {
             if (answer == null || answer.Seat != Seat || answer.Accepted || answer.IsRepeat) return false;
+            // An answer to a command from before this sender's epoch belongs to whoever held the seat then.
+            if (answer.Epoch != Epoch && answer.CurrentEpoch <= Epoch) return false;
             if (answer.Rejection != CommandRejection.WrongEpoch && answer.Rejection != CommandRejection.InvalidCommandId &&
                 answer.Rejection != CommandRejection.StaleCommandId && answer.Rejection != CommandRejection.DroppedFlood) return false;
             // Commands still unanswered from the old epoch stay refused as WrongEpoch. Never re-stamp them: the authority

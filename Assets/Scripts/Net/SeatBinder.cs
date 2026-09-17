@@ -16,6 +16,7 @@ namespace JurassicPark.Net
         private readonly SeatId hostSeat;
         private readonly Dictionary<ulong, SeatId> seatByClient = new Dictionary<ulong, SeatId>();
         private readonly Dictionary<SeatId, ulong> clientBySeat = new Dictionary<SeatId, ulong>();
+        private readonly Dictionary<ulong, int> epochByClient = new Dictionary<ulong, int>();
 
         public SeatBinder(SeatRegistry seats, IReadOnlyList<SeatId> playableSeats, SeatId hostSeat)
         {
@@ -27,6 +28,13 @@ namespace JurassicPark.Net
         public bool TryGetSeat(ulong clientId, out SeatId seat) => seatByClient.TryGetValue(clientId, out seat);
         public bool TryGetClient(SeatId seat, out ulong clientId) => clientBySeat.TryGetValue(seat, out clientId);
         public int BoundCount => seatByClient.Count;
+
+        /// <summary>
+        /// The connection that should receive an answer: the one holding the seat under the very epoch the command was issued in.
+        /// A seat can change hands within a frame, and the newcomer must never be handed the previous player's answers.
+        /// </summary>
+        public bool TryGetClientFor(SeatId seat, int commandEpoch, out ulong clientId) =>
+            clientBySeat.TryGetValue(seat, out clientId) && epochByClient.TryGetValue(clientId, out int boundEpoch) && boundEpoch == commandEpoch;
 
         /// <summary>
         /// Seats the connection in the first playable seat nobody holds, in scenario order, and starts a new controller epoch for
@@ -44,6 +52,7 @@ namespace JurassicPark.Net
                 else seats.BeginControllerEpoch(candidate);
                 seatByClient.Add(clientId, candidate);
                 clientBySeat.Add(candidate, clientId);
+                epochByClient.Add(clientId, seat.ControllerEpoch);
                 return candidate;
             }
             return SeatId.None;
@@ -55,6 +64,7 @@ namespace JurassicPark.Net
             if (!seatByClient.TryGetValue(clientId, out SeatId seat)) return SeatId.None;
             seatByClient.Remove(clientId);
             clientBySeat.Remove(seat);
+            epochByClient.Remove(clientId);
             seats.SetController(seat, SeatController.Computer);
             return seat;
         }

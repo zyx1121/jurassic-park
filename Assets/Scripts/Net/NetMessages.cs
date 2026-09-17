@@ -162,10 +162,12 @@ namespace JurassicPark.Net
 
         public static FastBufferWriter WriteSnapshot(long tick, IReadOnlyList<EntitySnapshot> entities)
         {
-            var writer = new FastBufferWriter(16 + entities.Count * EntityBytes, Allocator.Temp);
+            // The reader refuses more than the cap, so the writer must never produce it: clients would freeze with no message.
+            int count = System.Math.Min(entities.Count, MaxEntitiesPerSnapshot);
+            var writer = new FastBufferWriter(16 + count * EntityBytes, Allocator.Temp);
             writer.WriteValueSafe(tick);
-            writer.WriteValueSafe(entities.Count);
-            for (int i = 0; i < entities.Count; i++)
+            writer.WriteValueSafe(count);
+            for (int i = 0; i < count; i++)
             {
                 EntitySnapshot e = entities[i];
                 writer.WriteValueSafe(e.Id.Value);
@@ -207,7 +209,7 @@ namespace JurassicPark.Net
                 reader.ReadValue(out byte task);
                 reader.ReadValue(out byte state);
                 reader.ReadValue(out byte reason);
-                if (owner < 0) return false;
+                if (owner < 0 || float.IsNaN(x) || float.IsNaN(y) || float.IsInfinity(x) || float.IsInfinity(y)) return false;
                 e.Id = new EntityId(id);
                 e.Kind = (EntityKind)kind;
                 e.Owner = new SeatId(owner);

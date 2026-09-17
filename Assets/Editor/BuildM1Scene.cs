@@ -105,9 +105,12 @@ namespace JurassicPark.Editor
             var utp = networkObject.AddComponent<UnityTransport>();
             var manager = networkObject.AddComponent<NetworkManager>();
             manager.NetworkConfig = new NetworkConfig { NetworkTransport = utp, EnableSceneManagement = false, ConnectionApproval = false, TickRate = 10 };
-            var net = networkObject.AddComponent<NetSession>();
+            // Netcode marks its manager DontDestroyOnLoad and offers no switch, so nothing else lives on that GameObject,
+            // and NetSession destroys it when this scene goes.
+            var matchNetObject = new GameObject("Match Net");
+            var net = matchNetObject.AddComponent<NetSession>();
             net.Configure(session, manager, utp);
-            networkObject.AddComponent<MatchLauncher>().Configure(session, net);
+            matchNetObject.AddComponent<MatchLauncher>().Configure(session, net);
 
             var lightObject = new GameObject("Key Light");
             var light = lightObject.AddComponent<Light>();

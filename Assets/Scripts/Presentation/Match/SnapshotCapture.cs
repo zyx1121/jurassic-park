@@ -52,11 +52,19 @@ namespace JurassicPark.Presentation
             }
         }
 
+        private static EntityCatalogAsset indexedCatalog;
+        private static readonly Dictionary<string, ushort> indexById = new Dictionary<string, ushort>(System.StringComparer.Ordinal);
+
+        /// <summary>The original map has 162 unit definitions; scanning them for every entity every tick would be a hundred thousand string compares a tick.</summary>
         private static ushort IndexOf(EntityCatalogAsset catalog, string definitionId)
         {
-            for (int i = 0; i < catalog.entries.Length; i++)
-                if (catalog.entries[i].id == definitionId) return (ushort)i;
-            return ushort.MaxValue;
+            if (!ReferenceEquals(indexedCatalog, catalog) || indexById.Count != catalog.entries.Length)
+            {
+                indexedCatalog = catalog;
+                indexById.Clear();
+                for (int i = 0; i < catalog.entries.Length; i++) indexById[catalog.entries[i].id] = (ushort)i;
+            }
+            return indexById.TryGetValue(definitionId, out ushort index) ? index : ushort.MaxValue;
         }
     }
 }

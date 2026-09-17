@@ -171,7 +171,7 @@ namespace JurassicPark.Tests.EditMode
         // ---------------- the client's half of the command protocol ----------------
 
         [Test]
-        public void ARemoteSenderThatWasToldItsCommandWasDroppedReusesTheId()
+        public void ASenderToldWhereToContinueAfterADropContinuesThere()
         {
             var sentIds = new List<long>();
             var sender = new CommandSender(c => { sentIds.Add(c.CommandId); return SubmitOutcome.Queued; }, new SeatId(2), epoch: 3, nextCommandId: 5);

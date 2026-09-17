@@ -48,6 +48,7 @@ namespace JurassicPark.Net
 
         private void Update()
         {
+            if (session == null) return;
             if (Application.isBatchMode && session.Model != null && Time.unscaledTime >= nextStatusAt) LogStatus();
             if (!demoGather || demoSent || !session.IsReady || session.Model.Entities.Count == 0) return;
             // Scripted check for a second process with no mouse: order every own unit onto the first tree, through the same sender a click uses.
@@ -87,7 +88,7 @@ namespace JurassicPark.Net
 
         private void OnGUI()
         {
-            if (session.Role != MatchRole.None || session.Failure != null) return;
+            if (session == null || session.Role != MatchRole.None || session.Failure != null) return;
             GUILayout.BeginArea(new Rect(Screen.width * 0.5f - 150f, Screen.height * 0.5f - 90f, 300f, 180f), GUI.skin.box);
             GUILayout.Label("Jurassic Park");
             if (GUILayout.Button("Play alone")) session.BeginOffline();

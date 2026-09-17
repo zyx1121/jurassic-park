@@ -18,11 +18,16 @@ namespace JurassicPark.Net
         [SerializeField] private GameSession session;
         [SerializeField] private NetworkManager network;
         [SerializeField] private UnityTransport transport;
+        [Tooltip("Sustained command messages per second one connection may send before the excess is dropped unread.")]
+        [SerializeField] private float commandsPerSecond = 40f;
+        [Tooltip("Commands a connection may send at once on top of the sustained rate, for a burst of clicks.")]
+        [SerializeField] private float commandBurst = 60f;
 
         private readonly List<EntitySnapshot> receivedEntities = new List<EntitySnapshot>();
         private readonly List<SeatSnapshot> receivedSeats = new List<SeatSnapshot>();
         private readonly List<ulong> remoteClients = new List<ulong>();
         private SeatBinder binder;
+        private HostProtocol host;
         private float lastSnapshotAt;
         private float snapshotInterval = 0.1f;
         private bool running;
@@ -58,8 +63,11 @@ namespace JurassicPark.Net
             running = true;
             SimulationRuntime runtime = session.Runtime;
             binder = new SeatBinder(runtime.Seats, runtime.PlayableSeats, runtime.LocalSeat);
+            host = new HostProtocol(runtime.Router, binder, SendAnswer, message => Debug.LogWarning("[NetSession] " + message), commandsPerSecond, commandBurst);
             network.CustomMessagingManager.RegisterNamedMessageHandler(NetMessages.Command, OnCommandFromClient);
-            session.EventsDrained += RouteAnswers;
+            session.EventsDrained += host.RouteAnswers;
+            // A host whose simulation stopped lets its clients go, so they see a message instead of a frozen screen.
+            session.Failed += OnHostFailed;
             session.SnapshotCaptured += BroadcastSnapshot;
             session.SeatsChanged += BroadcastSeats;
             return true;
@@ -87,36 +95,24 @@ namespace JurassicPark.Net
         private void OnClientDisconnectedFromHost(ulong clientId)
         {
             remoteClients.Remove(clientId);
-            SeatId seat = binder.Unbind(clientId);
-            if (!seat.IsNone) Debug.Log($"[NetSession] client {clientId} left; the computer takes {seat}");
+            bool hadSeat = binder.TryGetSeat(clientId, out SeatId seat);
+            host.OnClientLeft(clientId);
+            if (hadSeat) Debug.Log($"[NetSession] client {clientId} left; the computer takes {seat}");
         }
 
-        private void OnCommandFromClient(ulong senderClientId, FastBufferReader reader)
-        {
-            // The seat comes from the binding, never from the payload.
-            if (!binder.TryGetSeat(senderClientId, out SeatId seat)) return;
-            if (!NetMessages.TryReadCommand(ref reader, seat, out Command command))
-            {
-                Debug.LogWarning($"[NetSession] dropped an unreadable command from client {senderClientId}");
-                return;
-            }
-            SubmitOutcome outcome = session.Runtime.Router.Submit(command);
-            if (outcome == SubmitOutcome.Queued) return;
-            // A dropped command raises no event, so the answer is written here. It carries where the sender's ids must continue.
-            session.Runtime.Router.TryGetSync(seat, out int epoch, out long nextCommandId);
-            SendAnswer(senderClientId, new CommandResolved(seat, command.Epoch, command.CommandId, CommandRejection.DroppedFlood, false, epoch, nextCommandId));
-        }
+        private void OnCommandFromClient(ulong senderClientId, FastBufferReader reader) =>
+            host.OnCommand(senderClientId, ref reader, Time.unscaledTimeAsDouble);
 
-        private void RouteAnswers(IReadOnlyList<SimEvent> events)
+        private void OnHostFailed(string message)
         {
-            for (int i = 0; i < events.Count; i++)
-                if (events[i] is CommandResolved answer && binder.TryGetClient(answer.Seat, out ulong clientId)) SendAnswer(clientId, answer);
+            if (network != null && network.IsListening) network.Shutdown();
         }
 
         private void SendAnswer(ulong clientId, CommandResolved answer)
         {
             using (FastBufferWriter writer = NetMessages.WriteAnswer(answer))
-                network.CustomMessagingManager.SendNamedMessage(NetMessages.Answer, clientId, writer, NetworkDelivery.Reliable);
+                // Sequenced: an answer can move the sender's id counter, so two of them must never apply out of order.
+                network.CustomMessagingManager.SendNamedMessage(NetMessages.Answer, clientId, writer, NetworkDelivery.ReliableSequenced);
         }
 
         private void BroadcastSnapshot(long tick, IReadOnlyList<EntitySnapshot> entities)
@@ -156,7 +152,7 @@ namespace JurassicPark.Net
             messages.RegisterNamedMessageHandler(NetMessages.Snapshot, OnSnapshot);
             messages.RegisterNamedMessageHandler(NetMessages.Seats, OnSeats);
             messages.RegisterNamedMessageHandler(NetMessages.Answer, OnAnswer);
-            messages.RegisterNamedMessageHandler(NetMessages.MatchFull, (_, __) => session.Fail("The match is full."));
+            messages.RegisterNamedMessageHandler(NetMessages.MatchFull, OnMatchFull);
             return true;
         }
 
@@ -164,16 +160,25 @@ namespace JurassicPark.Net
         {
             if (!NetMessages.TryReadWelcome(ref reader, out ushort version, out SeatId seat, out int epoch, out long nextCommandId))
             {
-                session.Fail("The host's welcome could not be read.");
+                LeaveWith("The host's welcome could not be read.");
                 return;
             }
             if (version != NetMessages.ProtocolVersion)
             {
-                session.Fail($"The host speaks protocol {version}, this build speaks {NetMessages.ProtocolVersion}.");
+                LeaveWith($"The host speaks protocol {version}, this build speaks {NetMessages.ProtocolVersion}.");
                 return;
             }
             session.AssignRemoteSeat(seat, epoch, nextCommandId, SendCommand);
             Debug.Log($"[NetSession] playing {seat} under epoch {epoch}");
+        }
+
+        private void OnMatchFull(ulong sender, FastBufferReader reader) => LeaveWith("The match is full.");
+
+        /// <summary>Gives up the connection as well as the match. Staying connected would keep a seat nobody drives and a snapshot stream nobody reads.</summary>
+        private void LeaveWith(string message)
+        {
+            session.Fail(message);
+            if (network != null && network.IsListening) network.Shutdown();
         }
 
         /// <summary>The client's transport for CommandSender. On its way is all a client can know; a drop comes back as an answer.</summary>
@@ -188,8 +193,8 @@ namespace JurassicPark.Net
         {
             if (!NetMessages.TryReadSnapshot(ref reader, out long tick, receivedEntities)) return;
             SnapshotsReceived++;
-            lastSnapshotAt = Time.unscaledTime;
-            session.ApplyRemoteSnapshot(tick, receivedEntities);
+            // Only a snapshot that was actually shown restarts the interpolation clock.
+            if (session.ApplyRemoteSnapshot(tick, receivedEntities)) lastSnapshotAt = Time.unscaledTime;
         }
 
         private void OnSeats(ulong sender, FastBufferReader reader)
@@ -204,8 +209,9 @@ namespace JurassicPark.Net
 
         private void OnDisconnectedFromHost(ulong clientId)
         {
-            string reason = string.IsNullOrEmpty(network.DisconnectReason) ? "Lost the connection to the host." : network.DisconnectReason;
-            session.Fail(reason);
+            // Netcode's own reason is a transport diagnostic; lead with what it means for the player.
+            string detail = string.IsNullOrEmpty(network.DisconnectReason) ? string.Empty : "\n" + network.DisconnectReason;
+            session.Fail("Lost the connection to the host." + detail);
         }
 
         // ------------------------------------------------------------------
@@ -218,11 +224,15 @@ namespace JurassicPark.Net
             network.OnClientDisconnectCallback -= OnDisconnectedFromHost;
             if (session != null)
             {
-                session.EventsDrained -= RouteAnswers;
+                if (host != null) session.EventsDrained -= host.RouteAnswers;
+                session.Failed -= OnHostFailed;
                 session.SnapshotCaptured -= BroadcastSnapshot;
                 session.SeatsChanged -= BroadcastSeats;
             }
             if (running && network.IsListening) network.Shutdown();
+            // The manager outlives scene loads by Netcode's own choice. It belongs to this match, so it leaves with it; otherwise
+            // every reload would stack another manager behind a singleton that points at the first.
+            Destroy(network.gameObject);
         }
     }
 }
