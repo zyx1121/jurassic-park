@@ -9,8 +9,11 @@ namespace JurassicPark.Simulation
     /// </summary>
     public sealed class Command
     {
-        /// <summary>Sequence chosen by the sender, increasing per seat. With the seat it identifies the command for de-duplication.</summary>
+        /// <summary>Sequence chosen by the sender, starting at 1 and increasing within one controller epoch. Seat, epoch and id identify the command for de-duplication.</summary>
         public long CommandId { get; }
+
+        /// <summary>The seat's controller epoch this command was issued under. See <see cref="Seat.ControllerEpoch"/>.</summary>
+        public int Epoch { get; }
 
         /// <summary>The seat this command speaks for. On a networked host this is set from the connection's seat binding, never trusted from the payload.</summary>
         public SeatId Seat { get; }
@@ -21,18 +24,27 @@ namespace JurassicPark.Simulation
         public SimVector2 TargetPosition { get; }
         public EntityId TargetEntity { get; }
 
-        public Command(long commandId, SeatId seat, CommandKind kind, IReadOnlyList<EntityId> actors,
+        public Command(long commandId, int epoch, SeatId seat, CommandKind kind, IReadOnlyList<EntityId> actors,
             SimVector2 targetPosition = default, EntityId targetEntity = default, CommandMode mode = CommandMode.Replace)
         {
             CommandId = commandId;
+            Epoch = epoch;
             Seat = seat;
             Kind = kind;
             Mode = mode;
-            Actors = actors ?? Array.Empty<EntityId>();
+            // Copied: the command waits a tick in the queue, and the caller's selection buffer must not be able to change it meanwhile.
+            Actors = actors == null || actors.Count == 0 ? Array.Empty<EntityId>() : Array.AsReadOnly(Copy(actors));
             TargetPosition = targetPosition;
             TargetEntity = targetEntity;
         }
 
-        public override string ToString() => $"{Seat} #{CommandId} {Kind} x{Actors.Count}";
+        private static EntityId[] Copy(IReadOnlyList<EntityId> source)
+        {
+            var copy = new EntityId[source.Count];
+            for (int i = 0; i < copy.Length; i++) copy[i] = source[i];
+            return copy;
+        }
+
+        public override string ToString() => $"{Seat} e{Epoch}#{CommandId} {Kind} x{Actors.Count}";
     }
 }

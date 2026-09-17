@@ -14,5 +14,14 @@ namespace JurassicPark.Simulation
 
         /// <summary>The id is not newer than this seat's last command and its original result is no longer remembered.</summary>
         StaleCommandId = 8,
+
+        /// <summary>The id is not positive, or jumps further ahead than the router allows. The authority never adopts an arbitrary id as its watermark.</summary>
+        InvalidCommandId = 9,
+
+        /// <summary>The command was issued under an earlier controller of this seat, for example by the computer ally just before the human returned.</summary>
+        WrongEpoch = 10,
+
+        /// <summary>A field holds a value outside its enum.</summary>
+        Malformed = 11,
     }
 }

@@ -4,6 +4,7 @@ namespace JurassicPark.Simulation
     public sealed class CommandResolved : SimEvent
     {
         public SeatId Seat { get; }
+        public int Epoch { get; }
         public long CommandId { get; }
         public CommandRejection Rejection { get; }
 
@@ -12,9 +13,10 @@ namespace JurassicPark.Simulation
 
         public bool Accepted => Rejection == CommandRejection.None;
 
-        public CommandResolved(SeatId seat, long commandId, CommandRejection rejection, bool isRepeat)
+        public CommandResolved(SeatId seat, int epoch, long commandId, CommandRejection rejection, bool isRepeat)
         {
             Seat = seat;
+            Epoch = epoch;
             CommandId = commandId;
             Rejection = rejection;
             IsRepeat = isRepeat;

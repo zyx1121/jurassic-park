@@ -35,15 +35,20 @@ namespace JurassicPark.Simulation
         public bool AreAllied(SeatId a, SeatId b) =>
             a != b && byId.TryGetValue(a, out Seat seatA) && byId.TryGetValue(b, out Seat seatB) && seatA.Team == seatB.Team;
 
-        /// <summary>True when the seat may use a container or site owned by <paramref name="owner"/>: its own, or an ally's.</summary>
-        public bool MayUse(SeatId seat, SeatId owner) => !seat.IsNone && (seat == owner || AreAllied(seat, owner));
+        /// <summary>
+        /// True when the seat may use a container or site owned by <paramref name="owner"/>: its own, an ally's, or an unowned one.
+        /// Resource nodes and ground piles belong to no seat and are open to every registered seat, as in the original map.
+        /// </summary>
+        public bool MayUse(SeatId seat, SeatId owner) =>
+            byId.ContainsKey(seat) && (owner.IsNone || seat == owner || AreAllied(seat, owner));
 
         /// <summary>Hands the seat to a human or a computer ally. Returns false when nothing changed or the seat is unknown.</summary>
         public bool SetController(SeatId id, SeatController controller)
         {
             if (!byId.TryGetValue(id, out Seat seat) || seat.Controller == controller) return false;
             seat.Controller = controller;
-            world.Raise(new SeatControllerChanged(id, controller));
+            seat.ControllerEpoch++;
+            world.Raise(new SeatControllerChanged(id, controller, seat.ControllerEpoch));
             return true;
         }
     }

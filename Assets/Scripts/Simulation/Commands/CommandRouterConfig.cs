@@ -10,11 +10,16 @@ namespace JurassicPark.Simulation
         /// <summary>Upper bound on commands one seat may have waiting for the next tick; more are dropped as a flood.</summary>
         public int MaxPendingPerSeat { get; }
 
-        public CommandRouterConfig(int rememberedResultsPerSeat, int maxPendingPerSeat)
+        /// <summary>How far ahead of the last accepted id a new id may be. Ids skip when the flood cap drops commands; anything beyond this is refused rather than adopted.</summary>
+        public int MaxCommandIdGap { get; }
+
+        public CommandRouterConfig(int rememberedResultsPerSeat, int maxPendingPerSeat, int maxCommandIdGap)
         {
             if (rememberedResultsPerSeat < 1) throw new ArgumentOutOfRangeException(nameof(rememberedResultsPerSeat));
             if (maxPendingPerSeat < 1) throw new ArgumentOutOfRangeException(nameof(maxPendingPerSeat));
+            if (maxCommandIdGap < 1) throw new ArgumentOutOfRangeException(nameof(maxCommandIdGap));
             RememberedResultsPerSeat = rememberedResultsPerSeat;
+            MaxCommandIdGap = maxCommandIdGap;
             MaxPendingPerSeat = maxPendingPerSeat;
         }
     }

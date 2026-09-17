@@ -11,6 +11,12 @@ namespace JurassicPark.Simulation
 
         public SeatController Controller { get; internal set; }
 
+        /// <summary>
+        /// Counts controller handovers. Command ids are only meaningful within one epoch: a computer ally and a returning human
+        /// each start their own sequence, and a command still in flight from the previous controller is refused.
+        /// </summary>
+        public int ControllerEpoch { get; internal set; } = 1;
+
         internal Seat(SeatId id, string displayName, int team, SeatController controller)
         {
             Id = id;

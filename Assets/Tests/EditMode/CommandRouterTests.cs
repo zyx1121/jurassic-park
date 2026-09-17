@@ -10,15 +10,17 @@ namespace JurassicPark.Tests.EditMode
         private sealed class RecordingHandler : ICommandHandler
         {
             public readonly List<Command> Executed = new List<Command>();
+            public readonly List<EntityId[]> ExecutedActors = new List<EntityId[]>();
             public readonly List<long> ExecutedAtTick = new List<long>();
             public CommandRejection Verdict = CommandRejection.None;
             public System.Action<Command> OnExecute;
 
-            public CommandRejection Validate(World world, Command command) => Verdict;
+            public CommandRejection Validate(World world, Command command, IReadOnlyList<Entity> livingActors) => Verdict;
 
-            public void Execute(World world, Command command)
+            public void Execute(World world, Command command, IReadOnlyList<Entity> livingActors)
             {
                 Executed.Add(command);
+                ExecutedActors.Add(livingActors.Select(a => a.Id).ToArray());
                 ExecutedAtTick.Add(world.Tick);
                 OnExecute?.Invoke(command);
             }
@@ -39,7 +41,7 @@ namespace JurassicPark.Tests.EditMode
             seats.Add(Red, "Red", team: 1, SeatController.Human);
             seats.Add(Blue, "Blue", team: 1, SeatController.Computer);
             seats.Add(Dinosaurs, "Dinosaurs", team: 2, SeatController.Computer);
-            router = new CommandRouter(seats, new CommandRouterConfig(rememberedResultsPerSeat: 2, maxPendingPerSeat: 3));
+            router = new CommandRouter(seats, new CommandRouterConfig(rememberedResultsPerSeat: 2, maxPendingPerSeat: 3, maxCommandIdGap: 8));
             move = new RecordingHandler();
             router.Register(CommandKind.Move, move);
             world.AddSystem(router);
@@ -50,8 +52,10 @@ namespace JurassicPark.Tests.EditMode
             world.DrainEvents();
         }
 
-        private Command Move(long id, SeatId seat, params Entity[] actors) =>
-            new Command(id, seat, CommandKind.Move, actors.Select(a => a.Id).ToArray(), new SimVector2(5f, 5f));
+        private Command Move(long id, SeatId seat, params Entity[] actors) => MoveInEpoch(id, 1, seat, actors);
+
+        private Command MoveInEpoch(long id, int epoch, SeatId seat, params Entity[] actors) =>
+            new Command(id, epoch, seat, CommandKind.Move, actors.Select(a => a.Id).ToArray(), new SimVector2(5f, 5f));
 
         private CommandResolved[] StepAndResults()
         {
@@ -97,15 +101,19 @@ namespace JurassicPark.Tests.EditMode
         [Test]
         public void RejectionsAreSpecific()
         {
-            router.Submit(new Command(1, new SeatId(5), CommandKind.Move, new[] { red.Id }));
-            router.Submit(new Command(1, Red, CommandKind.Move, new EntityId[0]));
-            router.Submit(new Command(2, Red, CommandKind.Move, new[] { new EntityId(999) }));
-            router.Submit(new Command(3, Red, CommandKind.Stop, new[] { red.Id }));
+            router.Submit(new Command(1, 1, Red, CommandKind.Move, new EntityId[0]));
+            router.Submit(new Command(2, 1, Red, CommandKind.Move, new[] { new EntityId(999) }));
+            router.Submit(new Command(3, 1, Red, CommandKind.Stop, new[] { red.Id }));
+            // Red is at its pending cap of 3, so the malformed ones come from Blue.
+            router.Submit(new Command(1, 1, Blue, (CommandKind)77, new[] { blue.Id }));
+            router.Submit(new Command(2, 1, Blue, CommandKind.Move, new[] { blue.Id }, mode: (CommandMode)999));
 
             Assert.That(StepAndResults().Select(r => r.Rejection), Is.EqualTo(new[]
             {
-                CommandRejection.UnknownSeat, CommandRejection.NoActors, CommandRejection.UnknownActor, CommandRejection.UnsupportedKind,
+                CommandRejection.NoActors, CommandRejection.UnknownActor, CommandRejection.UnsupportedKind,
+                CommandRejection.Malformed, CommandRejection.Malformed,
             }));
+            Assert.That(move.Executed, Is.Empty);
         }
 
         [Test]
@@ -125,7 +133,8 @@ namespace JurassicPark.Tests.EditMode
             world.Despawn(red.Id, "eaten");
 
             Assert.That(StepAndResults().Single().Accepted, Is.True);
-            Assert.That(move.Executed, Has.Count.EqualTo(1));
+            Assert.That(move.ExecutedActors.Single(), Is.EqualTo(new[] { redTwo.Id }), "the handler is handed the living actors only");
+            Assert.That(move.Executed.Single().Actors, Does.Contain(red.Id), "the command itself still names the dead one, which is why handlers must not read it");
         }
 
         [Test]
@@ -221,12 +230,13 @@ namespace JurassicPark.Tests.EditMode
         [Test]
         public void AFloodingSeatIsCappedWithoutStarvingOthers()
         {
-            for (long id = 1; id <= 3; id++) Assert.That(router.Submit(Move(id, Red, red)), Is.True);
-            Assert.That(router.Submit(Move(4, Red, red)), Is.False);
-            Assert.That(router.Submit(Move(1, Blue, blue)), Is.True);
+            for (long id = 1; id <= 3; id++) Assert.That(router.Submit(Move(id, Red, red)), Is.EqualTo(SubmitOutcome.Queued));
+            Assert.That(router.Submit(Move(4, Red, red)), Is.EqualTo(SubmitOutcome.DroppedFlood));
+            Assert.That(router.Submit(Move(1, Blue, blue)), Is.EqualTo(SubmitOutcome.Queued));
 
             Assert.That(StepAndResults(), Has.Length.EqualTo(4));
-            Assert.That(router.Submit(Move(4, Red, red)), Is.True, "the cap is on what is waiting, not a lifetime quota");
+            Assert.That(router.Submit(Move(4, Red, red)), Is.EqualTo(SubmitOutcome.Queued), "the cap is on what is waiting, not a lifetime quota");
+            Assert.That(StepAndResults().Single().Accepted, Is.True, "the id skipped by the drop is inside the allowed gap");
         }
 
         [Test]
@@ -240,7 +250,8 @@ namespace JurassicPark.Tests.EditMode
             Assert.That(changed.Controller, Is.EqualTo(SeatController.Computer));
             Assert.That(red.Owner, Is.EqualTo(Red));
 
-            router.Submit(Move(1, Red, red));
+            Assert.That(changed.Epoch, Is.EqualTo(2));
+            router.Submit(MoveInEpoch(1, 2, Red, red));
             Assert.That(StepAndResults().Single().Accepted, Is.True, "a computer-driven seat commands through the same door");
         }
 
@@ -250,8 +261,86 @@ namespace JurassicPark.Tests.EditMode
             Assert.That(seats.MayUse(Red, Red), Is.True);
             Assert.That(seats.MayUse(Red, Blue), Is.True);
             Assert.That(seats.MayUse(Red, Dinosaurs), Is.False);
+            Assert.That(seats.MayUse(Red, SeatId.None), Is.True, "resource nodes and ground piles belong to no seat and are open to all");
             Assert.That(seats.MayUse(SeatId.None, SeatId.None), Is.False);
+            Assert.That(seats.MayUse(new SeatId(5), SeatId.None), Is.False, "an unregistered seat may use nothing");
             Assert.That(seats.AreAllied(Red, Red), Is.False);
+        }
+
+        [Test]
+        public void AReturningHumanIsNotMistakenForTheComputerThatCoveredForThem()
+        {
+            for (long id = 1; id <= 3; id++) router.Submit(Move(id, Red, red));
+            world.Step();
+            seats.SetController(Red, SeatController.Computer);
+            for (long id = 1; id <= 3; id++) router.Submit(MoveInEpoch(id, 2, Red, red));
+            world.Step();
+            seats.SetController(Red, SeatController.Human);
+            world.Step();
+            world.DrainEvents();
+            int executedBefore = move.Executed.Count;
+
+            router.Submit(MoveInEpoch(1, 3, Red, red));
+            CommandResolved result = StepAndResults().Single();
+
+            Assert.That(result.Accepted, Is.True);
+            Assert.That(result.IsRepeat, Is.False, "id 1 of epoch 3 is a new command, not a resend of the computer's id 1");
+            Assert.That(move.Executed.Count, Is.EqualTo(executedBefore + 1));
+        }
+
+        [Test]
+        public void ACommandFromThePreviousControllerIsRefused()
+        {
+            router.Submit(Move(1, Red, red));
+            seats.SetController(Red, SeatController.Computer);
+
+            CommandResolved result = StepAndResults().Single();
+
+            Assert.That(result.Rejection, Is.EqualTo(CommandRejection.WrongEpoch));
+            Assert.That(move.Executed, Is.Empty);
+        }
+
+        [Test]
+        public void AHugeOrNonPositiveIdCannotLockTheSeatOut()
+        {
+            router.Submit(Move(long.MaxValue, Red, red));
+            router.Submit(Move(0, Red, red));
+            router.Submit(Move(-5, Red, red));
+            Assert.That(StepAndResults().Select(r => r.Rejection), Is.All.EqualTo(CommandRejection.InvalidCommandId));
+
+            router.Submit(Move(1, Red, red));
+            Assert.That(StepAndResults().Single().Accepted, Is.True, "the watermark was not moved by the refused ids");
+        }
+
+        [Test]
+        public void TheCommandKeepsItsOwnCopyOfTheSelection()
+        {
+            var selection = new List<EntityId> { red.Id };
+            var command = new Command(1, 1, Red, CommandKind.Move, selection);
+            router.Submit(command);
+            selection[0] = blue.Id;
+            selection.Add(redTwo.Id);
+
+            Assert.That(StepAndResults().Single().Accepted, Is.True);
+            Assert.That(move.ExecutedActors.Single(), Is.EqualTo(new[] { red.Id }));
+        }
+
+        [Test]
+        public void AnUnknownSeatIsTurnedAwayAtTheDoorAndCannotClaimQueueSpace()
+        {
+            for (int i = 0; i < 50; i++)
+                Assert.That(router.Submit(new Command(1, 1, new SeatId(100 + i), CommandKind.Move, new[] { red.Id })), Is.EqualTo(SubmitOutcome.DroppedUnknownSeat));
+
+            Assert.That(router.PendingCount, Is.EqualTo(0));
+        }
+
+        [Test]
+        public void TheSameActorNamedTwiceIsHandedOverOnce()
+        {
+            router.Submit(Move(1, Red, red, red));
+            world.Step();
+
+            Assert.That(move.ExecutedActors.Single(), Is.EqualTo(new[] { red.Id }));
         }
     }
 }
