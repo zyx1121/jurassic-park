@@ -1,0 +1,47 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  hygiene:
+    name: Repo hygiene
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          lfs: false
+      - name: No generated folders committed
+        run: |
+          set -e
+          for d in Library Temp Obj Logs UserSettings Builds TestResults CodeCoverage; do
+            if git ls-files | grep -q "^$d/"; then echo "::error::$d/ is committed"; exit 1; fi
+          done
+      - name: Every asset has a .meta and every .meta has an asset
+        # Unity ignores dot-prefixed and tilde-suffixed files, so they need no .meta.
+        run: |
+          set -e
+          fail=0
+          while IFS= read -r f; do
+            base=${f##*/}
+            case "$base" in .*|*~) continue;; esac
+            [ -e "$f.meta" ] || { echo "::error::missing meta for $f"; fail=1; }
+          done < <(git ls-files 'Assets/**' | grep -v '\.meta$')
+          while IFS= read -r m; do
+            [ -e "${m%.meta}" ] || { echo "::error::orphan meta $m"; fail=1; }
+          done < <(git ls-files 'Assets/**/*.meta' 'Assets/*.meta')
+          exit $fail
+      - name: Binary assets are LFS pointers
+        run: |
+          set -e
+          fail=0
+          while IFS= read -r f; do
+            if ! git check-attr filter -- "$f" | grep -q 'lfs'; then echo "::error::$f not tracked by LFS"; fail=1; fi
+          done < <(git ls-files | grep -Ei '\.(png|jpg|psd|aseprite|fbx|obj|blend|wav|mp3|ogg|ttf|otf|exr|hdr|mp4)$' || true)
+          exit $fail
