@@ -1,7 +1,10 @@
 using System.Collections.Generic;
 using System.Text;
+using JurassicPark.Net;
 using JurassicPark.Presentation;
 using JurassicPark.Simulation;
+using Unity.Netcode;
+using Unity.Netcode.Transports.UTP;
 using UnityEditor;
 using UnityEditor.SceneManagement;
 using UnityEngine;
@@ -51,7 +54,7 @@ namespace JurassicPark.Editor
             scenario.seats = new[]
             {
                 new ScenarioAsset.SeatEntry { id = 1, displayName = "Red", team = 1, controller = SeatController.Human },
-                new ScenarioAsset.SeatEntry { id = 2, displayName = "Blue", team = 1, controller = SeatController.Computer },
+                new ScenarioAsset.SeatEntry { id = 2, displayName = "Blue", team = 1, controller = SeatController.Computer, playable = true },
             };
             scenario.localSeat = 1;
             scenario.placements = Placements(trees, depotAnchor, redStarts, blueStarts);
@@ -63,7 +66,8 @@ namespace JurassicPark.Editor
 
             var sessionObject = new GameObject("Session");
             var session = sessionObject.AddComponent<GameSession>();
-            session.Configure(settings, mapAsset, catalog, scenario);
+            // The launcher decides between playing alone, hosting and joining, so the session waits for it.
+            session.Configure(settings, mapAsset, catalog, scenario, beginOffline: false);
 
             var terrainObject = new GameObject("Terrain");
             terrainObject.GetOrAdd<MeshFilter>();
@@ -95,6 +99,18 @@ namespace JurassicPark.Editor
             var selection = inputObject.AddComponent<SelectionController>();
             selection.Configure(session, views, camera);
             inputObject.AddComponent<SelectionOverlay>().Configure(session, selection);
+
+            // Only the connection and named messages of Netcode are used: no NetworkObjects, no scene management, no player prefab.
+            var networkObject = new GameObject("Network");
+            var utp = networkObject.AddComponent<UnityTransport>();
+            var manager = networkObject.AddComponent<NetworkManager>();
+            manager.NetworkConfig = new NetworkConfig { NetworkTransport = utp, EnableSceneManagement = false, ConnectionApproval = false, TickRate = 10 };
+            // Netcode marks its manager DontDestroyOnLoad and offers no switch, so nothing else lives on that GameObject,
+            // and NetSession destroys it when this scene goes.
+            var matchNetObject = new GameObject("Match Net");
+            var net = matchNetObject.AddComponent<NetSession>();
+            net.Configure(session, manager, utp);
+            matchNetObject.AddComponent<MatchLauncher>().Configure(session, net);
 
             var lightObject = new GameObject("Key Light");
             var light = lightObject.AddComponent<Light>();

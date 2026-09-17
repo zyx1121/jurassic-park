@@ -5,7 +5,10 @@
         "JurassicPark.Simulation",
         "UnityEngine.TestRunner",
         "UnityEditor.TestRunner",
-        "JurassicPark.Presentation"
+        "JurassicPark.Presentation",
+        "JurassicPark.Net",
+        "Unity.Netcode.Runtime",
+        "Unity.Collections"
     ],
     "includePlatforms": [
         "Editor"

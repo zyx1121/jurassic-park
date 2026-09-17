@@ -49,19 +49,24 @@ namespace JurassicPark.Presentation
             Apply();
         }
 
-        private void Start()
+        private void OnEnable()
         {
-            if (session.Runtime == null) return;
-            if (!focusSet)
-            {
-                var map = session.Runtime.Map;
-                LookAt(new Vector3(map.Width * map.CellSize * 0.5f, 0f, map.Height * map.CellSize * 0.5f));
-            }
+            session.MatchBegan += Centre;
+            if (session.Model != null) Centre();
+        }
+
+        private void OnDisable() => session.MatchBegan -= Centre;
+
+        private void Centre()
+        {
+            if (focusSet) return;
+            var map = session.Model.Map;
+            LookAt(new Vector3(map.Width * map.CellSize * 0.5f, 0f, map.Height * map.CellSize * 0.5f));
         }
 
         private void Update()
         {
-            if (session.Runtime == null) return;
+            if (session.Model == null) return;
             Keyboard keyboard = Keyboard.current;
             Mouse mouse = Mouse.current;
             Vector2 pan = Vector2.zero;
@@ -111,7 +116,7 @@ namespace JurassicPark.Presentation
             // A long frame must not throw the camera across the map.
             float speed = panSpeed * zoom * Mathf.Min(deltaTime, 0.1f);
             focus += new Vector3(direction.x, 0f, direction.y).normalized * speed;
-            var map = session.Runtime.Map;
+            var map = session.Model.Map;
             focus.x = Mathf.Clamp(focus.x, 0f, map.Width * map.CellSize);
             focus.z = Mathf.Clamp(focus.z, 0f, map.Height * map.CellSize);
             Apply();

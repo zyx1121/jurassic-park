@@ -25,7 +25,7 @@ namespace JurassicPark.Presentation
 
         private void OnGUI()
         {
-            if (Event.current.type != EventType.Repaint) return;
+            if (Event.current.type != EventType.Repaint || selection == null) return;
             if (pixel == null)
             {
                 pixel = new Texture2D(1, 1);
@@ -47,22 +47,27 @@ namespace JurassicPark.Presentation
         private string Readout()
         {
             if (session.Failure != null) return session.Failure;
-            World world = session.Runtime.World;
-            if (world.Tick == builtAtTick && selection.Version == builtForVersion) return cached;
-            builtAtTick = world.Tick;
+            MatchReadModel model = session.Model;
+            if (model == null) return string.Empty;
+            if (session.Commands == null) return "connected, waiting for a seat";
+            if (model.Tick == builtAtTick && selection.Version == builtForVersion) return cached;
+            builtAtTick = model.Tick;
             builtForVersion = selection.Version;
             text.Clear();
+            text.Append(session.Role).Append("  seat ").Append(model.LocalSeat.Value).Append("  tick ").Append(model.Tick).Append('\n');
             text.Append("LMB select  drag box  RMB order  Shift queue  X stop  WASD pan  wheel zoom\n");
             if (selection.LastRejection != CommandRejection.None) text.Append("last order refused: ").Append(selection.LastRejection).Append('\n');
             for (int i = 0; i < selection.Selection.Count && i < 8; i++)
             {
-                EntityId id = selection.Selection[i];
-                if (!world.TryGet(id, out Entity entity)) continue;
-                SimTask task = session.Runtime.Tasks.CurrentOf(id);
-                text.Append(entity.DefinitionId).Append(' ').Append(id.Value).Append(": ");
-                if (task == null) text.Append("idle");
-                else text.Append(task.Kind).Append(' ').Append(task.State).Append(task.Reason != TaskReason.None ? " (" + task.Reason + ")" : string.Empty);
-                if (session.Runtime.Logistics.TryGetContainer(id, out Container pack)) text.Append("  pack ").Append(pack.Total).Append('/').Append(pack.Capacity);
+                if (!model.TryGet(selection.Selection[i], out EntitySnapshot unit)) continue;
+                text.Append(model.DefinitionIdOf(unit)).Append(' ').Append(unit.Id.Value).Append(": ");
+                if (unit.Task == TaskKindCode.None) text.Append("idle");
+                else
+                {
+                    text.Append(unit.Task).Append(' ').Append(unit.TaskState);
+                    if (unit.TaskReason != TaskReason.None) text.Append(" (").Append(unit.TaskReason).Append(')');
+                }
+                if (unit.PackCapacity > 0) text.Append("  pack ").Append(unit.PackTotal).Append('/').Append(unit.PackCapacity);
                 text.Append('\n');
             }
             cached = text.ToString();

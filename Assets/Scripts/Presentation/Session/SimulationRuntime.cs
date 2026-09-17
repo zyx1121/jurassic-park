@@ -18,7 +18,9 @@ namespace JurassicPark.Presentation
         public TaskSystem Tasks { get; private set; }
         public Logistics Logistics { get; private set; }
         public SeatId LocalSeat { get; private set; }
-        public CommandSender LocalSender { get; private set; }
+
+        /// <summary>Seats a player may sit in, in scenario order. The host's own seat is among them.</summary>
+        public IReadOnlyList<SeatId> PlayableSeats { get; private set; }
 
         /// <summary>Builds the match, or throws with every problem found, so an illegal map never pretends to be ready.</summary>
         public static SimulationRuntime Build(SimulationSettingsAsset settings, MapDefinitionAsset mapAsset, EntityCatalogAsset catalogAsset, ScenarioAsset scenario)
@@ -65,9 +67,12 @@ namespace JurassicPark.Presentation
             runtime.World.AddSystem(runtime.Tasks);
             runtime.World.AddSystem(runtime.Logistics);
 
+            var playable = new List<SeatId>();
+            for (int i = 0; i < scenario.seats.Length; i++)
+                if (scenario.seats[i].playable) playable.Add(new SeatId(scenario.seats[i].id));
+            runtime.PlayableSeats = playable;
             runtime.LocalSeat = new SeatId(scenario.localSeat);
-            if (!runtime.Seats.TryGet(runtime.LocalSeat, out Seat local)) throw new InvalidOperationException($"Local seat {scenario.localSeat} is not one of the scenario's seats.");
-            runtime.LocalSender = new CommandSender(runtime.Router, runtime.LocalSeat, local.ControllerEpoch);
+            if (!runtime.Seats.TryGet(runtime.LocalSeat, out _)) throw new InvalidOperationException($"Local seat {scenario.localSeat} is not one of the scenario's seats.");
 
             for (int i = 0; i < scenario.placements.Length; i++) runtime.Place(catalogAsset, scenario.placements[i], problems);
             if (problems.Count > 0) throw new InvalidOperationException("The scenario is not usable:\n- " + string.Join("\n- ", problems));

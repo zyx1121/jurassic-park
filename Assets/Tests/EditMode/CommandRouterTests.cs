@@ -399,5 +399,27 @@ namespace JurassicPark.Tests.EditMode
             Assert.That(accepted.CommandId, Is.EqualTo(1), "ids start again in the new epoch");
             Assert.That(move.Executed, Has.Count.EqualTo(2));
         }
+
+        [Test]
+        public void TheSyncPointCountsIdsStillWaitingInTheQueueButNotAbsurdOnes()
+        {
+            for (long id = 1; id <= 3; id++) router.Submit(Move(id, Red, red));
+            Assert.That(router.TryGetSync(Red, out int epoch, out long next), Is.True);
+            Assert.That((epoch, next), Is.EqualTo((1, 4L)), "three are queued and none resolved yet");
+
+            world.Step();
+            router.Submit(Move(long.MaxValue, Red, red));
+            router.TryGetSync(Red, out _, out next);
+            Assert.That(next, Is.EqualTo(4), "a queued id that is going to be refused does not drag the sync point with it");
+            Assert.That(router.TryGetSync(new SeatId(77), out _, out _), Is.False);
+        }
+
+        [Test]
+        public void ASenderIgnoresAnAnswerAddressedToAnEarlierHolderOfItsSeat()
+        {
+            var sender = new CommandSender(router, Red, epoch: 3);
+            Assert.That(sender.Observe(new CommandResolved(Red, 2, 9, CommandRejection.WrongEpoch, false, 3, 1)), Is.False);
+            Assert.That(sender.Observe(new CommandResolved(Red, 3, 9, CommandRejection.InvalidCommandId, false, 3, 5)), Is.True);
+        }
     }
 }

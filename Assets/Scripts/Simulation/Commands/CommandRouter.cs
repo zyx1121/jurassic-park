@@ -43,6 +43,39 @@ namespace JurassicPark.Simulation
 
         public int PendingCount => pending.Count;
 
+        /// <summary>
+        /// What a sender for this seat must use next: the seat's current controller epoch and the next id the router will accept.
+        /// The network layer puts it in the bind handshake and in the answer it writes itself when Submit drops a command.
+        /// </summary>
+        public bool TryGetSync(SeatId seatId, out int epoch, out long nextCommandId)
+        {
+            epoch = 0;
+            nextCommandId = 0;
+            if (!seats.TryGet(seatId, out Seat seat)) return false;
+            epoch = seat.ControllerEpoch;
+            long last = ledgers.TryGetValue(seatId, out SeatLedger ledger) && ledger.Epoch == epoch ? ledger.LastCommandId : 0;
+            nextCommandId = NextIdAfter(seatId, epoch, last);
+            return true;
+        }
+
+        /// <summary>
+        /// The id a sender should use next: one past the last resolved id AND past every plausible id still waiting in the queue.
+        /// Counting only resolved ids would tell a sender to reuse ids that are about to resolve, and the reused ones would then be
+        /// answered as repeats of those and silently never run.
+        /// </summary>
+        private long NextIdAfter(SeatId seatId, int epoch, long lastResolved)
+        {
+            long highest = lastResolved;
+            long ceiling = lastResolved + config.MaxCommandIdGap + config.MaxPendingPerSeat;
+            foreach (Command queued in pending)
+            {
+                if (queued.Seat != seatId || queued.Epoch != epoch) continue;
+                // An absurd queued id is going to be refused; it must not drag the sync point up with it.
+                if (queued.CommandId > highest && queued.CommandId <= ceiling) highest = queued.CommandId;
+            }
+            return highest + 1;
+        }
+
         public void Register(CommandKind kind, ICommandHandler handler)
         {
             if (handler == null) throw new ArgumentNullException(nameof(handler));
@@ -121,8 +154,9 @@ namespace JurassicPark.Simulation
             Answer(world, command, ledger, rejection, false);
         }
 
-        private static void Answer(World world, Command command, SeatLedger ledger, CommandRejection rejection, bool isRepeat) =>
-            world.Raise(new CommandResolved(command.Seat, command.Epoch, command.CommandId, rejection, isRepeat, ledger.Epoch, ledger.LastCommandId + 1));
+        private void Answer(World world, Command command, SeatLedger ledger, CommandRejection rejection, bool isRepeat) =>
+            world.Raise(new CommandResolved(command.Seat, command.Epoch, command.CommandId, rejection, isRepeat, ledger.Epoch,
+                NextIdAfter(command.Seat, ledger.Epoch, ledger.LastCommandId)));
 
         private CommandRejection Validate(World world, Command command, out ICommandHandler handler)
         {

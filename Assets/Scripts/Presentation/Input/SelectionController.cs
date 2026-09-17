@@ -42,23 +42,40 @@ namespace JurassicPark.Presentation
             viewCamera = camera;
         }
 
-        private void OnEnable() => session.EventsDrained += OnEvents;
-        private void OnDisable() => session.EventsDrained -= OnEvents;
+        private MatchReadModel model;
 
-        private void OnEvents(IReadOnlyList<SimEvent> events)
+        private void OnEnable()
         {
-            for (int i = 0; i < events.Count; i++)
-            {
-                if (events[i] is EntityRemoved removed)
-                {
-                    if (selection.Remove(removed.Entity)) Version++;
-                }
-                else if (events[i] is CommandResolved answer && answer.Seat == session.Runtime.LocalSeat && !answer.IsRepeat)
-                {
-                    LastRejection = answer.Rejection;
-                    Version++;
-                }
-            }
+            session.MatchBegan += Hook;
+            session.CommandAnswered += OnAnswer;
+            if (session.Model != null) Hook();
+        }
+
+        private void OnDisable()
+        {
+            session.MatchBegan -= Hook;
+            session.CommandAnswered -= OnAnswer;
+            if (model != null) model.EntityVanished -= OnVanished;
+            model = null;
+        }
+
+        private void Hook()
+        {
+            if (model != null) return;
+            model = session.Model;
+            model.EntityVanished += OnVanished;
+        }
+
+        private void OnVanished(EntityId id)
+        {
+            if (selection.Remove(id)) Version++;
+        }
+
+        private void OnAnswer(CommandResolved answer)
+        {
+            if (answer.IsRepeat) return;
+            LastRejection = answer.Rejection;
+            Version++;
         }
 
         private void Update()
@@ -95,24 +112,23 @@ namespace JurassicPark.Presentation
         // code from screen coordinates without a mouse.
 
         /// <summary>What a click at this screen point would hit among the things that pass the filter.</summary>
-        public Entity PickAt(Vector2 screenPoint, System.Predicate<Entity> filter) =>
-            ScreenPicker.Pick(viewCamera, session.Runtime.World, session.CatalogAsset, screenPoint, pickSlackPixels, filter);
+        public bool TryPickAt(Vector2 screenPoint, System.Predicate<EntitySnapshot> filter, out EntitySnapshot picked) =>
+            ScreenPicker.TryPick(viewCamera, session.Model, screenPoint, pickSlackPixels, filter, out picked);
 
         public void ClickSelect(Vector2 screenPoint, bool additive)
         {
             scratch.Clear();
-            Entity picked = PickAt(screenPoint, IsOwnUnit);
-            if (picked != null) scratch.Add(picked.Id);
+            if (TryPickAt(screenPoint, IsOwnUnit, out EntitySnapshot picked)) scratch.Add(picked.Id);
             Apply(additive);
         }
 
         public void BoxSelect(Rect screenRect, bool additive)
         {
             scratch.Clear();
-            IReadOnlyList<Entity> entities = session.Runtime.World.Entities;
+            IReadOnlyList<EntitySnapshot> entities = session.Model.Entities;
             for (int i = 0; i < entities.Count; i++)
             {
-                Entity entity = entities[i];
+                EntitySnapshot entity = entities[i];
                 if (!IsOwnUnit(entity)) continue;
                 Vector3 screen = viewCamera.WorldToScreenPoint(EntityViewRegistry.ToWorld(entity.Position));
                 if (screen.z > 0f && screenRect.Contains(new Vector2(screen.x, screen.y))) scratch.Add(entity.Id);
@@ -124,20 +140,19 @@ namespace JurassicPark.Presentation
         public OrderResolver.Order? OrderAt(Vector2 screenPoint, bool queue)
         {
             if (selection.Count == 0 || !TryGroundPoint(screenPoint, out SimVector2 point)) return null;
-            SimulationRuntime runtime = session.Runtime;
             // Units are not order targets yet, so a friendly standing on the spot never swallows a move order.
-            Entity target = PickAt(screenPoint, IsNotAUnit);
-            OrderResolver.Order order = OrderResolver.Resolve(runtime, selection, target, point);
-            runtime.LocalSender.Send(order.Kind, selection, order.Point, order.Target, queue ? CommandMode.Queue : CommandMode.Replace);
+            EntitySnapshot? target = TryPickAt(screenPoint, IsNotAUnit, out EntitySnapshot picked) ? picked : (EntitySnapshot?)null;
+            OrderResolver.Order order = OrderResolver.Resolve(session.Model, selection, target, point);
+            session.Commands.Send(order.Kind, selection, order.Point, order.Target, queue ? CommandMode.Queue : CommandMode.Replace);
             return order;
         }
 
         public void StopSelection()
         {
-            if (selection.Count > 0) session.Runtime.LocalSender.Send(CommandKind.Stop, selection);
+            if (selection.Count > 0) session.Commands.Send(CommandKind.Stop, selection);
         }
 
-        private static bool IsNotAUnit(Entity entity) => entity.Kind != EntityKind.Unit;
+        private static bool IsNotAUnit(EntitySnapshot entity) => entity.Kind != EntityKind.Unit;
 
         public bool TryGroundPoint(Vector2 screenPoint, out SimVector2 point)
         {
@@ -149,7 +164,7 @@ namespace JurassicPark.Presentation
             return true;
         }
 
-        private bool IsOwnUnit(Entity entity) => entity.IsAlive && entity.Kind == EntityKind.Unit && entity.Owner == session.Runtime.LocalSeat;
+        private bool IsOwnUnit(EntitySnapshot entity) => entity.Kind == EntityKind.Unit && entity.Owner == session.Model.LocalSeat;
 
         private void Apply(bool additive)
         {

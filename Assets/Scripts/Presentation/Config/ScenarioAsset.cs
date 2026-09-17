@@ -15,6 +15,8 @@ namespace JurassicPark.Presentation
             public string displayName = string.Empty;
             public int team = 1;
             public SeatController controller = SeatController.Human;
+            [Tooltip("A joining player may be given this seat. False for the dinosaurs.")]
+            public bool playable = true;
         }
 
         [Serializable]

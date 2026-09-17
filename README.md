@@ -44,6 +44,8 @@ Open `Assets/Scenes/M1.unity` and press Play: left click or drag to select survi
 
 ![M1 slice: a survivor leaving the camp entrance for the grove](docs/screenshots/m1-orthographic-2026-09-17.png)
 
+Play together: on Play, the lobby offers **Play alone**, **Host** and **Join**. From a build, `--host [port]`, `--join address[:port]` and `--offline` skip the lobby; `-batchmode -nographics` runs headless and logs a `[Status]` line every five seconds. The host runs the only simulation; a client sends commands and draws snapshots. A joining player takes the first free playable seat, and the computer takes it back when they leave.
+
 Code is split into five assemblies: `Simulation` (pure C#, no engine references), `Presentation`, `Net`, `Editor` and `Tests.EditMode`. Gameplay rules live only in `Simulation`.
 
 ## Documentation
