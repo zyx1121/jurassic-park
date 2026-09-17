@@ -5,7 +5,8 @@
         "JurassicPark.Simulation",
         "JurassicPark.Presentation",
         "UnityEngine.TestRunner",
-        "UnityEditor.TestRunner"
+        "UnityEditor.TestRunner",
+        "JurassicPark.Net"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

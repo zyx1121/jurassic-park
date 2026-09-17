@@ -32,5 +32,8 @@ namespace JurassicPark.Simulation
 
         /// <summary>The target exists but this seat may not use it, for example an enemy depot or another unit's pack.</summary>
         NotAllowedOnTarget = 14,
+
+        /// <summary>The seat already had the maximum number of commands waiting, so this one was dropped at the door and its id was not consumed. Sent by the network layer, never by the router.</summary>
+        DroppedFlood = 15,
     }
 }

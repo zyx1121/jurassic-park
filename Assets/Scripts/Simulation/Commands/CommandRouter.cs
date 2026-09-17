@@ -43,6 +43,20 @@ namespace JurassicPark.Simulation
 
         public int PendingCount => pending.Count;
 
+        /// <summary>
+        /// What a sender for this seat must use next: the seat's current controller epoch and the next id the router will accept.
+        /// The network layer puts it in the bind handshake and in the answer it writes itself when Submit drops a command.
+        /// </summary>
+        public bool TryGetSync(SeatId seatId, out int epoch, out long nextCommandId)
+        {
+            epoch = 0;
+            nextCommandId = 0;
+            if (!seats.TryGet(seatId, out Seat seat)) return false;
+            epoch = seat.ControllerEpoch;
+            nextCommandId = ledgers.TryGetValue(seatId, out SeatLedger ledger) && ledger.Epoch == epoch ? ledger.LastCommandId + 1 : 1;
+            return true;
+        }
+
         public void Register(CommandKind kind, ICommandHandler handler)
         {
             if (handler == null) throw new ArgumentNullException(nameof(handler));

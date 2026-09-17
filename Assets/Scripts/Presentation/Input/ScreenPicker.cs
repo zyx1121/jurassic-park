@@ -12,18 +12,20 @@ namespace JurassicPark.Presentation
     /// </summary>
     public static class ScreenPicker
     {
-        /// <summary>The entity whose drawn silhouette is nearest the cursor and contains it, or null. Ties go to the older entity.</summary>
-        public static Entity Pick(Camera camera, World world, EntityCatalogAsset catalog, Vector2 cursor, float slackPixels, Predicate<Entity> filter)
+        /// <summary>The entity whose drawn silhouette contains the cursor and is nearest to it. Ties go to the older entity.</summary>
+        public static bool TryPick(Camera camera, MatchReadModel model, Vector2 cursor, float slackPixels, Predicate<EntitySnapshot> filter, out EntitySnapshot picked)
         {
-            Entity best = null;
+            picked = default;
+            bool found = false;
             float bestScore = float.MaxValue;
-            IReadOnlyList<Entity> entities = world.Entities;
+            IReadOnlyList<EntitySnapshot> entities = model.Entities;
             for (int i = 0; i < entities.Count; i++)
             {
-                Entity candidate = entities[i];
-                if (!candidate.IsAlive || (filter != null && !filter(candidate))) continue;
+                EntitySnapshot candidate = entities[i];
+                if (filter != null && !filter(candidate)) continue;
                 float height = 1f, halfWidth = 0.5f;
-                if (catalog.TryGet(candidate.DefinitionId, out EntityCatalogAsset.Entry entry))
+                EntityCatalogAsset.Entry entry = model.EntryOf(candidate);
+                if (entry != null)
                 {
                     height = entry.DrawnHeight;
                     halfWidth = entry.DrawnHalfWidth;
@@ -40,11 +42,12 @@ namespace JurassicPark.Presentation
                 float score = distance / radius;
                 if (score < bestScore)
                 {
-                    best = candidate;
+                    picked = candidate;
+                    found = true;
                     bestScore = score;
                 }
             }
-            return best;
+            return found;
         }
 
         private static float DistanceToSegment(Vector2 point, Vector2 a, Vector2 b)

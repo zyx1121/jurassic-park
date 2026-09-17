@@ -6,15 +6,16 @@ using EntityId = JurassicPark.Simulation.EntityId;
 namespace JurassicPark.Presentation
 {
     /// <summary>
-    /// One stand-in GameObject per simulated entity. Views follow the simulation and never feed back into it. All views are moved
-    /// from this one Update, positions are interpolated between the last two ticks so 10 Hz simulation looks smooth at 60 fps,
-    /// and entities of one definition share a mesh and an instanced material.
+    /// One stand-in GameObject per entity in the read model. Views follow snapshots and never feed back into anything. All views
+    /// are moved from this one loop, positions are interpolated between the last two snapshots so a 10 Hz match looks smooth at
+    /// 60 fps, and entities of one definition share a mesh and an instanced material. It neither knows nor cares whether the
+    /// snapshots came from a local simulation or from a host.
     /// </summary>
     public sealed class EntityViewRegistry : MonoBehaviour
     {
         private sealed class View
         {
-            public Entity Entity;
+            public EntityId Id;
             public Transform Transform;
             public GameObject Ring;
             public Vector3 Previous, Current;
@@ -30,6 +31,8 @@ namespace JurassicPark.Presentation
         private readonly Dictionary<string, Material> materials = new Dictionary<string, Material>();
         private readonly Dictionary<PlaceholderShape, Mesh> meshes = new Dictionary<PlaceholderShape, Mesh>();
         private Mesh ringMesh;
+        private MatchReadModel model;
+        private int shownRevision = -1;
 
         public void Configure(GameSession gameSession, Material entity, Material ring)
         {
@@ -52,32 +55,46 @@ namespace JurassicPark.Presentation
             if (views.TryGetValue(id, out View view)) view.Ring.SetActive(selected);
         }
 
-        private void OnEnable() => session.EventsDrained += OnEvents;
-        private void OnDisable() => session.EventsDrained -= OnEvents;
-
-        private void OnEvents(IReadOnlyList<SimEvent> events)
+        private void OnEnable()
         {
-            for (int i = 0; i < events.Count; i++)
-            {
-                if (events[i] is EntitySpawned spawned) Add(spawned.Entity);
-                else if (events[i] is EntityRemoved removed) Remove(removed.Entity);
-            }
+            session.MatchBegan += Hook;
+            // A session that begins in its own Awake has already begun by the time anything else is enabled.
+            if (session.Model != null) Hook();
         }
 
-        private void Add(EntityId id)
+        private void OnDisable()
         {
-            if (views.ContainsKey(id) || !session.Runtime.World.TryGet(id, out Entity entity)) return;
-            session.CatalogAsset.TryGet(entity.DefinitionId, out EntityCatalogAsset.Entry entry);
+            session.MatchBegan -= Hook;
+            if (model == null) return;
+            model.EntityAppeared -= Add;
+            model.EntityVanished -= Remove;
+            model = null;
+        }
+
+        private void Hook()
+        {
+            if (model != null) return;
+            model = session.Model;
+            model.EntityAppeared += Add;
+            model.EntityVanished += Remove;
+            for (int i = 0; i < model.Entities.Count; i++) Add(model.Entities[i]);
+        }
+
+        private void Add(EntitySnapshot entity)
+        {
+            EntityId id = entity.Id;
+            if (views.ContainsKey(id)) return;
+            EntityCatalogAsset.Entry entry = model.EntryOf(entity);
             PlaceholderShape shape = entry != null ? entry.shape : PlaceholderShape.Sphere;
             Vector3 size = entry != null ? entry.size : Vector3.one * 0.6f;
 
-            var root = new GameObject($"{entity.DefinitionId} {id.Value}");
+            var root = new GameObject($"{model.DefinitionIdOf(entity)} {id.Value}");
             root.transform.SetParent(transform, false);
             var body = new GameObject("Body");
             body.transform.SetParent(root.transform, false);
             body.transform.localScale = size;
             body.AddComponent<MeshFilter>().sharedMesh = MeshFor(shape);
-            body.AddComponent<MeshRenderer>().sharedMaterial = MaterialFor(entity.DefinitionId, entry != null ? entry.color : Color.magenta);
+            body.AddComponent<MeshRenderer>().sharedMaterial = MaterialFor(model.DefinitionIdOf(entity), entry != null ? entry.color : Color.magenta);
             float halfHeight = shape == PlaceholderShape.Capsule || shape == PlaceholderShape.Cylinder ? size.y : size.y * 0.5f;
             body.transform.localPosition = new Vector3(0f, halfHeight, 0f);
 
@@ -90,7 +107,7 @@ namespace JurassicPark.Presentation
             ring.AddComponent<MeshRenderer>().sharedMaterial = ringMaterial;
             ring.SetActive(false);
 
-            var view = new View { Entity = entity, Transform = root.transform, Ring = ring, HalfHeight = halfHeight };
+            var view = new View { Id = id, Transform = root.transform, Ring = ring, HalfHeight = halfHeight };
             view.Previous = view.Current = ToWorld(entity.Position);
             root.transform.position = view.Current;
             views.Add(id, view);
@@ -107,21 +124,22 @@ namespace JurassicPark.Presentation
 
         private void LateUpdate()
         {
-            if (!session.IsReady) return;
-            bool ticked = session.TicksThisFrame > 0;
-            float t = session.Runtime.World.TickFraction;
+            if (model == null) return;
+            bool fresh = model.Revision != shownRevision;
+            shownRevision = model.Revision;
+            float t = Mathf.Clamp01(model.Fraction());
             for (int i = 0; i < ordered.Count; i++)
             {
                 View view = ordered[i];
                 bool wasMoving = view.Previous != view.Current;
-                if (ticked)
+                if (fresh && model.TryGet(view.Id, out EntitySnapshot snapshot))
                 {
-                    view.Previous = view.Current;
-                    view.Current = ToWorld(view.Entity.Position);
+                    view.Current = ToWorld(snapshot.Position);
+                    view.Previous = ToWorld(model.PreviousPositionOf(view.Id, snapshot.Position));
                 }
                 bool moving = view.Previous != view.Current;
                 // Idle entities are skipped entirely; one that just stopped is snapped onto its final position once.
-                if (moving) view.Transform.position = Vector3.LerpUnclamped(view.Previous, view.Current, t);
+                if (moving) view.Transform.position = Vector3.Lerp(view.Previous, view.Current, t);
                 else if (wasMoving) view.Transform.position = view.Current;
             }
         }

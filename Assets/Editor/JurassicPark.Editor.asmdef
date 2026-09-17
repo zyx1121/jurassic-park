@@ -5,7 +5,9 @@
         "JurassicPark.Simulation",
         "JurassicPark.Presentation",
         "Unity.RenderPipelines.Universal.Runtime",
-        "Unity.RenderPipelines.Core.Runtime"
+        "Unity.RenderPipelines.Core.Runtime",
+        "JurassicPark.Net",
+        "Unity.Netcode.Runtime"
     ],
     "includePlatforms": [
         "Editor"

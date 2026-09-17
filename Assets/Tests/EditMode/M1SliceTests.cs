@@ -14,6 +14,30 @@ namespace JurassicPark.Tests.EditMode
     {
         private static T Load<T>(string name) where T : Object => AssetDatabase.LoadAssetAtPath<T>($"Assets/Data/M1/{name}.asset");
 
+        private static MatchReadModel ModelOf(SimulationRuntime runtime)
+        {
+            var catalog = Load<EntityCatalogAsset>("Catalog");
+            var model = new MatchReadModel(catalog, runtime.Map.Definition) { LocalSeat = runtime.LocalSeat };
+            var seats = new List<SeatSnapshot>();
+            SnapshotCapture.Seats(runtime, seats);
+            model.SetSeats(seats);
+            Refresh(model, runtime);
+            return model;
+        }
+
+        private static void Refresh(MatchReadModel model, SimulationRuntime runtime)
+        {
+            var entities = new List<EntitySnapshot>();
+            SnapshotCapture.Entities(runtime, model.Catalog, entities);
+            model.Apply(model.Revision == 0 ? runtime.World.Tick : model.Tick + 1, entities);
+        }
+
+        private static CommandSender SenderOf(SimulationRuntime runtime)
+        {
+            runtime.Seats.TryGet(runtime.LocalSeat, out Seat seat);
+            return new CommandSender(runtime.Router, runtime.LocalSeat, seat.ControllerEpoch);
+        }
+
         private static SimulationRuntime Build() => SimulationRuntime.Build(
             Load<SimulationSettingsAsset>("Simulation"), Load<MapDefinitionAsset>("Map"), Load<EntityCatalogAsset>("Catalog"), Load<ScenarioAsset>("Scenario"));
 
@@ -38,10 +62,12 @@ namespace JurassicPark.Tests.EditMode
             EntityId[] workers = runtime.World.Entities.Where(e => e.DefinitionId == "survivor" && e.Owner == runtime.LocalSeat).Select(e => e.Id).ToArray();
             Entity tree = runtime.World.Entities.First(e => e.Kind == EntityKind.ResourceNode);
             Entity depot = runtime.World.Entities.Single(e => e.DefinitionId == "depot");
-            OrderResolver.Order order = OrderResolver.Resolve(runtime, workers, tree, tree.Position);
+            MatchReadModel model = ModelOf(runtime);
+            model.TryGet(tree.Id, out EntitySnapshot treeSnapshot);
+            OrderResolver.Order order = OrderResolver.Resolve(model, workers, treeSnapshot, tree.Position);
             Assert.That(order.Kind, Is.EqualTo(CommandKind.Gather));
 
-            runtime.LocalSender.Send(order.Kind, workers, order.Point, order.Target);
+            SenderOf(runtime).Send(order.Kind, workers, order.Point, order.Target);
             for (int i = 0; i < 1200 && (i < 10 || workers.Any(w => runtime.Tasks.CurrentOf(w) != null)); i++) runtime.World.Step();
 
             runtime.Logistics.TryGetContainer(depot.Id, out Container store);
@@ -58,13 +84,16 @@ namespace JurassicPark.Tests.EditMode
             Entity tree = runtime.World.Entities.First(e => e.Kind == EntityKind.ResourceNode);
             Entity depot = runtime.World.Entities.Single(e => e.DefinitionId == "depot");
             var ground = new SimVector2(40f, 30f);
+            MatchReadModel model = ModelOf(runtime);
+            EntitySnapshot Snap(Entity e) { model.TryGet(e.Id, out EntitySnapshot snapshot); return snapshot; }
 
-            Assert.That(OrderResolver.Resolve(runtime, worker, null, ground).Kind, Is.EqualTo(CommandKind.Move));
-            Assert.That(OrderResolver.Resolve(runtime, worker, tree, ground).Kind, Is.EqualTo(CommandKind.Gather));
-            Assert.That(OrderResolver.Resolve(runtime, worker, depot, ground).Kind, Is.EqualTo(CommandKind.Move), "empty hands: just walk to the depot");
+            Assert.That(OrderResolver.Resolve(model, worker, null, ground).Kind, Is.EqualTo(CommandKind.Move));
+            Assert.That(OrderResolver.Resolve(model, worker, Snap(tree), ground).Kind, Is.EqualTo(CommandKind.Gather));
+            Assert.That(OrderResolver.Resolve(model, worker, Snap(depot), ground).Kind, Is.EqualTo(CommandKind.Move), "empty hands: just walk to the depot");
 
             runtime.Logistics.Gather(tree.Id, worker[0], 3, null, null);
-            OrderResolver.Order deliver = OrderResolver.Resolve(runtime, worker, depot, ground);
+            Refresh(model, runtime);
+            OrderResolver.Order deliver = OrderResolver.Resolve(model, worker, Snap(depot), ground);
             Assert.That(deliver.Kind, Is.EqualTo(CommandKind.Deliver));
             Assert.That(deliver.Target, Is.EqualTo(depot.Id));
         }

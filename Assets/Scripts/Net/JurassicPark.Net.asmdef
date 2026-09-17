@@ -3,7 +3,11 @@
     "rootNamespace": "JurassicPark.Net",
     "references": [
         "JurassicPark.Simulation",
-        "Unity.Netcode.Runtime"
+        "JurassicPark.Presentation",
+        "Unity.Netcode.Runtime",
+        "Unity.Collections",
+        "Unity.InputSystem",
+        "Unity.Networking.Transport"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

@@ -17,10 +17,12 @@ MonoBehaviour:
     displayName: Red
     team: 1
     controller: 1
+    playable: 1
   - id: 2
     displayName: Blue
     team: 1
     controller: 2
+    playable: 1
   localSeat: 1
   placements:
   - definitionId: depot

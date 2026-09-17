@@ -16,10 +16,18 @@ namespace JurassicPark.Presentation
 
         public void Configure(GameSession gameSession) => session = gameSession;
 
-        private void Start()
+        private void OnEnable()
         {
-            if (session.Runtime == null) return;
-            mesh = TerrainMeshBuilder.Build(session.Runtime.Map.Definition, ground, noBuild, cliff, cliffHeight);
+            session.MatchBegan += Build;
+            if (session.Model != null) Build();
+        }
+
+        private void OnDisable() => session.MatchBegan -= Build;
+
+        private void Build()
+        {
+            if (mesh != null) return;
+            mesh = TerrainMeshBuilder.Build(session.Model.Map, ground, noBuild, cliff, cliffHeight);
             GetComponent<MeshFilter>().sharedMesh = mesh;
         }
 

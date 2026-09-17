@@ -33,7 +33,11 @@ namespace JurassicPark.Tests.PlayMode
             selection = Object.FindFirstObjectByType<SelectionController>();
             rtsCamera = Object.FindFirstObjectByType<RtsCamera>();
             viewCamera = Camera.main;
+            // The scene waits for the launcher's lobby; a test takes the "play alone" button's path.
+            if (session.Role == MatchRole.None) session.BeginOffline();
+            yield return null;
             Assert.That(session.IsReady, Is.True, session.Failure);
+            Assert.That(session.Role, Is.EqualTo(MatchRole.Offline));
         }
 
         private Entity First(string definitionId, bool local = false) => session.Runtime.World.Entities.First(e =>
@@ -113,7 +117,8 @@ namespace JurassicPark.Tests.PlayMode
             rtsCamera.LookAt(EntityViewRegistry.ToWorld(tree.Position));
             yield return null;
             // The top of the trunk is drawn about two metres up-screen of the foot: the part people actually click.
-            Assert.That(selection.PickAt(ScreenOf(tree, 0.95f), null), Is.SameAs(tree));
+            Assert.That(selection.TryPickAt(ScreenOf(tree, 0.95f), null, out EntitySnapshot pickedTree), Is.True);
+            Assert.That(pickedTree.Id, Is.EqualTo(tree.Id));
             OrderResolver.Order? gather = selection.OrderAt(ScreenOf(tree, 0.95f), queue: false);
             Assert.That(gather.Value.Kind, Is.EqualTo(CommandKind.Gather));
             Assert.That(gather.Value.Target, Is.EqualTo(tree.Id));
