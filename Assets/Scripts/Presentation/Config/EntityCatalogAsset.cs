@@ -34,6 +34,12 @@ namespace JurassicPark.Presentation
             public Color color = Color.white;
             public Vector3 size = Vector3.one;
 
+            /// <summary>Height of the stand-in above the ground in metres. Unity's capsule and cylinder are two units tall, its box and sphere one.</summary>
+            public float DrawnHeight => shape == PlaceholderShape.Capsule || shape == PlaceholderShape.Cylinder ? size.y * 2f : size.y;
+
+            /// <summary>Half the stand-in's width on the ground in metres.</summary>
+            public float DrawnHalfWidth => Mathf.Max(size.x, size.z) * 0.5f;
+
             public EntityDefinition ToDefinition() => new EntityDefinition(id, moveSpeed, storageCapacity, isDepot, gatherSecondsPerUnit,
                 string.IsNullOrEmpty(nodeResource) ? null : nodeResource, nodeAmount);
         }

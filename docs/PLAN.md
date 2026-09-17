@@ -387,7 +387,7 @@ GUI 依被選取對象的能力產生指令，不另寫一份單位規則。放�
 
 ### 驗證方式
 
-模擬核心是不依賴 MonoBehaviour 的純 C#，以 EditMode 測試覆蓋 §6 的驗收情境；Play Mode 情境必須走與玩家相同的 `Submit`／`Tick`，不得直接改材料、血量或位置。所有建置與測試透過 Unity CLI（`tools/test.sh`、`unity build`），在 sandbox 或 king 執行，不在 MacBook 長跑。
+模擬核心是不依賴 MonoBehaviour 的純 C#，以 EditMode 測試覆蓋 §6 的驗收情境；Play Mode 情境必須走與玩家相同的 `Submit`／`Tick`，不得直接改材料、血量或位置。所有建置與測試透過 Unity CLI（`tools/test.sh [EditMode|PlayMode]`、`unity build`），在 MacBook 上執行（2026-09-17 定案）；遊戲以 MacBook Air M2 60 fps 為效能目標。
 
 ## 8. legacy 分支與原版資料的使用界線
 

@@ -107,6 +107,7 @@ namespace JurassicPark.Presentation
 
         private void LateUpdate()
         {
+            if (!session.IsReady) return;
             bool ticked = session.TicksThisFrame > 0;
             float t = session.Runtime.World.TickFraction;
             for (int i = 0; i < ordered.Count; i++)

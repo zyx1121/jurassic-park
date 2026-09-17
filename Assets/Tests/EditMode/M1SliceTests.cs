@@ -51,7 +51,7 @@ namespace JurassicPark.Tests.EditMode
         }
 
         [Test]
-        public void ARightClickMeansWhatIsUnderIt()
+        public void AnOrderOnATargetResolvesToTheRightCommand()
         {
             SimulationRuntime runtime = Build();
             EntityId[] worker = { runtime.World.Entities.First(e => e.DefinitionId == "survivor" && e.Owner == runtime.LocalSeat).Id };
@@ -70,17 +70,6 @@ namespace JurassicPark.Tests.EditMode
         }
 
         [Test]
-        public void PickingTakesTheNearestLivingEntityWithinReachAndRespectsTheFilter()
-        {
-            SimulationRuntime runtime = Build();
-            Entity tree = runtime.World.Entities.First(e => e.Kind == EntityKind.ResourceNode);
-
-            Assert.That(OrderResolver.Pick(runtime.World, tree.Position + new SimVector2(0.5f, 0f), 1.4f), Is.SameAs(tree));
-            Assert.That(OrderResolver.Pick(runtime.World, tree.Position, 1.4f, e => e.Kind == EntityKind.Unit), Is.Null);
-            Assert.That(OrderResolver.Pick(runtime.World, new SimVector2(90f, 5f), 1.4f), Is.Null);
-        }
-
-        [Test]
         public void AScenarioThatPutsSomethingOnACliffIsRefusedWithTheReason()
         {
             var scenario = Object.Instantiate(Load<ScenarioAsset>("Scenario"));
@@ -93,14 +82,36 @@ namespace JurassicPark.Tests.EditMode
         }
 
         [Test]
+        public void ADuplicateCatalogIdIsReportedAsACatalogProblem()
+        {
+            var catalog = Object.Instantiate(Load<EntityCatalogAsset>("Catalog"));
+            catalog.entries = catalog.entries.Append(catalog.entries[0]).ToArray();
+
+            var error = Assert.Throws<System.InvalidOperationException>(() => SimulationRuntime.Build(
+                Load<SimulationSettingsAsset>("Simulation"), Load<MapDefinitionAsset>("Map"), catalog, Load<ScenarioAsset>("Scenario")));
+            Assert.That(error.Message, Does.Contain("appears more than once"));
+            Object.DestroyImmediate(catalog);
+        }
+
+        [Test]
         public void TheTerrainIsOneMeshWithOneSubmesh()
         {
             SimulationRuntime runtime = Build();
             Mesh mesh = TerrainMeshBuilder.Build(runtime.Map.Definition, Color.green, Color.yellow, Color.gray, 2f);
 
             Assert.That(mesh.subMeshCount, Is.EqualTo(1), "one draw call for the whole terrain");
-            Assert.That(mesh.vertexCount, Is.GreaterThanOrEqualTo(48 * 32 * 4));
-            Assert.That(mesh.vertexCount, Is.LessThan(48 * 32 * 4 * 2), "hidden cliff faces are not emitted");
+            // One quad per cell, plus one side quad per cliff face that looks onto walkable ground, and none for hidden faces.
+            MapDefinition map = runtime.Map.Definition;
+            int visibleSides = 0;
+            for (int y = 0; y < map.Height; y++)
+                for (int x = 0; x < map.Width; x++)
+                {
+                    if (map.IsStaticWalkable(new Cell(x, y))) continue;
+                    foreach ((int dx, int dy) in new[] { (0, -1), (0, 1), (-1, 0), (1, 0) })
+                        if (map.IsStaticWalkable(new Cell(x + dx, y + dy))) visibleSides++;
+                }
+            Assert.That(visibleSides, Is.GreaterThan(0));
+            Assert.That(mesh.vertexCount, Is.EqualTo((48 * 32 + visibleSides) * 4), "hidden cliff faces are not emitted");
             Assert.That(mesh.bounds.size.x, Is.EqualTo(96f).Within(0.01f));
             Object.DestroyImmediate(mesh);
         }

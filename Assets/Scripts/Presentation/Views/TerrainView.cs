@@ -18,6 +18,7 @@ namespace JurassicPark.Presentation
 
         private void Start()
         {
+            if (session.Runtime == null) return;
             mesh = TerrainMeshBuilder.Build(session.Runtime.Map.Definition, ground, noBuild, cliff, cliffHeight);
             GetComponent<MeshFilter>().sharedMesh = mesh;
         }

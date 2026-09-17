@@ -31,6 +31,15 @@ namespace JurassicPark.Presentation
             if (mapDefinition != null) problems.AddRange(mapDefinition.Validate());
             if (problems.Count > 0) throw new InvalidOperationException("The map is not usable:\n- " + string.Join("\n- ", problems));
 
+            var seen = new HashSet<string>();
+            for (int i = 0; i < catalogAsset.entries.Length; i++)
+            {
+                string id = catalogAsset.entries[i].id;
+                if (string.IsNullOrEmpty(id)) problems.Add($"Catalog entry #{i} has no id.");
+                else if (!seen.Add(id)) problems.Add($"Catalog id '{id}' appears more than once.");
+            }
+            if (problems.Count > 0) throw new InvalidOperationException("The catalog is not usable:\n- " + string.Join("\n- ", problems));
+
             var runtime = new SimulationRuntime
             {
                 World = new World(settings.ToSimConfig()),
@@ -90,7 +99,8 @@ namespace JurassicPark.Presentation
             Entity entity = World.Spawn(entry.kind, entry.id, new SeatId(placement.ownerSeat), (first + last) * 0.5f);
             Catalog.TryGet(entry.id, out EntityDefinition definition);
             Logistics.Attach(entity, definition);
-            if (entry.blocks) Map.TryOccupy(footprint, entity.Id, entry.destructible);
+            if (entry.blocks && !Map.TryOccupy(footprint, entity.Id, entry.destructible))
+                problems.Add($"'{entry.id}' at {anchor} could not claim its footprint.");
         }
     }
 }

@@ -14,7 +14,7 @@ namespace JurassicPark.Presentation
         private readonly StringBuilder text = new StringBuilder(256);
         private Texture2D pixel;
         private long builtAtTick = -1;
-        private int builtForCount = -1;
+        private int builtForVersion = -1;
         private string cached = string.Empty;
 
         public void Configure(GameSession gameSession, SelectionController controller)
@@ -46,10 +46,11 @@ namespace JurassicPark.Presentation
         /// <summary>Rebuilt once per tick at most, not once per repaint, so the overlay does not churn strings every frame.</summary>
         private string Readout()
         {
+            if (session.Failure != null) return session.Failure;
             World world = session.Runtime.World;
-            if (world.Tick == builtAtTick && selection.Selection.Count == builtForCount) return cached;
+            if (world.Tick == builtAtTick && selection.Version == builtForVersion) return cached;
             builtAtTick = world.Tick;
-            builtForCount = selection.Selection.Count;
+            builtForVersion = selection.Version;
             text.Clear();
             text.Append("LMB select  drag box  RMB order  Shift queue  X stop  WASD pan  wheel zoom\n");
             if (selection.LastRejection != CommandRejection.None) text.Append("last order refused: ").Append(selection.LastRejection).Append('\n');

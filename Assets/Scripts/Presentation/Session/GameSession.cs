@@ -19,6 +19,12 @@ namespace JurassicPark.Presentation
         [SerializeField] private ScenarioAsset scenario;
 
         public SimulationRuntime Runtime { get; private set; }
+
+        /// <summary>True while a match is built and running. Everything that shows the match checks this instead of assuming it.</summary>
+        public bool IsReady => Runtime != null && !Runtime.World.IsFaulted;
+
+        /// <summary>Why the match is not running: the build errors, or the fault. Null while it runs. The overlay puts it on screen.</summary>
+        public string Failure { get; private set; }
         public EntityCatalogAsset CatalogAsset => catalog;
 
         /// <summary>Ticks run by the most recent frame. Views snapshot positions when this is not zero.</summary>
@@ -37,7 +43,17 @@ namespace JurassicPark.Presentation
 
         private void Awake()
         {
-            Runtime = SimulationRuntime.Build(settings, map, catalog, scenario);
+            try
+            {
+                Runtime = SimulationRuntime.Build(settings, map, catalog, scenario);
+            }
+            catch (Exception exception)
+            {
+                // One clear message instead of a null-reference flood from every component that wanted the match.
+                Failure = "The match could not start.\n" + exception.Message;
+                Debug.LogError("[GameSession] " + Failure, this);
+                return;
+            }
             // A fanless MacBook throttles when a loop runs flat out: cap the frame rate, and much lower when nobody is watching.
             QualitySettings.vSyncCount = Application.isBatchMode ? 0 : 1;
             Application.targetFrameRate = Application.isBatchMode ? settings.batchModeFrameRate : settings.targetFrameRate;
@@ -45,8 +61,19 @@ namespace JurassicPark.Presentation
 
         private void Update()
         {
-            if (Runtime.World.IsFaulted) return;
-            TicksThisFrame = Runtime.World.Advance(Time.deltaTime);
+            if (Runtime == null || Failure != null) return;
+            try
+            {
+                TicksThisFrame = Runtime.World.Advance(Time.deltaTime);
+            }
+            catch (Exception exception)
+            {
+                // A faulted world refuses to simulate further. Say so once, loudly, rather than looking like a paused game.
+                TicksThisFrame = 0;
+                Failure = "The simulation faulted at tick " + Runtime.World.Tick + " and the match is over.\n" + exception.Message;
+                Debug.LogError("[GameSession] " + Failure + "\n" + exception, this);
+                return;
+            }
             if (Runtime.World.PendingEventCount == 0) return;
             IReadOnlyList<SimEvent> events = Runtime.World.DrainEvents();
             for (int i = 0; i < events.Count; i++)

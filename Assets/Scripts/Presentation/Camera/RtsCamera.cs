@@ -26,13 +26,15 @@ namespace JurassicPark.Presentation
         [Tooltip("Zoom distance at which Pan Speed applies as written.")]
         [SerializeField] private float referenceDistance = 75f;
         [SerializeField] private float referenceOrthographicSize = 17f;
-        [SerializeField] private float zoomStep = 3f;
+        [Tooltip("Zoom change per unit of scroll. Proportional on purpose: a trackpad sends a small delta nearly every frame, and treating each as a full step slams the zoom to its limit in a quarter of a second.")]
+        [SerializeField] private float zoomPerScrollUnit = 1.5f;
+        [Tooltip("Largest zoom change one frame may apply, in the same units, so a wheel that reports 120 per notch does not jump.")]
+        [SerializeField] private float maxZoomPerFrame = 3f;
         [SerializeField] private float edgePixels = 6f;
         [SerializeField] private bool edgePan = true;
 
         private Vector3 focus;
         private bool focusSet;
-        private bool zoomed;
         private Camera viewCamera;
 
         public void Configure(GameSession gameSession) => session = gameSession;
@@ -49,6 +51,7 @@ namespace JurassicPark.Presentation
 
         private void Start()
         {
+            if (session.Runtime == null) return;
             if (!focusSet)
             {
                 var map = session.Runtime.Map;
@@ -58,6 +61,7 @@ namespace JurassicPark.Presentation
 
         private void Update()
         {
+            if (session.Runtime == null) return;
             Keyboard keyboard = Keyboard.current;
             Mouse mouse = Mouse.current;
             Vector2 pan = Vector2.zero;
@@ -68,6 +72,7 @@ namespace JurassicPark.Presentation
                 if (keyboard.dKey.isPressed || keyboard.rightArrowKey.isPressed) pan.x += 1f;
                 if (keyboard.aKey.isPressed || keyboard.leftArrowKey.isPressed) pan.x -= 1f;
             }
+            float scroll = 0f;
             if (mouse != null)
             {
                 if (edgePan && Application.isFocused && pan == Vector2.zero)
@@ -79,22 +84,33 @@ namespace JurassicPark.Presentation
                         if (p.y <= edgePixels) pan.y -= 1f; else if (p.y >= Screen.height - edgePixels) pan.y += 1f;
                     }
                 }
-                float scroll = mouse.scroll.ReadValue().y;
-                if (scroll != 0f)
-                {
-                    if (orthographic) orthographicSize = Mathf.Clamp(orthographicSize - Mathf.Sign(scroll) * zoomStep * 0.5f, minOrthographicSize, maxOrthographicSize);
-                    else distance = Mathf.Clamp(distance - Mathf.Sign(scroll) * zoomStep, minDistance, maxDistance);
-                    zoomed = true;
-                }
+                scroll = mouse.scroll.ReadValue().y;
             }
             // Nothing moved: leave the transform alone so an idle camera costs nothing.
-            if (pan == Vector2.zero && !zoomed) return;
-            zoomed = false;
+            if (pan == Vector2.zero && scroll == 0f) return;
+            if (scroll != 0f) Zoom(scroll);
+            if (pan != Vector2.zero) Pan(pan, Time.unscaledDeltaTime);
+        }
 
-            // Pan faster when zoomed out, so crossing the map takes about the same time at any zoom.
+        /// <summary>Current zoom: half the visible height when orthographic, the camera distance otherwise.</summary>
+        public float ZoomLevel => orthographic ? orthographicSize : distance;
+
+        /// <summary>Zooms by a scroll delta. Positive zooms in. Proportional to the delta and limited per call.</summary>
+        public void Zoom(float scrollDelta)
+        {
+            float change = Mathf.Clamp(scrollDelta * zoomPerScrollUnit, -maxZoomPerFrame, maxZoomPerFrame);
+            if (orthographic) orthographicSize = Mathf.Clamp(orthographicSize - change, minOrthographicSize, maxOrthographicSize);
+            else distance = Mathf.Clamp(distance - change * (referenceDistance / referenceOrthographicSize), minDistance, maxDistance);
+            Apply();
+        }
+
+        /// <summary>Moves the focus along the ground, faster when zoomed out so crossing the map takes about the same time at any zoom, clamped to the map.</summary>
+        public void Pan(Vector2 direction, float deltaTime)
+        {
             float zoom = orthographic ? orthographicSize / referenceOrthographicSize : distance / referenceDistance;
-            float speed = panSpeed * zoom * Time.unscaledDeltaTime;
-            focus += new Vector3(pan.x, 0f, pan.y).normalized * speed;
+            // A long frame must not throw the camera across the map.
+            float speed = panSpeed * zoom * Mathf.Min(deltaTime, 0.1f);
+            focus += new Vector3(direction.x, 0f, direction.y).normalized * speed;
             var map = session.Runtime.Map;
             focus.x = Mathf.Clamp(focus.x, 0f, map.Width * map.CellSize);
             focus.z = Mathf.Clamp(focus.z, 0f, map.Height * map.CellSize);

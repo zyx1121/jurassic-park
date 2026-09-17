@@ -5,13 +5,17 @@ using JurassicPark.Simulation;
 using UnityEditor;
 using UnityEditor.SceneManagement;
 using UnityEngine;
+using UnityEngine.Rendering;
+using UnityEngine.Rendering.Universal;
 using UnityEngine.SceneManagement;
 
 namespace JurassicPark.Editor
 {
     /// <summary>
     /// Generates the M1 slice: settings, catalog, a camp-and-valley map, a scenario and the scene that runs them.
-    /// Scenes and data are generated, never hand-built: change this, rerun, commit the result.
+    /// Scenes and data are generated, never hand-built: change this, rerun, commit the result. Every asset under Assets/Data/M1
+    /// is rewritten on each run, so an Inspector edit there does not survive; the numbers below are the M1 stand-ins until the
+    /// original map's object data is imported (issue #111) and replaces them.
     /// Run with: unity run . -- -executeMethod JurassicPark.Editor.BuildM1Scene.Run
     /// </summary>
     public static class BuildM1Scene
@@ -29,7 +33,13 @@ namespace JurassicPark.Editor
             EnsureFolder(DataFolder);
             EnsureFolder(MaterialFolder);
 
+            TuneRenderPipelineForMacBook();
             var settings = Asset<SimulationSettingsAsset>($"{DataFolder}/Simulation.asset");
+            // Reset to the class defaults, so this asset is generated like the other three instead of being the one hand-edited exception.
+            var defaults = ScriptableObject.CreateInstance<SimulationSettingsAsset>();
+            EditorUtility.CopySerialized(defaults, settings);
+            settings.name = "Simulation";
+            Object.DestroyImmediate(defaults);
             var catalog = Asset<EntityCatalogAsset>($"{DataFolder}/Catalog.asset");
             catalog.entries = Catalog();
             var mapAsset = Asset<MapDefinitionAsset>($"{DataFolder}/Map.asset");
@@ -68,6 +78,9 @@ namespace JurassicPark.Editor
             var camera = cameraObject.AddComponent<Camera>();
             // Narrow lens, far camera: at a 60 degree pitch a wide lens makes everything near the screen edge lean like a felled tree.
             camera.fieldOfView = 25f;
+            // Saved into the scene, not only applied at Start, so the file on disk agrees with the art direction.
+            camera.orthographic = true;
+            camera.orthographicSize = 17f;
             camera.nearClipPlane = 0.3f;
             camera.farClipPlane = 320f;
             camera.clearFlags = CameraClearFlags.SolidColor;
@@ -88,7 +101,9 @@ namespace JurassicPark.Editor
             light.type = LightType.Directional;
             light.color = new Color(1f, 0.93f, 0.78f);
             light.intensity = 1.2f;
-            light.shadows = LightShadows.Soft;
+            // No shadows yet: the terrain shader neither casts nor receives them, so a shadow map would be rendered for nothing.
+            // Stand-ins are grounded by the selection ring and the checker; real sprites will bake a contact shadow.
+            light.shadows = LightShadows.None;
             // The key always comes from screen upper-left so future baked sprite shading agrees with world shadows.
             lightObject.transform.rotation = Quaternion.Euler(50f, -35f, 0f);
 
@@ -96,6 +111,18 @@ namespace JurassicPark.Editor
             EditorBuildSettings.scenes = new[] { new EditorBuildSettingsScene(ScenePath, true) };
             AssetDatabase.SaveAssets();
             Debug.Log($"[BuildM1Scene] {map.Width}x{map.Height} map, {scenario.placements.Length} placements, scene at {ScenePath}");
+        }
+
+        /// <summary>Turns off what the slice pays for and never shows: MSAA, HDR, the opaque and depth copies, shadow maps.</summary>
+        private static void TuneRenderPipelineForMacBook()
+        {
+            if (!(GraphicsSettings.defaultRenderPipeline is UniversalRenderPipelineAsset pipeline)) return;
+            pipeline.msaaSampleCount = 1;
+            pipeline.supportsHDR = false;
+            pipeline.supportsCameraOpaqueTexture = false;
+            pipeline.supportsCameraDepthTexture = false;
+            pipeline.shadowDistance = 0f;
+            EditorUtility.SetDirty(pipeline);
         }
 
         private static T GetOrAdd<T>(this GameObject gameObject) where T : Component =>

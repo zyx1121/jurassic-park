@@ -11,41 +11,155 @@ using EntityId = JurassicPark.Simulation.EntityId;
 
 namespace JurassicPark.Tests.PlayMode
 {
-    /// <summary>The only thing EditMode cannot see: that the scene's MonoBehaviours are wired to each other and to the match.</summary>
+    /// <summary>
+    /// What EditMode cannot see: the scene's MonoBehaviours wired to each other, and selection, orders and the camera driven
+    /// from screen coordinates through the same methods the mouse calls.
+    /// </summary>
     public sealed class M1SceneTests
     {
-        [UnityTest]
-        public IEnumerator TheSceneShowsEveryEntityAndAnOrderMovesItsView()
+        private GameSession session;
+        private EntityViewRegistry views;
+        private SelectionController selection;
+        private RtsCamera rtsCamera;
+        private Camera viewCamera;
+
+        private IEnumerator LoadScene()
         {
             yield return SceneManager.LoadSceneAsync("M1", LoadSceneMode.Single);
             yield return null;
             yield return null;
+            session = Object.FindFirstObjectByType<GameSession>();
+            views = Object.FindFirstObjectByType<EntityViewRegistry>();
+            selection = Object.FindFirstObjectByType<SelectionController>();
+            rtsCamera = Object.FindFirstObjectByType<RtsCamera>();
+            viewCamera = Camera.main;
+            Assert.That(session.IsReady, Is.True, session.Failure);
+        }
 
-            var session = Object.FindFirstObjectByType<GameSession>();
-            var views = Object.FindFirstObjectByType<EntityViewRegistry>();
-            var selection = Object.FindFirstObjectByType<SelectionController>();
-            Assert.That(session, Is.Not.Null);
-            Assert.That(views.Count, Is.EqualTo(session.Runtime.World.Entities.Count), "one view per entity, created from the setup event batch");
-            Assert.That(Object.FindFirstObjectByType<TerrainView>().GetComponent<MeshFilter>().sharedMesh, Is.Not.Null);
-            Assert.That(Camera.main.orthographic, Is.True);
+        private Entity First(string definitionId, bool local = false) => session.Runtime.World.Entities.First(e =>
+            e.DefinitionId == definitionId && (!local || e.Owner == session.Runtime.LocalSeat));
 
-            Entity worker = session.Runtime.World.Entities.First(e => e.DefinitionId == "survivor" && e.Owner == session.Runtime.LocalSeat);
-            Assert.That(views.TryGetTransform(worker.Id, out Transform view), Is.True);
-            Vector3 startedAt = view.position;
-            selection.Select(new List<EntityId> { worker.Id });
-            Assert.That(view.Find("Selection").gameObject.activeSelf, Is.True);
+        private Vector2 ScreenOf(Entity entity, float heightFraction)
+        {
+            session.CatalogAsset.TryGet(entity.DefinitionId, out EntityCatalogAsset.Entry entry);
+            Vector3 world = EntityViewRegistry.ToWorld(entity.Position) + Vector3.up * entry.DrawnHeight * heightFraction;
+            return viewCamera.WorldToScreenPoint(world);
+        }
 
-            SimVector2 target = worker.Position + new SimVector2(8f, 0f);
-            session.Runtime.LocalSender.Send(CommandKind.Move, selection.Selection, target);
-            float deadline = Time.time + 8f;
-            while (Time.time < deadline && session.Runtime.Tasks.CurrentOf(worker.Id) == null) yield return null;
-            while (Time.time < deadline && session.Runtime.Tasks.CurrentOf(worker.Id) != null) yield return null;
+        private IEnumerator WaitForIdle(EntityId actor, float seconds)
+        {
+            float deadline = Time.time + seconds;
+            while (Time.time < deadline && session.Runtime.Tasks.CurrentOf(actor) == null) yield return null;
+            while (Time.time < deadline && session.Runtime.Tasks.CurrentOf(actor) != null) yield return null;
             // Views interpolate between the last two ticks, so they trail the simulation by up to one tick and settle on the next.
             yield return new WaitForSeconds(0.35f);
+        }
 
-            Assert.That(worker.Position, Is.EqualTo(target));
-            Assert.That(Vector3.Distance(view.position, EntityViewRegistry.ToWorld(target)), Is.LessThan(0.01f), "the view ends exactly on the simulated position");
-            Assert.That(view.position, Is.Not.EqualTo(startedAt));
+        [UnityTest]
+        public IEnumerator TheSceneShowsEveryEntityAndAnOrderMovesItsView()
+        {
+            yield return LoadScene();
+            Assert.That(views.Count, Is.EqualTo(session.Runtime.World.Entities.Count), "one view per entity, created from the setup event batch");
+            Assert.That(Object.FindFirstObjectByType<TerrainView>().GetComponent<MeshFilter>().sharedMesh, Is.Not.Null);
+            Assert.That(viewCamera.orthographic, Is.True);
+
+            Entity worker = First("survivor", local: true);
+            Assert.That(views.TryGetTransform(worker.Id, out Transform view), Is.True);
+            Vector3 startedAt = view.position;
+            rtsCamera.LookAt(startedAt);
+            yield return null;
+
+            selection.ClickSelect(ScreenOf(worker, 0.5f), additive: false);
+            Assert.That(selection.Selection, Is.EqualTo(new[] { worker.Id }), "a click on the drawn body selects it");
+            Assert.That(view.Find("Selection").gameObject.activeSelf, Is.True);
+
+            Vector3 groundTarget = startedAt + new Vector3(8f, 0f, 0f);
+            OrderResolver.Order? order = selection.OrderAt(viewCamera.WorldToScreenPoint(groundTarget), queue: false);
+            Assert.That(order.Value.Kind, Is.EqualTo(CommandKind.Move));
+            yield return WaitForIdle(worker.Id, 8f);
+
+            Assert.That(SimVector2.Distance(worker.Position, EntityViewRegistry.ToSim(groundTarget)), Is.LessThan(0.05f));
+            Assert.That(Vector3.Distance(view.position, EntityViewRegistry.ToWorld(worker.Position)), Is.LessThan(0.01f), "the view settles exactly on the simulated position");
+        }
+
+        [UnityTest]
+        public IEnumerator ClickingEmptyGroundDeselectsAndADragBoxSelectsOnlyOwnUnits()
+        {
+            yield return LoadScene();
+            Entity[] own = session.Runtime.World.Entities.Where(e => e.DefinitionId == "survivor" && e.Owner == session.Runtime.LocalSeat).ToArray();
+            Entity ally = session.Runtime.World.Entities.First(e => e.DefinitionId == "survivor" && e.Owner != session.Runtime.LocalSeat);
+            rtsCamera.LookAt(EntityViewRegistry.ToWorld(First("depot").Position));
+            yield return null;
+
+            selection.BoxSelect(new Rect(0, 0, Screen.width, Screen.height), additive: false);
+            Assert.That(selection.Selection, Is.EquivalentTo(own.Select(e => e.Id)));
+            Assert.That(selection.Selection, Has.No.Member(ally.Id), "an ally's unit is never yours to select");
+
+            selection.ClickSelect(ScreenOf(ally, 0.5f), additive: false);
+            Assert.That(selection.Selection, Is.Empty, "clicking something that is not yours clears the selection");
+
+            selection.ClickSelect(ScreenOf(own[0], 0.5f), additive: false);
+            selection.ClickSelect(ScreenOf(own[1], 0.5f), additive: true);
+            Assert.That(selection.Selection, Is.EqualTo(new[] { own[0].Id, own[1].Id }));
+        }
+
+        [UnityTest]
+        public IEnumerator ARightClickOnTheTopOfATreeGathersAndOnTheRoofOfTheDepotDelivers()
+        {
+            yield return LoadScene();
+            Entity worker = First("survivor", local: true), tree = First("tree"), depot = First("depot");
+            selection.Select(new List<EntityId> { worker.Id });
+
+            rtsCamera.LookAt(EntityViewRegistry.ToWorld(tree.Position));
+            yield return null;
+            // The top of the trunk is drawn about two metres up-screen of the foot: the part people actually click.
+            Assert.That(selection.PickAt(ScreenOf(tree, 0.95f), null), Is.SameAs(tree));
+            OrderResolver.Order? gather = selection.OrderAt(ScreenOf(tree, 0.95f), queue: false);
+            Assert.That(gather.Value.Kind, Is.EqualTo(CommandKind.Gather));
+            Assert.That(gather.Value.Target, Is.EqualTo(tree.Id));
+
+            float deadline = Time.time + 30f;
+            session.Runtime.Logistics.TryGetContainer(worker.Id, out Container pack);
+            while (Time.time < deadline && pack.Total == 0) yield return null;
+            Assert.That(pack.Total, Is.GreaterThan(0), "the gather order, issued by a click, put wood in the pack");
+
+            rtsCamera.LookAt(EntityViewRegistry.ToWorld(depot.Position));
+            yield return null;
+            session.CatalogAsset.TryGet("depot", out EntityCatalogAsset.Entry depotEntry);
+            Vector3 roofFarCorner = EntityViewRegistry.ToWorld(depot.Position) + new Vector3(depotEntry.size.x * 0.4f, depotEntry.DrawnHeight, depotEntry.size.z * 0.4f);
+            OrderResolver.Order? deliver = selection.OrderAt(viewCamera.WorldToScreenPoint(roofFarCorner), queue: false);
+            Assert.That(deliver.Value.Kind, Is.EqualTo(CommandKind.Deliver), "most of what you see of a depot is its roof");
+        }
+
+        [UnityTest]
+        public IEnumerator TheCameraZoomsInProportionStaysInsideItsLimitsAndCannotLeaveTheMap()
+        {
+            yield return LoadScene();
+            float start = rtsCamera.ZoomLevel;
+
+            // A trackpad gesture: a small delta on every frame for a quarter of a second.
+            for (int i = 0; i < 15; i++) rtsCamera.Zoom(-0.05f);
+            Assert.That(rtsCamera.ZoomLevel, Is.GreaterThan(start));
+            Assert.That(rtsCamera.ZoomLevel - start, Is.LessThan(2f), "a light trackpad scroll must not slam the zoom to its limit");
+
+            for (int i = 0; i < 200; i++) rtsCamera.Zoom(-120f);
+            float zoomedOut = rtsCamera.ZoomLevel;
+            rtsCamera.Zoom(-120f);
+            Assert.That(rtsCamera.ZoomLevel, Is.EqualTo(zoomedOut), "clamped at the far limit");
+            for (int i = 0; i < 200; i++) rtsCamera.Zoom(120f);
+            Assert.That(rtsCamera.ZoomLevel, Is.LessThan(start));
+            Assert.That(viewCamera.orthographicSize, Is.EqualTo(rtsCamera.ZoomLevel), "the zoom level is what the camera actually uses");
+
+            GridMap map = session.Runtime.Map;
+            for (int i = 0; i < 600; i++) rtsCamera.Pan(new Vector2(1f, 1f), 0.1f);
+            Assert.That(rtsCamera.Focus.x, Is.EqualTo(map.Width * map.CellSize).Within(1e-3f));
+            Assert.That(rtsCamera.Focus.z, Is.EqualTo(map.Height * map.CellSize).Within(1e-3f));
+            for (int i = 0; i < 600; i++) rtsCamera.Pan(new Vector2(-1f, -1f), 0.1f);
+            Assert.That(rtsCamera.Focus, Is.EqualTo(Vector3.zero));
+
+            Vector3 before = rtsCamera.transform.position;
+            rtsCamera.Pan(new Vector2(1f, 0f), 5f);
+            Assert.That(Vector3.Distance(before, rtsCamera.transform.position), Is.LessThan(10f), "one long frame does not throw the camera across the map");
         }
     }
 }

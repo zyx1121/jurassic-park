@@ -47,25 +47,5 @@ namespace JurassicPark.Presentation
                 if (runtime.Logistics.TryGetContainer(selection[i], out Container pack) && pack.Total > 0) return true;
             return false;
         }
-
-        /// <summary>The nearest living entity whose position is within <paramref name="radius"/> metres of the point, or null. Ties go to the older entity.</summary>
-        public static Entity Pick(World world, SimVector2 point, float radius, System.Predicate<Entity> filter = null)
-        {
-            Entity best = null;
-            float bestDistance = radius;
-            IReadOnlyList<Entity> entities = world.Entities;
-            for (int i = 0; i < entities.Count; i++)
-            {
-                Entity candidate = entities[i];
-                if (!candidate.IsAlive || (filter != null && !filter(candidate))) continue;
-                float distance = SimVector2.Distance(candidate.Position, point);
-                if (distance < bestDistance || (best == null && distance <= radius))
-                {
-                    best = candidate;
-                    bestDistance = distance;
-                }
-            }
-            return best;
-        }
     }
 }

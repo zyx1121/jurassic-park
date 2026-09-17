@@ -331,5 +331,18 @@ namespace JurassicPark.Tests.EditMode
 
             Assert.That(seen.OrderBy(v => v), Is.EqualTo(new[] { -3, -2, -1, 0, 1, 2, 3 }));
         }
+
+        [Test]
+        public void TickFractionSaysHowFarRealTimeHasRunIntoTheNextTick()
+        {
+            World world = NewWorld(ticksPerSecond: 10);
+            Assert.That(world.TickFraction, Is.EqualTo(0f));
+
+            world.Advance(0.05f);
+            Assert.That(world.TickFraction, Is.EqualTo(0.5f).Within(1e-4f));
+            world.Advance(0.075f);
+            Assert.That(world.Tick, Is.EqualTo(1));
+            Assert.That(world.TickFraction, Is.EqualTo(0.25f).Within(1e-4f));
+        }
     }
 }
