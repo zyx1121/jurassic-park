@@ -15,3 +15,9 @@ Third-party assets used in this project. Attribution is required by their licens
 
 Unmodified font licenses are bundled in `Assets/UI/Fonts/SourceSans-LICENSE.txt`
 and `Assets/UI/Fonts/SourceSerif-LICENSE.txt`.
+
+The classic-presentation textures in `Assets/Textures/Classic/` are generated
+from this project's credited prop and terrain source images using a shared
+palette and alpha-weighted reduction. The camp ridge geometry is project code.
+Warcraft III Jurassic Park maps and player screenshots were examined as external
+design references only; no map models, textures, UI skins or audio were imported.

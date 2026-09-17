@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: junk_fence_scrap_Clutter
   m_EditorClassIdentifier: JurassicPark.World::JurassicPark.World.PropVariant
   kind: 7
-  sprite: {fileID: 2800000, guid: ca3a721a8d8044b2298de7ad327c841f, type: 3}
+  sprite: {fileID: 2800000, guid: 0850505dabdaf438bab783b220a5336b, type: 3}
   cellPixels: 128
   pixelsPerUnit: 64
   footprintRadius: 0.6
@@ -21,7 +21,7 @@ MonoBehaviour:
   resource: 0
   resourceAmount: 0
   weight: 0.2
-  baseScale: 0.9
+  baseScale: 0.71999997
   scaleJitter: 0.1
   tintMaterials:
   - {fileID: 2100000, guid: 4809f598806304020aec51a3f24d3744, type: 2}

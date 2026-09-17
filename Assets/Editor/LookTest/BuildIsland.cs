@@ -46,6 +46,8 @@ namespace JurassicPark.EditorTools
             cfg.facilities = AssetDatabase.LoadAssetAtPath<FacilityLibrary>(BuildFacilityLibrary.LibraryPath);
             if (cfg.terrain == null || cfg.props == null || cfg.facilities == null)
                 throw new System.InvalidOperationException("Build the terrain, prop and facility libraries before building the island.");
+            cfg.campRockMaterial = BuildWorldStyleAssets.RidgeMaterial("CampRock", cfg.terrain.layers[TerrainNoise.Rock].diffuseTexture);
+            cfg.campTopMaterial = BuildWorldStyleAssets.RidgeMaterial("CampGrass", cfg.terrain.layers[TerrainNoise.GrassA].diffuseTexture);
             EditorUtility.SetDirty(cfg);
             // Regenerating terrain assets can reimport dependencies; persist these references first.
             AssetDatabase.SaveAssets();
@@ -118,15 +120,15 @@ namespace JurassicPark.EditorTools
             camData.requiresDepthTexture = true;
             camData.antialiasing = AntialiasingMode.None;
             FollowCamera follow = camGo.AddComponent<FollowCamera>();
+            CameraViewConfig view = BuildCameraViewAssets.Load();
+            follow.Configure(view);
             camGo.AddComponent<SeeThrough>();
             follow.Target = null; // set by NetLobby when the local player spawns
             float b = cfg.terrain.size * 0.45f;
             follow.Bounds = new Rect(-b, -b, b * 2f, b * 2f);
-            camGo.transform.position = plan.playerSpawn + new Vector3(0f, 9f, -14f);
-            follow.Bounds = follow.Bounds; // keep
-            camGo.transform.rotation = Quaternion.Euler(30f, 0f, 0f);
+            follow.FramePoint(plan.playerSpawn);
 
-            VolumeProfile profile = AssetDatabase.LoadAssetAtPath<VolumeProfile>("Assets/Settings/LookTestProfile.asset");
+            VolumeProfile profile = BuildCameraViewAssets.CreateProfile(view);
             GameObject volGo = new GameObject("PostProcessVolume");
             Volume vol = volGo.AddComponent<Volume>();
             vol.isGlobal = true;

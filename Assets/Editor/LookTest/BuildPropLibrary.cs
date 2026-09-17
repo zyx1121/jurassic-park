@@ -139,17 +139,13 @@ namespace JurassicPark.EditorTools
                 AssetDatabase.CreateAsset(rulesForDepleted, "Assets/Data/GatherRules.asset");
             }
 
-            lib.tints = new[] { Color.white }; // the art direction forbids broad random tints
+            WorldStyleConfig style = BuildWorldStyleAssets.Load();
+            lib.tints = new[] { Color.white };
             lib.scaleRange = new Vector2(1f, 1f);
             var variants = new System.Collections.Generic.List<PropVariant>();
             foreach (Def d in Defs)
             {
-                Texture2D tex = AssetDatabase.LoadAssetAtPath<Texture2D>($"Assets/Sprites/Props/{d.file}.png");
-                if (tex == null)
-                {
-                    Debug.LogWarning($"prop sprite missing: {d.file}");
-                    continue;
-                }
+                Texture2D tex = BuildWorldStyleAssets.Restyle($"Assets/Sprites/Props/{d.file}.png", "Props", style);
 
                 string path = $"Assets/Data/Props/{d.file}_{d.kind}.asset";
                 PropVariant v = AssetDatabase.LoadAssetAtPath<PropVariant>(path);
@@ -160,7 +156,8 @@ namespace JurassicPark.EditorTools
                 }
 
                 v.kind = d.kind; v.sprite = tex; v.cellPixels = d.cell; v.pixelsPerUnit = 64f; v.footprintRadius = d.radius;
-                v.solid = d.solid; v.resource = d.res; v.resourceAmount = d.amount; v.weight = d.weight; v.baseScale = d.scale; v.scaleJitter = d.jitter;
+                v.solid = d.solid; v.resource = d.res; v.resourceAmount = d.amount; v.weight = d.weight;
+                v.baseScale = d.scale * style.ScaleFor(d.kind); v.scaleJitter = d.jitter;
                 v.tintMaterials = new Material[lib.tints.Length];
                 for (int t = 0; t < lib.tints.Length; t++)
                 {

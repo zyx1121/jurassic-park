@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: tree_buttress_giant_Tree
   m_EditorClassIdentifier: JurassicPark.World::JurassicPark.World.PropVariant
   kind: 0
-  sprite: {fileID: 2800000, guid: 4338847fd5bb041e5ba21fd84aed7090, type: 3}
+  sprite: {fileID: 2800000, guid: e742c43c59db14a648a54fc4389eb3f9, type: 3}
   cellPixels: 256
   pixelsPerUnit: 64
   footprintRadius: 0.8
@@ -21,7 +21,7 @@ MonoBehaviour:
   resource: 1
   resourceAmount: 6
   weight: 1.2
-  baseScale: 1.88
+  baseScale: 1.316
   scaleJitter: 0.08
   tintMaterials:
   - {fileID: 2100000, guid: 3f95d3630f2be44d8950355e951aacdf, type: 2}

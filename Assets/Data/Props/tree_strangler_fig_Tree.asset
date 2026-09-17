@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: tree_strangler_fig_Tree
   m_EditorClassIdentifier: JurassicPark.World::JurassicPark.World.PropVariant
   kind: 0
-  sprite: {fileID: 2800000, guid: fee0257ccaf5d468db6e0724c5db628e, type: 3}
+  sprite: {fileID: 2800000, guid: c786d62239df2467cbe06760f4b723b7, type: 3}
   cellPixels: 256
   pixelsPerUnit: 64
   footprintRadius: 0.75
@@ -21,7 +21,7 @@ MonoBehaviour:
   resource: 1
   resourceAmount: 6
   weight: 1
-  baseScale: 1.79
+  baseScale: 1.2529999
   scaleJitter: 0.08
   tintMaterials:
   - {fileID: 2100000, guid: ec33b1c06d754438787a2bb8bee65aeb, type: 2}

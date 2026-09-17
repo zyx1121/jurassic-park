@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: junk_tarp_collapsed_Clutter
   m_EditorClassIdentifier: JurassicPark.World::JurassicPark.World.PropVariant
   kind: 7
-  sprite: {fileID: 2800000, guid: fa87b760d221045efa33860345a78815, type: 3}
+  sprite: {fileID: 2800000, guid: 7a1b205fedcea4571ba525acf8ce7e61, type: 3}
   cellPixels: 128
   pixelsPerUnit: 64
   footprintRadius: 0.5
@@ -21,7 +21,7 @@ MonoBehaviour:
   resource: 0
   resourceAmount: 0
   weight: 0.25
-  baseScale: 0.65
+  baseScale: 0.52
   scaleJitter: 0.1
   tintMaterials:
   - {fileID: 2100000, guid: db79f08de784a4e78b3a010bcd80fc25, type: 2}

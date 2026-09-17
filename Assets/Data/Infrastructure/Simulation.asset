@@ -1,0 +1,66 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f45af80d50b4c4058841d94873f5d218, type: 3}
+  m_Name: Simulation
+  m_EditorClassIdentifier: JurassicPark.Infrastructure::JurassicPark.Infrastructure.InfrastructureConfig
+  map: {fileID: 11400000, guid: 9b790b63fdf76491fa36cf727d3fa42c, type: 2}
+  rules:
+    MoveSpeed: 5
+    GatherSeconds: 0.3
+    TransferSeconds: 0.2
+    BuildSeconds: 3
+    AttackInterval: 0.6
+    AttackDamage: 10
+    WorkerHealth: 100
+    DinosaurHealth: 120
+    WallHealth: 60
+    ReplanSeconds: 0.5
+    CarryCapacity: 5
+    WallCost: 10
+    DepotCapacity: 200
+    StructureHealth: 100
+    MaxTickSeconds: 0.1
+    ArrivalTolerance: 0.001
+    EventLogCapacity: 128
+  tickSeconds: 0.05
+  sourceStock: 60
+  eventSeed: 1
+  supplyDropStock: 10
+  scenarioTimeout: 150
+  cameraPitch: 60
+  cameraPanSpeed: 35
+  cameraZoomSpeed: 12
+  cameraZoomRange: {x: 12, y: 90}
+  initialZoom: 23
+  font: {fileID: 11400000, guid: 3175ba1ab8bc848899562092f19a3ef4, type: 2}
+  survivorSprites: {fileID: 11400000, guid: 35f76b2f5bb1642db94d8765d7768b9e, type: 2}
+  dinosaurSprites: {fileID: 11400000, guid: 40f4611a301144fe3be15f5ee0528b87, type: 2}
+  spriteMaterial: {fileID: 2100000, guid: fa9466c03dced4543b741620e29d5893, type: 2}
+  structureMaterial: {fileID: 2100000, guid: 01f28cf76f3bb45ea9b49483272e2501, type: 2}
+  trees:
+  - {fileID: 2100000, guid: ec33b1c06d754438787a2bb8bee65aeb, type: 2}
+  - {fileID: 2100000, guid: a18f0cdd9fec74b27b263c751387293a, type: 2}
+  - {fileID: 2100000, guid: 3f95d3630f2be44d8950355e951aacdf, type: 2}
+  terrainMaterials:
+  - {fileID: 2100000, guid: bce861871aa3d4d47b65c9ee2e3990b6, type: 2}
+  - {fileID: 2100000, guid: d3b22233670cc4f4a8d635df43341752, type: 2}
+  - {fileID: 2100000, guid: b5b65f5cf5aa44736b50ff6c96f78932, type: 2}
+  - {fileID: 2100000, guid: 867390bb133c14a88a42fa5682c5a28e, type: 2}
+  - {fileID: 2100000, guid: f5edafc51ad8c46849532b9e05d8857b, type: 2}
+  terrainColors:
+  - {r: 0.27, g: 0.35, b: 0.19, a: 1}
+  - {r: 0.53, g: 0.45, b: 0.29, a: 1}
+  - {r: 0.43, g: 0.48, b: 0.27, a: 1}
+  - {r: 0.33, g: 0.32, b: 0.25, a: 1}
+  - {r: 0.12, g: 0.28, b: 0.33, a: 1}
+  workerColor: {r: 0.4, g: 0.85, b: 0.95, a: 1}
+  dinosaurColor: {r: 0.95, g: 0.38, b: 0.22, a: 1}

@@ -1,0 +1,21 @@
+{
+    "name": "JurassicPark.Infrastructure.SceneTests",
+    "rootNamespace": "JurassicPark.Infrastructure.SceneTests",
+    "references": [
+        "JurassicPark.Infrastructure",
+        "JurassicPark.Core",
+        "UnityEngine.TestRunner",
+        "UnityEditor.TestRunner",
+        "Unity.TextMeshPro",
+        "Unity.ugui"
+    ],
+    "includePlatforms": ["Editor"],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": true,
+    "precompiledReferences": ["nunit.framework.dll"],
+    "autoReferenced": false,
+    "defineConstraints": ["UNITY_INCLUDE_TESTS"],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

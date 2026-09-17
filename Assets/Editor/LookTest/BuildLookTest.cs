@@ -109,7 +109,7 @@ namespace JurassicPark.EditorTools
             cycleSo.FindProperty("startTime").floatValue = 0.62f; // dusk, so the campfire reads
             cycleSo.ApplyModifiedPropertiesWithoutUndo();
 
-            // Camera: perspective, tilted 30 degrees, looking at the camp
+            // Shared tactical view keeps the entire defended clearing readable.
             GameObject camGo = new GameObject("Main Camera");
             camGo.tag = "MainCamera";
             Camera cam = camGo.AddComponent<Camera>();
@@ -119,51 +119,19 @@ namespace JurassicPark.EditorTools
             cam.clearFlags = CameraClearFlags.SolidColor;
             cam.backgroundColor = new Color(0.13f, 0.1f, 0.22f);
             FollowCamera follow = camGo.AddComponent<FollowCamera>();
+            CameraViewConfig view = BuildCameraViewAssets.Load();
+            follow.Configure(view);
             camGo.AddComponent<SeeThrough>();
             follow.Target = player != null ? player.transform : null;
             follow.Bounds = new Rect(-terrainConfig.size * 0.42f, -terrainConfig.size * 0.42f, terrainConfig.size * 0.84f, terrainConfig.size * 0.84f);
-            camGo.transform.position = new Vector3(0f, 9f, -14f);
-            camGo.transform.rotation = Quaternion.Euler(30f, 0f, 0f);
+            follow.FramePoint(player != null ? player.transform.position : Vector3.zero);
             UniversalAdditionalCameraData camData = camGo.AddComponent<UniversalAdditionalCameraData>();
             camData.renderPostProcessing = true;
             camData.requiresDepthTexture = true;
             camData.antialiasing = AntialiasingMode.None;
 
             // Post-processing volume
-            VolumeProfile profile = ScriptableObject.CreateInstance<VolumeProfile>();
-            AssetDatabase.CreateAsset(profile, "Assets/Settings/LookTestProfile.asset");
-            DepthOfField dof = profile.Add<DepthOfField>(true);
-            dof.mode.Override(DepthOfFieldMode.Gaussian); // far cheaper than bokeh on integrated GPUs
-            dof.gaussianStart.Override(24f);
-            dof.gaussianEnd.Override(42f);
-            dof.gaussianMaxRadius.Override(0.55f);
-            dof.highQualitySampling.Override(true);
-            Bloom bloom = profile.Add<Bloom>(true);
-            bloom.threshold.Override(1.0f);   // art direction says 1.15 / 0.18; the player wants visible glow on fire, so a bit more
-            bloom.intensity.Override(0.6f);
-            bloom.scatter.Override(0.55f);
-            bloom.clamp.Override(6f);
-            bloom.tint.Override(new Color(1f, 0.84f, 0.63f));
-            Vignette vignette = profile.Add<Vignette>(true);
-            vignette.intensity.Override(0.38f); // art direction 0.23; player asked for darker edges
-            vignette.smoothness.Override(0.45f);
-            vignette.color.Override(new Color(0.09f, 0.08f, 0.12f));
-            ColorAdjustments grade = profile.Add<ColorAdjustments>(true);
-            grade.postExposure.Override(-0.15f);
-            grade.contrast.Override(22f);
-            grade.saturation.Override(-18f);
-            grade.colorFilter.Override(new Color(0.886f, 0.831f, 0.761f)); // #E2D4C2
-            LiftGammaGain lgg = profile.Add<LiftGammaGain>(true);
-            lgg.lift.Override(new Vector4(0.97f, 0.96f, 1.04f, 0f));
-            lgg.gamma.Override(new Vector4(0.98f, 1.0f, 1.03f, 0f));
-            lgg.gain.Override(new Vector4(1.05f, 1.01f, 0.94f, 0f));
-            // VolumeProfile.Add creates transient objects; without subassets, builds lose every effect.
-            foreach (VolumeComponent component in profile.components)
-            {
-                AssetDatabase.AddObjectToAsset(component, profile);
-                EditorUtility.SetDirty(component);
-            }
-            EditorUtility.SetDirty(profile);
+            VolumeProfile profile = BuildCameraViewAssets.CreateProfile(view);
             GameObject volGo = new GameObject("PostProcessVolume");
             Volume vol = volGo.AddComponent<Volume>();
             vol.isGlobal = true;

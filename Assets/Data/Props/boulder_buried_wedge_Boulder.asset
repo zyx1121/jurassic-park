@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: boulder_buried_wedge_Boulder
   m_EditorClassIdentifier: JurassicPark.World::JurassicPark.World.PropVariant
   kind: 5
-  sprite: {fileID: 2800000, guid: c9865140e52474bd6abee6d4b7103327, type: 3}
+  sprite: {fileID: 2800000, guid: 87e555e28969a437383a6517e3a41b65, type: 3}
   cellPixels: 192
   pixelsPerUnit: 64
   footprintRadius: 1.1
@@ -21,7 +21,7 @@ MonoBehaviour:
   resource: 0
   resourceAmount: 0
   weight: 0.9
-  baseScale: 1.53
+  baseScale: 1.224
   scaleJitter: 0.12
   tintMaterials:
   - {fileID: 2100000, guid: 77f6d03d6352c4d6eaa3d463abc23250, type: 2}

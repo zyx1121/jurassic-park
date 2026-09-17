@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: palm_weathered_Tree
   m_EditorClassIdentifier: JurassicPark.World::JurassicPark.World.PropVariant
   kind: 0
-  sprite: {fileID: 2800000, guid: cb890034023e24a07bd975d82202ae4c, type: 3}
+  sprite: {fileID: 2800000, guid: 2d60c482128224ca4a8fc1458be1418d, type: 3}
   cellPixels: 192
   pixelsPerUnit: 64
   footprintRadius: 0.35
@@ -21,7 +21,7 @@ MonoBehaviour:
   resource: 1
   resourceAmount: 4
   weight: 0.6
-  baseScale: 2.3
+  baseScale: 1.6099999
   scaleJitter: 0.1
   tintMaterials:
   - {fileID: 2100000, guid: 3ef1b33b8ac424868adc23eb11baea60, type: 2}

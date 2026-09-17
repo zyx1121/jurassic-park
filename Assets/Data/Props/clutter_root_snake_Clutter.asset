@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: clutter_root_snake_Clutter
   m_EditorClassIdentifier: JurassicPark.World::JurassicPark.World.PropVariant
   kind: 7
-  sprite: {fileID: 2800000, guid: 5095fdd8aa4284757ac468d092b9235d, type: 3}
+  sprite: {fileID: 2800000, guid: fb8ac0657893845b897be056b0133053, type: 3}
   cellPixels: 128
   pixelsPerUnit: 64
   footprintRadius: 0.4
@@ -21,7 +21,7 @@ MonoBehaviour:
   resource: 0
   resourceAmount: 0
   weight: 0.8
-  baseScale: 0.7
+  baseScale: 0.56
   scaleJitter: 0.2
   tintMaterials:
   - {fileID: 2100000, guid: 47b2acb8cdfa44920ab8a34f585c8770, type: 2}

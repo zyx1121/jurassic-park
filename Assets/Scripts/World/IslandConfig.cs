@@ -54,7 +54,16 @@ namespace JurassicPark.World
 
         [Header("Base")]
         [Tooltip("Flattened, prop-free circle next to the crash site.")]
-        [Min(1f)] public float baseClearingRadius = 4.5f;
+        [Min(1f)] public float baseClearingRadius = 9f;
+        [Tooltip("Original stepped rock ridges create a readable, single-entrance camp.")]
+        public bool campRidges = true;
+        [Min(0.5f)] public float campRidgeHeight = 2.8f;
+        [Min(0.5f)] public float campRidgeThickness = 2.2f;
+        [Min(1f)] public float campEntranceWidth = 4f;
+        [Min(0f)] public float campCapOffset = 0.015f;
+        [Range(0f, 1f)] public float baseGrassFraction = 0.15f;
+        public Material campRockMaterial;
+        public Material campTopMaterial;
         [Tooltip("Dry, obstacle-free space reserved around the beach spawn.")]
         [Min(0.5f)] public float spawnClearRadius = 1.2f;
         [Min(0.01f)] public float spawnShoreMargin = 0.1f;

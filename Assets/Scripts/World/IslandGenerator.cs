@@ -84,9 +84,17 @@ namespace JurassicPark.World
             // Base clearing just inland of the crash site: flatten the heightmap there
             FacilitySlot crash = slots[0];
             Vector3 toCenter = -new Vector3(crash.position.x, 0f, crash.position.z).normalized;
-            plan.baseCenter = crash.position + toCenter * (cfg.baseClearingRadius + cfg.ClearRadiusFor(crash.name));
+            float flattenRadius = cfg.campRidges
+                ? (cfg.baseClearingRadius + cfg.campRidgeThickness) * Mathf.Sqrt(2f)
+                : cfg.baseClearingRadius;
+            plan.baseCenter = crash.position + toCenter * (flattenRadius + cfg.ClearRadiusFor(crash.name));
             plan.baseCenter.y = HeightAt(h, plan.baseCenter, tc) * tc.maxHeight;
-            Flatten(h, plan.baseCenter, cfg.baseClearingRadius, tc);
+            if (plan.baseCenter.y <= tc.seaLevel + cfg.spawnShoreMargin) return null;
+            foreach (FacilitySlot slot in slots)
+                if (Vector2.Distance(new Vector2(slot.position.x, slot.position.z),
+                    new Vector2(plan.baseCenter.x, plan.baseCenter.z)) < flattenRadius + cfg.spawnClearRadius)
+                    return null;
+            Flatten(h, plan.baseCenter, flattenRadius, tc);
             TerrainNoise.LimitSlope(h, maxStepNorm, 2);
             plan.baseCenter.y = HeightAt(h, plan.baseCenter, tc) * tc.maxHeight;
             // Raising the spawn transform alone does not raise the seabed: gravity would sink the player.
@@ -136,7 +144,9 @@ namespace JurassicPark.World
                 if (hn <= seaNorm) continue;
                 if (SlopeAt(h, p, tc) > cfg.maxPropSlope * maxStepNorm) continue;
                 float toBase = Vector2.Distance(c, new Vector2(plan.baseCenter.x, plan.baseCenter.z));
-                bool inBase = toBase < cfg.baseClearingRadius;
+                bool inBase = cfg.campRidges
+                    ? Mathf.Abs(p.x - plan.baseCenter.x) < cfg.baseClearingRadius && Mathf.Abs(p.z - plan.baseCenter.z) < cfg.baseClearingRadius
+                    : toBase < cfg.baseClearingRadius;
                 bool baseFringe = toBase < cfg.baseClearingRadius * 1.6f;
                 bool nearFacility = false;
                 foreach (FacilitySlot f in slots)
@@ -151,7 +161,7 @@ namespace JurassicPark.World
                 BiomeDensity d = Density(cfg, biome);
                 PropKind? kind = PickKind(d, cellArea, rng);
                 if (kind == null) continue;
-                if (inBase && kind != PropKind.Grass && kind != PropKind.Clutter) continue; // the base stays buildable, but not bare
+                if (inBase && (kind != PropKind.Grass || rng.NextDouble() > cfg.baseGrassFraction)) continue;
                 if (baseFringe && (kind == PropKind.Boulder || kind == PropKind.Tree) && rng.NextDouble() < 0.5) continue;
                 PropVariant v = cfg.props.Pick(kind.Value, rng);
                 if (v == null) continue;
@@ -161,6 +171,18 @@ namespace JurassicPark.World
                     if (alt != null) v = alt;
                 }
                 lastOfKind[kind.Value] = v;
+                if (inBase && v.solid) continue;
+                if (cfg.campRidges)
+                {
+                    float dx = Mathf.Abs(p.x - plan.baseCenter.x), dz = Mathf.Abs(p.z - plan.baseCenter.z);
+                    float footprint = v.footprintRadius * v.baseScale * (1f + v.scaleJitter);
+                    float border = cfg.baseClearingRadius + cfg.campRidgeThickness + footprint;
+                    if (dx < border && dz < border && (dx > cfg.baseClearingRadius || dz > cfg.baseClearingRadius))
+                        continue;
+                    if (Mathf.Abs(p.x - plan.baseCenter.x) < cfg.campEntranceWidth * 0.5f + footprint
+                        && p.z < plan.baseCenter.z && p.z > plan.baseCenter.z - border - cfg.spawnClearRadius)
+                        continue;
+                }
                 p.y = heightM;
                 plan.props.Add(new PropPlacement
                 {

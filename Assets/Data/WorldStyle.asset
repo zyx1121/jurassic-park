@@ -1,0 +1,73 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e90bd81803f4547689c1db6ae6df74a2, type: 3}
+  m_Name: WorldStyle
+  m_EditorClassIdentifier: JurassicPark.World::JurassicPark.World.WorldStyleConfig
+  pixelStep: 2
+  foliageRampColors: 7
+  treeScale: 0.7
+  boulderScale: 0.8
+  undergrowthScale: 0.8
+  terrainTileSize: 3
+  palette:
+  - serializedVersion: 2
+    rgba: 4280296471
+  - serializedVersion: 2
+    rgba: 4280890655
+  - serializedVersion: 2
+    rgba: 4281419818
+  - serializedVersion: 2
+    rgba: 4281883449
+  - serializedVersion: 2
+    rgba: 4282413135
+  - serializedVersion: 2
+    rgba: 4283402863
+  - serializedVersion: 2
+    rgba: 4285047446
+  - serializedVersion: 2
+    rgba: 4287415231
+  - serializedVersion: 2
+    rgba: 4280363571
+  - serializedVersion: 2
+    rgba: 4280958028
+  - serializedVersion: 2
+    rgba: 4281618534
+  - serializedVersion: 2
+    rgba: 4282805125
+  - serializedVersion: 2
+    rgba: 4284320934
+  - serializedVersion: 2
+    rgba: 4286361286
+  - serializedVersion: 2
+    rgba: 4288662752
+  - serializedVersion: 2
+    rgba: 4290896107
+  - serializedVersion: 2
+    rgba: 4281610792
+  - serializedVersion: 2
+    rgba: 4283058235
+  - serializedVersion: 2
+    rgba: 4284374610
+  - serializedVersion: 2
+    rgba: 4285889136
+  - serializedVersion: 2
+    rgba: 4287602326
+  - serializedVersion: 2
+    rgba: 4289971133
+  - serializedVersion: 2
+    rgba: 4281220987
+  - serializedVersion: 2
+    rgba: 4281950636
+  - serializedVersion: 2
+    rgba: 4282750934
+  - serializedVersion: 2
+    rgba: 4284793067

@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: stone_slate_flake_Stone
   m_EditorClassIdentifier: JurassicPark.World::JurassicPark.World.PropVariant
   kind: 6
-  sprite: {fileID: 2800000, guid: bfdcf0f83c6974948b60e10d8a248086, type: 3}
+  sprite: {fileID: 2800000, guid: 49b8f9d9465144155ad838451faf318f, type: 3}
   cellPixels: 96
   pixelsPerUnit: 64
   footprintRadius: 0.22

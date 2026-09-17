@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: rock_basalt_shard_Rock
   m_EditorClassIdentifier: JurassicPark.World::JurassicPark.World.PropVariant
   kind: 1
-  sprite: {fileID: 2800000, guid: b751c41b9e28b4fb4a36b4a40f4cbf28, type: 3}
+  sprite: {fileID: 2800000, guid: b284859991c804408905a509a12cc7f6, type: 3}
   cellPixels: 128
   pixelsPerUnit: 64
   footprintRadius: 0.45

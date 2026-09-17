@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: stone_granite_cobble_Stone
   m_EditorClassIdentifier: JurassicPark.World::JurassicPark.World.PropVariant
   kind: 6
-  sprite: {fileID: 2800000, guid: 03940516dd01c4948a05242a515c4072, type: 3}
+  sprite: {fileID: 2800000, guid: efa6609d921d242879ae1b0caeb15c31, type: 3}
   cellPixels: 96
   pixelsPerUnit: 64
   footprintRadius: 0.22

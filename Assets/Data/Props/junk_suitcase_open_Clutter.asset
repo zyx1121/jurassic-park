@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: junk_suitcase_open_Clutter
   m_EditorClassIdentifier: JurassicPark.World::JurassicPark.World.PropVariant
   kind: 7
-  sprite: {fileID: 2800000, guid: 215962d2c85ed4e3992988fe87e91356, type: 3}
+  sprite: {fileID: 2800000, guid: f467984acdc254d30aaa25e48a8ba5c8, type: 3}
   cellPixels: 128
   pixelsPerUnit: 64
   footprintRadius: 0.4
@@ -21,7 +21,7 @@ MonoBehaviour:
   resource: 0
   resourceAmount: 0
   weight: 0.2
-  baseScale: 0.6
+  baseScale: 0.48000002
   scaleJitter: 0.1
   tintMaterials:
   - {fileID: 2100000, guid: 8f1d172dc20f543959c26824d2331027, type: 2}

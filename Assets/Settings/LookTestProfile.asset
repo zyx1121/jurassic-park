@@ -12,19 +12,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c01700fd266d6914ababb731e09af2eb, type: 3}
   m_Name: DepthOfField
   m_EditorClassIdentifier: Unity.RenderPipelines.Universal.Runtime::UnityEngine.Rendering.Universal.DepthOfField
-  active: 1
+  active: 0
   mode:
     m_OverrideState: 1
     m_Value: 1
   gaussianStart:
     m_OverrideState: 1
-    m_Value: 24
+    m_Value: 60
   gaussianEnd:
     m_OverrideState: 1
-    m_Value: 42
+    m_Value: 90
   gaussianMaxRadius:
     m_OverrideState: 1
-    m_Value: 0.55
+    m_Value: 0.15
   highQualitySampling:
     m_OverrideState: 1
     m_Value: 1
@@ -58,7 +58,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5485954d14dfb9a4c8ead8edb0ded5b1, type: 3}
   m_Name: LiftGammaGain
   m_EditorClassIdentifier: Unity.RenderPipelines.Universal.Runtime::UnityEngine.Rendering.Universal.LiftGammaGain
-  active: 1
+  active: 0
   lift:
     m_OverrideState: 1
     m_Value: {x: 0.97, y: 0.96, z: 1.04, w: 0}
@@ -83,19 +83,19 @@ MonoBehaviour:
   active: 1
   postExposure:
     m_OverrideState: 1
-    m_Value: -0.15
+    m_Value: 0
   contrast:
     m_OverrideState: 1
-    m_Value: 22
+    m_Value: 12
   colorFilter:
     m_OverrideState: 1
-    m_Value: {r: 0.886, g: 0.831, b: 0.761, a: 1}
+    m_Value: {r: 0.94, g: 1, b: 0.94, a: 1}
   hueShift:
     m_OverrideState: 1
     m_Value: 0
   saturation:
     m_OverrideState: 1
-    m_Value: -18
+    m_Value: -5
 --- !u!114 &-1529132444051053077
 MonoBehaviour:
   m_ObjectHideFlags: 3
@@ -111,13 +111,13 @@ MonoBehaviour:
   active: 1
   color:
     m_OverrideState: 1
-    m_Value: {r: 0.09, g: 0.08, b: 0.12, a: 1}
+    m_Value: {r: 0.04, g: 0.08, b: 0.06, a: 1}
   center:
     m_OverrideState: 1
     m_Value: {x: 0.5, y: 0.5}
   intensity:
     m_OverrideState: 1
-    m_Value: 0.38
+    m_Value: 0.16
   smoothness:
     m_OverrideState: 1
     m_Value: 0.45
@@ -142,19 +142,19 @@ MonoBehaviour:
     m_Value: 1
   threshold:
     m_OverrideState: 1
-    m_Value: 1
+    m_Value: 1.1
   intensity:
     m_OverrideState: 1
-    m_Value: 0.6
+    m_Value: 0.35
   scatter:
     m_OverrideState: 1
-    m_Value: 0.55
+    m_Value: 0.5
   clamp:
     m_OverrideState: 1
     m_Value: 6
   tint:
     m_OverrideState: 1
-    m_Value: {r: 1, g: 0.84, b: 0.63, a: 1}
+    m_Value: {r: 1, g: 0.9, b: 0.75, a: 1}
   highQualityFiltering:
     m_OverrideState: 1
     m_Value: 0

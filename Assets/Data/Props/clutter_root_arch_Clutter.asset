@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: clutter_root_arch_Clutter
   m_EditorClassIdentifier: JurassicPark.World::JurassicPark.World.PropVariant
   kind: 7
-  sprite: {fileID: 2800000, guid: b0c89cfd40d604c11b1a2374f7ccf4b4, type: 3}
+  sprite: {fileID: 2800000, guid: 078d565998a5b4b6097fe3e488835f0d, type: 3}
   cellPixels: 128
   pixelsPerUnit: 64
   footprintRadius: 0.5
@@ -21,7 +21,7 @@ MonoBehaviour:
   resource: 0
   resourceAmount: 0
   weight: 0.5
-  baseScale: 0.55
+  baseScale: 0.44000003
   scaleJitter: 0.15
   tintMaterials:
   - {fileID: 2100000, guid: 6939a80837be444b1bf839ad7aafa126, type: 2}

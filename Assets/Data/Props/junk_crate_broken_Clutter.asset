@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: junk_crate_broken_Clutter
   m_EditorClassIdentifier: JurassicPark.World::JurassicPark.World.PropVariant
   kind: 7
-  sprite: {fileID: 2800000, guid: 7521b6e62e0dc43ca8d20e0d1b1cd206, type: 3}
+  sprite: {fileID: 2800000, guid: 848536b1dc5a9481f838a1803f789051, type: 3}
   cellPixels: 96
   pixelsPerUnit: 64
   footprintRadius: 0.45
@@ -21,7 +21,7 @@ MonoBehaviour:
   resource: 0
   resourceAmount: 0
   weight: 0.25
-  baseScale: 0.85
+  baseScale: 0.68
   scaleJitter: 0.1
   tintMaterials:
   - {fileID: 2100000, guid: cede9c3814b8f4454bbbce574fd29ff3, type: 2}

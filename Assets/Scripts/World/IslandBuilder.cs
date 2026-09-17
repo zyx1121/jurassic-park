@@ -101,6 +101,7 @@ namespace JurassicPark.World
             GameObject baseGo = new GameObject("Base");
             baseGo.transform.SetParent(root.transform, false);
             baseGo.transform.position = plan.baseCenter;
+            if (cfg.campRidges) CampRidges.Build(plan.baseCenter, cfg, root.transform);
             GameObject spawn = new GameObject("PlayerSpawn");
             spawn.transform.SetParent(baseGo.transform, false);
             spawn.transform.position = plan.playerSpawn;

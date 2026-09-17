@@ -31,6 +31,9 @@ namespace JurassicPark.EditorTools
 
         public static TerrainData Persist(TerrainData data, string name)
         {
+            float[,,] paint = data.alphamapLayers > 0
+                ? data.GetAlphamaps(0, 0, data.alphamapWidth, data.alphamapHeight)
+                : null;
             if (!AssetDatabase.IsValidFolder(Folder))
             {
                 AssetDatabase.CreateFolder("Assets/Data", "Generated");
@@ -38,12 +41,26 @@ namespace JurassicPark.EditorTools
 
             string path = $"{Folder}/{name}.asset";
             TerrainData existing = AssetDatabase.LoadAssetAtPath<TerrainData>(path);
-            if (existing != null)
+            if (existing != null && existing != data)
             {
-                AssetDatabase.DeleteAsset(path);
+                // Replacing a deleted terrain asset at the same path can reload stale control textures.
+                // Update its native data in place so scene references and texture ownership stay stable.
+                existing.heightmapResolution = data.heightmapResolution;
+                existing.size = data.size;
+                existing.alphamapResolution = data.alphamapResolution;
+                existing.terrainLayers = data.terrainLayers;
+                existing.SetHeights(0, 0, data.GetHeights(0, 0, data.heightmapResolution, data.heightmapResolution));
+                Object.DestroyImmediate(data);
+                data = existing;
             }
-
-            AssetDatabase.CreateAsset(data, path);
+            else if (existing == null) AssetDatabase.CreateAsset(data, path);
+            // Creating a TerrainData asset resets its control textures to layer zero in Unity 6.
+            if (paint != null)
+            {
+                data.SetAlphamaps(0, 0, paint);
+                foreach (Texture2D texture in data.alphamapTextures) EditorUtility.SetDirty(texture);
+            }
+            EditorUtility.SetDirty(data);
             AssetDatabase.SaveAssets();
             return AssetDatabase.LoadAssetAtPath<TerrainData>(path);
         }

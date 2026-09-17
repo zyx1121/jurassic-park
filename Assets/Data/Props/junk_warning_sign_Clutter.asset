@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: junk_warning_sign_Clutter
   m_EditorClassIdentifier: JurassicPark.World::JurassicPark.World.PropVariant
   kind: 7
-  sprite: {fileID: 2800000, guid: 458619aa8c2754ae9893f8f7ca3e8aef, type: 3}
+  sprite: {fileID: 2800000, guid: 4333bbfcab0bf435fb0c7d6a7c56d7f4, type: 3}
   cellPixels: 96
   pixelsPerUnit: 64
   footprintRadius: 0.2
@@ -21,7 +21,7 @@ MonoBehaviour:
   resource: 0
   resourceAmount: 0
   weight: 0.2
-  baseScale: 1.15
+  baseScale: 0.92
   scaleJitter: 0.05
   tintMaterials:
   - {fileID: 2100000, guid: 73256d69fea594bdd8698c3fdfa921d2, type: 2}

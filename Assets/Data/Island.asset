@@ -26,7 +26,15 @@ MonoBehaviour:
   facilityMinSpacing: 22
   facilityClearRadius: 7
   dockShoreTolerance: 0.35
-  baseClearingRadius: 4.5
+  baseClearingRadius: 9
+  campRidges: 1
+  campRidgeHeight: 2.8
+  campRidgeThickness: 2.2
+  campEntranceWidth: 4
+  campCapOffset: 0.015
+  baseGrassFraction: 0.15
+  campRockMaterial: {fileID: 2100000, guid: 63b7fc0dbcc5e442a856e3f117c1f12c, type: 2}
+  campTopMaterial: {fileID: 2100000, guid: 47d896879343d4c80bc382c26f9bdeb7, type: 2}
   spawnClearRadius: 1.2
   spawnShoreMargin: 0.1
   spawnSearchStep: 0.75

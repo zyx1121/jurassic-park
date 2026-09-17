@@ -194,7 +194,7 @@ namespace JurassicPark.Building
                 if (c.GetComponentInParent<Pickup>() != null) continue; // pickups are collected, not obstacles
                 if (c.isTrigger && c.GetComponentInParent<JurassicPark.Scene.Occluder>() != null) continue; // canopy volume for see-through, not a footprint
                 if (preview != null && c.transform.IsChildOf(preview.transform)) continue;
-                if (c.GetComponentInParent<Structure>() != null || c.GetComponentInParent<PropInstance>() != null || c.GetComponentInParent<FacilityMarker>() != null || c.GetComponentInParent<PlayerController>() != null || c.GetComponent<UnityEngine.AI.NavMeshAgent>() != null)
+                if (!c.isTrigger || c.GetComponentInParent<Structure>() != null || c.GetComponentInParent<PropInstance>() != null || c.GetComponentInParent<FacilityMarker>() != null || c.GetComponentInParent<PlayerController>() != null || c.GetComponent<UnityEngine.AI.NavMeshAgent>() != null)
                 {
                     string name = c.GetComponentInParent<FacilityMarker>()?.facilityName
                         ?? c.GetComponentInParent<PropInstance>()?.variant?.name

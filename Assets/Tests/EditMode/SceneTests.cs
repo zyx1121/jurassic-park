@@ -4,6 +4,7 @@ using UnityEngine;
 
 namespace JurassicPark.Tests
 {
+    [Category("ClassicPresentation")]
     public class SceneTests
     {
         [Test]
@@ -13,7 +14,7 @@ namespace JurassicPark.Tests
             Assert.IsNotNull(profile);
             var serialized = new UnityEditor.SerializedObject(profile);
             var components = serialized.FindProperty("components");
-            Assert.GreaterOrEqual(components.arraySize, 5);
+            Assert.GreaterOrEqual(components.arraySize, 4);
             for (int i = 0; i < components.arraySize; i++)
             {
                 Object component = components.GetArrayElementAtIndex(i).objectReferenceValue;

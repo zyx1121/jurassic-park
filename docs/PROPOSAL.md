@@ -2,6 +2,13 @@
 
 3D Game Programming, Fall 2026. Project proposal draft, 2026-09-14.
 
+> [!NOTE]
+> Historical concept reference as of 2026-09-16. The current redesign starts with
+> the [Infrastructure Plan](./INFRASTRUCTURE_PLAN.md): an RTS execution pipeline,
+> physical logistics, and map/spatial infrastructure. The controls, boat-repair
+> objective, character roles, and other choices below are not binding requirements
+> for the new design. This document is retained for course context and comparison.
+
 Student: 詹詠翔 (314551002), solo project.
 
 ## 1. Concept

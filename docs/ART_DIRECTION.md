@@ -1,4 +1,71 @@
-# Jurassic Park art direction — “humid CD-ROM uncanny”
+# Jurassic Park art direction
+
+## Active direction: readable RTS jungle (2026-09-17)
+
+Decided with the player on 2026-09-17. Overrides the 2026-09-16 section and the
+diorama section below wherever they conflict.
+
+**Keep the pipeline, change the target.** Every sprite and terrain plate still
+comes from a real photo, scan or realistic textured model, rendered in Blender,
+reduced to 64 px/m and mapped to the shared master palette. The visual target is
+no longer a cinematic diorama; it is a Warcraft III style camp-defense map that
+stays beautiful at a glance and legible at a distance.
+
+| Decision | Value |
+|---|---|
+| Camera pitch | **60 degrees**, fixed yaw, pan and zoom only. Set `CameraView.asset` pitch and `InfrastructureConfig.cameraPitch` to 60; keep FOV 40 and distance 28 until measured |
+| Depth of field | Off in gameplay. Only the fixed 640 x 360 pixel grid and palette carry the retro read |
+| Palette | **Full green jungle** first. Keep the 26/32-color ramp structure but re-weight toward the humid-vegetation rows; sand and bone tones are reserved for paths, clearings and bones so approaches read as light ground on dark foliage. Evaluate on the Infrastructure scene before touching the legacy Island scene |
+| Buildings | Same digitized pipeline as props: render realistic tents, fences, electric walls and turrets in Blender, then reduce. No hand-drawn pixel buildings and no flat-color blockers; the green wall blocks in the 09-16 captures are placeholders |
+| Readability | Walls, doors, resource nodes and dinosaurs must be identifiable from the 60-degree view without hover. Selection rings and health bars are UI, not baked into sprites |
+
+References, trimmed to what we actually borrow:
+
+- [Donkey Kong Country](https://en.wikipedia.org/wiki/Donkey_Kong_Country): model, render, then compress into sprite-scale color. This is the pipeline.
+- [Octopath Traveler](https://www.jp.square-enix.com/octopathtraveler/about/): modern lighting on visibly pixel-built subjects. We borrow the light, not the depth of field or the storybook palette.
+- [Crow Country](https://blog.playstation.com/2024/05/02/crow-country-retro-original-playstation-era-gameplay-stylings-meet-modern-horror/): restraint and readable low-resolution shape language.
+- Warcraft III Jurassic Park 6.3: layout reference only, for how a defended camp, its approaches and its console read on screen. Nothing is imported from the map.
+
+Mortal Kombat and Resident Evil are dropped as references; their hard digitized
+edge and uncertainty beyond the focal plane pull against RTS readability.
+
+Rules carried over unchanged: no blanket outline pass, no Kenney or flat low-poly
+art, no texture filtering, mipmaps, TAA or MSAA, key light always from screen
+upper-left, shadows shift toward blue-purple never black.
+
+## Previous direction: classic camp defense (2026-09-16, superseded)
+
+The primary visual and information-layout reference is now the Warcraft III
+Jurassic Park 6.3 Traditional Chinese map: a readable defended camp, distinct
+approaches, useful object selection, a lower command console and a top resource
+bar. The earlier diorama specification below is historical where it conflicts
+with this section. It must not override the current player's explicit direction.
+
+- `CameraView.asset` owns the higher 55-degree, 28 m, 40-degree-FOV view.
+  Gameplay depth of field is off; the lighter vignette and neutral-green grade
+  preserve the readability of walls, resources and approaching dinosaurs.
+- `WorldStyle.asset` owns the shared 26-color vegetation/earth/stone palette,
+  alpha-weighted pixel reduction and world-scale multipliers. Generated images
+  go in `Assets/Textures/Classic`; the original credited source images remain
+  unchanged. Trees are scaled to 70% of the earlier giant-tree pass, boulders
+  and undergrowth to 80%, while gatherable rock/log/stone scale is retained.
+- Props and terrain use the same deterministic image treatment rather than
+  unrelated filters. The terrain tile size is 3 m. The old 64 px/m delivery
+  specification describes source images, not the new output pixel density.
+- The generated starter clearing has original rock-edge geometry and a
+  southern approach that can be closed with defenses. It is not a traced copy
+  of Warcraft terrain or an imported map mesh.
+- Warcraft map archives and screenshots remain external reference material.
+  An imported map model is not automatically reusable: even its textures may
+  reference the Warcraft installation. Do not import its models, UI skins,
+  textures or audio without establishing suitable rights.
+
+Regenerate presentation settings with `build_camera_view_assets` and
+`build_world_style_assets`, then run `build_terrain_assets` and
+`build_prop_library` before regenerating scenes. These commands consume the
+project's already-credited source art, not the downloaded Warcraft references.
+
+## Previous diorama direction (historical)
 
 ## North star
 

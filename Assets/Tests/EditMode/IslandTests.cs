@@ -4,6 +4,7 @@ using UnityEngine;
 
 namespace JurassicPark.Tests
 {
+    [Category("ClassicPresentation")]
     public class IslandTests
     {
         private static IslandConfig Config()

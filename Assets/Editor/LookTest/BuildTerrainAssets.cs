@@ -21,6 +21,7 @@ namespace JurassicPark.EditorTools
                 AssetDatabase.CreateAsset(config, ConfigPath);
             }
 
+            WorldStyleConfig style = BuildWorldStyleAssets.Load();
             var layers = new TerrainLayer[Files.Length];
             for (int i = 0; i < Files.Length; i++)
             {
@@ -37,8 +38,8 @@ namespace JurassicPark.EditorTools
                     AssetDatabase.CreateAsset(layer, path);
                 }
 
-                layer.diffuseTexture = AssetDatabase.LoadAssetAtPath<Texture2D>($"Assets/Textures/Terrain/{Files[i]}.png");
-                layer.tileSize = new Vector2(2f, 2f); // 128 px plates cover 2 m: still 64 px per meter
+                layer.diffuseTexture = BuildWorldStyleAssets.Restyle($"Assets/Textures/Terrain/{Files[i]}.png", "Terrain", style);
+                layer.tileSize = Vector2.one * style.terrainTileSize;
                 layer.smoothness = Files[i] == "dirt" ? 0.16f : 0.08f;
                 layer.metallic = 0f;
                 EditorUtility.SetDirty(layer);

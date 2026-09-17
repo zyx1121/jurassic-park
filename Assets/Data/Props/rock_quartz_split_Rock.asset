@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: rock_quartz_split_Rock
   m_EditorClassIdentifier: JurassicPark.World::JurassicPark.World.PropVariant
   kind: 1
-  sprite: {fileID: 2800000, guid: 9fd710e490aae4066a11ada888e925c4, type: 3}
+  sprite: {fileID: 2800000, guid: a59efec7b68ee49e48deced9ab2ee38d, type: 3}
   cellPixels: 128
   pixelsPerUnit: 64
   footprintRadius: 0.5

@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: stone_river_oval_Stone
   m_EditorClassIdentifier: JurassicPark.World::JurassicPark.World.PropVariant
   kind: 6
-  sprite: {fileID: 2800000, guid: d5acc64510e194280a971187800fc1eb, type: 3}
+  sprite: {fileID: 2800000, guid: bd38667855a394f2d96c27450dd60e28, type: 3}
   cellPixels: 96
   pixelsPerUnit: 64
   footprintRadius: 0.25

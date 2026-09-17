@@ -11,6 +11,7 @@ namespace JurassicPark.Scene
     public sealed class FollowCamera : MonoBehaviour
     {
         [SerializeField] private Transform target;
+        [SerializeField] private CameraViewConfig config;
         [Tooltip("Camera pitch in degrees, looking down.")]
         [Range(10f, 80f)] [SerializeField] private float pitch = 38f;
         [Tooltip("Distance from the look-at point along the camera's back axis.")]
@@ -26,15 +27,37 @@ namespace JurassicPark.Scene
 
         public Transform Target { get => target; set => target = value; }
         public Rect Bounds { get => bounds; set => bounds = value; }
+        public CameraViewConfig Config => config;
+        public float Pitch => config != null ? config.pitch : pitch;
+        public float Distance => config != null ? config.distance : distance;
 
         private Vector3 lookPoint;
         private Vector3 velocity;
+        private Camera cameraComponent;
+
+        public void Configure(CameraViewConfig value)
+        {
+            config = value;
+            cameraComponent = GetComponent<Camera>();
+            if (target != null) lookPoint = ClampLook(target.position + Vector3.up * LookHeight);
+            Apply();
+        }
+
+        private float LookHeight => config != null ? config.lookHeight : lookHeight;
+        private float SmoothTime => config != null ? config.smoothTime : smoothTime;
+
+        public void FramePoint(Vector3 groundPoint)
+        {
+            lookPoint = ClampLook(groundPoint + Vector3.up * LookHeight);
+            velocity = Vector3.zero;
+            Apply();
+        }
 
         private void OnEnable()
         {
             if (target != null)
             {
-                lookPoint = ClampLook(target.position + Vector3.up * lookHeight);
+                lookPoint = ClampLook(target.position + Vector3.up * LookHeight);
                 Apply();
             }
         }
@@ -46,25 +69,34 @@ namespace JurassicPark.Scene
                 return;
             }
 
-            Vector3 desired = ClampLook(target.position + Vector3.up * lookHeight);
-            lookPoint = Application.isPlaying && smoothTime > 0f
-                ? Vector3.SmoothDamp(lookPoint, desired, ref velocity, smoothTime)
+            Vector3 desired = ClampLook(target.position + Vector3.up * LookHeight);
+            lookPoint = Application.isPlaying && SmoothTime > 0f
+                ? Vector3.SmoothDamp(lookPoint, desired, ref velocity, SmoothTime)
                 : desired;
             Apply();
         }
 
         private void Apply()
         {
-            Quaternion rot = Quaternion.Euler(pitch, 0f, 0f);
+            Quaternion rot = Quaternion.Euler(Pitch, 0f, 0f);
             transform.rotation = rot;
-            transform.position = lookPoint - rot * Vector3.forward * distance;
+            transform.position = lookPoint - rot * Vector3.forward * Distance;
+            if (config == null) return;
+            if (cameraComponent == null) cameraComponent = GetComponent<Camera>();
+            if (cameraComponent != null)
+            {
+                cameraComponent.fieldOfView = config.fieldOfView;
+                cameraComponent.nearClipPlane = config.nearClip;
+                cameraComponent.farClipPlane = config.farClip;
+            }
         }
 
         /// <summary>Soft clamp: inside the bounds minus the edge the point is untouched, then it eases to the border.</summary>
         public Vector3 ClampLook(Vector3 p)
         {
-            p.x = SoftClamp(p.x, bounds.xMin, bounds.xMax, softEdge);
-            p.z = SoftClamp(p.z, bounds.yMin, bounds.yMax, softEdge);
+            float edge = config != null ? config.softEdge : softEdge;
+            p.x = SoftClamp(p.x, bounds.xMin, bounds.xMax, edge);
+            p.z = SoftClamp(p.z, bounds.yMin, bounds.yMax, edge);
             return p;
         }
 
