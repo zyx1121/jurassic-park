@@ -17,10 +17,15 @@ namespace JurassicPark.Simulation
         {
             GridMap map = tasks.Context.Map;
             if (!map.InBounds(map.CellAt(command.TargetPosition))) return CommandRejection.InvalidTarget;
-            // Refuse only when nobody in the selection can move; a depot caught in a box select must not void the order.
+            // Refuse only when nobody in the selection can take the order; a depot caught in a box select must not void it.
+            bool anyMover = false;
             for (int i = 0; i < livingActors.Count; i++)
-                if (CanMove(livingActors[i])) return CommandRejection.None;
-            return CommandRejection.ActorsLackAbility;
+            {
+                if (!CanMove(livingActors[i])) continue;
+                anyMover = true;
+                if (tasks.CanAccept(livingActors[i].Id, command.Mode)) return CommandRejection.None;
+            }
+            return anyMover ? CommandRejection.QueueFull : CommandRejection.ActorsLackAbility;
         }
 
         public void Execute(World world, Command command, IReadOnlyList<Entity> livingActors)

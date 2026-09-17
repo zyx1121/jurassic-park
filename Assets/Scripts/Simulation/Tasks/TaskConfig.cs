@@ -7,7 +7,7 @@ namespace JurassicPark.Simulation
         /// <summary>Ticks a task waits before planning again after a failed or over-budget plan, so a stuck unit never re-runs a full search every tick.</summary>
         public int ReplanIntervalTicks { get; }
 
-        /// <summary>How many times a move replans around a changed map before it gives up as failed.</summary>
+        /// <summary>How many times in a row a move may plan again (route cut, or search over budget) without reaching a waypoint before it gives up as failed. Progress resets the count.</summary>
         public int MaxReplans { get; }
 
         /// <summary>Tasks that may wait behind an actor's current one.</summary>

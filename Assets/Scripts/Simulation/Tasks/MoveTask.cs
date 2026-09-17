@@ -14,7 +14,7 @@ namespace JurassicPark.Simulation
         private int nextWaypoint;
         private long routeMapVersion;
         private long nextPlanTick;
-        private int replans;
+        private int plansWithoutProgress;
 
         public MoveTask(SimVector2 destination)
         {
@@ -71,7 +71,12 @@ namespace JurassicPark.Simulation
                     Enter(context, TaskState.Running);
                     return;
                 case PathStatus.BudgetExceeded:
-                    // Unknown, not unreachable: stay planning and try again later at a limited rate.
+                    // Unknown, not unreachable: try again later at a limited rate, but not for the whole match.
+                    if (plansWithoutProgress++ >= context.Config.MaxReplans)
+                    {
+                        Enter(context, TaskState.Failed, TaskReason.PathSearchBudgetExceeded);
+                        return;
+                    }
                     nextPlanTick = context.World.Tick + context.Config.ReplanIntervalTicks;
                     Enter(context, TaskState.Planning, TaskReason.PathSearchBudgetExceeded);
                     return;
@@ -91,11 +96,9 @@ namespace JurassicPark.Simulation
                 routeCells.Add(path.Cells[i]);
                 waypoints.Add(map.CenterOf(path.Cells[i]));
             }
-            if (endsOnDestination)
-            {
-                if (waypoints.Count > 0) waypoints[waypoints.Count - 1] = destination;
-                else waypoints.Add(destination);
-            }
+            // The exact point comes after the goal cell's centre, never instead of it: a hop inside one cell cannot leave it,
+            // while a straight line from the previous cell to an off-centre point can cross a cell that is not on the route.
+            if (endsOnDestination) waypoints.Add(destination);
             nextWaypoint = 0;
             routeMapVersion = path.MapVersion;
         }
@@ -106,19 +109,7 @@ namespace JurassicPark.Simulation
             if (map.Version != routeMapVersion)
             {
                 routeMapVersion = map.Version;
-                if (RemainingRouteIsCut(map))
-                {
-                    if (replans >= context.Config.MaxReplans)
-                    {
-                        Enter(context, TaskState.Failed, TaskReason.RouteBlocked);
-                        return;
-                    }
-                    replans++;
-                    nextPlanTick = context.World.Tick;
-                    Enter(context, TaskState.Planning, TaskReason.RouteBlocked);
-                    Plan(context, actor);
-                    if (State != TaskState.Running) return;
-                }
+                if (RemainingRouteIsCut(map) && !Replan(context, actor)) return;
             }
 
             context.Catalog.TryGet(actor.DefinitionId, out EntityDefinition definition);
@@ -128,20 +119,78 @@ namespace JurassicPark.Simulation
             {
                 SimVector2 target = waypoints[nextWaypoint];
                 float distance = SimVector2.Distance(position, target);
+                SimVector2 next = distance <= budget ? target : position + (target - position) * (budget / distance);
+                // The route check above works on cells of the plan. This one works on the ground actually covered this tick,
+                // so no bookkeeping gap can ever put a unit inside a wall: an off-centre first leg after a replan is the known case.
+                if (!SegmentIsClear(map, position, next))
+                {
+                    actor.Position = position;
+                    Replan(context, actor);
+                    return;
+                }
+                position = next;
                 if (distance <= budget)
                 {
-                    position = target;
                     budget -= distance;
                     nextWaypoint++;
+                    plansWithoutProgress = 0;
                 }
                 else
                 {
-                    position = position + (target - position) * (budget / distance);
                     budget = 0f;
                 }
             }
             actor.Position = position;
             if (nextWaypoint >= waypoints.Count) Enter(context, TaskState.Completed, TaskReason.Arrived);
+        }
+
+        /// <summary>Plans again from where the actor stands. Returns true when the task is running on a new route.</summary>
+        private bool Replan(TaskContext context, Entity actor)
+        {
+            if (plansWithoutProgress++ >= context.Config.MaxReplans)
+            {
+                Enter(context, TaskState.Failed, TaskReason.RouteBlocked);
+                return false;
+            }
+            nextPlanTick = context.World.Tick;
+            Enter(context, TaskState.Planning, TaskReason.RouteBlocked);
+            Plan(context, actor);
+            return State == TaskState.Running;
+        }
+
+        /// <summary>True when every cell the segment passes through, other than the one it starts in, is walkable. Exact grid traversal, no sampling.</summary>
+        private static bool SegmentIsClear(GridMap map, SimVector2 from, SimVector2 to)
+        {
+            Cell cell = map.CellAt(from);
+            Cell last = map.CellAt(to);
+            if (cell == last) return true;
+
+            float size = map.CellSize;
+            float dx = to.X - from.X, dy = to.Y - from.Y;
+            int stepX = dx > 0f ? 1 : dx < 0f ? -1 : 0;
+            int stepY = dy > 0f ? 1 : dy < 0f ? -1 : 0;
+            // Parametric distance along the segment to the next vertical and horizontal grid line, and between consecutive lines.
+            float tMaxX = stepX == 0 ? float.PositiveInfinity : (((stepX > 0 ? cell.X + 1 : cell.X) * size) - from.X) / dx;
+            float tMaxY = stepY == 0 ? float.PositiveInfinity : (((stepY > 0 ? cell.Y + 1 : cell.Y) * size) - from.Y) / dy;
+            float tDeltaX = stepX == 0 ? float.PositiveInfinity : size / System.Math.Abs(dx);
+            float tDeltaY = stepY == 0 ? float.PositiveInfinity : size / System.Math.Abs(dy);
+
+            int x = cell.X, y = cell.Y;
+            // Bounded by the cell distance, so a rounding slip can never spin here.
+            int guard = System.Math.Abs(last.X - x) + System.Math.Abs(last.Y - y) + 2;
+            while ((x != last.X || y != last.Y) && guard-- > 0)
+            {
+                if (tMaxX < tMaxY) { x += stepX; tMaxX += tDeltaX; }
+                else if (tMaxY < tMaxX) { y += stepY; tMaxY += tDeltaY; }
+                else
+                {
+                    // Exactly through a corner: the pathfinder only allows that when both side cells are free, so require the same.
+                    if (!map.IsWalkable(new Cell(x + stepX, y)) || !map.IsWalkable(new Cell(x, y + stepY))) return false;
+                    x += stepX; y += stepY; tMaxX += tDeltaX; tMaxY += tDeltaY;
+                }
+                if (!map.IsWalkable(new Cell(x, y))) return false;
+            }
+            return true;
         }
 
         private bool RemainingRouteIsCut(GridMap map)

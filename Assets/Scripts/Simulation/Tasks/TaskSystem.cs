@@ -30,7 +30,18 @@ namespace JurassicPark.Simulation
         /// <summary>The task the actor is working on, or null.</summary>
         public SimTask CurrentOf(EntityId actor) => byActor.TryGetValue(actor, out ActorTasks tasks) ? tasks.Current : null;
 
+        /// <summary>Actors that currently have work. Idle actors are not tracked.</summary>
+        public int TrackedActorCount => actorOrder.Count;
+
         public int QueuedCountOf(EntityId actor) => byActor.TryGetValue(actor, out ActorTasks tasks) ? tasks.Queue.Count : 0;
+
+        /// <summary>True when Assign with this mode would take a task for the actor right now. Handlers use it in Validate so a refused order is never answered Accepted.</summary>
+        public bool CanAccept(EntityId actor, CommandMode mode)
+        {
+            if (!context.World.IsAlive(actor)) return false;
+            if (mode != CommandMode.Queue) return true;
+            return !byActor.TryGetValue(actor, out ActorTasks tasks) || tasks.Current == null || tasks.Queue.Count < context.Config.MaxQueuedPerActor;
+        }
 
         /// <summary>
         /// Gives the actor a task. Replace ends the current task and drops the queue first, so old work can never quietly resume.
@@ -87,17 +98,23 @@ namespace JurassicPark.Simulation
                     byActor.Remove(actorId);
                     continue;
                 }
-                actorOrder[write++] = actorId;
-                if (tasks.Current == null) continue;
-
-                tasks.Current.Tick(context, actor);
-                if (!tasks.Current.IsFinished) continue;
-
-                tasks.Current.Release(context);
-                // A task that did not complete voids what was queued behind it: the queue assumed it would succeed.
-                if (tasks.Current.State != TaskState.Completed) DropQueue(tasks, TaskReason.PreviousTaskDidNotComplete);
-                tasks.Current = tasks.Queue.Count > 0 ? tasks.Queue.Dequeue() : null;
-                tasks.Current?.Enter(context, TaskState.Planning);
+                SimTask current = tasks.Current;
+                if (current != null)
+                {
+                    current.Tick(context, actor);
+                    // The task may have reassigned or stopped its own actor from inside Tick; then the system already ended it.
+                    if (tasks.Current == current && current.IsFinished)
+                    {
+                        current.Release(context);
+                        // A task that did not complete voids what was queued behind it: the queue assumed it would succeed.
+                        if (current.State != TaskState.Completed) DropQueue(tasks, TaskReason.PreviousTaskDidNotComplete);
+                        tasks.Current = tasks.Queue.Count > 0 ? tasks.Queue.Dequeue() : null;
+                        tasks.Current?.Enter(context, TaskState.Planning);
+                    }
+                }
+                // Idle actors leave the books, so the per-tick walk stays proportional to units that are actually working.
+                if (tasks.Current == null && tasks.Queue.Count == 0) byActor.Remove(actorId);
+                else actorOrder[write++] = actorId;
             }
             actorOrder.RemoveRange(write, actorOrder.Count - write);
         }

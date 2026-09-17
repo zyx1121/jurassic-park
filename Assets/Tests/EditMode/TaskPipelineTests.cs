@@ -18,15 +18,17 @@ namespace JurassicPark.Tests.EditMode
         private readonly List<SimEvent> log = new List<SimEvent>();
 
         [SetUp]
-        public void SetUp()
+        public void SetUp() => Build(FixtureMaps.CampValleyGrid(), maxReplans: 3, new PathOptions());
+
+        private void Build(GridMap grid, int maxReplans, PathOptions pathOptions)
         {
             log.Clear();
             world = new World(new SimConfig(10, 8, 1));
-            map = FixtureMaps.CampValleyGrid();
+            map = grid;
             var catalog = new DefinitionCatalog();
             catalog.Add(new EntityDefinition("survivor", Speed));
             catalog.Add(new EntityDefinition("depot", 0f));
-            var config = new TaskConfig(replanIntervalTicks: 5, maxReplans: 3, maxQueuedPerActor: 2, new PathOptions());
+            var config = new TaskConfig(replanIntervalTicks: 5, maxReplans, maxQueuedPerActor: 2, pathOptions);
             tasks = new TaskSystem(new TaskContext(world, map, catalog, config));
             var seats = new SeatRegistry(world);
             seats.Add(Red, "Red", 1, SeatController.Human);
@@ -180,6 +182,10 @@ namespace JurassicPark.Tests.EditMode
             for (int i = 0; i < 4; i++) sender.Send(CommandKind.Move, new[] { unit.Id }, far, mode: CommandMode.Queue);
             Run(1);
             Assert.That(tasks.QueuedCountOf(unit.Id), Is.EqualTo(2));
+            Assert.That(log.OfType<CommandResolved>().Select(r => r.Rejection), Is.EqualTo(new[]
+            {
+                CommandRejection.None, CommandRejection.None, CommandRejection.None, CommandRejection.QueueFull, CommandRejection.QueueFull,
+            }), "an order the task system refused must not be answered Accepted");
 
             sender.Send(CommandKind.Move, new[] { unit.Id }, map.CenterOf(new Cell(2, 1)));
             Run(1);
@@ -294,12 +300,13 @@ namespace JurassicPark.Tests.EditMode
         private sealed class HoldingTask : SimTask
         {
             public int Released;
-            public bool FailNow;
+            public bool FailNow, CompleteNow;
             public override string Kind => "hold";
             protected override void Tick(TaskContext context, Entity actor)
             {
                 if (State == TaskState.Planning) Enter(context, TaskState.Running);
                 if (FailNow) Enter(context, TaskState.Failed, TaskReason.NoRoute);
+                if (CompleteNow) Enter(context, TaskState.Completed, TaskReason.Arrived);
             }
             protected override void Release(TaskContext context) => Released++;
         }
@@ -320,30 +327,172 @@ namespace JurassicPark.Tests.EditMode
             world.Despawn(c.Id, "eaten");
             Run(2);
 
-            Assert.That(new[] { replaced.Released, failed.Released, queued.Released, orphaned.Released }, Is.All.EqualTo(1));
+            Entity d = Survivor(new Cell(4, 1)), e = Survivor(new Cell(5, 1));
+            var stopped = new HoldingTask(); var completed = new HoldingTask();
+            tasks.Assign(d.Id, stopped, CommandMode.Replace);
+            tasks.Assign(e.Id, completed, CommandMode.Replace);
+            Run(1);
+            tasks.Stop(d.Id, TaskReason.Stopped);
+            tasks.Stop(d.Id, TaskReason.Stopped);
+            completed.CompleteNow = true;
+            Run(2);
+
+            Assert.That(new[] { replaced.Released, failed.Released, queued.Released, orphaned.Released, stopped.Released, completed.Released }, Is.All.EqualTo(1));
+            Assert.That(completed.State, Is.EqualTo(TaskState.Completed));
+            Assert.That(tasks.TrackedActorCount, Is.EqualTo(1), "only the actor still holding a task is tracked");
             Assert.That(queued.State, Is.EqualTo(TaskState.Cancelled));
             Assert.That(queued.Reason, Is.EqualTo(TaskReason.PreviousTaskDidNotComplete));
         }
 
         [Test]
-        public void TwoRunsFromTheSameSetupProduceIdenticalPositionsEveryTick()
+        public void TwoRunsFromTheSameSetupProduceIdenticalPositionsAndTaskEvents()
         {
-            List<SimVector2> Trace()
+            List<string> Trace()
             {
                 SetUp();
                 Entity one = Survivor(new Cell(14, 5)), two = Survivor(new Cell(1, 10));
                 sender.Send(CommandKind.Move, new[] { one.Id, two.Id }, map.CenterOf(FixtureMaps.CampGround));
-                var trace = new List<SimVector2>();
+                var trace = new List<string>();
                 for (int i = 0; i < 120; i++)
                 {
                     world.Step();
-                    trace.Add(one.Position);
-                    trace.Add(two.Position);
+                    trace.Add($"{one.Position.X:R},{one.Position.Y:R};{two.Position.X:R},{two.Position.Y:R}");
+                    foreach (TaskStateChanged e in world.DrainEvents().OfType<TaskStateChanged>())
+                        trace.Add($"{e.Tick}:{e.Task}:{e.Actor}:{e.State}:{e.Reason}");
                 }
                 return trace;
             }
 
             Assert.That(Trace(), Is.EqualTo(Trace()));
+        }
+
+        /// <summary>Walks the straight line between two tick positions in 1 cm steps and fails on the first step that is inside a blocked cell.</summary>
+        private void AssertNeverInsideABlocker(SimVector2 from, SimVector2 to)
+        {
+            float length = SimVector2.Distance(from, to);
+            int samples = System.Math.Max(1, (int)(length / 0.01f));
+            for (int i = 0; i <= samples; i++)
+            {
+                SimVector2 p = from + (to - from) * (i / (float)samples);
+                Assert.That(map.IsWalkable(map.CellAt(p)), Is.True, $"inside blocked cell {map.CellAt(p)} at {p}");
+            }
+        }
+
+        [Test]
+        public void AWallBesideTheRouteThatTheFinalOffCentreLegWouldCrossIsNeverWalkedThrough()
+        {
+            Build(FixtureMaps.OpenGrid(12, 12), maxReplans: 3, new PathOptions());
+            Entity unit = Survivor(new Cell(1, 1));
+            var destination = new SimVector2(10.05f, 11.95f); // off-centre inside cell (5,5), towards cell (4,5)
+            sender.Send(CommandKind.Move, new[] { unit.Id }, destination);
+            Run(2);
+            Wall(new Cell(4, 5));
+
+            for (int i = 0; i < 200 && tasks.CurrentOf(unit.Id) != null; i++)
+            {
+                SimVector2 before = unit.Position;
+                Run(1);
+                AssertNeverInsideABlocker(before, unit.Position);
+            }
+
+            Assert.That(unit.Position, Is.EqualTo(destination));
+        }
+
+        [Test]
+        public void AWallBuiltInTheSideCellOfAnOffCentreDiagonalLegIsNeverWalkedThrough()
+        {
+            Build(FixtureMaps.OpenGrid(12, 12), maxReplans: 3, new PathOptions());
+            // Standing at the west edge of cell (1,1) and ordered diagonally: the straight first leg to the centre of (2,2)
+            // leaves (1,1) through its top edge at x = 3.82, so it crosses the side cell (1,2) about six ticks from now.
+            Entity unit = world.Spawn(EntityKind.Unit, "survivor", Red, new SimVector2(2.05f, 2.5f));
+            world.Commit();
+            sender.Send(CommandKind.Move, new[] { unit.Id }, map.CenterOf(new Cell(6, 6)));
+            Run(1);
+            Assert.That(map.CellAt(unit.Position), Is.EqualTo(new Cell(1, 1)));
+            Wall(new Cell(1, 2));
+
+            for (int i = 0; i < 200 && tasks.CurrentOf(unit.Id) != null; i++)
+            {
+                SimVector2 before = unit.Position;
+                Run(1);
+                AssertNeverInsideABlocker(before, unit.Position);
+            }
+
+            Assert.That(map.CellAt(unit.Position), Is.EqualTo(new Cell(6, 6)));
+        }
+
+        [Test]
+        public void AnEntityThatCannotMoveFailsItsMoveTaskWithThatReason()
+        {
+            Entity depot = world.Spawn(EntityKind.Building, "depot", Red, map.CenterOf(new Cell(2, 9)));
+            world.Commit();
+            tasks.Assign(depot.Id, new MoveTask(map.CenterOf(new Cell(4, 9))), CommandMode.Replace);
+            Run(1);
+
+            Assert.That(TaskLog(depot).Last().State, Is.EqualTo(TaskState.Failed));
+            Assert.That(TaskLog(depot).Last().Reason, Is.EqualTo(TaskReason.ActorCannotMove));
+        }
+
+        [Test]
+        public void ATaskAimedOffTheMapFailsWithThatReason()
+        {
+            Entity unit = Survivor(new Cell(1, 1));
+            tasks.Assign(unit.Id, new MoveTask(new SimVector2(-40f, 2f)), CommandMode.Replace);
+            Run(1);
+
+            Assert.That(TaskLog(unit).Last().Reason, Is.EqualTo(TaskReason.TargetOutOfBounds));
+        }
+
+        [Test]
+        public void ASearchThatKeepsRunningOutOfBudgetRetriesAtALimitedRateThenFails()
+        {
+            Build(FixtureMaps.CampValleyGrid(), maxReplans: 2, new PathOptions(maxExpandedNodes: 3));
+            Entity unit = Survivor(new Cell(14, 5));
+            sender.Send(CommandKind.Move, new[] { unit.Id }, map.CenterOf(FixtureMaps.CampGround));
+
+            Run(4);
+            Assert.That(tasks.CurrentOf(unit.Id).State, Is.EqualTo(TaskState.Planning), "over budget is unknown, not unreachable");
+            Assert.That(TaskLog(unit).Count(e => e.Reason == TaskReason.PathSearchBudgetExceeded), Is.EqualTo(1), "one attempt so far: retries wait for the interval");
+
+            Run(20);
+            Assert.That(TaskLog(unit).Last().State, Is.EqualTo(TaskState.Failed));
+            Assert.That(TaskLog(unit).Last().Reason, Is.EqualTo(TaskReason.PathSearchBudgetExceeded));
+            Assert.That(tasks.CurrentOf(unit.Id), Is.Null);
+        }
+
+        [Test]
+        public void WithNoReplansAllowedACutRouteFailsAsRouteBlocked()
+        {
+            Build(FixtureMaps.CampValleyGrid(), maxReplans: 0, new PathOptions());
+            Entity unit = Survivor(new Cell(14, 5));
+            sender.Send(CommandKind.Move, new[] { unit.Id }, map.CenterOf(FixtureMaps.CampGround));
+            Run(2);
+            Wall(FixtureMaps.MainEntrance);
+            Run(2);
+
+            Assert.That(TaskLog(unit).Last().State, Is.EqualTo(TaskState.Failed));
+            Assert.That(TaskLog(unit).Last().Reason, Is.EqualTo(TaskReason.RouteBlocked));
+        }
+
+        [Test]
+        public void ProgressResetsTheReplanCountSoAGateToggledManyTimesDoesNotFailALongWalk()
+        {
+            Build(FixtureMaps.OpenGrid(40, 5), maxReplans: 1, new PathOptions());
+            Entity unit = Survivor(new Cell(1, 2));
+            sender.Send(CommandKind.Move, new[] { unit.Id }, map.CenterOf(new Cell(38, 2)));
+            Run(1);
+
+            // Six separate walls appear in front of the walker, each cutting the current route, each well after the last was passed.
+            for (int n = 0; n < 6; n++)
+            {
+                Cell ahead = map.CellAt(unit.Position);
+                Wall(new Cell(ahead.X + 3, 2));
+                Run(25);
+            }
+            Run(200);
+
+            Assert.That(TaskLog(unit).Last().State, Is.EqualTo(TaskState.Completed));
+            Assert.That(TaskLog(unit).Count(e => e.Reason == TaskReason.RouteBlocked), Is.EqualTo(6));
         }
     }
 }
