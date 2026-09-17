@@ -291,10 +291,12 @@ namespace JurassicPark.Tests.EditMode
             goods.Gather(tree.Id, b.Id, 5, null, null);
 
             Assert.That(goods.Transfer(a.Id, crate.Id, Wood, 5, null, null), Is.EqualTo(5));
+            Assert.That(new[] { Packed(a), Packed(crate) }, Is.EqualTo(new[] { 0, 5 }));
             Assert.That(goods.Transfer(b.Id, crate.Id, Wood, 5, null, null), Is.EqualTo(3), "only what fits moves");
-            Assert.That(Packed(b), Is.EqualTo(2));
+            Assert.That(new[] { Packed(b), Packed(crate) }, Is.EqualTo(new[] { 2, 8 }));
             Assert.That(goods.Transfer(b.Id, crate.Id, Wood, 2, null, null), Is.EqualTo(0));
-            Assert.That(Packed(b), Is.EqualTo(2));
+            Assert.That(new[] { Packed(b), Packed(crate) }, Is.EqualTo(new[] { 2, 8 }));
+            Run(1, tree);
             Assert.That(goods.Transfer(b.Id, b.Id, Wood, 2, null, null), Is.EqualTo(0));
             Assert.That(goods.Transfer(crate.Id, a.Id, "stone", 1, null, null), Is.EqualTo(0));
         }
@@ -320,6 +322,8 @@ namespace JurassicPark.Tests.EditMode
             Assert.That(store.FreeCapacity, Is.EqualTo(0));
             goods.Gather(tree.Id, a.Id, 2, null, null);
             Assert.That(goods.Transfer(a.Id, crate.Id, Wood, 2, null, null, theirs), Is.EqualTo(0), "promised room is not free to others");
+            Assert.That(goods.Transfer(a.Id, crate.Id, Wood, 2, null, room, theirs), Is.EqualTo(0), "holding someone else's reservation object does not make it yours");
+            Assert.That(room.Amount, Is.EqualTo(3), "and it is not spent by the attempt");
             Assert.That(goods.Transfer(a.Id, crate.Id, Wood, 2, null, room, mine), Is.EqualTo(2));
             Assert.That(room.Amount, Is.EqualTo(1));
             Assert.That(claim.Amount, Is.EqualTo(4));
@@ -359,6 +363,72 @@ namespace JurassicPark.Tests.EditMode
                 Assert.That(map.CellAt(worker.Position), Is.Not.EqualTo(new Cell(13, 9)));
             }
             Assert.That(Packed(worker), Is.GreaterThan(0));
+        }
+
+        [Test]
+        public void GoodsCanBePutDownOnAGroundPile()
+        {
+            Entity tree = Place("tree", SeatId.None, FixtureMaps.ResourceSpot);
+            Entity dropper = Place("survivor", Red, new Cell(10, 1));
+            goods.Gather(tree.Id, dropper.Id, 2, null, null);
+            world.Despawn(dropper.Id, "eaten");
+            Run(2, tree);
+            EntityId pile = log.OfType<GoodsDropped>().Single().Pile;
+            world.TryGet(pile, out Entity pileEntity);
+
+            Entity carrier = Place("survivor", Blue, new Cell(8, 1));
+            goods.Gather(tree.Id, carrier.Id, 5, null, null);
+            senders[Blue].Send(CommandKind.Deliver, new[] { carrier.Id }, targetEntity: pile);
+            Run(60, tree);
+
+            Assert.That(LastTaskEvent(carrier).Reason, Is.EqualTo(TaskReason.Delivered));
+            Assert.That(Packed(pileEntity), Is.EqualTo(7));
+            Assert.That(goods.LiveReservationCount, Is.EqualTo(0));
+        }
+
+        [Test]
+        public void APartialDeliveryCompletesAndKeepsTheRestInThePackAndTheQueueAlive()
+        {
+            Entity crate = Place("crate", Red, FixtureMaps.CampGround, blocks: true);
+            Entity tree = Place("tree", SeatId.None, FixtureMaps.ResourceSpot);
+            Entity filler = Place("survivor", Red, new Cell(7, 5)), carrier = Place("survivor", Red, new Cell(8, 5));
+            goods.Gather(tree.Id, filler.Id, 5, null, null);
+            goods.Transfer(filler.Id, crate.Id, Wood, 5, null, null);
+            goods.Gather(tree.Id, carrier.Id, 5, null, null);
+
+            senders[Red].Send(CommandKind.Deliver, new[] { carrier.Id }, targetEntity: crate.Id);
+            senders[Red].Send(CommandKind.Move, new[] { carrier.Id }, map.CenterOf(new Cell(10, 5)), mode: CommandMode.Queue);
+            Run(60, tree);
+
+            Assert.That(new[] { Packed(crate), Packed(carrier) }, Is.EqualTo(new[] { 8, 2 }));
+            Assert.That(log.OfType<TaskStateChanged>().Any(e => e.Reason == TaskReason.DeliveredPartly && e.State == TaskState.Completed), Is.True);
+            Assert.That(map.CellAt(carrier.Position), Is.EqualTo(new Cell(10, 5)), "the queued move still ran");
+        }
+
+        [Test]
+        public void ADestroyedNodeTakesItsStockWithItOnTheBooks()
+        {
+            Entity tree = Place("tree", SeatId.None, FixtureMaps.ResourceSpot);
+            world.Despawn(tree.Id, "trampled");
+            Run(2);
+
+            Assert.That(goods.TotalOf(Wood), Is.EqualTo(0));
+            Assert.That(goods.ConsumedTotal, Is.EqualTo(12));
+        }
+
+        [Test]
+        public void ConsumingLeavesGoodsPromisedToAnotherTaskAlone()
+        {
+            Entity crate = Place("crate", Red, FixtureMaps.CampGround);
+            Entity tree = Place("tree", SeatId.None, FixtureMaps.ResourceSpot);
+            Entity a = Place("survivor", Red, new Cell(7, 5));
+            goods.Gather(tree.Id, a.Id, 5, null, null);
+            goods.Transfer(a.Id, crate.Id, Wood, 5, null, null);
+            goods.Reserve(ReservationKind.Withdrawal, crate.Id, Wood, 4, new TaskId(500));
+
+            Assert.That(goods.Consume(crate.Id, Wood, 5, new TaskId(501)), Is.EqualTo(1));
+            Assert.That(Packed(crate), Is.EqualTo(4));
+            Run(1, tree);
         }
     }
 }

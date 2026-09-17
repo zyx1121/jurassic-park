@@ -53,10 +53,14 @@ namespace JurassicPark.Simulation
             switch (mover.Tick(context, actor))
             {
                 case MoverStatus.Arrived:
+                    int handedOver = 0;
                     foreach (KeyValuePair<string, int> carried in new List<KeyValuePair<string, int>>(pack.Contents))
-                        goods.Transfer(actor.Id, targetId, carried.Key, carried.Value, null, room, Id);
-                    // What did not fit stays in the pack: goods never vanish because a store was small.
-                    Enter(context, pack.Total == 0 ? TaskState.Completed : TaskState.Failed, pack.Total == 0 ? TaskReason.Delivered : TaskReason.NoDepotAvailable);
+                        handedOver += goods.Transfer(actor.Id, targetId, carried.Key, carried.Value, null, room, Id);
+                    // What did not fit stays in the pack: goods never vanish because a store was small. A partial hand-over
+                    // still happened, so it completes (with its own reason) and does not void the orders queued behind it.
+                    if (pack.Total == 0) Enter(context, TaskState.Completed, TaskReason.Delivered);
+                    else if (handedOver > 0) Enter(context, TaskState.Completed, TaskReason.DeliveredPartly);
+                    else Enter(context, TaskState.Failed, TaskReason.NoDepotAvailable);
                     break;
                 case MoverStatus.Failed:
                     Enter(context, TaskState.Failed, mover.Reason);

@@ -24,5 +24,8 @@ namespace JurassicPark.Simulation
         SourceEmpty = 18,
         Delivered = 19,
         PickedUp = 20,
+
+        /// <summary>Some goods were handed over and the rest stayed in the pack because the store filled up.</summary>
+        DeliveredPartly = 21,
     }
 }

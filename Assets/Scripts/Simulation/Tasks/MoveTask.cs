@@ -29,7 +29,11 @@ namespace JurassicPark.Simulation
             {
                 case MoverStatus.Moving: Enter(context, TaskState.Running); break;
                 case MoverStatus.Planning: Enter(context, TaskState.Planning, mover.Reason); break;
-                case MoverStatus.Arrived: Enter(context, TaskState.Completed, TaskReason.Arrived); break;
+                case MoverStatus.Arrived:
+                    // Even a move that finishes within its first tick ran; consumers rely on Planning, Running, Completed.
+                    Enter(context, TaskState.Running);
+                    Enter(context, TaskState.Completed, TaskReason.Arrived);
+                    break;
                 case MoverStatus.Failed: Enter(context, TaskState.Failed, mover.Reason); break;
             }
         }

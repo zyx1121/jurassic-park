@@ -513,5 +513,15 @@ namespace JurassicPark.Tests.EditMode
             Assert.That(tasks.QueuedCountOf(full.Id), Is.EqualTo(2));
             Assert.That(tasks.QueuedCountOf(free.Id), Is.EqualTo(1));
         }
+
+        [Test]
+        public void AMoveThatFinishesInItsFirstTickStillReportsRunning()
+        {
+            Entity unit = Survivor(new Cell(1, 1));
+            sender.Send(CommandKind.Move, new[] { unit.Id }, map.CenterOf(new Cell(1, 1)) + new SimVector2(0.1f, 0f));
+            Run(1);
+
+            Assert.That(TaskLog(unit).Select(e => e.State), Is.EqualTo(new[] { TaskState.Planning, TaskState.Running, TaskState.Completed }));
+        }
     }
 }
