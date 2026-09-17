@@ -1,0 +1,19 @@
+{
+    "name": "JurassicPark.Editor",
+    "rootNamespace": "JurassicPark.Editor",
+    "references": [
+        "JurassicPark.Simulation",
+        "JurassicPark.Presentation"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
