@@ -12,7 +12,7 @@ stays beautiful at a glance and legible at a distance.
 
 | Decision | Value |
 |---|---|
-| Camera pitch | **60 degrees**, fixed yaw, pan and zoom only. FOV 40 and distance 28 m are the starting values until measured in the new project |
+| Camera pitch | **60 degrees**, fixed yaw, pan and zoom only. **Orthographic** (decided from the M1 comparison captures, 2026-09-17; one checkbox on `RtsCamera` switches back): the fixed pixels-per-metre grid below only exists without perspective, and at this pitch a perspective lens leans upright objects 34 to 48 degrees at the screen edge. Measured on the M1 scene (2026-09-17): vertical FOV 25 at 75 m default distance, zoom 32 to 140 m. FOV 40 at this pitch made upright objects near the screen edge lean about 45 degrees |
 | Depth of field | Off in gameplay. Only the fixed 640 x 360 pixel grid and palette carry the retro read |
 | Palette | **Full green jungle** first. Keep the 26/32-color ramp structure but re-weight toward the humid-vegetation rows; sand and bone tones are reserved for paths, clearings and bones so approaches read as light ground on dark foliage. Evaluate on the first M1 map before producing assets in bulk |
 | Buildings | Same digitized pipeline as props: render realistic tents, fences, electric walls and turrets in Blender, then reduce. No hand-drawn pixel buildings and no flat-color blockers; flat-color blockers are acceptable only as M1 and M2 placeholders |

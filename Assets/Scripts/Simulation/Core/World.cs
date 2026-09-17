@@ -34,6 +34,9 @@ namespace JurassicPark.Simulation
         /// <summary>Simulated seconds at the end of the current tick. Derived from the tick count, so it never drifts.</summary>
         public double Time => Tick / (double)Config.TicksPerSecond;
 
+        /// <summary>How far real time has run into the next tick, 0 to 1. Presentation interpolates between the last two tick positions with it; the simulation never reads it.</summary>
+        public float TickFraction => (float)Math.Min(1.0, accumulator / Config.TickSeconds);
+
         /// <summary>Set when a system threw. The world is torn mid-tick and refuses to simulate further; the match is over.</summary>
         public bool IsFaulted { get; private set; }
 

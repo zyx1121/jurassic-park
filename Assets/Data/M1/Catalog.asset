@@ -1,0 +1,75 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d336cc3dcf6fe419d954e2b0e25c9bc6, type: 3}
+  m_Name: Catalog
+  m_EditorClassIdentifier: JurassicPark.Presentation::JurassicPark.Presentation.EntityCatalogAsset
+  entries:
+  - id: survivor
+    kind: 1
+    moveSpeed: 4.5
+    storageCapacity: 10
+    isDepot: 0
+    gatherSecondsPerUnit: 0.6
+    nodeResource: 
+    nodeAmount: 0
+    blocks: 0
+    footprintWidth: 1
+    footprintHeight: 1
+    destructible: 1
+    shape: 0
+    color: {r: 0.93, g: 0.8, b: 0.55, a: 1}
+    size: {x: 0.7, y: 0.85, z: 0.7}
+  - id: depot
+    kind: 2
+    moveSpeed: 0
+    storageCapacity: 200
+    isDepot: 1
+    gatherSecondsPerUnit: 0
+    nodeResource: 
+    nodeAmount: 0
+    blocks: 1
+    footprintWidth: 2
+    footprintHeight: 2
+    destructible: 1
+    shape: 1
+    color: {r: 0.62, g: 0.44, b: 0.29, a: 1}
+    size: {x: 3.6, y: 2.2, z: 3.6}
+  - id: tree
+    kind: 3
+    moveSpeed: 0
+    storageCapacity: 0
+    isDepot: 0
+    gatherSecondsPerUnit: 0
+    nodeResource: wood
+    nodeAmount: 40
+    blocks: 1
+    footprintWidth: 1
+    footprintHeight: 1
+    destructible: 0
+    shape: 2
+    color: {r: 0.17, g: 0.35, b: 0.31, a: 1}
+    size: {x: 1.3, y: 1.7, z: 1.3}
+  - id: pile
+    kind: 4
+    moveSpeed: 0
+    storageCapacity: 0
+    isDepot: 0
+    gatherSecondsPerUnit: 0
+    nodeResource: 
+    nodeAmount: 0
+    blocks: 0
+    footprintWidth: 1
+    footprintHeight: 1
+    destructible: 1
+    shape: 3
+    color: {r: 0.81, g: 0.66, b: 0.47, a: 1}
+    size: {x: 0.9, y: 0.5, z: 0.9}

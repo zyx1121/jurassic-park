@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dfb1a34580069408685253bf61e069ac, type: 3}
+  m_Name: Simulation
+  m_EditorClassIdentifier: JurassicPark.Presentation::JurassicPark.Presentation.SimulationSettingsAsset
+  ticksPerSecond: 10
+  maxStepsPerAdvance: 5
+  seed: 1
+  rememberedResultsPerSeat: 64
+  maxPendingPerSeat: 32
+  maxCommandIdGap: 64
+  replanIntervalTicks: 10
+  maxReplans: 4
+  maxQueuedPerActor: 8
+  reservationLifetimeTicks: 50
+  groundPileDefinitionId: pile
+  targetFrameRate: 60
+  batchModeFrameRate: 20

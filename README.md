@@ -40,6 +40,10 @@ unity open .        # Unity CLI, or open the folder in Unity Hub with 6000.3.24f
 tools/test.sh       # EditMode tests; exits non-zero unless a fresh report shows zero failures
 ```
 
+Open `Assets/Scenes/M1.unity` and press Play: left click or drag to select survivors, right click to order them (ground walks, a tree gathers, a depot takes what they carry), Shift queues, X stops, WASD or the screen edge pans, the wheel zooms. Scenes and data are generated: `unity run . -- -executeMethod JurassicPark.Editor.BuildM1Scene.Run`. `tools/test.sh PlayMode` checks the scene wiring.
+
+![M1 slice: a survivor leaving the camp entrance for the grove](docs/screenshots/m1-orthographic-2026-09-17.png)
+
 Code is split into five assemblies: `Simulation` (pure C#, no engine references), `Presentation`, `Net`, `Editor` and `Tests.EditMode`. Gameplay rules live only in `Simulation`.
 
 ## Documentation
