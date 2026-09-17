@@ -1,0 +1,101 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 57c2342595df842a89cc62aad4e378ae, type: 3}
+  m_Name: Scenario
+  m_EditorClassIdentifier: JurassicPark.Presentation::JurassicPark.Presentation.ScenarioAsset
+  seats:
+  - id: 1
+    displayName: Red
+    team: 1
+    controller: 1
+  - id: 2
+    displayName: Blue
+    team: 1
+    controller: 2
+  localSeat: 1
+  placements:
+  - definitionId: depot
+    ownerSeat: 1
+    cellX: 12
+    cellY: 15
+  - definitionId: tree
+    ownerSeat: 0
+    cellX: 30
+    cellY: 12
+  - definitionId: tree
+    ownerSeat: 0
+    cellX: 31
+    cellY: 13
+  - definitionId: tree
+    ownerSeat: 0
+    cellX: 32
+    cellY: 11
+  - definitionId: tree
+    ownerSeat: 0
+    cellX: 33
+    cellY: 13
+  - definitionId: tree
+    ownerSeat: 0
+    cellX: 34
+    cellY: 12
+  - definitionId: tree
+    ownerSeat: 0
+    cellX: 31
+    cellY: 10
+  - definitionId: tree
+    ownerSeat: 0
+    cellX: 38
+    cellY: 22
+  - definitionId: tree
+    ownerSeat: 0
+    cellX: 39
+    cellY: 24
+  - definitionId: tree
+    ownerSeat: 0
+    cellX: 40
+    cellY: 22
+  - definitionId: tree
+    ownerSeat: 0
+    cellX: 41
+    cellY: 25
+  - definitionId: tree
+    ownerSeat: 0
+    cellX: 37
+    cellY: 25
+  - definitionId: tree
+    ownerSeat: 0
+    cellX: 26
+    cellY: 5
+  - definitionId: tree
+    ownerSeat: 0
+    cellX: 28
+    cellY: 6
+  - definitionId: tree
+    ownerSeat: 0
+    cellX: 24
+    cellY: 6
+  - definitionId: survivor
+    ownerSeat: 1
+    cellX: 15
+    cellY: 14
+  - definitionId: survivor
+    ownerSeat: 1
+    cellX: 16
+    cellY: 16
+  - definitionId: survivor
+    ownerSeat: 1
+    cellX: 15
+    cellY: 18
+  - definitionId: survivor
+    ownerSeat: 2
+    cellX: 10
+    cellY: 12

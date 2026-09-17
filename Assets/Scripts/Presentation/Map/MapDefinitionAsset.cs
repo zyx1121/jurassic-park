@@ -28,6 +28,23 @@ namespace JurassicPark.Presentation
         [SerializeField] private CampEntry[] camps = Array.Empty<CampEntry>();
         [SerializeField] private RegionEntry[] regions = Array.Empty<RegionEntry>();
 
+        /// <summary>Fills the asset from a definition. Used by the scene builders, which author maps in code instead of a 16,000 entry inspector array.</summary>
+        public void SetFrom(MapDefinition definition)
+        {
+            if (definition == null) throw new ArgumentNullException(nameof(definition));
+            width = definition.Width;
+            height = definition.Height;
+            cellSize = definition.CellSize;
+            cells = new CellFlags[width * height];
+            for (int y = 0; y < height; y++)
+                for (int x = 0; x < width; x++)
+                    cells[y * width + x] = definition.FlagsAt(new Cell(x, y));
+            camps = new CampEntry[definition.Camps.Count];
+            for (int i = 0; i < camps.Length; i++) camps[i] = CampEntry.From(definition.Camps[i]);
+            regions = new RegionEntry[definition.Regions.Count];
+            for (int i = 0; i < regions.Length; i++) regions[i] = RegionEntry.From(definition.Regions[i]);
+        }
+
         public int Width => width;
         public int Height => height;
         public float CellSize => cellSize;
@@ -96,6 +113,22 @@ namespace JurassicPark.Presentation
             [Tooltip("Walkable gaps that lead into the camp, as x,y pairs in order.")]
             [SerializeField] private int[] entranceCoordinates = Array.Empty<int>();
 
+            public static CampEntry From(CampDefinition camp)
+            {
+                var entry = new CampEntry
+                {
+                    id = camp.Id, displayName = camp.DisplayName,
+                    minX = camp.Bounds.MinX, minY = camp.Bounds.MinY, maxX = camp.Bounds.MaxX, maxY = camp.Bounds.MaxY,
+                    entranceCoordinates = new int[camp.Entrances.Count * 2],
+                };
+                for (int i = 0; i < camp.Entrances.Count; i++)
+                {
+                    entry.entranceCoordinates[i * 2] = camp.Entrances[i].X;
+                    entry.entranceCoordinates[i * 2 + 1] = camp.Entrances[i].Y;
+                }
+                return entry;
+            }
+
             public CampDefinition ToDefinition(int index, List<string> problems)
             {
                 string owner = $"Camp '{(string.IsNullOrEmpty(id) ? $"#{index}" : id)}'";
@@ -124,6 +157,12 @@ namespace JurassicPark.Presentation
             [SerializeField] private int minY;
             [SerializeField] private int maxX;
             [SerializeField] private int maxY;
+
+            public static RegionEntry From(RegionDefinition region) => new RegionEntry
+            {
+                id = region.Id, kind = region.Kind,
+                minX = region.Bounds.MinX, minY = region.Bounds.MinY, maxX = region.Bounds.MaxX, maxY = region.Bounds.MaxY,
+            };
 
             public RegionDefinition ToDefinition(int index, List<string> problems)
             {
