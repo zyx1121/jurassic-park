@@ -118,3 +118,6 @@ InitTestScene*.unity*
 # Test reports and coverage
 /TestResults/
 /CodeCoverage/
+
+# Agent worktrees and local tool state
+/.claude/
