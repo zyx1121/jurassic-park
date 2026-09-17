@@ -14,5 +14,18 @@ namespace JurassicPark.Simulation
         PathSearchBudgetExceeded = 8,
         RouteBlocked = 9,
         PreviousTaskDidNotComplete = 10,
+        TargetGone = 11,
+        NodeDepleted = 12,
+        NoDepotAvailable = 13,
+        NothingToCarry = 14,
+        NotAllowed = 15,
+        ActorCannotCarry = 16,
+        PackFull = 17,
+        SourceEmpty = 18,
+        Delivered = 19,
+        PickedUp = 20,
+
+        /// <summary>Some goods were handed over and the rest stayed in the pack because the store filled up.</summary>
+        DeliveredPartly = 21,
     }
 }
