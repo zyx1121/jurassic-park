@@ -376,12 +376,11 @@ GUI 依被選取對象的能力產生指令，不另寫一份單位規則。放�
 | Milestone | 期限 | 範圍 | 對應階段 |
 |---|---|---|---|
 | M0 Bootstrap 與 Proposal | 10/18 | 修復 Unity 授權、建立全新 Unity 專案與測試／CI 骨架、補完 `docs/ORIGINAL_CONTENT.md` 的 uncertain 項、課程 proposal 簡報 | P0 |
-| M1 命令與物流骨架 | 11/08 | 純 C# 模擬核心、固定地圖資料與格網 A*、席位與 Command 路由、選取／Move／Stop、一種資源的採集與搬運閉環、兩席位 host／client 傳輸 | P1、P2、§2.4 |
-| M2 Online demo 1 | 11/15 | Blueprint 施工、動態封路、一種恐龍與破牆突破、可展示的 RTS HUD；課程 Assignment 1 與 mini-exercise 1、2 | P3、P4 |
-| M3 迷霧、盟友與對局 | 11/22 | 每席位 Knowledge 與迷霧、電腦盟友固定迴圈、30 分鐘對局流程與撤離、勝負結算 | §9.1、§9.2 |
-| M4 原版內容 | 12/06 | 依 `ORIGINAL_CONTENT.md` 補齊建築、科技、生產單位、物品、恐龍；12 營地正式地圖 | P5、§9.3 |
-| M5 Online demo 2 | 12/13 | 全綠叢林 digitized 美術、正式 GUI；課程 Assignment 2 與 mini-exercise 3、4 | 美術方向 |
-| M6 Final | 12/27 | 跨局積分存檔、音效與 FX、平衡、macOS／Windows release、期末報告與簡報 | §9.1 |
+| M1 命令與物流骨架（2026-09-17 完成） | 11/08 | 純 C# 模擬核心、固定地圖資料與格網 A*、席位與 Command 路由、選取／Move／Stop、一種資源的採集與搬運閉環、兩席位 host／client 傳輸 | P1、P2、§2.4 |
+| M2 MVP：可玩、可看 | 11/15 | 一次做出能玩完一局、看起來像原版的版本：施工與動態封路、恐龍與破牆、迷霧與 Knowledge、電腦盟友、30 分鐘對局與撤離、原版內容匯入、12 營地地圖、全綠叢林 digitized 美術、正式 GUI；課程 Assignment 1 與 mini-exercise 1、2 | P3、P4、P5、§9 |
+| M3 Fine-tune 與 Final | 12/27 | MVP 之後才做的細修：平衡、跨局積分存檔、音效與 FX、release、課程 Assignment 2 與 mini-exercise 3、4、期末報告與簡報 | §9.1 |
+
+2026-09-18 定案：原本的 M2 到 M5 合併為一個 MVP。理由是先有一個能玩、能看的整體，再逐項細修；不先把單一系統磨到完美。
 
 每個 milestone 的完成條件沿用 §6 的階段完成條件與驗收情境；多人傳輸自 M1 起隨每個 milestone 擴充，不留到最後。
 
