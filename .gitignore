@@ -121,4 +121,5 @@ InitTestScene*.unity*
 
 # Agent worktrees and local tool state
 /.claude/
+tools/__pycache__/
 ProjectSettings/SceneTemplateSettings.json
