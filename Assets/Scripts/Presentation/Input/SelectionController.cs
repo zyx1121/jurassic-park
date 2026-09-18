@@ -174,7 +174,7 @@ namespace JurassicPark.Presentation
             // Units are not order targets yet, so a friendly standing on the spot never swallows a move order.
             EntitySnapshot? target = TryPickAt(screenPoint, IsNotAUnit, out EntitySnapshot picked) ? picked : (EntitySnapshot?)null;
             OrderResolver.Order order = OrderResolver.Resolve(session.Model, actors, target, point);
-            session.Commands.Send(order.Kind, actors, order.Point, order.Target, queue ? CommandMode.Queue : CommandMode.Replace);
+            Send(order.Kind, actors, order.Point, order.Target, queue ? CommandMode.Queue : CommandMode.Replace);
             return order;
         }
 
@@ -209,7 +209,7 @@ namespace JurassicPark.Presentation
             Cell cell = CellOf(point);
             float size = session.Model.Map.CellSize;
             var anchorPoint = new SimVector2((cell.X + 0.5f) * size, (cell.Y + 0.5f) * size);
-            session.Commands.Send(CommandKind.Build, builders, anchorPoint, EntityId.None, queue ? CommandMode.Queue : CommandMode.Replace, PlacingIndex);
+            Send(CommandKind.Build, builders, anchorPoint, EntityId.None, queue ? CommandMode.Queue : CommandMode.Replace, PlacingIndex);
             if (!(Keyboard.current != null && Keyboard.current.shiftKey.isPressed)) CancelPlacing();
             return true;
         }
@@ -219,7 +219,7 @@ namespace JurassicPark.Presentation
         {
             if (!TryPickAt(screenPoint, e => e.Kind == EntityKind.Building && e.Owner == session.Model.LocalSeat, out EntitySnapshot building)) return false;
             IReadOnlyList<EntityId> asker = selection.Count > 0 ? selection : (IReadOnlyList<EntityId>)new[] { building.Id };
-            session.Commands.Send(CommandKind.Demolish, asker, building.Position, building.Id);
+            Send(CommandKind.Demolish, asker, building.Position, building.Id);
             return true;
         }
 
@@ -232,10 +232,22 @@ namespace JurassicPark.Presentation
         public void StopSelection()
         {
             IReadOnlyList<EntityId> actors = SelectedUnits();
-            if (actors.Count > 0) session.Commands.Send(CommandKind.Stop, actors);
+            if (actors.Count > 0) Send(CommandKind.Stop, actors);
         }
 
         private readonly List<EntityId> unitScratch = new List<EntityId>();
+        private readonly List<EntityId> lastSentActors = new List<EntityId>();
+
+        /// <summary>The actors of the last command this controller sent, for tests that must see who was ordered rather than guess from side effects.</summary>
+        public IReadOnlyList<EntityId> LastSentActors => lastSentActors;
+
+        /// <summary>The one door out of the controller: every order records its actors, then goes through the session's sender.</summary>
+        private void Send(CommandKind kind, IReadOnlyList<EntityId> actors, SimVector2 point = default, EntityId target = default, CommandMode mode = CommandMode.Replace, int argument = 0)
+        {
+            lastSentActors.Clear();
+            lastSentActors.AddRange(actors);
+            session.Commands.Send(kind, actors, point, target, mode, argument);
+        }
 
         /// <summary>The selected units: a selected building is looked at and toggled, never given a walk order.</summary>
         private IReadOnlyList<EntityId> SelectedUnits()

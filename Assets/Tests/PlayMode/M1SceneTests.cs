@@ -239,11 +239,12 @@ namespace JurassicPark.Tests.PlayMode
             yield return null;
             OrderResolver.Order? order = selection.OrderAt(viewCamera.WorldToScreenPoint(groundWorld), queue: false);
             Assert.That(order.HasValue && order.Value.Kind == CommandKind.Move, Is.True);
+            // The handlers drop a building actor silently, so side effects prove nothing: look at who was actually ordered.
+            Assert.That(selection.LastSentActors, Is.EqualTo(new[] { worker.Id }), "the Move carried the worker and not the gate");
             yield return new WaitForSeconds(0.3f);
             Assert.That(session.Runtime.Tasks.CurrentOf(worker.Id), Is.Not.Null, "the worker walks");
-            Assert.That(session.Runtime.Tasks.CurrentOf(gate.Id), Is.Null, "the gate was not asked to walk");
-            Assert.That(selection.LastRejection, Is.EqualTo(CommandRejection.None), "nothing was refused");
             selection.StopSelection();
+            Assert.That(selection.LastSentActors, Is.EqualTo(new[] { worker.Id }), "Stop carried the worker only");
             yield return new WaitForSeconds(0.3f);
             Assert.That(session.Runtime.Tasks.CurrentOf(worker.Id), Is.Null, "Stop reached the worker");
             Assert.That(selection.LastRejection, Is.EqualTo(CommandRejection.None));
