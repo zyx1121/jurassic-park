@@ -23,5 +23,8 @@ namespace JurassicPark.Simulation
 
         /// <summary>Open a closed gate or close an open one. Closing fails while something stands in it.</summary>
         ToggleGate = 8,
+
+        /// <summary>Attack the target entity, breaking through what is in the way if the actor can.</summary>
+        Attack = 9,
     }
 }

@@ -22,6 +22,12 @@ namespace JurassicPark.Presentation
         [Min(0)] public int maxReplans = 4;
         [Min(0)] public int maxQueuedPerActor = 8;
 
+        [Header("Instinct")]
+        [Tooltip("Ticks between an idle computer-controlled unit's looks around for something to attack.")]
+        [Min(1)] public int predatorScanIntervalTicks = 5;
+        [Tooltip("Extra path cost of one destructible blocker cell for something that can breach. Straight steps cost 10.")]
+        [Min(0)] public int breachCost = 74;
+
         [Header("Logistics")]
         [Min(1)] public int reservationLifetimeTicks = 50;
         public string groundPileDefinitionId = "pile";
@@ -34,7 +40,7 @@ namespace JurassicPark.Presentation
 
         public SimConfig ToSimConfig() => new SimConfig(ticksPerSecond, maxStepsPerAdvance, seed);
         public CommandRouterConfig ToRouterConfig() => new CommandRouterConfig(rememberedResultsPerSeat, maxPendingPerSeat, maxCommandIdGap);
-        public TaskConfig ToTaskConfig() => new TaskConfig(replanIntervalTicks, maxReplans, maxQueuedPerActor, new PathOptions());
+        public TaskConfig ToTaskConfig() => new TaskConfig(replanIntervalTicks, maxReplans, maxQueuedPerActor, new PathOptions(), new PathOptions(allowBreach: true, breachCost: breachCost));
         public LogisticsConfig ToLogisticsConfig() => new LogisticsConfig(reservationLifetimeTicks, groundPileDefinitionId);
     }
 }

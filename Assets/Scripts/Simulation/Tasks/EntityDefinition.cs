@@ -42,13 +42,34 @@ namespace JurassicPark.Simulation
         /// <summary>A gate can be opened, which frees its cells, and closed, which blocks them again.</summary>
         public bool IsGate { get; }
 
+        /// <summary>Damage per hit and seconds between hits. Zero damage for anything that cannot attack.</summary>
+        public int AttackDamage { get; }
+        public float AttackSeconds { get; }
+
+        /// <summary>How far, in metres, it notices enemies on its own. Zero for anything that only acts on orders.</summary>
+        public float PerceptionRadius { get; }
+
+        /// <summary>Whether it will break through destructible blockers when nothing else leads to its target.</summary>
+        public bool CanBreach { get; }
+
         public bool IsBuildable => BuildCost != null;
+        public bool CanAttack => AttackDamage > 0;
 
         public EntityDefinition(string id, float moveSpeed, int storageCapacity = 0, bool isDepot = false,
             float gatherSecondsPerUnit = 0f, string nodeResource = null, int nodeAmount = 0,
             int footprintWidth = 1, int footprintHeight = 1, bool blocks = false, bool destructible = true, int maxHealth = 0,
-            IReadOnlyDictionary<string, int> buildCost = null, float buildWorkSeconds = 0f, bool isGate = false)
+            IReadOnlyDictionary<string, int> buildCost = null, float buildWorkSeconds = 0f, bool isGate = false,
+            int attackDamage = 0, float attackSeconds = 1f, float perceptionRadius = 0f, bool canBreach = false)
         {
+            if (attackDamage < 0) throw new ArgumentOutOfRangeException(nameof(attackDamage));
+            if (!(attackSeconds > 0f)) throw new ArgumentOutOfRangeException(nameof(attackSeconds));
+            if (!(perceptionRadius >= 0f)) throw new ArgumentOutOfRangeException(nameof(perceptionRadius));
+            // A destructible blocker without hit points would be priced as breakable and never break: an attacker would gnaw at it forever.
+            if (blocks && destructible && maxHealth < 1) throw new ArgumentException($"'{id}' blocks and is destructible but has no hit points.", nameof(maxHealth));
+            AttackDamage = attackDamage;
+            AttackSeconds = attackSeconds;
+            PerceptionRadius = perceptionRadius;
+            CanBreach = canBreach;
             if (footprintWidth < 1 || footprintHeight < 1) throw new ArgumentOutOfRangeException(nameof(footprintWidth));
             if (maxHealth < 0) throw new ArgumentOutOfRangeException(nameof(maxHealth));
             if (buildCost != null && !(buildWorkSeconds > 0f)) throw new ArgumentOutOfRangeException(nameof(buildWorkSeconds), "A buildable thing needs work time.");

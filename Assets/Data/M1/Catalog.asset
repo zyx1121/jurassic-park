@@ -25,7 +25,11 @@ MonoBehaviour:
     footprintWidth: 1
     footprintHeight: 1
     destructible: 1
-    maxHealth: 0
+    maxHealth: 60
+    attackDamage: 0
+    attackSeconds: 1
+    perceptionRadius: 0
+    canBreach: 0
     buildCost: []
     buildWorkSeconds: 0
     isGate: 0
@@ -45,6 +49,10 @@ MonoBehaviour:
     footprintHeight: 2
     destructible: 1
     maxHealth: 400
+    attackDamage: 0
+    attackSeconds: 1
+    perceptionRadius: 0
+    canBreach: 0
     buildCost: []
     buildWorkSeconds: 0
     isGate: 0
@@ -64,6 +72,10 @@ MonoBehaviour:
     footprintHeight: 1
     destructible: 1
     maxHealth: 120
+    attackDamage: 0
+    attackSeconds: 1
+    perceptionRadius: 0
+    canBreach: 0
     buildCost:
     - resource: wood
       amount: 6
@@ -85,6 +97,10 @@ MonoBehaviour:
     footprintHeight: 1
     destructible: 1
     maxHealth: 100
+    attackDamage: 0
+    attackSeconds: 1
+    perceptionRadius: 0
+    canBreach: 0
     buildCost:
     - resource: wood
       amount: 8
@@ -106,12 +122,39 @@ MonoBehaviour:
     footprintHeight: 1
     destructible: 0
     maxHealth: 0
+    attackDamage: 0
+    attackSeconds: 1
+    perceptionRadius: 0
+    canBreach: 0
     buildCost: []
     buildWorkSeconds: 0
     isGate: 0
     shape: 2
     color: {r: 0.17, g: 0.35, b: 0.31, a: 1}
     size: {x: 1.3, y: 1.7, z: 1.3}
+  - id: raptor
+    kind: 1
+    moveSpeed: 6
+    storageCapacity: 0
+    isDepot: 0
+    gatherSecondsPerUnit: 0
+    nodeResource: 
+    nodeAmount: 0
+    blocks: 0
+    footprintWidth: 1
+    footprintHeight: 1
+    destructible: 1
+    maxHealth: 120
+    attackDamage: 12
+    attackSeconds: 0.8
+    perceptionRadius: 28
+    canBreach: 1
+    buildCost: []
+    buildWorkSeconds: 0
+    isGate: 0
+    shape: 0
+    color: {r: 0.45, g: 0.62, b: 0.3, a: 1}
+    size: {x: 1.1, y: 0.7, z: 1.1}
   - id: pile
     kind: 4
     moveSpeed: 0
@@ -125,6 +168,10 @@ MonoBehaviour:
     footprintHeight: 1
     destructible: 1
     maxHealth: 0
+    attackDamage: 0
+    attackSeconds: 1
+    perceptionRadius: 0
+    canBreach: 0
     buildCost: []
     buildWorkSeconds: 0
     isGate: 0

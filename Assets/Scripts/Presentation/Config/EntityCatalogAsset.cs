@@ -31,6 +31,13 @@ namespace JurassicPark.Presentation
             public bool destructible = true;
             [Min(0)] public int maxHealth;
 
+            [Header("Combat and instinct")]
+            [Min(0)] public int attackDamage;
+            [Min(0.05f)] public float attackSeconds = 1f;
+            [Tooltip("Metres within which a computer-controlled unit attacks on its own. Zero for units that only act on orders.")]
+            [Min(0f)] public float perceptionRadius;
+            public bool canBreach;
+
             [Header("Construction (empty cost = not buildable)")]
             public CostEntry[] buildCost = Array.Empty<CostEntry>();
             [Min(0f)] public float buildWorkSeconds;
@@ -57,7 +64,8 @@ namespace JurassicPark.Presentation
                 }
                 return new EntityDefinition(id, moveSpeed, storageCapacity, isDepot, gatherSecondsPerUnit,
                     string.IsNullOrEmpty(nodeResource) ? null : nodeResource, nodeAmount,
-                    footprintWidth, footprintHeight, blocks, destructible, maxHealth, cost, buildWorkSeconds, isGate);
+                    footprintWidth, footprintHeight, blocks, destructible, maxHealth, cost, buildWorkSeconds, isGate,
+                    attackDamage, attackSeconds, perceptionRadius, canBreach);
             }
         }
 

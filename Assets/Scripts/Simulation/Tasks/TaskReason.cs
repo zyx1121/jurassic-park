@@ -30,5 +30,8 @@ namespace JurassicPark.Simulation
         Built = 22,
         NoMaterialsAvailable = 23,
         SiteGone = 24,
+        TargetDestroyed = 25,
+        Breaching = 26,
+        ActorCannotAttack = 27,
     }
 }

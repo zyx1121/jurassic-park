@@ -150,6 +150,9 @@ namespace JurassicPark.Simulation
                 {
                     var neighbour = new Cell(cell.X + GridDirections.X[d], cell.Y + GridDirections.Y[d]);
                     if (!map.InBounds(neighbour) || !map.IsWalkable(neighbour)) continue;
+                    // A diagonal neighbour touches the footprint only if the corner is open: with both orthogonal connectors
+                    // blocked there is a wall between them, and nothing can be gathered, built or bitten through a wall.
+                    if (!Touches(map, neighbour, cell)) continue;
                     int index = map.IndexOf(neighbour);
                     if (inFootprint.Contains(index) || !seen.Add(index)) continue;
                     candidates.Add(neighbour);
@@ -159,6 +162,21 @@ namespace JurassicPark.Simulation
             candidates.Sort((a, b) => map.IndexOf(a).CompareTo(map.IndexOf(b)));
             return candidates;
         }
+
+        /// <summary>
+        /// True when something standing on <paramref name="from"/> is in contact with <paramref name="target"/>: the same cell,
+        /// an orthogonal neighbour, or a diagonal neighbour with at least one of the two connecting cells open. Two walls meeting
+        /// at a corner keep the cells on either side of the corner apart.
+        /// </summary>
+        public static bool Touches(GridMap map, Cell from, Cell target)
+        {
+            int dx = target.X - from.X, dy = target.Y - from.Y;
+            if (dx < -1 || dx > 1 || dy < -1 || dy > 1) return false;
+            if (dx == 0 || dy == 0) return true;
+            return IsOpen(map, new Cell(from.X + dx, from.Y)) || IsOpen(map, new Cell(from.X, from.Y + dy));
+        }
+
+        private static bool IsOpen(GridMap map, Cell cell) => map.InBounds(cell) && map.IsStaticWalkable(cell) && map.BlockerAt(cell).IsNone;
 
         private static bool IsUsableEndpoint(GridMap map, Cell cell) => map.InBounds(cell) && map.IsStaticWalkable(cell);
 

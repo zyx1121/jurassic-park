@@ -55,9 +55,10 @@ namespace JurassicPark.Editor
             {
                 new ScenarioAsset.SeatEntry { id = 1, displayName = "Red", team = 1, controller = SeatController.Human },
                 new ScenarioAsset.SeatEntry { id = 2, displayName = "Blue", team = 1, controller = SeatController.Computer, playable = true },
+                new ScenarioAsset.SeatEntry { id = 8, displayName = "Dinosaurs", team = 2, controller = SeatController.Computer, playable = false },
             };
             scenario.localSeat = 1;
-            scenario.placements = Placements(trees, depotAnchor, redStarts, blueStarts);
+            scenario.placements = Placements(trees, depotAnchor, redStarts, blueStarts, new[] { new Cell(44, 26), new Cell(45, 6) });
             foreach (Object asset in new Object[] { settings, catalog, mapAsset, scenario }) EditorUtility.SetDirty(asset);
 
             Material entityMaterial = MaterialAsset($"{MaterialFolder}/Entity.mat", "Universal Render Pipeline/Lit", Color.white, true);
@@ -144,7 +145,7 @@ namespace JurassicPark.Editor
 
         private static EntityCatalogAsset.Entry[] Catalog() => new[]
         {
-            new EntityCatalogAsset.Entry { id = "survivor", kind = EntityKind.Unit, moveSpeed = 4.5f, storageCapacity = 10, gatherSecondsPerUnit = 0.6f,
+            new EntityCatalogAsset.Entry { id = "survivor", kind = EntityKind.Unit, moveSpeed = 4.5f, storageCapacity = 10, gatherSecondsPerUnit = 0.6f, maxHealth = 60,
                 shape = PlaceholderShape.Capsule, color = new Color(0.93f, 0.80f, 0.55f), size = new Vector3(0.7f, 0.85f, 0.7f) },
             new EntityCatalogAsset.Entry { id = "depot", kind = EntityKind.Building, storageCapacity = 200, isDepot = true, blocks = true, footprintWidth = 2, footprintHeight = 2, maxHealth = 400,
                 shape = PlaceholderShape.Box, color = new Color(0.62f, 0.44f, 0.29f), size = new Vector3(3.6f, 2.2f, 3.6f) },
@@ -156,6 +157,8 @@ namespace JurassicPark.Editor
                 shape = PlaceholderShape.Box, color = new Color(0.72f, 0.58f, 0.36f), size = new Vector3(1.9f, 1.8f, 1.9f) },
             new EntityCatalogAsset.Entry { id = "tree", kind = EntityKind.ResourceNode, nodeResource = "wood", nodeAmount = 40, blocks = true, destructible = false,
                 shape = PlaceholderShape.Cylinder, color = new Color(0.17f, 0.35f, 0.31f), size = new Vector3(1.3f, 1.7f, 1.3f) },
+            new EntityCatalogAsset.Entry { id = "raptor", kind = EntityKind.Unit, moveSpeed = 6f, maxHealth = 120, attackDamage = 12, attackSeconds = 0.8f, perceptionRadius = 28f, canBreach = true,
+                shape = PlaceholderShape.Capsule, color = new Color(0.45f, 0.62f, 0.30f), size = new Vector3(1.1f, 0.7f, 1.1f) },
             new EntityCatalogAsset.Entry { id = "pile", kind = EntityKind.GroundPile,
                 shape = PlaceholderShape.Sphere, color = new Color(0.81f, 0.66f, 0.47f), size = new Vector3(0.9f, 0.5f, 0.9f) },
         };
@@ -207,7 +210,7 @@ namespace JurassicPark.Editor
             return new MapDefinition(width, height, CellSize, flags, camps, regions);
         }
 
-        private static ScenarioAsset.Placement[] Placements(List<Cell> trees, Cell depot, List<Cell> red, List<Cell> blue)
+        private static ScenarioAsset.Placement[] Placements(List<Cell> trees, Cell depot, List<Cell> red, List<Cell> blue, IReadOnlyList<Cell> raptors)
         {
             var list = new List<ScenarioAsset.Placement>
             {
@@ -217,6 +220,7 @@ namespace JurassicPark.Editor
             foreach (Cell cell in trees) list.Add(new ScenarioAsset.Placement { definitionId = "tree", ownerSeat = 0, cellX = cell.X, cellY = cell.Y });
             foreach (Cell cell in red) list.Add(new ScenarioAsset.Placement { definitionId = "survivor", ownerSeat = 1, cellX = cell.X, cellY = cell.Y });
             foreach (Cell cell in blue) list.Add(new ScenarioAsset.Placement { definitionId = "survivor", ownerSeat = 2, cellX = cell.X, cellY = cell.Y });
+            foreach (Cell cell in raptors) list.Add(new ScenarioAsset.Placement { definitionId = "raptor", ownerSeat = 8, cellX = cell.X, cellY = cell.Y });
             return list.ToArray();
         }
 

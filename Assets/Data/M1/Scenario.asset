@@ -23,6 +23,11 @@ MonoBehaviour:
     team: 1
     controller: 2
     playable: 1
+  - id: 8
+    displayName: Dinosaurs
+    team: 2
+    controller: 2
+    playable: 0
   localSeat: 1
   placements:
   - definitionId: depot
@@ -121,4 +126,14 @@ MonoBehaviour:
     ownerSeat: 2
     cellX: 10
     cellY: 12
+    stock: []
+  - definitionId: raptor
+    ownerSeat: 8
+    cellX: 44
+    cellY: 26
+    stock: []
+  - definitionId: raptor
+    ownerSeat: 8
+    cellX: 45
+    cellY: 6
     stock: []
