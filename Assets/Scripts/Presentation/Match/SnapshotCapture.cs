@@ -31,6 +31,16 @@ namespace JurassicPark.Presentation
                 {
                     snapshot.NodeRemaining = node.Remaining;
                 }
+                snapshot.BuildProgress = 255;
+                snapshot.HealthFraction = 255;
+                if (runtime.Structures.TryGetSite(entity.Id, out BuildSite site))
+                {
+                    snapshot.IsSite = true;
+                    snapshot.BuildProgress = (byte)System.Math.Round(site.Progress * 254f);
+                }
+                if (runtime.Vitals.TryGet(entity.Id, out int health, out int maxHealth) && maxHealth > 0)
+                    snapshot.HealthFraction = (byte)System.Math.Round(255f * health / maxHealth);
+                snapshot.GateOpen = runtime.Structures.IsGateOpen(entity.Id);
                 SimTask task = runtime.Tasks.CurrentOf(entity.Id);
                 if (task != null)
                 {

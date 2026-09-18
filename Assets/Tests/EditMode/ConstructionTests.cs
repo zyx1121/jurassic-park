@@ -163,7 +163,7 @@ namespace JurassicPark.Tests.EditMode
         [Test]
         public void TwoBuildersShareOneSiteWithoutFetchingTheSameLogTwice()
         {
-            Entity depot = StockedDepot(FixtureMaps.CampGround, 4);
+            Entity depot = StockedDepot(FixtureMaps.CampGround, 10);
             Entity a = Place("survivor", Red, new Cell(8, 5)), b = Place("survivor", Blue, new Cell(9, 6));
             red.Send(CommandKind.Build, new[] { a.Id }, map.CenterOf(new Cell(10, 4)), argument: WallIndex);
             Run(1);
@@ -174,7 +174,7 @@ namespace JurassicPark.Tests.EditMode
             Run(300);
 
             Assert.That(structures.TryGetSite(site.Id, out _), Is.False);
-            Assert.That(goods.TryGetContainer(depot.Id, out Container store) && store.Total == 0, Is.True, "exactly four logs were taken, none stranded in a pack");
+            Assert.That(goods.TryGetContainer(depot.Id, out Container store) && store.Total == 6, Is.True, "exactly four logs were taken, none stranded in a pack");
             Assert.That(goods.TryGetContainer(a.Id, out Container packA) && packA.Total == 0, Is.True);
             Assert.That(goods.TryGetContainer(b.Id, out Container packB) && packB.Total == 0, Is.True);
         }

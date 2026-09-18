@@ -14,10 +14,19 @@ namespace JurassicPark.Simulation
         {
             TaskContext context = tasks.Context;
             if (context.Structures == null) return CommandRejection.UnsupportedKind;
-            if (!context.Catalog.TryGetByIndex(command.Argument, out EntityDefinition definition) || !definition.IsBuildable) return CommandRejection.NotBuildable;
-            Cell anchor = context.Map.CellAt(command.TargetPosition);
-            CommandRejection placement = context.Structures.CheckPlacement(definition, anchor, out _);
-            if (placement != CommandRejection.None) return placement;
+            if (!command.TargetEntity.IsNone)
+            {
+                // Help on a site that already exists, ours or an ally's.
+                if (!world.TryGet(command.TargetEntity, out Entity site) || !site.IsAlive || !context.Structures.TryGetSite(site.Id, out _)) return CommandRejection.InvalidTarget;
+                if (!context.Seats.MayUsePropertyOf(command.Seat, site.Owner)) return CommandRejection.NotAllowedOnTarget;
+            }
+            else
+            {
+                if (!context.Catalog.TryGetByIndex(command.Argument, out EntityDefinition definition) || !definition.IsBuildable) return CommandRejection.NotBuildable;
+                Cell anchor = context.Map.CellAt(command.TargetPosition);
+                CommandRejection placement = context.Structures.CheckPlacement(definition, anchor, out _);
+                if (placement != CommandRejection.None) return placement;
+            }
             bool anyBuilder = false;
             for (int i = 0; i < livingActors.Count; i++)
             {
@@ -31,8 +40,13 @@ namespace JurassicPark.Simulation
         public void Execute(World world, Command command, IReadOnlyList<Entity> livingActors)
         {
             TaskContext context = tasks.Context;
-            context.Catalog.TryGetByIndex(command.Argument, out EntityDefinition definition);
-            Entity site = context.Structures.PlaceSite(definition, command.Seat, context.Map.CellAt(command.TargetPosition));
+            Entity site;
+            if (!command.TargetEntity.IsNone) world.TryGet(command.TargetEntity, out site);
+            else
+            {
+                context.Catalog.TryGetByIndex(command.Argument, out EntityDefinition definition);
+                site = context.Structures.PlaceSite(definition, command.Seat, context.Map.CellAt(command.TargetPosition));
+            }
             if (site == null) return;
             for (int i = 0; i < livingActors.Count; i++)
                 if (CanBuild(context, livingActors[i])) tasks.Assign(livingActors[i].Id, new BuildTask(site.Id), command.Mode);

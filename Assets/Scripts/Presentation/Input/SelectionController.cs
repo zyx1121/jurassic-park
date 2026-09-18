@@ -26,6 +26,12 @@ namespace JurassicPark.Presentation
         private bool pressing;
 
         public IReadOnlyList<EntityId> Selection => selection;
+
+        /// <summary>Catalog index of the building being placed, or -1 when not placing.</summary>
+        public int PlacingIndex { get; private set; } = -1;
+
+        /// <summary>Cell under the cursor while placing.</summary>
+        public Cell PlacingCell { get; private set; }
         public bool IsDragging { get; private set; }
         public Rect DragRect { get; private set; }
 
@@ -87,6 +93,21 @@ namespace JurassicPark.Presentation
             Vector2 cursor = mouse.position.ReadValue();
             bool shift = keyboard != null && keyboard.shiftKey.isPressed;
 
+            if (keyboard != null)
+            {
+                if (keyboard.escapeKey.wasPressedThisFrame) CancelPlacing();
+                if (keyboard.bKey.wasPressedThisFrame) BeginPlacing("wall");
+                if (keyboard.gKey.wasPressedThisFrame) BeginPlacing("gate");
+                if (keyboard.deleteKey.wasPressedThisFrame || keyboard.backspaceKey.wasPressedThisFrame) DemolishAt(cursor);
+            }
+            if (PlacingIndex >= 0)
+            {
+                if (TryGroundPoint(cursor, out SimVector2 aim)) PlacingCell = CellOf(aim);
+                if (mouse.leftButton.wasPressedThisFrame) PlaceAt(cursor, shift);
+                if (mouse.rightButton.wasPressedThisFrame) CancelPlacing();
+                return;
+            }
+
             if (mouse.leftButton.wasPressedThisFrame)
             {
                 pressing = true;
@@ -145,6 +166,55 @@ namespace JurassicPark.Presentation
             OrderResolver.Order order = OrderResolver.Resolve(session.Model, selection, target, point);
             session.Commands.Send(order.Kind, selection, order.Point, order.Target, queue ? CommandMode.Queue : CommandMode.Replace);
             return order;
+        }
+
+        /// <summary>Enters placement for a buildable catalog entry. Needs a selection: somebody has to build it.</summary>
+        public bool BeginPlacing(string definitionId)
+        {
+            if (selection.Count == 0) return false;
+            EntityCatalogAsset catalog = session.CatalogAsset;
+            for (int i = 0; i < catalog.entries.Length; i++)
+            {
+                if (catalog.entries[i].id != definitionId || catalog.entries[i].buildCost.Length == 0) continue;
+                PlacingIndex = i;
+                Version++;
+                return true;
+            }
+            return false;
+        }
+
+        public void CancelPlacing()
+        {
+            if (PlacingIndex < 0) return;
+            PlacingIndex = -1;
+            Version++;
+        }
+
+        /// <summary>Sends the Build order for the cell under the screen point. The authority answers whether the site is legal.</summary>
+        public bool PlaceAt(Vector2 screenPoint, bool queue)
+        {
+            if (PlacingIndex < 0 || selection.Count == 0 || !TryGroundPoint(screenPoint, out SimVector2 point)) return false;
+            Cell cell = CellOf(point);
+            float size = session.Model.Map.CellSize;
+            var anchorPoint = new SimVector2((cell.X + 0.5f) * size, (cell.Y + 0.5f) * size);
+            session.Commands.Send(CommandKind.Build, selection, anchorPoint, EntityId.None, queue ? CommandMode.Queue : CommandMode.Replace, PlacingIndex);
+            if (!(Keyboard.current != null && Keyboard.current.shiftKey.isPressed)) CancelPlacing();
+            return true;
+        }
+
+        /// <summary>Demolishes the building under the screen point if it is ours.</summary>
+        public bool DemolishAt(Vector2 screenPoint)
+        {
+            if (!TryPickAt(screenPoint, e => e.Kind == EntityKind.Building && e.Owner == session.Model.LocalSeat, out EntitySnapshot building)) return false;
+            IReadOnlyList<EntityId> asker = selection.Count > 0 ? selection : (IReadOnlyList<EntityId>)new[] { building.Id };
+            session.Commands.Send(CommandKind.Demolish, asker, building.Position, building.Id);
+            return true;
+        }
+
+        private Cell CellOf(SimVector2 point)
+        {
+            float size = session.Model.Map.CellSize;
+            return new Cell((int)Mathf.Floor(point.X / size), (int)Mathf.Floor(point.Y / size));
         }
 
         public void StopSelection()

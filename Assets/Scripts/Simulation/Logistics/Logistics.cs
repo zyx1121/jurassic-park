@@ -83,6 +83,9 @@ namespace JurassicPark.Simulation
         }
         public bool TryGetNode(EntityId holder, out ResourceNode node) => nodes.TryGetValue(holder, out node);
 
+        /// <summary>Room in the container already promised to deposits, by anyone.</summary>
+        public int ReservedRoomIn(EntityId holder) => containers.TryGetValue(holder, out Container container) ? container.ReservedForDeposit : 0;
+
         /// <summary>Goods in the container that no withdrawal reservation other than <paramref name="onBehalfOf"/>'s has claimed.</summary>
         public int AvailableIn(EntityId holder, string resource, TaskId onBehalfOf = default)
         {
@@ -164,6 +167,17 @@ namespace JurassicPark.Simulation
                 reservations.Remove(reservation.Id);
                 reservationOrder.Remove(reservation.Id);
             }
+        }
+
+        /// <summary>Setup only: puts goods into a container as the scenario's starting stock, before the first tick. Never a way to make goods during a match.</summary>
+        public int Seed(EntityId holder, string resource, int amount)
+        {
+            if (world.Tick != 0) throw new InvalidOperationException("Starting stock is placed before the match begins.");
+            if (amount < 1 || string.IsNullOrEmpty(resource) || !containers.TryGetValue(holder, out Container container)) return 0;
+            int placed = Math.Min(amount, container.FreeCapacity);
+            if (placed < 1) return 0;
+            container.Add(resource, placed);
+            return placed;
         }
 
         // ---- movements of goods ----

@@ -29,75 +29,96 @@ MonoBehaviour:
     ownerSeat: 1
     cellX: 12
     cellY: 15
+    stock:
+    - resource: wood
+      amount: 60
   - definitionId: tree
     ownerSeat: 0
     cellX: 30
     cellY: 12
+    stock: []
   - definitionId: tree
     ownerSeat: 0
     cellX: 31
     cellY: 13
+    stock: []
   - definitionId: tree
     ownerSeat: 0
     cellX: 32
     cellY: 11
+    stock: []
   - definitionId: tree
     ownerSeat: 0
     cellX: 33
     cellY: 13
+    stock: []
   - definitionId: tree
     ownerSeat: 0
     cellX: 34
     cellY: 12
+    stock: []
   - definitionId: tree
     ownerSeat: 0
     cellX: 31
     cellY: 10
+    stock: []
   - definitionId: tree
     ownerSeat: 0
     cellX: 38
     cellY: 22
+    stock: []
   - definitionId: tree
     ownerSeat: 0
     cellX: 39
     cellY: 24
+    stock: []
   - definitionId: tree
     ownerSeat: 0
     cellX: 40
     cellY: 22
+    stock: []
   - definitionId: tree
     ownerSeat: 0
     cellX: 41
     cellY: 25
+    stock: []
   - definitionId: tree
     ownerSeat: 0
     cellX: 37
     cellY: 25
+    stock: []
   - definitionId: tree
     ownerSeat: 0
     cellX: 26
     cellY: 5
+    stock: []
   - definitionId: tree
     ownerSeat: 0
     cellX: 28
     cellY: 6
+    stock: []
   - definitionId: tree
     ownerSeat: 0
     cellX: 24
     cellY: 6
+    stock: []
   - definitionId: survivor
     ownerSeat: 1
     cellX: 15
     cellY: 14
+    stock: []
   - definitionId: survivor
     ownerSeat: 1
     cellX: 16
     cellY: 16
+    stock: []
   - definitionId: survivor
     ownerSeat: 1
     cellX: 15
     cellY: 18
+    stock: []
   - definitionId: survivor
     ownerSeat: 2
     cellX: 10
     cellY: 12
+    stock: []

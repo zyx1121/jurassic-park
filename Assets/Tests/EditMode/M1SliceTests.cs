@@ -71,7 +71,7 @@ namespace JurassicPark.Tests.EditMode
             for (int i = 0; i < 1200 && (i < 10 || workers.Any(w => runtime.Tasks.CurrentOf(w) != null)); i++) runtime.World.Step();
 
             runtime.Logistics.TryGetContainer(depot.Id, out Container store);
-            Assert.That(store.AmountOf("wood"), Is.EqualTo(40));
+            Assert.That(store.AmountOf("wood"), Is.EqualTo(60 + 40), "the starting stock plus the whole tree");
             Assert.That(runtime.Logistics.LiveReservationCount, Is.EqualTo(0));
             Assert.That(runtime.World.IsFaulted, Is.False);
         }
@@ -143,6 +143,29 @@ namespace JurassicPark.Tests.EditMode
             Assert.That(mesh.vertexCount, Is.EqualTo((48 * 32 + visibleSides) * 4), "hidden cliff faces are not emitted");
             Assert.That(mesh.bounds.size.x, Is.EqualTo(96f).Within(0.01f));
             Object.DestroyImmediate(mesh);
+        }
+
+        [Test]
+        public void ABuildOrderOnTheEntrancePutsUpAWallFromTheDepotsStartingStock()
+        {
+            SimulationRuntime runtime = Build();
+            Entity depot = runtime.World.Entities.Single(e => e.DefinitionId == "depot");
+            runtime.Logistics.TryGetContainer(depot.Id, out Container store);
+            Assert.That(store.AmountOf("wood"), Is.EqualTo(60), "the scenario seeds the depot");
+            EntityId[] workers = runtime.World.Entities.Where(e => e.DefinitionId == "survivor" && e.Owner == runtime.LocalSeat).Select(e => e.Id).ToArray();
+            var entrance = new Cell(21, 15);
+            Assert.That(runtime.Map.IsWalkable(entrance), Is.True);
+
+            SenderOf(runtime).Send(CommandKind.Build, workers, runtime.Map.CenterOf(entrance), argument: runtime.Catalog.IndexOf("wall"));
+            runtime.World.Step();
+            Assert.That(runtime.World.DrainEvents().OfType<CommandResolved>().Single().Accepted, Is.True);
+            Assert.That(runtime.Map.IsWalkable(entrance), Is.False, "the site blocks at once");
+            for (int i = 0; i < 1500 && runtime.Structures.SiteCount > 0; i++) runtime.World.Step();
+
+            Assert.That(runtime.Structures.SiteCount, Is.EqualTo(0), "built");
+            Assert.That(store.AmountOf("wood"), Is.EqualTo(54));
+            Assert.That(runtime.Map.IsDestructibleBlocker(entrance), Is.True);
+            Assert.That(runtime.Logistics.LiveReservationCount, Is.EqualTo(0));
         }
     }
 }
