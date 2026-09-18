@@ -31,6 +31,8 @@ namespace JurassicPark.Presentation
         {
             if (!target.HasValue) return new Order(CommandKind.Move, EntityId.None, point);
             EntitySnapshot t = target.Value;
+            // A remembered thing may be long gone: as in the original, the order is a walk to where it was last seen.
+            if (t.Remembered) return new Order(CommandKind.Move, EntityId.None, t.Position);
             if (t.Kind == EntityKind.ResourceNode && t.NodeRemaining > 0) return new Order(CommandKind.Gather, t.Id, t.Position);
             if (t.Kind == EntityKind.GroundPile) return new Order(CommandKind.Pickup, t.Id, t.Position);
             if (!model.Match.Helicopter.IsNone && t.Id == model.Match.Helicopter) return new Order(CommandKind.Board, t.Id, t.Position);

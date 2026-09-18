@@ -28,7 +28,7 @@ namespace JurassicPark.Net
 
         public const int MaxActorsPerCommand = 128;
         public const int MaxEntitiesPerSnapshot = 4096;
-        private const int EntityBytes = 8 + 2 + 1 + 4 + 4 + 4 + 2 + 2 + 4 + 1 + 1 + 1 + 1 + 1 + 1 + 1;
+        private const int EntityBytes = 8 + 2 + 1 + 4 + 4 + 4 + 2 + 2 + 4 + 1 + 1 + 1 + 1 + 1 + 1 + 1 + 1;   // + Remembered
 
         // ---- command: client to host. The seat is deliberately absent. ----
 
@@ -262,6 +262,7 @@ namespace JurassicPark.Net
                 writer.WriteValueSafe(e.IsSite);
                 writer.WriteValueSafe(e.HealthFraction);
                 writer.WriteValueSafe(e.GateOpen);
+                writer.WriteValueSafe(e.Remembered);
             }
             return writer;
         }
@@ -293,6 +294,7 @@ namespace JurassicPark.Net
                 reader.ReadValue(out e.IsSite);
                 reader.ReadValue(out e.HealthFraction);
                 reader.ReadValue(out e.GateOpen);
+                reader.ReadValue(out e.Remembered);
                 if (owner < 0 || float.IsNaN(x) || float.IsNaN(y) || float.IsInfinity(x) || float.IsInfinity(y)) return false;
                 e.Id = new EntityId(id);
                 e.Kind = (EntityKind)kind;

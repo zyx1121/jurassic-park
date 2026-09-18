@@ -120,8 +120,8 @@ namespace JurassicPark.Net
                 network.CustomMessagingManager.SendNamedMessage(NetMessages.Answer, clientId, writer, NetworkDelivery.ReliableSequenced);
         }
 
-        /// <summary>Each client gets what its seat may see, and its team's fog when that changed. The host's own list is not reused: it is the host's view.</summary>
-        private void BroadcastSnapshot(long tick, IReadOnlyList<EntitySnapshot> entities)
+        /// <summary>Each client gets what its seat may see, and its team's fog when that changed. The host's own list is only the host's view and is not reused.</summary>
+        private void BroadcastSnapshot(long tick, IReadOnlyList<EntitySnapshot> hostView)
         {
             if (remoteClients.Count == 0) return;
             SimulationRuntime runtime = session.Runtime;

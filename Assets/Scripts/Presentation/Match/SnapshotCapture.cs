@@ -44,7 +44,12 @@ namespace JurassicPark.Presentation
             {
                 if (memory.SeenThisCapture.Contains(pair.Key)) continue;
                 if (knowledge.At(forSeat, runtime.Map.CellAt(pair.Value.Position)) == Visibility.Visible) memory.Forget.Add(pair.Key);
-                else into.Add(pair.Value);
+                else
+                {
+                    EntitySnapshot ghost = pair.Value;
+                    ghost.Remembered = true;
+                    into.Add(ghost);
+                }
             }
             for (int i = 0; i < memory.Forget.Count; i++) remembered.Remove(memory.Forget[i]);
         }

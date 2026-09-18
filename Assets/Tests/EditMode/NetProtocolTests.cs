@@ -66,7 +66,7 @@ namespace JurassicPark.Tests.EditMode
             {
                 new EntitySnapshot { Id = new EntityId(16), DefinitionIndex = 0, Kind = EntityKind.Unit, Owner = new SeatId(1), Position = new SimVector2(31f, 29.5f),
                     PackTotal = 7, PackCapacity = 10, Task = TaskKindCode.Gather, TaskState = TaskState.Blocked, TaskReason = TaskReason.SourceEmpty, BuildProgress = 255, HealthFraction = 200 },
-                new EntitySnapshot { Id = new EntityId(30), DefinitionIndex = 4, Kind = EntityKind.Building, Owner = new SeatId(1), Position = new SimVector2(24f, 30f), IsSite = true, BuildProgress = 90, HealthFraction = 255, GateOpen = true },
+                new EntitySnapshot { Id = new EntityId(30), DefinitionIndex = 4, Kind = EntityKind.Building, Owner = new SeatId(1), Position = new SimVector2(24f, 30f), IsSite = true, BuildProgress = 90, HealthFraction = 255, GateOpen = true, Remembered = true },
                 new EntitySnapshot { Id = new EntityId(2), DefinitionIndex = 2, Kind = EntityKind.ResourceNode, Owner = SeatId.None, Position = new SimVector2(61f, 25f), NodeRemaining = 33 },
             };
             using FastBufferWriter writer = NetMessages.WriteSnapshot(512, sent);

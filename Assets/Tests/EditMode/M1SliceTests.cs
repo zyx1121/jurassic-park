@@ -290,7 +290,9 @@ namespace JurassicPark.Tests.EditMode
             sender.Send(CommandKind.Move, new[] { scout }, depot.Position, EntityId.None);
             for (int i = 0; i < 600 && runtime.Knowledge.At(team, treeCell) == Visibility.Visible; i++) { runtime.World.Step(); Refresh(model, runtime, memory); }
             Assert.That(runtime.Knowledge.At(team, treeCell), Is.EqualTo(Visibility.Explored));
-            Assert.That(model.TryGet(tree.Id, out _), Is.True, "a tree seen once is remembered where it stood");
+            Assert.That(model.TryGet(tree.Id, out EntitySnapshot ghost), Is.True, "a tree seen once is remembered where it stood");
+            Assert.That(ghost.Remembered, Is.True);
+            Assert.That(OrderResolver.Resolve(model, new[] { scout }, ghost, ghost.Position).Kind, Is.EqualTo(CommandKind.Move), "an order on a memory is a walk to where it was");
             Assert.That(memory.Remembers(team, tree.Id), Is.True);
 
             // Felled in the dark: nobody saw it go, so the memory stands.
