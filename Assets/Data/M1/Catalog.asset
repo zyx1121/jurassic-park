@@ -26,6 +26,8 @@ MonoBehaviour:
     footprintHeight: 1
     destructible: 1
     maxHealth: 60
+    sightDay: 10.9
+    sightNight: 2.7
     attackDamage: 0
     attackSeconds: 1
     perceptionRadius: 0
@@ -49,6 +51,8 @@ MonoBehaviour:
     footprintHeight: 2
     destructible: 1
     maxHealth: 400
+    sightDay: 6.25
+    sightNight: 6.25
     attackDamage: 0
     attackSeconds: 1
     perceptionRadius: 0
@@ -72,6 +76,8 @@ MonoBehaviour:
     footprintHeight: 1
     destructible: 1
     maxHealth: 120
+    sightDay: 4
+    sightNight: 1.5
     attackDamage: 0
     attackSeconds: 1
     perceptionRadius: 0
@@ -97,6 +103,8 @@ MonoBehaviour:
     footprintHeight: 1
     destructible: 1
     maxHealth: 100
+    sightDay: 4
+    sightNight: 1.5
     attackDamage: 0
     attackSeconds: 1
     perceptionRadius: 0
@@ -122,6 +130,8 @@ MonoBehaviour:
     footprintHeight: 1
     destructible: 0
     maxHealth: 0
+    sightDay: 0
+    sightNight: 0
     attackDamage: 0
     attackSeconds: 1
     perceptionRadius: 0
@@ -145,6 +155,8 @@ MonoBehaviour:
     footprintHeight: 1
     destructible: 1
     maxHealth: 120
+    sightDay: 12
+    sightNight: 12
     attackDamage: 12
     attackSeconds: 0.8
     perceptionRadius: 28
@@ -168,6 +180,8 @@ MonoBehaviour:
     footprintHeight: 1
     destructible: 1
     maxHealth: 90
+    sightDay: 12
+    sightNight: 12
     attackDamage: 9
     attackSeconds: 0.9
     perceptionRadius: 24
@@ -191,6 +205,8 @@ MonoBehaviour:
     footprintHeight: 1
     destructible: 1
     maxHealth: 260
+    sightDay: 12
+    sightNight: 12
     attackDamage: 18
     attackSeconds: 1.6
     perceptionRadius: 16
@@ -214,6 +230,8 @@ MonoBehaviour:
     footprintHeight: 1
     destructible: 1
     maxHealth: 320
+    sightDay: 12
+    sightNight: 12
     attackDamage: 22
     attackSeconds: 1.5
     perceptionRadius: 18
@@ -237,6 +255,8 @@ MonoBehaviour:
     footprintHeight: 1
     destructible: 1
     maxHealth: 420
+    sightDay: 12
+    sightNight: 12
     attackDamage: 30
     attackSeconds: 1.2
     perceptionRadius: 30
@@ -260,6 +280,8 @@ MonoBehaviour:
     footprintHeight: 1
     destructible: 1
     maxHealth: 600
+    sightDay: 12
+    sightNight: 12
     attackDamage: 45
     attackSeconds: 1.4
     perceptionRadius: 34
@@ -283,6 +305,8 @@ MonoBehaviour:
     footprintHeight: 1
     destructible: 1
     maxHealth: 70
+    sightDay: 12
+    sightNight: 12
     attackDamage: 8
     attackSeconds: 0.7
     perceptionRadius: 30
@@ -306,6 +330,8 @@ MonoBehaviour:
     footprintHeight: 1
     destructible: 1
     maxHealth: 12
+    sightDay: 12
+    sightNight: 12
     attackDamage: 2
     attackSeconds: 0.5
     perceptionRadius: 14
@@ -329,6 +355,8 @@ MonoBehaviour:
     footprintHeight: 2
     destructible: 1
     maxHealth: 0
+    sightDay: 0
+    sightNight: 0
     attackDamage: 0
     attackSeconds: 1
     perceptionRadius: 0
@@ -352,6 +380,8 @@ MonoBehaviour:
     footprintHeight: 1
     destructible: 1
     maxHealth: 0
+    sightDay: 0
+    sightNight: 0
     attackDamage: 0
     attackSeconds: 1
     perceptionRadius: 0

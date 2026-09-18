@@ -25,6 +25,9 @@ namespace JurassicPark.Net
 
         private readonly List<EntitySnapshot> receivedEntities = new List<EntitySnapshot>();
         private readonly List<SeatSnapshot> receivedSeats = new List<SeatSnapshot>();
+        private readonly List<byte> receivedFog = new List<byte>();
+        private readonly List<EntitySnapshot> perSeat = new List<EntitySnapshot>();
+        private readonly Dictionary<ulong, long> fogRevisionSent = new Dictionary<ulong, long>();
         private readonly List<ulong> remoteClients = new List<ulong>();
         private SeatBinder binder;
         private HostProtocol host;
@@ -96,6 +99,7 @@ namespace JurassicPark.Net
         private void OnClientDisconnectedFromHost(ulong clientId)
         {
             remoteClients.Remove(clientId);
+            fogRevisionSent.Remove(clientId);
             bool hadSeat = binder.TryGetSeat(clientId, out SeatId seat);
             host.OnClientLeft(clientId);
             if (hadSeat) Debug.Log($"[NetSession] client {clientId} left; the computer takes {seat}");
@@ -116,13 +120,27 @@ namespace JurassicPark.Net
                 network.CustomMessagingManager.SendNamedMessage(NetMessages.Answer, clientId, writer, NetworkDelivery.ReliableSequenced);
         }
 
+        /// <summary>Each client gets what its seat may see, and its team's fog when that changed. The host's own list is not reused: it is the host's view.</summary>
         private void BroadcastSnapshot(long tick, IReadOnlyList<EntitySnapshot> entities)
         {
             if (remoteClients.Count == 0) return;
-            // Reliable and fragmented for now: a full snapshot outgrows one datagram as soon as the map fills up. Delta snapshots
-            // over an unreliable channel are the follow-up once there is content to measure.
-            using (FastBufferWriter writer = NetMessages.WriteSnapshot(tick, entities))
-                network.CustomMessagingManager.SendNamedMessage(NetMessages.Snapshot, remoteClients, writer, NetworkDelivery.ReliableFragmentedSequenced);
+            SimulationRuntime runtime = session.Runtime;
+            for (int i = 0; i < remoteClients.Count; i++)
+            {
+                ulong client = remoteClients[i];
+                if (!binder.TryGetSeat(client, out SeatId seat)) continue;
+                SnapshotCapture.Entities(runtime, session.CatalogAsset, perSeat, seat);
+                // Reliable and fragmented for now: a full snapshot outgrows one datagram as soon as the map fills up. Delta snapshots
+                // over an unreliable channel are the follow-up once there is content to measure.
+                using (FastBufferWriter writer = NetMessages.WriteSnapshot(tick, perSeat))
+                    network.CustomMessagingManager.SendNamedMessage(NetMessages.Snapshot, client, writer, NetworkDelivery.ReliableFragmentedSequenced);
+                int team = runtime.Knowledge.TeamOf(seat);
+                long revision = runtime.Knowledge.RevisionOf(team);
+                if (fogRevisionSent.TryGetValue(client, out long sent) && sent == revision) continue;
+                fogRevisionSent[client] = revision;
+                using (FastBufferWriter fog = NetMessages.WriteFog(runtime.Map.Width, runtime.Map.Height, runtime.Knowledge.CellsOf(team), revision))
+                    network.CustomMessagingManager.SendNamedMessage(NetMessages.Fog, client, fog, NetworkDelivery.ReliableFragmentedSequenced);
+            }
         }
 
         /// <summary>Each client gets the match as its own seat sees it: boarded count and outcome are per seat.</summary>
@@ -166,6 +184,7 @@ namespace JurassicPark.Net
             messages.RegisterNamedMessageHandler(NetMessages.Seats, OnSeats);
             messages.RegisterNamedMessageHandler(NetMessages.Answer, OnAnswer);
             messages.RegisterNamedMessageHandler(NetMessages.Match, OnMatch);
+            messages.RegisterNamedMessageHandler(NetMessages.Fog, OnFog);
             messages.RegisterNamedMessageHandler(NetMessages.MatchFull, OnMatchFull);
             return true;
         }
@@ -214,6 +233,11 @@ namespace JurassicPark.Net
         private void OnSeats(ulong sender, FastBufferReader reader)
         {
             if (NetMessages.TryReadSeats(ref reader, receivedSeats)) session.ApplyRemoteSeats(receivedSeats);
+        }
+
+        private void OnFog(ulong sender, FastBufferReader reader)
+        {
+            if (NetMessages.TryReadFog(ref reader, out int width, out int height, receivedFog, out long revision)) session.ApplyRemoteFog(width, height, receivedFog, revision);
         }
 
         private void OnMatch(ulong sender, FastBufferReader reader)

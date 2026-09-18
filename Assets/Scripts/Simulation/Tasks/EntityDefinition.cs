@@ -52,6 +52,10 @@ namespace JurassicPark.Simulation
         /// <summary>Whether it will break through destructible blockers when nothing else leads to its target.</summary>
         public bool CanBreach { get; }
 
+        /// <summary>How far, in metres, this reveals the map for its seat by day and by night. Zero for something that sees nothing.</summary>
+        public float SightDay { get; }
+        public float SightNight { get; }
+
         public bool IsBuildable => BuildCost != null;
         public bool CanAttack => AttackDamage > 0;
 
@@ -59,8 +63,12 @@ namespace JurassicPark.Simulation
             float gatherSecondsPerUnit = 0f, string nodeResource = null, int nodeAmount = 0,
             int footprintWidth = 1, int footprintHeight = 1, bool blocks = false, bool destructible = true, int maxHealth = 0,
             IReadOnlyDictionary<string, int> buildCost = null, float buildWorkSeconds = 0f, bool isGate = false,
-            int attackDamage = 0, float attackSeconds = 1f, float perceptionRadius = 0f, bool canBreach = false)
+            int attackDamage = 0, float attackSeconds = 1f, float perceptionRadius = 0f, bool canBreach = false,
+            float sightDay = 0f, float sightNight = 0f)
         {
+            if (!(sightDay >= 0f) || !(sightNight >= 0f)) throw new ArgumentOutOfRangeException(nameof(sightDay));
+            SightDay = sightDay;
+            SightNight = sightNight;
             if (attackDamage < 0) throw new ArgumentOutOfRangeException(nameof(attackDamage));
             if (!(attackSeconds > 0f)) throw new ArgumentOutOfRangeException(nameof(attackSeconds));
             if (!(perceptionRadius >= 0f)) throw new ArgumentOutOfRangeException(nameof(perceptionRadius));

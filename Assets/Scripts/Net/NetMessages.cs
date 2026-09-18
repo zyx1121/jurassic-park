@@ -21,9 +21,10 @@ namespace JurassicPark.Net
         public const string Welcome = "jp.welcome";
         public const string MatchFull = "jp.full";
         public const string Match = "jp.match";
+        public const string Fog = "jp.fog";
 
         /// <summary>Bumped whenever the byte layout changes, so mismatched builds refuse each other instead of misreading.</summary>
-        public const ushort ProtocolVersion = 3;
+        public const ushort ProtocolVersion = 4;
 
         public const int MaxActorsPerCommand = 128;
         public const int MaxEntitiesPerSnapshot = 4096;
@@ -157,6 +158,39 @@ namespace JurassicPark.Net
                 reader.ReadValue(out byte controller);
                 if (id < 0) return false;
                 into.Add(new SeatSnapshot { Id = new SeatId(id), Team = team, Controller = (SeatController)controller });
+            }
+            return true;
+        }
+
+        // ---- fog: host to each client, its team's mask when it changed ----
+
+        public const int MaxFogCells = 65536;
+
+        public static FastBufferWriter WriteFog(int width, int height, IReadOnlyList<byte> cells, long revision)
+        {
+            var writer = new FastBufferWriter(20 + cells.Count, Allocator.Temp);
+            writer.WriteValueSafe(revision);
+            writer.WriteValueSafe(width);
+            writer.WriteValueSafe(height);
+            for (int i = 0; i < cells.Count; i++) writer.WriteValueSafe(cells[i]);
+            return writer;
+        }
+
+        public static bool TryReadFog(ref FastBufferReader reader, out int width, out int height, List<byte> cells, out long revision)
+        {
+            cells.Clear();
+            width = height = 0;
+            revision = 0;
+            if (!reader.TryBeginRead(8 + 4 + 4)) return false;
+            reader.ReadValue(out revision);
+            reader.ReadValue(out width);
+            reader.ReadValue(out height);
+            if (width < 1 || height < 1 || width * height > MaxFogCells || !reader.TryBeginRead(width * height)) return false;
+            for (int i = 0; i < width * height; i++)
+            {
+                reader.ReadValue(out byte cell);
+                if (cell > 2) return false;
+                cells.Add(cell);
             }
             return true;
         }

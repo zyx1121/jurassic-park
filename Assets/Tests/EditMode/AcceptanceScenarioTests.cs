@@ -113,7 +113,7 @@ namespace JurassicPark.Tests.EditMode
 
             // 5. Enter: the raptor is inside the camp; the snapshot the screen reads says so too.
             RunUntil(() => runtime.Map.CellAt(raptor.Position).X < 21, 600, "the raptor entered the camp");
-            SnapshotCapture.Entities(runtime, Load<EntityCatalogAsset>("Catalog"), snapshot);
+            SnapshotCapture.Entities(runtime, Load<EntityCatalogAsset>("Catalog"), snapshot, runtime.LocalSeat);
             EntitySnapshot raptorOnScreen = snapshot.Single(s => s.Id == raptor.Id);
             Assert.That(runtime.Map.CellAt(raptorOnScreen.Position).X, Is.LessThan(21));
             Assert.That(snapshot.Count(s => walls.Contains(s.Id)), Is.EqualTo(2), "the broken wall is gone from the screen, the other two stand");

@@ -28,6 +28,10 @@ namespace JurassicPark.Presentation
         [Tooltip("Extra path cost of one destructible blocker cell for something that can breach. Straight steps cost 10.")]
         [Min(0)] public int breachCost = 74;
 
+        [Header("Fog of war")]
+        [Tooltip("Ticks between recomputations of what each team sees.")]
+        [Min(1)] public int sightUpdateIntervalTicks = 2;
+
         [Header("Computer ally")]
         [Min(1)] public int allyThinkIntervalTicks = 20;
         [Tooltip("Wood the ally keeps in its depot before spending on walls.")]

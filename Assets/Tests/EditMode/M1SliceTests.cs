@@ -28,7 +28,7 @@ namespace JurassicPark.Tests.EditMode
         private static void Refresh(MatchReadModel model, SimulationRuntime runtime)
         {
             var entities = new List<EntitySnapshot>();
-            SnapshotCapture.Entities(runtime, model.Catalog, entities);
+            SnapshotCapture.Entities(runtime, model.Catalog, entities, runtime.LocalSeat);
             model.Apply(model.Revision == 0 ? runtime.World.Tick : model.Tick + 1, entities);
         }
 
@@ -42,6 +42,24 @@ namespace JurassicPark.Tests.EditMode
             Load<SimulationSettingsAsset>("Simulation"), Load<MapDefinitionAsset>("Map"), Load<EntityCatalogAsset>("Catalog"), Load<ScenarioAsset>("Scenario"), Load<MatchRulesAsset>("MatchRules"));
 
         /// <summary>The computer ally is part of the scenario. Tests that count wood or walls to the unit put it to sleep by handing its seat to a human nobody is playing.</summary>
+        /// <summary>
+        /// The trees start in the dark, and an order on something unseen is a walk, as in the original. So a scout walks toward the
+        /// nearest grove until it is on the screen, then comes home, and the tests order onto that tree.
+        /// </summary>
+        private static Entity ScoutNearestTree(SimulationRuntime runtime, MatchReadModel model, CommandSender sender, EntityId scout)
+        {
+            Entity depot = runtime.World.Entities.First(e => e.DefinitionId == "depot" && e.Owner == runtime.LocalSeat);
+            Entity tree = runtime.World.Entities.Where(e => e.Kind == EntityKind.ResourceNode).OrderBy(e => SimVector2.Distance(e.Position, depot.Position)).First();
+            Assert.That(model.TryGet(tree.Id, out _), Is.False, "the grove starts in the dark");
+            sender.Send(CommandKind.Move, new[] { scout }, tree.Position, EntityId.None);
+            for (int i = 0; i < 600 && !model.TryGet(tree.Id, out _); i++) { runtime.World.Step(); Refresh(model, runtime); }
+            Assert.That(model.TryGet(tree.Id, out _), Is.True, "walking toward the grove reveals it");
+            runtime.World.TryGet(scout, out Entity worker);
+            sender.Send(CommandKind.Move, new[] { scout }, worker.Position, EntityId.None);   // stop where it stands: the trees stay explored
+            for (int i = 0; i < 20; i++) { runtime.World.Step(); Refresh(model, runtime); }
+            return tree;
+        }
+
         private static SimulationRuntime WithoutAlly(SimulationRuntime runtime)
         {
             runtime.Seats.SetController(new SeatId(2), SeatController.Human);
@@ -72,14 +90,15 @@ namespace JurassicPark.Tests.EditMode
         {
             SimulationRuntime runtime = WithoutAlly(Build());
             EntityId[] workers = runtime.World.Entities.Where(e => e.DefinitionId == "survivor" && e.Owner == runtime.LocalSeat).Select(e => e.Id).ToArray();
-            Entity tree = runtime.World.Entities.First(e => e.Kind == EntityKind.ResourceNode);
             Entity depot = runtime.World.Entities.First(e => e.DefinitionId == "depot" && e.Owner == runtime.LocalSeat);
             MatchReadModel model = ModelOf(runtime);
+            CommandSender sender = SenderOf(runtime);
+            Entity tree = ScoutNearestTree(runtime, model, sender, workers[0]);
             model.TryGet(tree.Id, out EntitySnapshot treeSnapshot);
             OrderResolver.Order order = OrderResolver.Resolve(model, workers, treeSnapshot, tree.Position);
             Assert.That(order.Kind, Is.EqualTo(CommandKind.Gather));
 
-            SenderOf(runtime).Send(order.Kind, workers, order.Point, order.Target);
+            sender.Send(order.Kind, workers, order.Point, order.Target);
             for (int i = 0; i < 1200 && (i < 10 || workers.Any(w => runtime.Tasks.CurrentOf(w) != null)); i++) runtime.World.Step();
 
             runtime.Logistics.TryGetContainer(depot.Id, out Container store);
@@ -93,10 +112,10 @@ namespace JurassicPark.Tests.EditMode
         {
             SimulationRuntime runtime = Build();
             EntityId[] worker = { runtime.World.Entities.First(e => e.DefinitionId == "survivor" && e.Owner == runtime.LocalSeat).Id };
-            Entity tree = runtime.World.Entities.First(e => e.Kind == EntityKind.ResourceNode);
             Entity depot = runtime.World.Entities.First(e => e.DefinitionId == "depot" && e.Owner == runtime.LocalSeat);
             var ground = new SimVector2(40f, 30f);
             MatchReadModel model = ModelOf(runtime);
+            Entity tree = ScoutNearestTree(runtime, model, SenderOf(runtime), worker[0]);
             EntitySnapshot Snap(Entity e) { model.TryGet(e.Id, out EntitySnapshot snapshot); return snapshot; }
 
             Assert.That(OrderResolver.Resolve(model, worker, null, ground).Kind, Is.EqualTo(CommandKind.Move));
@@ -253,5 +272,32 @@ namespace JurassicPark.Tests.EditMode
             Assert.That(store.AmountOf("wood"), Is.GreaterThan(before - 14), "its gatherer restocks the depot after the building spend");
             Assert.That(runtime.World.IsFaulted, Is.False);
         }
+
+        [Test]
+        public void TheSnapshotShowsASeatOnlyWhatItsTeamCanSee()
+        {
+            SimulationRuntime runtime = WithoutAlly(Build());
+            var catalog = Load<EntityCatalogAsset>("Catalog");
+            var red = new List<EntitySnapshot>();
+            SnapshotCapture.Entities(runtime, catalog, red, runtime.LocalSeat);
+            var dinos = new List<EntitySnapshot>();
+            SnapshotCapture.Entities(runtime, catalog, dinos, new SeatId(8));
+
+            Assert.That(red.Count(e => e.Kind == EntityKind.Unit && e.Owner == new SeatId(8)), Is.EqualTo(0), "the raptors start far outside anyone's sight");
+            Assert.That(red.Count(e => e.Kind == EntityKind.Unit && e.Owner.Value <= 2), Is.EqualTo(4), "own and allied survivors are always known");
+            Assert.That(red.Count(e => e.Kind == EntityKind.ResourceNode), Is.LessThan(14), "unexplored groves are not on the screen yet");
+            Assert.That(dinos.Count(e => e.Owner == new SeatId(8)), Is.EqualTo(2));
+            Assert.That(dinos.Count(e => e.DefinitionId(catalog) == "depot"), Is.EqualTo(0), "the dinosaurs have not seen the camp");
+
+            int team = runtime.Knowledge.TeamOf(runtime.LocalSeat);
+            Assert.That(runtime.Knowledge.VisibleCountOf(team), Is.GreaterThan(0));
+            Assert.That(runtime.Knowledge.CellsOf(team).Count(c => c == 0), Is.GreaterThan(runtime.Map.Width * runtime.Map.Height / 2), "most of the map is still dark");
+        }
+    }
+
+    internal static class SnapshotTestExtensions
+    {
+        public static string DefinitionId(this EntitySnapshot snapshot, EntityCatalogAsset catalog) =>
+            snapshot.DefinitionIndex < catalog.entries.Length ? catalog.entries[snapshot.DefinitionIndex].id : "?";
     }
 }

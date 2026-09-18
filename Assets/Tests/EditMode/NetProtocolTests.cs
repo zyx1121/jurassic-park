@@ -132,6 +132,27 @@ namespace JurassicPark.Tests.EditMode
             Assert.That(got, Is.EqualTo(sent));
         }
 
+        [Test]
+        public void TheFogMaskSurvivesTheWireAndABadCellValueIsRefused()
+        {
+            byte[] cells = { 0, 1, 2, 2, 1, 0 };
+            using (FastBufferWriter writer = NetMessages.WriteFog(3, 2, cells, 9))
+            {
+                FastBufferReader reader = ReaderOf(writer);
+                var got = new List<byte>();
+                Assert.That(NetMessages.TryReadFog(ref reader, out int w, out int h, got, out long revision), Is.True);
+                reader.Dispose();
+                Assert.That((w, h, revision), Is.EqualTo((3, 2, 9L)));
+                Assert.That(got, Is.EqualTo(cells));
+            }
+            using (FastBufferWriter writer = NetMessages.WriteFog(1, 1, new byte[] { 7 }, 1))
+            {
+                FastBufferReader reader = ReaderOf(writer);
+                Assert.That(NetMessages.TryReadFog(ref reader, out _, out _, new List<byte>(), out _), Is.False);
+                reader.Dispose();
+            }
+        }
+
         // ---------------- seat binding ----------------
 
         private static (World world, SeatRegistry seats, SeatBinder binder) Binding()

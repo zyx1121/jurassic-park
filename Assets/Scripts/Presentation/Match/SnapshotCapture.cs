@@ -6,14 +6,27 @@ namespace JurassicPark.Presentation
     /// <summary>Reads the authoritative world into snapshots. Runs on the host only: once for its own screen, and the same list goes on the wire.</summary>
     public static class SnapshotCapture
     {
-        public static void Entities(SimulationRuntime runtime, EntityCatalogAsset catalog, List<EntitySnapshot> into)
+        /// <summary>
+        /// Everything the seat is allowed to see: its own team's things always; other seats' units only in sight; other seats'
+        /// buildings and unowned things (trees, piles) wherever the team has ever looked, since they do not move.
+        /// </summary>
+        public static bool MaySee(SimulationRuntime runtime, SeatId forSeat, Entity entity)
+        {
+            Knowledge knowledge = runtime.Knowledge;
+            if (knowledge == null) return true;
+            if (knowledge.CanSee(forSeat, entity)) return true;
+            if (entity.Kind == EntityKind.Unit) return false;
+            return knowledge.At(forSeat, runtime.Map.CellAt(entity.Position)) != Visibility.Unexplored;
+        }
+
+        public static void Entities(SimulationRuntime runtime, EntityCatalogAsset catalog, List<EntitySnapshot> into, SeatId forSeat)
         {
             into.Clear();
             IReadOnlyList<Entity> entities = runtime.World.Entities;
             for (int i = 0; i < entities.Count; i++)
             {
                 Entity entity = entities[i];
-                if (!entity.IsAlive) continue;
+                if (!entity.IsAlive || !MaySee(runtime, forSeat, entity)) continue;
                 var snapshot = new EntitySnapshot
                 {
                     Id = entity.Id,

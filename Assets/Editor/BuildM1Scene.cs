@@ -69,6 +69,7 @@ namespace JurassicPark.Editor
             Material entityMaterial = MaterialAsset($"{MaterialFolder}/Entity.mat", "Universal Render Pipeline/Lit", Color.white, true);
             Material ringMaterial = MaterialAsset($"{MaterialFolder}/SelectionRing.mat", "Universal Render Pipeline/Unlit", new Color(0.45f, 1f, 0.55f), false);
             Material terrainMaterial = MaterialAsset($"{MaterialFolder}/Terrain.mat", "JurassicPark/VertexColor", Color.white, false);
+            Material fogMaterial = MaterialAsset($"{MaterialFolder}/Fog.mat", "JurassicPark/FogVertexAlpha", Color.black, false);
 
             var sessionObject = new GameObject("Session");
             var session = sessionObject.AddComponent<GameSession>();
@@ -79,6 +80,11 @@ namespace JurassicPark.Editor
             terrainObject.GetOrAdd<MeshFilter>();
             terrainObject.GetOrAdd<MeshRenderer>().sharedMaterial = terrainMaterial;
             terrainObject.AddComponent<TerrainView>().Configure(session);
+
+            var fogObject = new GameObject("Fog");
+            fogObject.GetOrAdd<MeshFilter>();
+            fogObject.GetOrAdd<MeshRenderer>().sharedMaterial = fogMaterial;
+            fogObject.AddComponent<FogView>().Configure(session);
 
             var viewsObject = new GameObject("Views");
             var views = viewsObject.AddComponent<EntityViewRegistry>();
@@ -230,33 +236,33 @@ namespace JurassicPark.Editor
 
         private static EntityCatalogAsset.Entry[] Catalog() => new[]
         {
-            new EntityCatalogAsset.Entry { id = "survivor", kind = EntityKind.Unit, moveSpeed = 4.5f, storageCapacity = 10, gatherSecondsPerUnit = 0.6f, maxHealth = 60,
+            new EntityCatalogAsset.Entry { id = "survivor", kind = EntityKind.Unit, moveSpeed = 4.5f, storageCapacity = 10, gatherSecondsPerUnit = 0.6f, maxHealth = 60, sightDay = 10.9f, sightNight = 2.7f,
                 shape = PlaceholderShape.Capsule, color = new Color(0.93f, 0.80f, 0.55f), size = new Vector3(0.7f, 0.85f, 0.7f) },
-            new EntityCatalogAsset.Entry { id = "depot", kind = EntityKind.Building, storageCapacity = 200, isDepot = true, blocks = true, footprintWidth = 2, footprintHeight = 2, maxHealth = 400,
+            new EntityCatalogAsset.Entry { id = "depot", kind = EntityKind.Building, storageCapacity = 200, isDepot = true, blocks = true, footprintWidth = 2, footprintHeight = 2, maxHealth = 400, sightDay = 6.25f, sightNight = 6.25f,
                 shape = PlaceholderShape.Box, color = new Color(0.62f, 0.44f, 0.29f), size = new Vector3(3.6f, 2.2f, 3.6f) },
-            new EntityCatalogAsset.Entry { id = "wall", kind = EntityKind.Building, blocks = true, destructible = true, maxHealth = 120, buildWorkSeconds = 6f,
+            new EntityCatalogAsset.Entry { id = "wall", kind = EntityKind.Building, blocks = true, destructible = true, maxHealth = 120, buildWorkSeconds = 6f, sightDay = 4f, sightNight = 1.5f,
                 buildCost = new[] { new EntityCatalogAsset.CostEntry { resource = "wood", amount = 6 } },
                 shape = PlaceholderShape.Box, color = new Color(0.55f, 0.47f, 0.33f), size = new Vector3(1.9f, 1.6f, 1.9f) },
-            new EntityCatalogAsset.Entry { id = "gate", kind = EntityKind.Building, blocks = true, destructible = true, maxHealth = 100, buildWorkSeconds = 8f, isGate = true,
+            new EntityCatalogAsset.Entry { id = "gate", kind = EntityKind.Building, blocks = true, destructible = true, maxHealth = 100, buildWorkSeconds = 8f, isGate = true, sightDay = 4f, sightNight = 1.5f,
                 buildCost = new[] { new EntityCatalogAsset.CostEntry { resource = "wood", amount = 8 } },
                 shape = PlaceholderShape.Box, color = new Color(0.72f, 0.58f, 0.36f), size = new Vector3(1.9f, 1.8f, 1.9f) },
             new EntityCatalogAsset.Entry { id = "tree", kind = EntityKind.ResourceNode, nodeResource = "wood", nodeAmount = 40, blocks = true, destructible = false,
                 shape = PlaceholderShape.Cylinder, color = new Color(0.17f, 0.35f, 0.31f), size = new Vector3(1.3f, 1.7f, 1.3f) },
-            new EntityCatalogAsset.Entry { id = "raptor", kind = EntityKind.Unit, moveSpeed = 6f, maxHealth = 120, attackDamage = 12, attackSeconds = 0.8f, perceptionRadius = 28f, canBreach = true,
+            new EntityCatalogAsset.Entry { id = "raptor", kind = EntityKind.Unit, sightDay = 12f, sightNight = 12f, moveSpeed = 6f, maxHealth = 120, attackDamage = 12, attackSeconds = 0.8f, perceptionRadius = 28f, canBreach = true,
                 shape = PlaceholderShape.Capsule, color = new Color(0.45f, 0.62f, 0.30f), size = new Vector3(1.1f, 0.7f, 1.1f) },
-            new EntityCatalogAsset.Entry { id = "dilophosaurus", kind = EntityKind.Unit, moveSpeed = 5f, maxHealth = 90, attackDamage = 9, attackSeconds = 0.9f, perceptionRadius = 24f, canBreach = true,
+            new EntityCatalogAsset.Entry { id = "dilophosaurus", kind = EntityKind.Unit, sightDay = 12f, sightNight = 12f, moveSpeed = 5f, maxHealth = 90, attackDamage = 9, attackSeconds = 0.9f, perceptionRadius = 24f, canBreach = true,
                 shape = PlaceholderShape.Capsule, color = new Color(0.55f, 0.55f, 0.25f), size = new Vector3(1f, 0.65f, 1f) },
-            new EntityCatalogAsset.Entry { id = "stegosaurus", kind = EntityKind.Unit, moveSpeed = 3f, maxHealth = 260, attackDamage = 18, attackSeconds = 1.6f, perceptionRadius = 16f, canBreach = true,
+            new EntityCatalogAsset.Entry { id = "stegosaurus", kind = EntityKind.Unit, sightDay = 12f, sightNight = 12f, moveSpeed = 3f, maxHealth = 260, attackDamage = 18, attackSeconds = 1.6f, perceptionRadius = 16f, canBreach = true,
                 shape = PlaceholderShape.Capsule, color = new Color(0.40f, 0.35f, 0.22f), size = new Vector3(1.6f, 0.9f, 1.6f) },
-            new EntityCatalogAsset.Entry { id = "triceratops", kind = EntityKind.Unit, moveSpeed = 3.5f, maxHealth = 320, attackDamage = 22, attackSeconds = 1.5f, perceptionRadius = 18f, canBreach = true,
+            new EntityCatalogAsset.Entry { id = "triceratops", kind = EntityKind.Unit, sightDay = 12f, sightNight = 12f, moveSpeed = 3.5f, maxHealth = 320, attackDamage = 22, attackSeconds = 1.5f, perceptionRadius = 18f, canBreach = true,
                 shape = PlaceholderShape.Capsule, color = new Color(0.50f, 0.42f, 0.30f), size = new Vector3(1.7f, 0.95f, 1.7f) },
-            new EntityCatalogAsset.Entry { id = "spinosaurus", kind = EntityKind.Unit, moveSpeed = 4.5f, maxHealth = 420, attackDamage = 30, attackSeconds = 1.2f, perceptionRadius = 30f, canBreach = true,
+            new EntityCatalogAsset.Entry { id = "spinosaurus", kind = EntityKind.Unit, sightDay = 12f, sightNight = 12f, moveSpeed = 4.5f, maxHealth = 420, attackDamage = 30, attackSeconds = 1.2f, perceptionRadius = 30f, canBreach = true,
                 shape = PlaceholderShape.Capsule, color = new Color(0.35f, 0.45f, 0.40f), size = new Vector3(1.8f, 1.2f, 1.8f) },
-            new EntityCatalogAsset.Entry { id = "trex", kind = EntityKind.Unit, moveSpeed = 5f, maxHealth = 600, attackDamage = 45, attackSeconds = 1.4f, perceptionRadius = 34f, canBreach = true,
+            new EntityCatalogAsset.Entry { id = "trex", kind = EntityKind.Unit, sightDay = 12f, sightNight = 12f, moveSpeed = 5f, maxHealth = 600, attackDamage = 45, attackSeconds = 1.4f, perceptionRadius = 34f, canBreach = true,
                 shape = PlaceholderShape.Capsule, color = new Color(0.45f, 0.30f, 0.22f), size = new Vector3(2.2f, 1.5f, 2.2f) },
-            new EntityCatalogAsset.Entry { id = "pteranodon", kind = EntityKind.Unit, moveSpeed = 7f, maxHealth = 70, attackDamage = 8, attackSeconds = 0.7f, perceptionRadius = 30f, canBreach = false,
+            new EntityCatalogAsset.Entry { id = "pteranodon", kind = EntityKind.Unit, sightDay = 12f, sightNight = 12f, moveSpeed = 7f, maxHealth = 70, attackDamage = 8, attackSeconds = 0.7f, perceptionRadius = 30f, canBreach = false,
                 shape = PlaceholderShape.Sphere, color = new Color(0.55f, 0.50f, 0.60f), size = new Vector3(1.4f, 0.6f, 1.4f) },
-            new EntityCatalogAsset.Entry { id = "insects", kind = EntityKind.Unit, moveSpeed = 6f, maxHealth = 12, attackDamage = 2, attackSeconds = 0.5f, perceptionRadius = 14f, canBreach = false,
+            new EntityCatalogAsset.Entry { id = "insects", kind = EntityKind.Unit, sightDay = 12f, sightNight = 12f, moveSpeed = 6f, maxHealth = 12, attackDamage = 2, attackSeconds = 0.5f, perceptionRadius = 14f, canBreach = false,
                 shape = PlaceholderShape.Sphere, color = new Color(0.25f, 0.25f, 0.25f), size = new Vector3(0.5f, 0.3f, 0.5f) },
             new EntityCatalogAsset.Entry { id = "helicopter", kind = EntityKind.Building, footprintWidth = 2, footprintHeight = 2,
                 shape = PlaceholderShape.Box, color = new Color(0.85f, 0.85f, 0.90f), size = new Vector3(4.5f, 2.4f, 4.5f) },

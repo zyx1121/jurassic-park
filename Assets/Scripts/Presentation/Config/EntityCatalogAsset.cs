@@ -31,6 +31,10 @@ namespace JurassicPark.Presentation
             public bool destructible = true;
             [Min(0)] public int maxHealth;
 
+            [Header("Sight (metres it reveals for its team)")]
+            [Min(0f)] public float sightDay;
+            [Min(0f)] public float sightNight;
+
             [Header("Combat and instinct")]
             [Min(0)] public int attackDamage;
             [Min(0.05f)] public float attackSeconds = 1f;
@@ -65,7 +69,7 @@ namespace JurassicPark.Presentation
                 return new EntityDefinition(id, moveSpeed, storageCapacity, isDepot, gatherSecondsPerUnit,
                     string.IsNullOrEmpty(nodeResource) ? null : nodeResource, nodeAmount,
                     footprintWidth, footprintHeight, blocks, destructible, maxHealth, cost, buildWorkSeconds, isGate,
-                    attackDamage, attackSeconds, perceptionRadius, canBreach);
+                    attackDamage, attackSeconds, perceptionRadius, canBreach, sightDay, sightNight);
             }
         }
 
