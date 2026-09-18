@@ -1,0 +1,10239 @@
+{
+ "version": 2,
+ "original": [
+  {
+   "old_id": "Ropm",
+   "new_id": "\u0000\u0000\u0000\u0000",
+   "mods": [
+    {
+     "id": "gglb",
+     "type": 0,
+     "extras": [
+      0,
+      0
+     ],
+     "value": 5
+    },
+    {
+     "id": "glmb",
+     "type": 0,
+     "extras": [
+      0,
+      0
+     ],
+     "value": 5
+    },
+    {
+     "id": "gtib",
+     "type": 0,
+     "extras": [
+      0,
+      0
+     ],
+     "value": 15
+    },
+    {
+     "id": "gnam",
+     "type": 3,
+     "extras": [
+      1,
+      0
+     ],
+     "value": "恐龍背包"
+    },
+    {
+     "id": "gtp1",
+     "type": 3,
+     "extras": [
+      1,
+      0
+     ],
+     "value": "恐龍背包"
+    },
+    {
+     "id": "gub1",
+     "type": 3,
+     "extras": [
+      1,
+      0
+     ],
+     "value": "允許恐龍撿取物品"
+    },
+    {
+     "id": "greq",
+     "type": 3,
+     "extras": [
+      1,
+      0
+     ],
+     "value": ""
+    }
+   ]
+  },
+  {
+   "old_id": "Rhme",
+   "new_id": "\u0000\u0000\u0000\u0000",
+   "mods": [
+    {
+     "id": "gbpx",
+     "type": 0,
+     "extras": [
+      0,
+      0
+     ],
+     "value": 1
+    },
+    {
+     "id": "gbpy",
+     "type": 0,
+     "extras": [
+      0,
+      0
+     ],
+     "value": 1
+    }
+   ]
+  }
+ ],
+ "custom": [
+  {
+   "old_id": "Ropg",
+   "new_id": "R000",
+   "mods": [
+    {
+     "id": "gnam",
+     "type": 3,
+     "extras": [
+      1,
+      0
+     ],
+     "value": "物理學：研究粒子發射 I"
+    },
+    {
+     "id": "gtp1",
+     "type": 3,
+     "extras": [
+      1,
+      0
+     ],
+     "value": "物理學：研究粒子發射 I"
+    },
+    {
+     "id": "gub1",
+     "type": 3,
+     "extras": [
+      1,
+      0
+     ],
+     "value": "允許建造雷射激光塔"
+    },
+    {
+     "id": "gglb",
+     "type": 0,
+     "extras": [
+      0,
+      0
+     ],
+     "value": 65
+    },
+    {
+     "id": "glmb",
+     "type": 0,
+     "extras": [
+      0,
+      0
+     ],
+     "value": 45
+    },
+    {
+     "id": "greq",
+     "type": 3,
+     "extras": [
+      1,
+      0
+     ],
+     "value": "R00Y,R006"
+    },
+    {
+     "id": "gtib",
+     "type": 0,
+     "extras": [
+      0,
+      0
+     ],
+     "value": 80
+    },
+    {
+     "id": "grac",
+     "type": 3,
+     "extras": [
+      0,
+      0
+     ],
+     "value": "human"
+    },
+    {
+     "id": "ginh",
+     "type": 0,
+     "extras": [
+      0,
+      0
+     ],
+     "value": 0
+    }
+   ]
+  },
+  {
+   "old_id": "Ropg",
+   "new_id": "R001",
+   "mods": [
+    {
+     "id": "gnam",
+     "type": 3,
+     "extras": [
+      1,
+      0
+     ],
+     "value": "物理學：研究粒子發射 II"
+    },
+    {
+     "id": "gtp1",
+     "type": 3,
+     "extras": [
+      1,
+      0
+     ],
+     "value": "物理學：研究粒子發射 II"
+    },
+    {
+     "id": "gub1",
+     "type": 3,
+     "extras": [
+      1,
+      0
+     ],
+     "value": "允許建造螺旋雷射砲塔"
+    },
+    {
+     "id": "gglb",
+     "type": 0,
+     "extras": [
+      0,
+      0
+     ],
+     "value": 85
+    },
+    {
+     "id": "glmb",
+     "type": 0,
+     "extras": [
+      0,
+      0
+     ],
+     "value": 85
+    },
+    {
+     "id": "greq",
+     "type": 3,
+     "extras": [
+      1,
+      0
+     ],
+     "value": "R00Y,R006,R000"
+    },
+    {
+     "id": "gtib",
+     "type": 0,
+     "extras": [
+      0,
+      0
+     ],
+     "value": 100
+    },
+    {
+     "id": "grac",
+     "type": 3,
+     "extras": [
+      0,
+      0
+     ],
+     "value": "human"
+    },
+    {
+     "id": "ginh",
+     "type": 0,
+     "extras": [
+      0,
+      0
+     ],
+     "value": 0
+    }
+   ]
+  },
+  {
+   "old_id": "Ropg",
+   "new_id": "R002",
+   "mods": [
+    {
+     "id": "gnam",
+     "type": 3,
+     "extras": [
+      1,
+      0
+     ],
+     "value": "機械學：陸棲戰車設計105"
+    },
+    {
+     "id": "gtp1",
+     "type": 3,
+     "extras": [
+      1,
+      0
+     ],
+     "value": "機械學：陸棲戰車設計105"
+    },
+    {
+     "id": "gub1",
+     "type": 3,
+     "extras": [
+      1,
+      0
+     ],
+     "value": "允許建造雷鳥陸棲戰車"
+    },
+    {
+     "id": "gglb",
+     "type": 0,
+     "extras": [
+      0,
+      0
+     ],
+     "value": 45
+    },
+    {
+     "id": "glmb",
+     "type": 0,
+     "extras": [
+      0,
+      0
+     ],
+     "value": 45
+    },
+    {
+     "id": "greq",
+     "type": 3,
+     "extras": [
+      1,
+      0
+     ],
+     "value": "R00V,R003"
+    },
+    {
+     "id": "gar1",
+     "type": 3,
+     "extras": [
+      1,
+      0
+     ],
+     "value": "ReplaceableTextures\\CommandButtons\\BTNMech.blp"
+    },
+    {
+     "id": "gtib",
+     "type": 0,
+     "extras": [
+      0,
+      0
+     ],
+     "value": 60
+    },
+    {
+     "id": "grac",
+     "type": 3,
+     "extras": [
+      0,
+      0
+     ],
+     "value": "human"
+    },
+    {
+     "id": "ginh",
+     "type": 0,
+     "extras": [
+      0,
+      0
+     ],
+     "value": 0
+    }
+   ]
+  },
+  {
+   "old_id": "Ropg",
+   "new_id": "R003",
+   "mods": [
+    {
+     "id": "gnam",
+     "type": 3,
+     "extras": [
+      1,
+      0
+     ],
+     "value": "機械學：陸棲戰車設計101"
+    },
+    {
+     "id": "gtp1",
+     "type": 3,
+     "extras": [
+      1,
+      0
+     ],
+     "value": "機械學：陸棲戰車設計101"
+    },
+    {
+     "id": "gub1",
+     "type": 3,
+     "extras": [
+      1,
+      0
+     ],
+     "value": "允許建造岩漿鳥陸棲戰車"
+    },
+    {
+     "id": "gglb",
+     "type": 0,
+     "extras": [
+      0,
+      0
+     ],
+     "value": 30
+    },
+    {
+     "id": "glmb",
+     "type": 0,
+     "extras": [
+      0,
+      0
+     ],
+     "value": 30
+    },
+    {
+     "id": "gtib",
+     "type": 0,
+     "extras": [
+      0,
+      0
+     ],
+     "value": 50
+    },
+    {
+     "id": "gar1",
+     "type": 3,
+     "extras": [
+      1,
+      0
+     ],
+     "value": "ReplaceableTextures\\CommandButtons\\BTNMech.blp"
+    },
+    {
+     "id": "grac",
+     "type": 3,
+     "extras": [
+      0,
+      0
+     ],
+     "value": "human"
+    },
+    {
+     "id": "greq",
+     "type": 3,
+     "extras": [
+      1,
+      0
+     ],
+     "value": "R00V"
+    },
+    {
+     "id": "ginh",
+     "type": 0,
+     "extras": [
+      0,
+      0
+     ],
+     "value": 0
+    }
+   ]
+  },
+  {
+   "old_id": "Ropg",
+   "new_id": "R004",
+   "mods": [
+    {
+     "id": "gnam",
+     "type": 3,
+     "extras": [
+      1,
+      0
+     ],
+     "value": "盜獵學：機關槍研究"
+    },
+    {
+     "id": "gtp1",
+     "type": 3,
+     "extras": [
+      1,
+      0
+     ],
+     "value": "盜獵學：機關槍研究"
+    },
+    {
+     "id": "gub1",
+     "type": 3,
+     "extras": [
+      1,
+      0
+     ],
+     "value": "允許你的倖存者能使用機關槍"
+    },
+    {
+     "id": "gglb",
+     "type": 0,
+     "extras": [
+      0,
+      0
+     ],
+     "value": 30
+    },
+    {
+     "id": "gtib",
+     "type": 0,
+     "extras": [
+      0,
+      0
+     ],
+     "value": 40
+    },
+    {
+     "id": "gar1",
+     "type": 3,
+     "extras": [
+      1,
+      0
+     ],
+     "value": "ReplaceableTextures\\CommandButtons\\BTNMachine.blp"
+    },
+    {
+     "id": "grac",
+     "type": 3,
+     "extras": [
+      0,
+      0
+     ],
+     "value": "human"
+    },
+    {
+     "id": "greq",
+     "type": 3,
+     "extras": [
+      1,
+      0
+     ],
+     "value": "R00Z"
+    },
+    {
+     "id": "glmb",
+     "type": 0,
+     "extras": [
+      0,
+      0
+     ],
+     "value": 30
+    },
+    {
+     "id": "ginh",
+     "type": 0,
+     "extras": [
+      0,
+      0
+     ],
+     "value": 0
+    }
+   ]
+  },
+  {
+   "old_id": "Ropg",
+   "new_id": "R005",
+   "mods": [
+    {
+     "id": "gnam",
+     "type": 3,
+     "extras": [
+      1,
+      0
+     ],
+     "value": "物理學：火箭科學"
+    },
+    {
+     "id": "gtp1",
+     "type": 3,
+     "extras": [
+      1,
+      0
+     ],
+     "value": "物理學：火箭科學"
+    },
+    {
+     "id": "gub1",
+     "type": 3,
+     "extras": [
+      1,
+      0
+     ],
+     "value": "允許建造火箭砲塔"
+    },
+    {
+     "id": "gglb",
+     "type": 0,
+     "extras": [
+      0,
+      0
+     ],
+     "value": 40
+    },
+    {
+     "id": "glmb",
+     "type": 0,
+     "extras": [
+      0,
+      0
+     ],
+     "value": 40
+    },
+    {
+     "id": "greq",
+     "type": 3,
+     "extras": [
+      1,
+      0
+     ],
+     "value": "R00Y,R000"
+    },
+    {
+     "id": "gar1",
+     "type": 3,
+     "extras": [
+      1,
+      0
+     ],
+     "value": "ReplaceableTextures\\PassiveButtons\\PASBTNScatterRockets.blp"
+    },
+    {
+     "id": "gtib",
+     "type": 0,
+     "extras": [
+      0,
+      0
+     ],
+     "value": 50
+    },
+    {
+     "id": "grac",
+     "type": 3,
+     "extras": [
+      0,
+      0
+     ],
+     "value": "human"
+    },
+    {
+     "id": "ginh",
+     "type": 0,
+     "extras": [
+      0,
+      0
+     ],
+     "value": 0
+    }
+   ]
+  },
+  {
+   "old_id": "Ropg",
+   "new_id": "R006",
+   "mods": [
+    {
+     "id": "gnam",
+     "type": 3,
+     "extras": [
+      1,
+      0
+     ],
+     "value": "物理學：高級哨槍塔地基"
+    },
+    {
+     "id": "gtp1",
+     "type": 3,
+     "extras": [
+      1,
+      0
+     ],
+     "value": "物理學：高級哨槍塔地基"
+    },
+    {
+     "id": "gub1",
+     "type": 3,
+     "extras": [
+      1,
+      0
+     ],
+     "value": "允許建造步槍哨塔II"
+    },
+    {
+     "id": "gglb",
+     "type": 0,
+     "extras": [
+      0,
+      0
+     ],
+     "value": 30
+    },
+    {
+     "id": "glmb",
+     "type": 0,
+     "extras": [
+      0,
+      0
+     ],
+     "value": 30
+    },
+    {
+     "id": "gar1",
+     "type": 3,
+     "extras": [
+      1,
+      0
+     ],
+     "value": "ReplaceableTextures\\CommandButtons\\BTNDustOfAppearance.blp"
+    },
+    {
+     "id": "grac",
+     "type": 3,
+     "extras": [
+      0,
+      0
+     ],
+     "value": "human"
+    },
+    {
+     "id": "greq",
+     "type": 3,
+     "extras": [
+      1,
+      0
+     ],
+     "value": "R00Y"
+    },
+    {
+     "id": "ginh",
+     "type": 0,
+     "extras": [
+      0,
+      0
+     ],
+     "value": 0
+    }
+   ]
+  },
+  {
+   "old_id": "Ropg",
+   "new_id": "R007",
+   "mods": [
+    {
+     "id": "gnam",
+     "type": 3,
+     "extras": [
+      1,
+      0
+     ],
+     "value": "機械學：坦克設計101"
+    },
+    {
+     "id": "gtp1",
+     "type": 3,
+     "extras": [
+      1,
+      0
+     ],
+     "value": "機械學：坦克設計101"
+    },
+    {
+     "id": "gub1",
+     "type": 3,
+     "extras": [
+      1,
+      0
+     ],
+     "value": "允許建造刺鳥坦克"
+    },
+    {
+     "id": "gglb",
+     "type": 0,
+     "extras": [
+      0,
+      0
+     ],
+     "value": 30
+    },
+    {
+     "id": "glmb",
+     "type": 0,
+     "extras": [
+      0,
+      0
+     ],
+     "value": 30
+    },
+    {
+     "id": "gtib",
+     "type": 0,
+     "extras": [
+      0,
+      0
+     ],
+     "value": 40
+    },
+    {
+     "id": "gar1",
+     "type": 3,
+     "extras": [
+      1,
+      0
+     ],
+     "value": "ReplaceableTextures\\CommandButtons\\BTNJeep.blp"
+    },
+    {
+     "id": "grac",
+     "type": 3,
+     "extras": [
+      0,
+      0
+     ],
+     "value": "human"
+    },
+    {
+     "id": "greq",
+     "type": 3,
+     "extras": [
+      1,
+      0
+     ],
+     "value": "R00V"
+    },
+    {
+     "id": "ginh",
+     "type": 0,
+     "extras": [
+      0,
+      0
+     ],
+     "value": 0
+    }
+   ]
+  },
+  {
+   "old_id": "Ropg",
+   "new_id": "R008",
+   "mods": [
+    {
+     "id": "gnam",
+     "type": 3,
+     "extras": [
+      1,
+      0
+     ],
+     "value": "NA光學武器"
+    },
+    {
+     "id": "gtp1",
+     "type": 3,
+     "extras": [
+      1,
+      0
+     ],
+     "value": "重擊武器"
+    },
+    {
+     "id": "gub1",
+     "type": 3,
+     "extras": [
+      1,
+      0
+     ],
+     "value": "允許建造激光雷射塔"
+    },
+    {
+     "id": "gglb",
+     "type": 0,
+     "extras": [
+      0,
+      0
+     ],
+     "value": 45
+    },
+    {
+     "id": "glmb",
+     "type": 0,
+     "extras": [
+      0,
+      0
+     ],
+     "value": 45
+    },
+    {
+     "id": "grac",
+     "type": 3,
+     "extras": [
+      0,
+      0
+     ],
+     "value": "human"
+    },
+    {
+     "id": "ginh",
+     "type": 0,
+     "extras": [
+      0,
+      0
+     ],
+     "value": 0
+    }
+   ]
+  },
+  {
+   "old_id": "Ropg",
+   "new_id": "R009",
+   "mods": [
+    {
+     "id": "gnam",
+     "type": 3,
+     "extras": [
+      1,
+      0
+     ],
+     "value": "物理學：火箭研究"
+    },
+    {
+     "id": "gtp1",
+     "type": 3,
+     "extras": [
+      1,
+      0
+     ],
+     "value": "允許建造導彈砲塔"
+    },
+    {
+     "id": "gub1",
+     "type": 3,
+     "extras": [
+      1,
+      0
+     ],
+     "value": "火箭砲"
+    },
+    {
+     "id": "gglb",
+     "type": 0,
+     "extras": [
+      0,
+      0
+     ],
+     "value": 30
+    },
+    {
+     "id": "glmb",
+     "type": 0,
+     "extras": [
+      0,
+      0
+     ],
+     "value": 30
+    },
+    {
+     "id": "gar1",
+     "type": 3,
+     "extras": [
+      1,
+      0
+     ],
+     "value": "ReplaceableTextures\\PassiveButtons\\PASBTNScatterRockets.blp"
+    },
+    {
+     "id": "gtib",
+     "type": 0,
+     "extras": [
+      0,
+      0
+     ],
+     "value": 30
+    },
+    {
+     "id": "grac",
+     "type": 3,
+     "extras": [
+      0,
+      0
+     ],
+     "value": "human"
+    },
+    {
+     "id": "ginh",
+     "type": 0,
+     "extras": [
+      0,
+      0
+     ],
+     "value": 0
+    }
+   ]
+  },
+  {
+   "old_id": "Ropg",
+   "new_id": "R00A",
+   "mods": [
+    {
+     "id": "gnam",
+     "type": 3,
+     "extras": [
+      1,
+      0
+     ],
+     "value": "零售學：研究商店收入 I"
+    },
+    {
+     "id": "gtp1",
+     "type": 3,
+     "extras": [
+      1,
+      0
+     ],
+     "value": "提供收入"
+    },
+    {
+     "id": "gub1",
+     "type": 3,
+     "extras": [
+      1,
+      0
+     ],
+     "value": "允許商店每20秒增加1金幣，高級商店增加2金幣"
+    },
+    {
+     "id": "gglb",
+     "type": 0,
+     "extras": [
+      0,
+      0
+     ],
+     "value": 20
+    },
+    {
+     "id": "gar1",
+     "type": 3,
+     "extras": [
+      1,
+      0
+     ],
+     "value": "ReplaceableTextures\\CommandButtons\\BTNChestOfGold.blp"
+    },
+    {
+     "id": "glmb",
+     "type": 0,
+     "extras": [
+      0,
+      0
+     ],
+     "value": 20
+    },
+    {
+     "id": "glvl",
+     "type": 0,
+     "extras": [
+      0,
+      0
+     ],
+     "value": 3
+    },
+    {
+     "id": "gglm",
+     "type": 0,
+     "extras": [
+      0,
+      0
+     ],
+     "value": 40
+    },
+    {
+     "id": "glmm",
+     "type": 0,
+     "extras": [
+      0,
+      0
+     ],
+     "value": 40
+    },
+    {
+     "id": "gtim",
+     "type": 0,
+     "extras": [
+      0,
+      0
+     ],
+     "value": 15
+    },
+    {
+     "id": "gub1",
+     "type": 3,
+     "extras": [
+      2,
+      0
+     ],
+     "value": "允許商店每20秒增加2金幣，高級商店增加4金幣"
+    },
+    {
+     "id": "gub1",
+     "type": 3,
+     "extras": [
+      3,
+      0
+     ],
+     "value": "允許商店每20秒增加3金幣，高級商店增加6金幣."
+    },
+    {
+     "id": "gar1",
+     "type": 3,
+     "extras": [
+      2,
+      0
+     ],
+     "value": "ReplaceableTextures\\CommandButtons\\BTNChestOfGold.blp"
+    },
+    {
+     "id": "gar1",
+     "type": 3,
+     "extras": [
+      3,
+      0
+     ],
+     "value": "ReplaceableTextures\\CommandButtons\\BTNChestOfGold.blp"
+    },
+    {
+     "id": "grac",
+     "type": 3,
+     "extras": [
+      0,
+      0
+     ],
+     "value": "human"
+    },
+    {
+     "id": "greq",
+     "type": 3,
+     "extras": [
+      1,
+      0
+     ],
+     "value": "R00X"
+    },
+    {
+     "id": "gnam",
+     "type": 3,
+     "extras": [
+      2,
+      0
+     ],
+     "value": "零售學：研究商店收入 II"
+    },
+    {
+     "id": "gnam",
+     "type": 3,
+     "extras": [
+      3,
+      0
+     ],
+     "value": "零售學：研究商店收入 III"
+    },
+    {
+     "id": "gtp1",
+     "type": 3,
+     "extras": [
+      2,
+      0
+     ],
+     "value": "提供收入"
+    },
+    {
+     "id": "gtp1",
+     "type": 3,
+     "extras": [
+      3,
+      0
+     ],
+     "value": "提供收入"
+    },
+    {
+     "id": "ginh",
+     "type": 0,
+     "extras": [
+      0,
+      0
+     ],
+     "value": 0
+    }
+   ]
+  },
+  {
+   "old_id": "Ropg",
+   "new_id": "R00C",
+   "mods": [
+    {
+     "id": "gnam",
+     "type": 3,
+     "extras": [
+      1,
+      0
+     ],
+     "value": "生物學：研究恐龍習性1/4"
+    },
+    {
+     "id": "gtp1",
+     "type": 3,
+     "extras": [
+      1,
+      0
+     ],
+     "value": "生物學：研究恐龍習性1/4"
+    },
+    {
+     "id": "gub1",
+     "type": 3,
+     "extras": [
+      1,
+      0
+     ],
+     "value": "100% 捕獲三角龍  30% 捕獲迅猛龍  10% 捕獲棘龍"
+    },
+    {
+     "id": "gglb",
+     "type": 0,
+     "extras": [
+      0,
+      0
+     ],
+     "value": 30
+    },
+    {
+     "id": "gar1",
+     "type": 3,
+     "extras": [
+      1,
+      0
+     ],
+     "value": "ReplaceableTextures\\CommandButtons\\BTNVelco.blp"
+    },
+    {
+     "id": "glmb",
+     "type": 0,
+     "extras": [
+      0,
+      0
+     ],
+     "value": 30
+    },
+    {
+     "id": "glvl",
+     "type": 0,
+     "extras": [
+      0,
+      0
+     ],
+     "value": 4
+    },
+    {
+     "id": "gub1",
+     "type": 3,
+     "extras": [
+      2,
+      0
+     ],
+     "value": "100% 捕獲三角龍  70% 捕獲迅猛龍  30% 捕獲棘龍  20% 捕獲暴龍"
+    },
+    {
+     "id": "gub1",
+     "type": 3,
+     "extras": [
+      3,
+      0
+     ],
+     "value": "100% 捕獲三角龍  100% 捕獲迅猛龍  40% 捕獲棘龍  30% 捕獲暴龍    20% 捕獲雙棘龍"
+    },
+    {
+     "id": "gub1",
+     "type": 3,
+     "extras": [
+      4,
+      0
+     ],
+     "value": "100% 捕獲三角龍  100% 捕獲迅猛龍  50% 捕獲棘龍  40% 捕獲暴龍    30% 捕獲雙棘龍"
+    },
+    {
+     "id": "gtp1",
+     "type": 3,
+     "extras": [
+      2,
+      0
+     ],
+     "value": "生物學：研究恐龍習性2/4"
+    },
+    {
+     "id": "gtp1",
+     "type": 3,
+     "extras": [
+      3,
+      0
+     ],
+     "value": "生物學：研究恐龍習性3/4"
+    },
+    {
+     "id": "gtp1",
+     "type": 3,
+     "extras": [
+      4,
+      0
+     ],
+     "value": "生物學：研究恐龍習性4/4"
+    },
+    {
+     "id": "gnam",
+     "type": 3,
+     "extras": [
+      2,
+      0
+     ],
+     "value": "生物學：研究恐龍習性2/4"
+    },
+    {
+     "id": "gnam",
+     "type": 3,
+     "extras": [
+      3,
+      0
+     ],
+     "value": "生物學：研究恐龍習性3/4"
+    },
+    {
+     "id": "gnam",
+     "type": 3,
+     "extras": [
+      4,
+      0
+     ],
+     "value": "生物學：研究恐龍習性4/4"
+    },
+    {
+     "id": "grqc",
+     "type": 3,
+     "extras": [
+      2,
+      0
+     ],
+     "value": "1"
+    },
+    {
+     "id": "grqc",
+     "type": 3,
+     "extras": [
+      3,
+      0
+     ],
+     "value": "2"
+    },
+    {
+     "id": "grqc",
+     "type": 3,
+     "extras": [
+      4,
+      0
+     ],
+     "value": "3"
+    },
+    {
+     "id": "gglm",
+     "type": 0,
+     "extras": [
+      0,
+      0
+     ],
+     "value": 15
+    },
+    {
+     "id": "glmm",
+     "type": 0,
+     "extras": [
+      0,
+      0
+     ],
+     "value": 15
+    },
+    {
+     "id": "gtim",
+     "type": 0,
+     "extras": [
+      0,
+      0
+     ],
+     "value": 15
+    },
+    {
+     "id": "gar1",
+     "type": 3,
+     "extras": [
+      2,
+      0
+     ],
+     "value": "ReplaceableTextures\\CommandButtons\\BTNVelco.blp"
+    },
+    {
+     "id": "gar1",
+     "type": 3,
+     "extras": [
+      3,
+      0
+     ],
+     "value": "ReplaceableTextures\\CommandButtons\\BTNTrex.blp"
+    },
+    {
+     "id": "gar1",
+     "type": 3,
+     "extras": [
+      4,
+      0
+     ],
+     "value": "ReplaceableTextures\\CommandButtons\\BTNTriceratops.blp"
+    },
+    {
+     "id": "greq",
+     "type": 3,
+     "extras": [
+      1,
+      0
+     ],
+     "value": "R00W"
+    },
+    {
+     "id": "ginh",
+     "type": 0,
+     "extras": [
+      0,
+      0
+     ],
+     "value": 0
+    },
+    {
+     "id": "gtib",
+     "type": 0,
+     "extras": [
+      0,
+      0
+     ],
+     "value": 30
+    }
+   ]
+  },
+  {
+   "old_id": "Ropg",
+   "new_id": "R00G",
+   "mods": [
+    {
+     "id": "gnam",
+     "type": 3,
+     "extras": [
+      1,
+      0
+     ],
+     "value": "生物學：基礎複製人技術"
+    },
+    {
+     "id": "gtp1",
+     "type": 3,
+     "extras": [
+      1,
+      0
+     ],
+     "value": "允許生產一位你的基礎複製人"
+    },
+    {
+     "id": "gub1",
+     "type": 3,
+     "extras": [
+      1,
+      0
+     ],
+     "value": "你能生產一位你的基礎複製人，他能做大部分你能做的事，但他無法取得遊戲勝利"
+    },
+    {
+     "id": "gar1",
+     "type": 3,
+     "extras": [
+      1,
+      0
+     ],
+     "value": "ReplaceableTextures\\CommandButtons\\BTNPeasant.blp"
+    },
+    {
+     "id": "glmb",
+     "type": 0,
+     "extras": [
+      0,
+      0
+     ],
+     "value": 75
+    },
+    {
+     "id": "grac",
+     "type": 3,
+     "extras": [
+      0,
+      0
+     ],
+     "value": "human"
+    },
+    {
+     "id": "greq",
+     "type": 3,
+     "extras": [
+      1,
+      0
+     ],
+     "value": "R00W"
+    },
+    {
+     "id": "ginh",
+     "type": 0,
+     "extras": [
+      0,
+      0
+     ],
+     "value": 0
+    }
+   ]
+  },
+  {
+   "old_id": "Ropg",
+   "new_id": "R00H",
+   "mods": [
+    {
+     "id": "gnam",
+     "type": 3,
+     "extras": [
+      1,
+      0
+     ],
+     "value": "生物學：進階複製人技術"
+    },
+    {
+     "id": "gtp1",
+     "type": 3,
+     "extras": [
+      1,
+      0
+     ],
+     "value": "允許生產一位你的進階複製人"
+    },
+    {
+     "id": "gub1",
+     "type": 3,
+     "extras": [
+      1,
+      0
+     ],
+     "value": "你能生產一位你的進階複製人，他能做大部分你能做的事，但他無法取得遊戲勝利"
+    },
+    {
+     "id": "gar1",
+     "type": 3,
+     "extras": [
+      1,
+      0
+     ],
+     "value": "ReplaceableTextures\\CommandButtons\\BTNPeasant.blp"
+    },
+    {
+     "id": "glmb",
+     "type": 0,
+     "extras": [
+      0,
+      0
+     ],
+     "value": 75
+    },
+    {
+     "id": "grac",
+     "type": 3,
+     "extras": [
+      0,
+      0
+     ],
+     "value": "human"
+    },
+    {
+     "id": "greq",
+     "type": 3,
+     "extras": [
+      1,
+      0
+     ],
+     "value": "R00W"
+    }
+   ]
+  },
+  {
+   "old_id": "Ropg",
+   "new_id": "R00I",
+   "mods": [
+    {
+     "id": "gnam",
+     "type": 3,
+     "extras": [
+      1,
+      0
+     ],
+     "value": "機械學：武器架研究"
+    },
+    {
+     "id": "gtp1",
+     "type": 3,
+     "extras": [
+      1,
+      0
+     ],
+     "value": "讓你的基礎武器自動攻擊附近敵人"
+    },
+    {
+     "id": "gub1",
+     "type": 3,
+     "extras": [
+      1,
+      0
+     ],
+     "value": "讓你的基礎武器自動攻擊附近敵人"
+    },
+    {
+     "id": "gglb",
+     "type": 0,
+     "extras": [
+      0,
+      0
+     ],
+     "value": 30
+    },
+    {
+     "id": "glmb",
+     "type": 0,
+     "extras": [
+      0,
+      0
+     ],
+     "value": 30
+    },
+    {
+     "id": "gar1",
+     "type": 3,
+     "extras": [
+      1,
+      0
+     ],
+     "value": "ReplaceableTextures\\CommandButtons\\PASBTNEngineeringUpgrade.blp"
+    },
+    {
+     "id": "grac",
+     "type": 3,
+     "extras": [
+      0,
+      0
+     ],
+     "value": "human"
+    },
+    {
+     "id": "ginh",
+     "type": 0,
+     "extras": [
+      0,
+      0
+     ],
+     "value": 0
+    }
+   ]
+  },
+  {
+   "old_id": "Ropg",
+   "new_id": "R00J",
+   "mods": [
+    {
+     "id": "gnam",
+     "type": 3,
+     "extras": [
+      1,
+      0
+     ],
+     "value": "機械學：武器托載技術"
+    },
+    {
+     "id": "gtp1",
+     "type": 3,
+     "extras": [
+      1,
+      0
+     ],
+     "value": "機械學：武器托載技術"
+    },
+    {
+     "id": "gub1",
+     "type": 3,
+     "extras": [
+      1,
+      0
+     ],
+     "value": "允許你的陸棲戰車能使用進階加強武器，並讓你學會將同種類型的兩個武器結合成更強大的武器，輸入-c 指令合併  |cffff0000只有你的倖存者能夠合併武器|r"
+    },
+    {
+     "id": "gglb",
+     "type": 0,
+     "extras": [
+      0,
+      0
+     ],
+     "value": 30
+    },
+    {
+     "id": "glmb",
+     "type": 0,
+     "extras": [
+      0,
+      0
+     ],
+     "value": 30
+    },
+    {
+     "id": "gar1",
+     "type": 3,
+     "extras": [
+      1,
+      0
+     ],
+     "value": "ReplaceableTextures\\CommandButtons\\PASBTNEngineeringUpgrade.blp"
+    },
+    {
+     "id": "grac",
+     "type": 3,
+     "extras": [
+      0,
+      0
+     ],
+     "value": "human"
+    },
+    {
+     "id": "greq",
+     "type": 3,
+     "extras": [
+      1,
+      0
+     ],
+     "value": "R00V"
+    },
+    {
+     "id": "ginh",
+     "type": 0,
+     "extras": [
+      0,
+      0
+     ],
+     "value": 0
+    }
+   ]
+  },
+  {
+   "old_id": "Ropg",
+   "new_id": "R00K",
+   "mods": [
+    {
+     "id": "gnam",
+     "type": 3,
+     "extras": [
+      1,
+      0
+     ],
+     "value": "機械學：物質電池壓縮技術 I"
+    },
+    {
+     "id": "gtp1",
+     "type": 3,
+     "extras": [
+      1,
+      0
+     ],
+     "value": "機械學：物質電池壓縮技術 I"
+    },
+    {
+     "id": "gub1",
+     "type": 3,
+     "extras": [
+      1,
+      0
+     ],
+     "value": "讓你的陸棲戰車和坦克能夠存放更多的物質電池，提升 25% 物質電池能量存放上限"
+    },
+    {
+     "id": "gglb",
+     "type": 0,
+     "extras": [
+      0,
+      0
+     ],
+     "value": 15
+    },
+    {
+     "id": "gar1",
+     "type": 3,
+     "extras": [
+      1,
+      0
+     ],
+     "value": "ReplaceableTextures\\CommandButtons\\BTNMech.blp"
+    },
+    {
+     "id": "gba1",
+     "type": 2,
+     "extras": [
+      0,
+      0
+     ],
+     "value": 0.25
+    },
+    {
+     "id": "grac",
+     "type": 3,
+     "extras": [
+      0,
+      0
+     ],
+     "value": "human"
+    },
+    {
+     "id": "glvl",
+     "type": 0,
+     "extras": [
+      0,
+      0
+     ],
+     "value": 5
+    },
+    {
+     "id": "gnam",
+     "type": 3,
+     "extras": [
+      2,
+      0
+     ],
+     "value": "機械學：物質電池壓縮技術 II"
+    },
+    {
+     "id": "gnam",
+     "type": 3,
+     "extras": [
+      3,
+      0
+     ],
+     "value": "機械學：物質電池壓縮技術 III"
+    },
+    {
+     "id": "gnam",
+     "type": 3,
+     "extras": [
+      4,
+      0
+     ],
+     "value": "機械學：物質電池壓縮技術 IV"
+    },
+    {
+     "id": "gar1",
+     "type": 3,
+     "extras": [
+      2,
+      0
+     ],
+     "value": "ReplaceableTextures\\CommandButtons\\BTNMech.blp"
+    },
+    {
+     "id": "gar1",
+     "type": 3,
+     "extras": [
+      3,
+      0
+     ],
+     "value": "ReplaceableTextures\\CommandButtons\\BTNMech.blp"
+    },
+    {
+     "id": "gar1",
+     "type": 3,
+     "extras": [
+      4,
+      0
+     ],
+     "value": "ReplaceableTextures\\CommandButtons\\BTNMech.blp"
+    },
+    {
+     "id": "gub1",
+     "type": 3,
+     "extras": [
+      2,
+      0
+     ],
+     "value": "讓你的陸棲戰車和坦克能夠存放更多的物質電池，提升 50% 物質電池能量存放上限"
+    },
+    {
+     "id": "gub1",
+     "type": 3,
+     "extras": [
+      3,
+      0
+     ],
+     "value": "讓你的陸棲戰車和坦克能夠存放更多的物質電池，提升 75% 物質電池能量存放上限"
+    },
+    {
+     "id": "gub1",
+     "type": 3,
+     "extras": [
+      4,
+      0
+     ],
+     "value": "讓你的陸棲戰車和坦克能夠存放更多的物質電池，提升 100% 物質電池能量存放上限"
+    },
+    {
+     "id": "gtp1",
+     "type": 3,
+     "extras": [
+      2,
+      0
+     ],
+     "value": "機械學：物質電池壓縮技術 II"
+    },
+    {
+     "id": "gtp1",
+     "type": 3,
+     "extras": [
+      3,
+      0
+     ],
+     "value": "機械學：物質電池壓縮技術 III"
+    },
+    {
+     "id": "gtp1",
+     "type": 3,
+     "extras": [
+      4,
+      0
+     ],
+     "value": "機械學：物質電池壓縮技術 IV"
+    },
+    {
+     "id": "gef1",
+     "type": 3,
+     "extras": [
+      0,
+      0
+     ],
+     "value": "rman"
+    },
+    {
+     "id": "gmo1",
+     "type": 2,
+     "extras": [
+      0,
+      0
+     ],
+     "value": 0.25
+    },
+    {
+     "id": "gglm",
+     "type": 0,
+     "extras": [
+      0,
+      0
+     ],
+     "value": 15
+    },
+    {
+     "id": "glmb",
+     "type": 0,
+     "extras": [
+      0,
+      0
+     ],
+     "value": 15
+    },
+    {
+     "id": "glmm",
+     "type": 0,
+     "extras": [
+      0,
+      0
+     ],
+     "value": 15
+    },
+    {
+     "id": "gtib",
+     "type": 0,
+     "extras": [
+      0,
+      0
+     ],
+     "value": 20
+    },
+    {
+     "id": "gtim",
+     "type": 0,
+     "extras": [
+      0,
+      0
+     ],
+     "value": 10
+    },
+    {
+     "id": "greq",
+     "type": 3,
+     "extras": [
+      1,
+      0
+     ],
+     "value": "R00V"
+    },
+    {
+     "id": "gnam",
+     "type": 3,
+     "extras": [
+      5,
+      0
+     ],
+     "value": "機械學：物質電池壓縮技術 V"
+    },
+    {
+     "id": "gtp1",
+     "type": 3,
+     "extras": [
+      5,
+      0
+     ],
+     "value": "機械學：物質電池壓縮技術 V"
+    },
+    {
+     "id": "gub1",
+     "type": 3,
+     "extras": [
+      5,
+      0
+     ],
+     "value": "讓你的陸棲戰車和坦克能夠存放更多的物質電池，提升 125% 物質電池能量存放上限"
+    },
+    {
+     "id": "ginh",
+     "type": 0,
+     "extras": [
+      0,
+      0
+     ],
+     "value": 0
+    }
+   ]
+  },
+  {
+   "old_id": "Ropg",
+   "new_id": "R00L",
+   "mods": [
+    {
+     "id": "gnam",
+     "type": 3,
+     "extras": [
+      1,
+      0
+     ],
+     "value": "機械學：引擎增壓技術 I"
+    },
+    {
+     "id": "gtp1",
+     "type": 3,
+     "extras": [
+      1,
+      0
+     ],
+     "value": "機械學：引擎增壓技術 I"
+    },
+    {
+     "id": "gub1",
+     "type": 3,
+     "extras": [
+      1,
+      0
+     ],
+     "value": "讓你的陸棲戰車和坦克移動的更加快速，提升陸棲戰車和坦克 10% 的移動速度"
+    },
+    {
+     "id": "gglb",
+     "type": 0,
+     "extras": [
+      0,
+      0
+     ],
+     "value": 15
+    },
+    {
+     "id": "glmb",
+     "type": 0,
+     "extras": [
+      0,
+      0
+     ],
+     "value": 15
+    },
+    {
+     "id": "gar1",
+     "type": 3,
+     "extras": [
+      1,
+      0
+     ],
+     "value": "ReplaceableTextures\\CommandButtons\\BTNMech.blp"
+    },
+    {
+     "id": "grac",
+     "type": 3,
+     "extras": [
+      0,
+      0
+     ],
+     "value": "human"
+    },
+    {
+     "id": "glvl",
+     "type": 0,
+     "extras": [
+      0,
+      0
+     ],
+     "value": 3
+    },
+    {
+     "id": "gef1",
+     "type": 3,
+     "extras": [
+      0,
+      0
+     ],
+     "value": "rmov"
+    },
+    {
+     "id": "gba1",
+     "type": 2,
+     "extras": [
+      0,
+      0
+     ],
+     "value": 0.10000000149011612
+    },
+    {
+     "id": "gmo1",
+     "type": 2,
+     "extras": [
+      0,
+      0
+     ],
+     "value": 0.10000000149011612
+    },
+    {
+     "id": "gtp1",
+     "type": 3,
+     "extras": [
+      2,
+      0
+     ],
+     "value": "機械學：引擎增壓技術 II"
+    },
+    {
+     "id": "gtp1",
+     "type": 3,
+     "extras": [
+      3,
+      0
+     ],
+     "value": "機械學：引擎增壓技術 III"
+    },
+    {
+     "id": "gub1",
+     "type": 3,
+     "extras": [
+      2,
+      0
+     ],
+     "value": "讓你的陸棲戰車和坦克移動的更加快速，提升陸棲戰車和坦克 20% 的移動速度"
+    },
+    {
+     "id": "gub1",
+     "type": 3,
+     "extras": [
+      3,
+      0
+     ],
+     "value": "讓你的陸棲戰車和坦克移動的更加快速，提升陸棲戰車和坦克 30% 的移動速度"
+    },
+    {
+     "id": "gglm",
+     "type": 0,
+     "extras": [
+      0,
+      0
+     ],
+     "value": 15
+    },
+    {
+     "id": "glmm",
+     "type": 0,
+     "extras": [
+      0,
+      0
+     ],
+     "value": 15
+    },
+    {
+     "id": "gtib",
+     "type": 0,
+     "extras": [
+      0,
+      0
+     ],
+     "value": 20
+    },
+    {
+     "id": "gtim",
+     "type": 0,
+     "extras": [
+      0,
+      0
+     ],
+     "value": 10
+    },
+    {
+     "id": "gnam",
+     "type": 3,
+     "extras": [
+      2,
+      0
+     ],
+     "value": "機械學：引擎增壓技術 II"
+    },
+    {
+     "id": "gnam",
+     "type": 3,
+     "extras": [
+      3,
+      0
+     ],
+     "value": "機械學：引擎增壓技術 III"
+    },
+    {
+     "id": "gar1",
+     "type": 3,
+     "extras": [
+      2,
+      0
+     ],
+     "value": "ReplaceableTextures\\CommandButtons\\BTNMech.blp"
+    },
+    {
+     "id": "gar1",
+     "type": 3,
+     "extras": [
+      3,
+      0
+     ],
+     "value": "ReplaceableTextures\\CommandButtons\\BTNMech.blp"
+    },
+    {
+     "id": "greq",
+     "type": 3,
+     "extras": [
+      1,
+      0
+     ],
+     "value": "R00V"
+    },
+    {
+     "id": "ginh",
+     "type": 0,
+     "extras": [
+      0,
+      0
+     ],
+     "value": 0
+    }
+   ]
+  },
+  {
+   "old_id": "Ropg",
+   "new_id": "R00M",
+   "mods": [
+    {
+     "id": "gnam",
+     "type": 3,
+     "extras": [
+      1,
+      0
+     ],
+     "value": "物理學：維修機器人"
+    },
+    {
+     "id": "gtp1",
+     "type": 3,
+     "extras": [
+      1,
+      0
+     ],
+     "value": "物理學：維修機器人"
+    },
+    {
+     "id": "gub1",
+     "type": 3,
+     "extras": [
+      1,
+      0
+     ],
+     "value": "讓你能夠生產維修機器人"
+    },
+    {
+     "id": "gar1",
+     "type": 3,
+     "extras": [
+      1,
+      0
+     ],
+     "value": "ReplaceableTextures\\CommandButtons\\BTNControlMagic.blp"
+    },
+    {
+     "id": "glmb",
+     "type": 0,
+     "extras": [
+      0,
+      0
+     ],
+     "value": 40
+    },
+    {
+     "id": "gglb",
+     "type": 0,
+     "extras": [
+      0,
+      0
+     ],
+     "value": 40
+    },
+    {
+     "id": "grac",
+     "type": 3,
+     "extras": [
+      0,
+      0
+     ],
+     "value": "human"
+    },
+    {
+     "id": "greq",
+     "type": 3,
+     "extras": [
+      1,
+      0
+     ],
+     "value": "R00Y"
+    },
+    {
+     "id": "ginh",
+     "type": 0,
+     "extras": [
+      0,
+      0
+     ],
+     "value": 0
+    }
+   ]
+  },
+  {
+   "old_id": "Ropg",
+   "new_id": "R00D",
+   "mods": [
+    {
+     "id": "gnam",
+     "type": 3,
+     "extras": [
+      1,
+      0
+     ],
+     "value": "盜獵學：彈藥堆積技巧"
+    },
+    {
+     "id": "gtp1",
+     "type": 3,
+     "extras": [
+      1,
+      0
+     ],
+     "value": "盜獵學：彈藥堆積技巧"
+    },
+    {
+     "id": "gub1",
+     "type": 3,
+     "extras": [
+      1,
+      0
+     ],
+     "value": "讓你學會合併彈藥的技巧，輸入-c 指令合併  |cffff0000只有你的倖存者能夠合併彈藥，彈藥堆積上限為999|r"
+    },
+    {
+     "id": "gglb",
+     "type": 0,
+     "extras": [
+      0,
+      0
+     ],
+     "value": 10
+    },
+    {
+     "id": "glmb",
+     "type": 0,
+     "extras": [
+      0,
+      0
+     ],
+     "value": 10
+    },
+    {
+     "id": "gar1",
+     "type": 3,
+     "extras": [
+      1,
+      0
+     ],
+     "value": "ReplaceableTextures\\CommandButtons\\BTNPBullets.blp"
+    },
+    {
+     "id": "grac",
+     "type": 3,
+     "extras": [
+      0,
+      0
+     ],
+     "value": "human"
+    },
+    {
+     "id": "greq",
+     "type": 3,
+     "extras": [
+      1,
+      0
+     ],
+     "value": "R00Z"
+    },
+    {
+     "id": "ginh",
+     "type": 0,
+     "extras": [
+      0,
+      0
+     ],
+     "value": 0
+    }
+   ]
+  },
+  {
+   "old_id": "Ropg",
+   "new_id": "R00E",
+   "mods": [
+    {
+     "id": "gnam",
+     "type": 3,
+     "extras": [
+      1,
+      0
+     ],
+     "value": "盜獵學：槍枝保養技術"
+    },
+    {
+     "id": "gtp1",
+     "type": 3,
+     "extras": [
+      1,
+      0
+     ],
+     "value": "盜獵學：槍枝保養技術"
+    },
+    {
+     "id": "gub1",
+     "type": 3,
+     "extras": [
+      1,
+      0
+     ],
+     "value": "讓你的倖存者學會保養槍枝，使用槍枝時不再卡彈"
+    },
+    {
+     "id": "gglb",
+     "type": 0,
+     "extras": [
+      0,
+      0
+     ],
+     "value": 25
+    },
+    {
+     "id": "gar1",
+     "type": 3,
+     "extras": [
+      1,
+      0
+     ],
+     "value": "ReplaceableTextures\\CommandButtons\\BTNPistol.blp"
+    },
+    {
+     "id": "grac",
+     "type": 3,
+     "extras": [
+      0,
+      0
+     ],
+     "value": "human"
+    },
+    {
+     "id": "greq",
+     "type": 3,
+     "extras": [
+      1,
+      0
+     ],
+     "value": "R00Z"
+    },
+    {
+     "id": "ginh",
+     "type": 0,
+     "extras": [
+      0,
+      0
+     ],
+     "value": 0
+    }
+   ]
+  },
+  {
+   "old_id": "Ropg",
+   "new_id": "R00F",
+   "mods": [
+    {
+     "id": "gnam",
+     "type": 3,
+     "extras": [
+      1,
+      0
+     ],
+     "value": "盜獵學：精英戰鬥技巧"
+    },
+    {
+     "id": "gtp1",
+     "type": 3,
+     "extras": [
+      1,
+      0
+     ],
+     "value": "允許你的倖存者能使用兩種同樣類型的武器"
+    },
+    {
+     "id": "gub1",
+     "type": 3,
+     "extras": [
+      1,
+      0
+     ],
+     "value": "允許你的倖存者能使用兩種同樣類型的武器"
+    },
+    {
+     "id": "gglb",
+     "type": 0,
+     "extras": [
+      0,
+      0
+     ],
+     "value": 25
+    },
+    {
+     "id": "gar1",
+     "type": 3,
+     "extras": [
+      1,
+      0
+     ],
+     "value": "ReplaceableTextures\\CommandButtons\\BTNPBullets.blp"
+    },
+    {
+     "id": "grac",
+     "type": 3,
+     "extras": [
+      0,
+      0
+     ],
+     "value": "human"
+    },
+    {
+     "id": "greq",
+     "type": 3,
+     "extras": [
+      1,
+      0
+     ],
+     "value": "R00Z"
+    },
+    {
+     "id": "ginh",
+     "type": 0,
+     "extras": [
+      0,
+      0
+     ],
+     "value": 0
+    }
+   ]
+  },
+  {
+   "old_id": "Ropg",
+   "new_id": "R00B",
+   "mods": [
+    {
+     "id": "gnam",
+     "type": 3,
+     "extras": [
+      1,
+      0
+     ],
+     "value": "生物學：恐龍餵食技術 Lv1"
+    },
+    {
+     "id": "gtp1",
+     "type": 3,
+     "extras": [
+      1,
+      0
+     ],
+     "value": "生物學：恐龍餵食技術 Lv1"
+    },
+    {
+     "id": "gub1",
+     "type": 3,
+     "extras": [
+      1,
+      0
+     ],
+     "value": "+2攻擊傷害，+50%生命回復速度，+10%生命上限，+5%攻擊速度"
+    },
+    {
+     "id": "gglb",
+     "type": 0,
+     "extras": [
+      0,
+      0
+     ],
+     "value": 25
+    },
+    {
+     "id": "gar1",
+     "type": 3,
+     "extras": [
+      1,
+      0
+     ],
+     "value": "ReplaceableTextures\\CommandButtons\\BTNDust.blp"
+    },
+    {
+     "id": "glvl",
+     "type": 0,
+     "extras": [
+      0,
+      0
+     ],
+     "value": 15
+    },
+    {
+     "id": "gub1",
+     "type": 3,
+     "extras": [
+      2,
+      0
+     ],
+     "value": "+3攻擊傷害，+75%生命回復速度，+18%生命上限，+7%攻擊速度"
+    },
+    {
+     "id": "gub1",
+     "type": 3,
+     "extras": [
+      3,
+      0
+     ],
+     "value": "+4攻擊傷害，+100%生命回復速度，+26%生命上限，+9%攻擊速度"
+    },
+    {
+     "id": "gub1",
+     "type": 3,
+     "extras": [
+      4,
+      0
+     ],
+     "value": "+5攻擊傷害，+125%生命回復速度，+34%生命上限，+11%攻擊速度"
+    },
+    {
+     "id": "gtp1",
+     "type": 3,
+     "extras": [
+      3,
+      0
+     ],
+     "value": "生物學：恐龍餵食技術 Lv3"
+    },
+    {
+     "id": "gtp1",
+     "type": 3,
+     "extras": [
+      4,
+      0
+     ],
+     "value": "生物學：恐龍餵食技術 Lv4"
+    },
+    {
+     "id": "gnam",
+     "type": 3,
+     "extras": [
+      2,
+      0
+     ],
+     "value": "生物學：恐龍餵食技術 Lv2"
+    },
+    {
+     "id": "gnam",
+     "type": 3,
+     "extras": [
+      3,
+      0
+     ],
+     "value": "生物學：恐龍餵食技術 Lv3"
+    },
+    {
+     "id": "gnam",
+     "type": 3,
+     "extras": [
+      4,
+      0
+     ],
+     "value": "生物學：恐龍餵食技術 Lv4"
+    },
+    {
+     "id": "gglm",
+     "type": 0,
+     "extras": [
+      0,
+      0
+     ],
+     "value": 10
+    },
+    {
+     "id": "glmm",
+     "type": 0,
+     "extras": [
+      0,
+      0
+     ],
+     "value": 10
+    },
+    {
+     "id": "gtim",
+     "type": 0,
+     "extras": [
+      0,
+      0
+     ],
+     "value": 5
+    },
+    {
+     "id": "gar1",
+     "type": 3,
+     "extras": [
+      2,
+      0
+     ],
+     "value": "ReplaceableTextures\\CommandButtons\\BTNDust.blp"
+    },
+    {
+     "id": "gar1",
+     "type": 3,
+     "extras": [
+      3,
+      0
+     ],
+     "value": "ReplaceableTextures\\CommandButtons\\BTNDust.blp"
+    },
+    {
+     "id": "gar1",
+     "type": 3,
+     "extras": [
+      4,
+      0
+     ],
+     "value": "ReplaceableTextures\\CommandButtons\\BTNDust.blp"
+    },
+    {
+     "id": "gef2",
+     "type": 3,
+     "extras": [
+      0,
+      0
+     ],
+     "value": "ratx"
+    },
+    {
+     "id": "gef1",
+     "type": 3,
+     "extras": [
+      0,
+      0
+     ],
+     "value": "rhpr"
+    },
+    {
+     "id": "gba1",
+     "type": 2,
+     "extras": [
+      0,
+      0
+     ],
+     "value": 0.5
+    },
+    {
+     "id": "gmo1",
+     "type": 2,
+     "extras": [
+      0,
+      0
+     ],
+     "value": 0.25
+    },
+    {
+     "id": "gba2",
+     "type": 2,
+     "extras": [
+      0,
+      0
+     ],
+     "value": 1.0
+    },
+    {
+     "id": "gmo2",
+     "type": 2,
+     "extras": [
+      0,
+      0
+     ],
+     "value": 2.0
+    },
+    {
+     "id": "gef3",
+     "type": 3,
+     "extras": [
+      0,
+      0
+     ],
+     "value": "rhpo"
+    },
+    {
+     "id": "gba3",
+     "type": 2,
+     "extras": [
+      0,
+      0
+     ],
+     "value": 0.10000000149011612
+    },
+    {
+     "id": "gmo3",
+     "type": 2,
+     "extras": [
+      0,
+      0
+     ],
+     "value": 0.07999999821186066
+    },
+    {
+     "id": "gar1",
+     "type": 3,
+     "extras": [
+      5,
+      0
+     ],
+     "value": "ReplaceableTextures\\CommandButtons\\BTNDust.blp"
+    },
+    {
+     "id": "gar1",
+     "type": 3,
+     "extras": [
+      6,
+      0
+     ],
+     "value": "ReplaceableTextures\\CommandButtons\\BTNDust.blp"
+    },
+    {
+     "id": "gar1",
+     "type": 3,
+     "extras": [
+      7,
+      0
+     ],
+     "value": "ReplaceableTextures\\CommandButtons\\BTNDust.blp"
+    },
+    {
+     "id": "gar1",
+     "type": 3,
+     "extras": [
+      8,
+      0
+     ],
+     "value": "ReplaceableTextures\\CommandButtons\\BTNDust.blp"
+    },
+    {
+     "id": "gar1",
+     "type": 3,
+     "extras": [
+      9,
+      0
+     ],
+     "value": "ReplaceableTextures\\CommandButtons\\BTNDust.blp"
+    },
+    {
+     "id": "gar1",
+     "type": 3,
+     "extras": [
+      10,
+      0
+     ],
+     "value": "ReplaceableTextures\\CommandButtons\\BTNDust.blp"
+    },
+    {
+     "id": "gnam",
+     "type": 3,
+     "extras": [
+      5,
+      0
+     ],
+     "value": "生物學：恐龍餵食技術 Lv5"
+    },
+    {
+     "id": "gnam",
+     "type": 3,
+     "extras": [
+      6,
+      0
+     ],
+     "value": "生物學：恐龍餵食技術 Lv6"
+    },
+    {
+     "id": "gnam",
+     "type": 3,
+     "extras": [
+      7,
+      0
+     ],
+     "value": "生物學：恐龍餵食技術 Lv7"
+    },
+    {
+     "id": "gnam",
+     "type": 3,
+     "extras": [
+      8,
+      0
+     ],
+     "value": "生物學：恐龍餵食技術 Lv8"
+    },
+    {
+     "id": "gnam",
+     "type": 3,
+     "extras": [
+      9,
+      0
+     ],
+     "value": "生物學：恐龍餵食技術 Lv9"
+    },
+    {
+     "id": "gnam",
+     "type": 3,
+     "extras": [
+      10,
+      0
+     ],
+     "value": "生物學：進階恐龍餵食技術"
+    },
+    {
+     "id": "gtp1",
+     "type": 3,
+     "extras": [
+      2,
+      0
+     ],
+     "value": "生物學：恐龍餵食技術 Lv2"
+    },
+    {
+     "id": "gtp1",
+     "type": 3,
+     "extras": [
+      5,
+      0
+     ],
+     "value": "生物學：恐龍餵食技術 Lv5"
+    },
+    {
+     "id": "gtp1",
+     "type": 3,
+     "extras": [
+      6,
+      0
+     ],
+     "value": "生物學：恐龍餵食技術 Lv6"
+    },
+    {
+     "id": "gtp1",
+     "type": 3,
+     "extras": [
+      7,
+      0
+     ],
+     "value": "生物學：恐龍餵食技術 Lv7"
+    },
+    {
+     "id": "gtp1",
+     "type": 3,
+     "extras": [
+      8,
+      0
+     ],
+     "value": "生物學：恐龍餵食技術 Lv8"
+    },
+    {
+     "id": "gtp1",
+     "type": 3,
+     "extras": [
+      9,
+      0
+     ],
+     "value": "生物學：恐龍餵食技術 Lv9"
+    },
+    {
+     "id": "gtp1",
+     "type": 3,
+     "extras": [
+      10,
+      0
+     ],
+     "value": "生物學：進階恐龍餵食技術"
+    },
+    {
+     "id": "gub1",
+     "type": 3,
+     "extras": [
+      5,
+      0
+     ],
+     "value": "+5攻擊傷害，+125%生命回復速度，+42%生命上限，+13%攻擊速度"
+    },
+    {
+     "id": "gub1",
+     "type": 3,
+     "extras": [
+      6,
+      0
+     ],
+     "value": "+6攻擊傷害，+150%生命回復速度，+50%生命上限，+15%攻擊速度"
+    },
+    {
+     "id": "gub1",
+     "type": 3,
+     "extras": [
+      7,
+      0
+     ],
+     "value": "+7攻擊傷害，+175%生命回復速度，+58%生命上限，+17%攻擊速度"
+    },
+    {
+     "id": "gub1",
+     "type": 3,
+     "extras": [
+      8,
+      0
+     ],
+     "value": "+8攻擊傷害，+200%生命回復速度，+66%生命上限，+19%攻擊速度"
+    },
+    {
+     "id": "gub1",
+     "type": 3,
+     "extras": [
+      9,
+      0
+     ],
+     "value": "+9攻擊傷害，+225%生命回復速度，+74%生命上限，+21%攻擊速度"
+    },
+    {
+     "id": "gub1",
+     "type": 3,
+     "extras": [
+      10,
+      0
+     ],
+     "value": "+10攻擊傷害，+250%生命回復速度，+82%生命上限，+23%攻擊速度"
+    },
+    {
+     "id": "gef4",
+     "type": 3,
+     "extras": [
+      0,
+      0
+     ],
+     "value": "rats"
+    },
+    {
+     "id": "gba4",
+     "type": 2,
+     "extras": [
+      0,
+      0
+     ],
+     "value": 0.05000000074505806
+    },
+    {
+     "id": "gmo4",
+     "type": 2,
+     "extras": [
+      0,
+      0
+     ],
+     "value": 0.019999999552965164
+    },
+    {
+     "id": "greq",
+     "type": 3,
+     "extras": [
+      1,
+      0
+     ],
+     "value": "R00W"
+    },
+    {
+     "id": "gtib",
+     "type": 0,
+     "extras": [
+      0,
+      0
+     ],
+     "value": 30
+    },
+    {
+     "id": "ginh",
+     "type": 0,
+     "extras": [
+      0,
+      0
+     ],
+     "value": 0
+    },
+    {
+     "id": "gar1",
+     "type": 3,
+     "extras": [
+      11,
+      0
+     ],
+     "value": "ReplaceableTextures\\CommandButtons\\BTNDust.blp"
+    },
+    {
+     "id": "gar1",
+     "type": 3,
+     "extras": [
+      12,
+      0
+     ],
+     "value": "ReplaceableTextures\\CommandButtons\\BTNDust.blp"
+    },
+    {
+     "id": "gar1",
+     "type": 3,
+     "extras": [
+      13,
+      0
+     ],
+     "value": "ReplaceableTextures\\CommandButtons\\BTNDust.blp"
+    },
+    {
+     "id": "gar1",
+     "type": 3,
+     "extras": [
+      14,
+      0
+     ],
+     "value": "ReplaceableTextures\\CommandButtons\\BTNDust.blp"
+    },
+    {
+     "id": "gar1",
+     "type": 3,
+     "extras": [
+      15,
+      0
+     ],
+     "value": "ReplaceableTextures\\CommandButtons\\BTNDust.blp"
+    },
+    {
+     "id": "gtp1",
+     "type": 3,
+     "extras": [
+      11,
+      0
+     ],
+     "value": "生物學：進階恐龍餵食技術"
+    },
+    {
+     "id": "gtp1",
+     "type": 3,
+     "extras": [
+      12,
+      0
+     ],
+     "value": "生物學：進階恐龍餵食技術"
+    },
+    {
+     "id": "gtp1",
+     "type": 3,
+     "extras": [
+      13,
+      0
+     ],
+     "value": "生物學：進階恐龍餵食技術"
+    },
+    {
+     "id": "gtp1",
+     "type": 3,
+     "extras": [
+      14,
+      0
+     ],
+     "value": "生物學：進階恐龍餵食技術"
+    },
+    {
+     "id": "gtp1",
+     "type": 3,
+     "extras": [
+      15,
+      0
+     ],
+     "value": "生物學：進階恐龍餵食技術"
+    },
+    {
+     "id": "gub1",
+     "type": 3,
+     "extras": [
+      11,
+      0
+     ],
+     "value": "+11攻擊傷害，+275%生命回復速度，+90%生命上限，+25%攻擊速度"
+    },
+    {
+     "id": "gub1",
+     "type": 3,
+     "extras": [
+      12,
+      0
+     ],
+     "value": "+12攻擊傷害，+300%生命回復速度，+98%生命上限，+27%攻擊速度"
+    },
+    {
+     "id": "gub1",
+     "type": 3,
+     "extras": [
+      13,
+      0
+     ],
+     "value": "+13攻擊傷害，+325%生命回復速度，+106%生命上限，+29%攻擊速度"
+    },
+    {
+     "id": "gub1",
+     "type": 3,
+     "extras": [
+      14,
+      0
+     ],
+     "value": "+14攻擊傷害，+350%生命回復速度，+114%生命上限，+31%攻擊速度"
+    },
+    {
+     "id": "gub1",
+     "type": 3,
+     "extras": [
+      15,
+      0
+     ],
+     "value": "+15攻擊傷害，+375%生命回復速度，+122%生命上限，+33%攻擊速度"
+    }
+   ]
+  },
+  {
+   "old_id": "Ropg",
+   "new_id": "R00N",
+   "mods": [
+    {
+     "id": "gnam",
+     "type": 3,
+     "extras": [
+      1,
+      0
+     ],
+     "value": "物理學：研究發電技術"
+    },
+    {
+     "id": "gtp1",
+     "type": 3,
+     "extras": [
+      1,
+      0
+     ],
+     "value": "物理學：研究發電技術"
+    },
+    {
+     "id": "gub1",
+     "type": 3,
+     "extras": [
+      1,
+      0
+     ],
+     "value": "允許你製造更強大的發電廠"
+    },
+    {
+     "id": "gar1",
+     "type": 3,
+     "extras": [
+      1,
+      0
+     ],
+     "value": "ReplaceableTextures\\CommandButtons\\BTNControlMagic.blp"
+    },
+    {
+     "id": "glmb",
+     "type": 0,
+     "extras": [
+      0,
+      0
+     ],
+     "value": 40
+    },
+    {
+     "id": "gglb",
+     "type": 0,
+     "extras": [
+      0,
+      0
+     ],
+     "value": 40
+    },
+    {
+     "id": "grac",
+     "type": 3,
+     "extras": [
+      0,
+      0
+     ],
+     "value": "human"
+    },
+    {
+     "id": "greq",
+     "type": 3,
+     "extras": [
+      1,
+      0
+     ],
+     "value": "R00Y"
+    },
+    {
+     "id": "ginh",
+     "type": 0,
+     "extras": [
+      0,
+      0
+     ],
+     "value": 0
+    }
+   ]
+  },
+  {
+   "old_id": "Ropg",
+   "new_id": "R00O",
+   "mods": [
+    {
+     "id": "gnam",
+     "type": 3,
+     "extras": [
+      1,
+      0
+     ],
+     "value": "機械學：車架研究 I"
+    },
+    {
+     "id": "gtp1",
+     "type": 3,
+     "extras": [
+      1,
+      0
+     ],
+     "value": "機械學：車架研究 I"
+    },
+    {
+     "id": "gub1",
+     "type": 3,
+     "extras": [
+      1,
+      0
+     ],
+     "value": "允許建造零式黑鳥"
+    },
+    {
+     "id": "gglb",
+     "type": 0,
+     "extras": [
+      0,
+      0
+     ],
+     "value": 30
+    },
+    {
+     "id": "glmb",
+     "type": 0,
+     "extras": [
+      0,
+      0
+     ],
+     "value": 30
+    },
+    {
+     "id": "gtib",
+     "type": 0,
+     "extras": [
+      0,
+      0
+     ],
+     "value": 40
+    },
+    {
+     "id": "gar1",
+     "type": 3,
+     "extras": [
+      1,
+      0
+     ],
+     "value": "ReplaceableTextures\\CommandButtons\\BTNJeep.blp"
+    },
+    {
+     "id": "grac",
+     "type": 3,
+     "extras": [
+      0,
+      0
+     ],
+     "value": "human"
+    },
+    {
+     "id": "greq",
+     "type": 3,
+     "extras": [
+      1,
+      0
+     ],
+     "value": "R00V"
+    },
+    {
+     "id": "ginh",
+     "type": 0,
+     "extras": [
+      0,
+      0
+     ],
+     "value": 0
+    }
+   ]
+  },
+  {
+   "old_id": "Ropg",
+   "new_id": "R00P",
+   "mods": [
+    {
+     "id": "gnam",
+     "type": 3,
+     "extras": [
+      1,
+      0
+     ],
+     "value": "機械學：車架研究 II"
+    },
+    {
+     "id": "gtp1",
+     "type": 3,
+     "extras": [
+      1,
+      0
+     ],
+     "value": "機械學：車架研究 II"
+    },
+    {
+     "id": "gub1",
+     "type": 3,
+     "extras": [
+      1,
+      0
+     ],
+     "value": "允許建造惡魔鳥"
+    },
+    {
+     "id": "gglb",
+     "type": 0,
+     "extras": [
+      0,
+      0
+     ],
+     "value": 35
+    },
+    {
+     "id": "glmb",
+     "type": 0,
+     "extras": [
+      0,
+      0
+     ],
+     "value": 35
+    },
+    {
+     "id": "gtib",
+     "type": 0,
+     "extras": [
+      0,
+      0
+     ],
+     "value": 40
+    },
+    {
+     "id": "gar1",
+     "type": 3,
+     "extras": [
+      1,
+      0
+     ],
+     "value": "ReplaceableTextures\\CommandButtons\\BTNJeep.blp"
+    },
+    {
+     "id": "grac",
+     "type": 3,
+     "extras": [
+      0,
+      0
+     ],
+     "value": "human"
+    },
+    {
+     "id": "greq",
+     "type": 3,
+     "extras": [
+      1,
+      0
+     ],
+     "value": "R00V,R00O"
+    },
+    {
+     "id": "ginh",
+     "type": 0,
+     "extras": [
+      0,
+      0
+     ],
+     "value": 0
+    }
+   ]
+  },
+  {
+   "old_id": "Ropg",
+   "new_id": "R00Q",
+   "mods": [
+    {
+     "id": "gnam",
+     "type": 3,
+     "extras": [
+      1,
+      0
+     ],
+     "value": "盜獵學：伐獵技術 I"
+    },
+    {
+     "id": "gtp1",
+     "type": 3,
+     "extras": [
+      1,
+      0
+     ],
+     "value": "盜獵學：伐獵技術 I"
+    },
+    {
+     "id": "gub1",
+     "type": 3,
+     "extras": [
+      1,
+      0
+     ],
+     "value": "你的倖存者殺死恐龍時，多獲得 50% 的資源"
+    },
+    {
+     "id": "gar1",
+     "type": 3,
+     "extras": [
+      1,
+      0
+     ],
+     "value": "ReplaceableTextures\\CommandButtons\\BTNChestOfGold.blp"
+    },
+    {
+     "id": "grac",
+     "type": 3,
+     "extras": [
+      0,
+      0
+     ],
+     "value": "human"
+    },
+    {
+     "id": "gtib",
+     "type": 0,
+     "extras": [
+      0,
+      0
+     ],
+     "value": 20
+    },
+    {
+     "id": "gglb",
+     "type": 0,
+     "extras": [
+      0,
+      0
+     ],
+     "value": 50
+    },
+    {
+     "id": "glmb",
+     "type": 0,
+     "extras": [
+      0,
+      0
+     ],
+     "value": 50
+    },
+    {
+     "id": "greq",
+     "type": 3,
+     "extras": [
+      1,
+      0
+     ],
+     "value": "R00E,R00D,R00Z"
+    },
+    {
+     "id": "ginh",
+     "type": 0,
+     "extras": [
+      0,
+      0
+     ],
+     "value": 0
+    }
+   ]
+  },
+  {
+   "old_id": "Ropg",
+   "new_id": "R00R",
+   "mods": [
+    {
+     "id": "gnam",
+     "type": 3,
+     "extras": [
+      1,
+      0
+     ],
+     "value": "盜獵學：伐獵技術 III(NA)"
+    },
+    {
+     "id": "gtp1",
+     "type": 3,
+     "extras": [
+      1,
+      0
+     ],
+     "value": "盜獵學：伐獵技術 III(NA)"
+    },
+    {
+     "id": "gub1",
+     "type": 3,
+     "extras": [
+      1,
+      0
+     ],
+     "value": "你的倖存者殺死恐龍時，多獲得 125% 的資源"
+    },
+    {
+     "id": "gglb",
+     "type": 0,
+     "extras": [
+      0,
+      0
+     ],
+     "value": 170
+    },
+    {
+     "id": "gar1",
+     "type": 3,
+     "extras": [
+      1,
+      0
+     ],
+     "value": "ReplaceableTextures\\CommandButtons\\BTNPBullets.blp"
+    },
+    {
+     "id": "grac",
+     "type": 3,
+     "extras": [
+      0,
+      0
+     ],
+     "value": "human"
+    },
+    {
+     "id": "gtib",
+     "type": 0,
+     "extras": [
+      0,
+      0
+     ],
+     "value": 50
+    },
+    {
+     "id": "glmb",
+     "type": 0,
+     "extras": [
+      0,
+      0
+     ],
+     "value": 170
+    },
+    {
+     "id": "greq",
+     "type": 3,
+     "extras": [
+      1,
+      0
+     ],
+     "value": "R00Z,R00S"
+    },
+    {
+     "id": "ginh",
+     "type": 0,
+     "extras": [
+      0,
+      0
+     ],
+     "value": 0
+    }
+   ]
+  },
+  {
+   "old_id": "Ropg",
+   "new_id": "R00S",
+   "mods": [
+    {
+     "id": "gnam",
+     "type": 3,
+     "extras": [
+      1,
+      0
+     ],
+     "value": "盜獵學：伐獵技術 II"
+    },
+    {
+     "id": "gtp1",
+     "type": 3,
+     "extras": [
+      1,
+      0
+     ],
+     "value": "盜獵學：伐獵技術 II"
+    },
+    {
+     "id": "gub1",
+     "type": 3,
+     "extras": [
+      1,
+      0
+     ],
+     "value": "你的倖存者殺死恐龍時，多獲得 100% 的資源"
+    },
+    {
+     "id": "gar1",
+     "type": 3,
+     "extras": [
+      1,
+      0
+     ],
+     "value": "ReplaceableTextures\\CommandButtons\\BTNChestOfGold.blp"
+    },
+    {
+     "id": "grac",
+     "type": 3,
+     "extras": [
+      0,
+      0
+     ],
+     "value": "human"
+    },
+    {
+     "id": "gtib",
+     "type": 0,
+     "extras": [
+      0,
+      0
+     ],
+     "value": 35
+    },
+    {
+     "id": "glmb",
+     "type": 0,
+     "extras": [
+      0,
+      0
+     ],
+     "value": 100
+    },
+    {
+     "id": "gglb",
+     "type": 0,
+     "extras": [
+      0,
+      0
+     ],
+     "value": 120
+    },
+    {
+     "id": "greq",
+     "type": 3,
+     "extras": [
+      1,
+      0
+     ],
+     "value": "R004,R00Z,R00Q"
+    },
+    {
+     "id": "ginh",
+     "type": 0,
+     "extras": [
+      0,
+      0
+     ],
+     "value": 0
+    }
+   ]
+  },
+  {
+   "old_id": "Ropg",
+   "new_id": "R00T",
+   "mods": [
+    {
+     "id": "gnam",
+     "type": 3,
+     "extras": [
+      1,
+      0
+     ],
+     "value": "生物學：人類基因工程"
+    },
+    {
+     "id": "gtp1",
+     "type": 3,
+     "extras": [
+      1,
+      0
+     ],
+     "value": "生物學：人類基因工程"
+    },
+    {
+     "id": "gub1",
+     "type": 3,
+     "extras": [
+      1,
+      0
+     ],
+     "value": "法力上限+30%，生命上限+30%"
+    },
+    {
+     "id": "gglb",
+     "type": 0,
+     "extras": [
+      0,
+      0
+     ],
+     "value": 30
+    },
+    {
+     "id": "gar1",
+     "type": 3,
+     "extras": [
+      1,
+      0
+     ],
+     "value": "ReplaceableTextures\\CommandButtons\\BTNPeasant.blp"
+    },
+    {
+     "id": "glmb",
+     "type": 0,
+     "extras": [
+      0,
+      0
+     ],
+     "value": 30
+    },
+    {
+     "id": "glvl",
+     "type": 0,
+     "extras": [
+      0,
+      0
+     ],
+     "value": 5
+    },
+    {
+     "id": "gub1",
+     "type": 3,
+     "extras": [
+      2,
+      0
+     ],
+     "value": "研究人類基因，讓你的倖存者變得更強大，採集更多的資源，法力上限+30%，生命上限+30%，資源採集技術提升1級(疊加)"
+    },
+    {
+     "id": "gub1",
+     "type": 3,
+     "extras": [
+      3,
+      0
+     ],
+     "value": "研究人類基因，讓你的倖存者變得更強大，採集更多的資源，法力上限+30%，生命上限+30%，資源採集技術提升1級(疊加)"
+    },
+    {
+     "id": "gub1",
+     "type": 3,
+     "extras": [
+      4,
+      0
+     ],
+     "value": "研究人類基因，讓你的倖存者變得更強大，採集更多的資源，法力上限+30%，生命上限+30%，資源採集技術提升1級(疊加)"
+    },
+    {
+     "id": "gtp1",
+     "type": 3,
+     "extras": [
+      3,
+      0
+     ],
+     "value": "生物學：人類基因工程"
+    },
+    {
+     "id": "gtp1",
+     "type": 3,
+     "extras": [
+      4,
+      0
+     ],
+     "value": "生物學：人類基因工程"
+    },
+    {
+     "id": "gnam",
+     "type": 3,
+     "extras": [
+      2,
+      0
+     ],
+     "value": "生物學：人類基因工程"
+    },
+    {
+     "id": "gnam",
+     "type": 3,
+     "extras": [
+      3,
+      0
+     ],
+     "value": "生物學：人類基因工程"
+    },
+    {
+     "id": "gnam",
+     "type": 3,
+     "extras": [
+      4,
+      0
+     ],
+     "value": "生物學：人類基因工程"
+    },
+    {
+     "id": "gglm",
+     "type": 0,
+     "extras": [
+      0,
+      0
+     ],
+     "value": 5
+    },
+    {
+     "id": "glmm",
+     "type": 0,
+     "extras": [
+      0,
+      0
+     ],
+     "value": 5
+    },
+    {
+     "id": "gar1",
+     "type": 3,
+     "extras": [
+      2,
+      0
+     ],
+     "value": "ReplaceableTextures\\CommandButtons\\BTNPeasant.blp"
+    },
+    {
+     "id": "gar1",
+     "type": 3,
+     "extras": [
+      3,
+      0
+     ],
+     "value": "ReplaceableTextures\\CommandButtons\\BTNPeasant.blp"
+    },
+    {
+     "id": "gar1",
+     "type": 3,
+     "extras": [
+      4,
+      0
+     ],
+     "value": "ReplaceableTextures\\CommandButtons\\BTNPeasant.blp"
+    },
+    {
+     "id": "gef2",
+     "type": 3,
+     "extras": [
+      0,
+      0
+     ],
+     "value": "rman"
+    },
+    {
+     "id": "gba1",
+     "type": 2,
+     "extras": [
+      0,
+      0
+     ],
+     "value": 0.25
+    },
+    {
+     "id": "gba2",
+     "type": 2,
+     "extras": [
+      0,
+      0
+     ],
+     "value": 0.30000001192092896
+    },
+    {
+     "id": "gmo2",
+     "type": 2,
+     "extras": [
+      0,
+      0
+     ],
+     "value": 0.30000001192092896
+    },
+    {
+     "id": "gef3",
+     "type": 3,
+     "extras": [
+      0,
+      0
+     ],
+     "value": "rhpo"
+    },
+    {
+     "id": "gba3",
+     "type": 2,
+     "extras": [
+      0,
+      0
+     ],
+     "value": 0.30000001192092896
+    },
+    {
+     "id": "gar1",
+     "type": 3,
+     "extras": [
+      5,
+      0
+     ],
+     "value": "ReplaceableTextures\\CommandButtons\\BTNPeasant.blp"
+    },
+    {
+     "id": "gar1",
+     "type": 3,
+     "extras": [
+      6,
+      0
+     ],
+     "value": "ReplaceableTextures\\CommandButtons\\BTNDust.blp"
+    },
+    {
+     "id": "gar1",
+     "type": 3,
+     "extras": [
+      7,
+      0
+     ],
+     "value": "ReplaceableTextures\\CommandButtons\\BTNDust.blp"
+    },
+    {
+     "id": "gar1",
+     "type": 3,
+     "extras": [
+      8,
+      0
+     ],
+     "value": "ReplaceableTextures\\CommandButtons\\BTNDust.blp"
+    },
+    {
+     "id": "gar1",
+     "type": 3,
+     "extras": [
+      9,
+      0
+     ],
+     "value": "ReplaceableTextures\\CommandButtons\\BTNDust.blp"
+    },
+    {
+     "id": "gar1",
+     "type": 3,
+     "extras": [
+      10,
+      0
+     ],
+     "value": "ReplaceableTextures\\CommandButtons\\BTNDust.blp"
+    },
+    {
+     "id": "gnam",
+     "type": 3,
+     "extras": [
+      5,
+      0
+     ],
+     "value": "生物學：人類基因工程"
+    },
+    {
+     "id": "gnam",
+     "type": 3,
+     "extras": [
+      6,
+      0
+     ],
+     "value": "研究改良飲食"
+    },
+    {
+     "id": "gnam",
+     "type": 3,
+     "extras": [
+      7,
+      0
+     ],
+     "value": "研究定制化飲食"
+    },
+    {
+     "id": "gnam",
+     "type": 3,
+     "extras": [
+      8,
+      0
+     ],
+     "value": "研究科學飲食"
+    },
+    {
+     "id": "gnam",
+     "type": 3,
+     "extras": [
+      9,
+      0
+     ],
+     "value": "研究專用飲食"
+    },
+    {
+     "id": "gnam",
+     "type": 3,
+     "extras": [
+      10,
+      0
+     ],
+     "value": "研究理想飲食"
+    },
+    {
+     "id": "gtp1",
+     "type": 3,
+     "extras": [
+      2,
+      0
+     ],
+     "value": "生物學：人類基因工程"
+    },
+    {
+     "id": "gtp1",
+     "type": 3,
+     "extras": [
+      5,
+      0
+     ],
+     "value": "生物學：人類基因工程"
+    },
+    {
+     "id": "gtp1",
+     "type": 3,
+     "extras": [
+      6,
+      0
+     ],
+     "value": "改良的飲食讓你的恐龍變得更強大"
+    },
+    {
+     "id": "gtp1",
+     "type": 3,
+     "extras": [
+      7,
+      0
+     ],
+     "value": "定制的飲食讓你的恐龍變得更強大"
+    },
+    {
+     "id": "gtp1",
+     "type": 3,
+     "extras": [
+      8,
+      0
+     ],
+     "value": "科學的飲食讓你的恐龍變得更強大"
+    },
+    {
+     "id": "gtp1",
+     "type": 3,
+     "extras": [
+      9,
+      0
+     ],
+     "value": "專用的飲食讓你的恐龍變得更強大"
+    },
+    {
+     "id": "gtp1",
+     "type": 3,
+     "extras": [
+      10,
+      0
+     ],
+     "value": "理想的飲食讓你的恐龍變得更強大"
+    },
+    {
+     "id": "gub1",
+     "type": 3,
+     "extras": [
+      5,
+      0
+     ],
+     "value": "法力上限+30%，生命上限+30%，資源採集技術提升1級(疊加)"
+    },
+    {
+     "id": "gub1",
+     "type": 3,
+     "extras": [
+      6,
+      0
+     ],
+     "value": "+6攻擊傷害，+150%生命回復速度，+30%生命上限，+15%攻擊速度"
+    },
+    {
+     "id": "gub1",
+     "type": 3,
+     "extras": [
+      7,
+      0
+     ],
+     "value": "+7攻擊傷害，+175%生命回復速度，+35%生命上限，+17%攻擊速度"
+    },
+    {
+     "id": "gub1",
+     "type": 3,
+     "extras": [
+      8,
+      0
+     ],
+     "value": "+8攻擊傷害，+200%生命回復速度，+40%生命上限，+19%攻擊速度"
+    },
+    {
+     "id": "gub1",
+     "type": 3,
+     "extras": [
+      9,
+      0
+     ],
+     "value": "+9攻擊傷害，+225%生命回復速度，+45%生命上限，+21%攻擊速度"
+    },
+    {
+     "id": "gub1",
+     "type": 3,
+     "extras": [
+      10,
+      0
+     ],
+     "value": "+10攻擊傷害，+250%生命回復速度，+50%生命上限，+23%攻擊速度"
+    },
+    {
+     "id": "gba4",
+     "type": 2,
+     "extras": [
+      0,
+      0
+     ],
+     "value": 0.05000000074505806
+    },
+    {
+     "id": "gmo4",
+     "type": 2,
+     "extras": [
+      0,
+      0
+     ],
+     "value": 1.0
+    },
+    {
+     "id": "grac",
+     "type": 3,
+     "extras": [
+      0,
+      0
+     ],
+     "value": "human"
+    },
+    {
+     "id": "gmo1",
+     "type": 2,
+     "extras": [
+      0,
+      0
+     ],
+     "value": 1.0
+    },
+    {
+     "id": "gmo3",
+     "type": 2,
+     "extras": [
+      0,
+      0
+     ],
+     "value": 0.30000001192092896
+    },
+    {
+     "id": "greq",
+     "type": 3,
+     "extras": [
+      1,
+      0
+     ],
+     "value": "R00W"
+    },
+    {
+     "id": "ginh",
+     "type": 0,
+     "extras": [
+      0,
+      0
+     ],
+     "value": 0
+    },
+    {
+     "id": "gtib",
+     "type": 0,
+     "extras": [
+      0,
+      0
+     ],
+     "value": 1
+    }
+   ]
+  },
+  {
+   "old_id": "Ropg",
+   "new_id": "R00U",
+   "mods": [
+    {
+     "id": "gnam",
+     "type": 3,
+     "extras": [
+      1,
+      0
+     ],
+     "value": "生物學：視力進化技術"
+    },
+    {
+     "id": "gtp1",
+     "type": 3,
+     "extras": [
+      1,
+      0
+     ],
+     "value": "生物學：視力進化技術"
+    },
+    {
+     "id": "gub1",
+     "type": 3,
+     "extras": [
+      1,
+      0
+     ],
+     "value": "使你的倖存者增加視野至 750"
+    },
+    {
+     "id": "gglb",
+     "type": 0,
+     "extras": [
+      0,
+      0
+     ],
+     "value": 175
+    },
+    {
+     "id": "gar1",
+     "type": 3,
+     "extras": [
+      1,
+      0
+     ],
+     "value": "ReplaceableTextures\\CommandButtons\\BTNCharm.blp"
+    },
+    {
+     "id": "glmb",
+     "type": 0,
+     "extras": [
+      0,
+      0
+     ],
+     "value": 125
+    },
+    {
+     "id": "gub1",
+     "type": 3,
+     "extras": [
+      2,
+      0
+     ],
+     "value": "額外增加視野 250"
+    },
+    {
+     "id": "gub1",
+     "type": 3,
+     "extras": [
+      3,
+      0
+     ],
+     "value": "額外增加視野 250"
+    },
+    {
+     "id": "gub1",
+     "type": 3,
+     "extras": [
+      4,
+      0
+     ],
+     "value": "+5攻擊傷害，+125%生命回復速度，+25%生命上限，+11%攻擊速度"
+    },
+    {
+     "id": "gtp1",
+     "type": 3,
+     "extras": [
+      3,
+      0
+     ],
+     "value": "額外增加視野 250"
+    },
+    {
+     "id": "gtp1",
+     "type": 3,
+     "extras": [
+      4,
+      0
+     ],
+     "value": "補充飲養的飲食讓你的恐龍變得更強大"
+    },
+    {
+     "id": "gnam",
+     "type": 3,
+     "extras": [
+      2,
+      0
+     ],
+     "value": "生物學：視力進化技術"
+    },
+    {
+     "id": "gnam",
+     "type": 3,
+     "extras": [
+      3,
+      0
+     ],
+     "value": "生物學：視力進化技術"
+    },
+    {
+     "id": "gnam",
+     "type": 3,
+     "extras": [
+      4,
+      0
+     ],
+     "value": "研究補充飲養飲食"
+    },
+    {
+     "id": "gtim",
+     "type": 0,
+     "extras": [
+      0,
+      0
+     ],
+     "value": 5
+    },
+    {
+     "id": "gar1",
+     "type": 3,
+     "extras": [
+      2,
+      0
+     ],
+     "value": "ReplaceableTextures\\CommandButtons\\BTNPeasant.blp"
+    },
+    {
+     "id": "gar1",
+     "type": 3,
+     "extras": [
+      3,
+      0
+     ],
+     "value": "ReplaceableTextures\\CommandButtons\\BTNPeasant.blp"
+    },
+    {
+     "id": "gar1",
+     "type": 3,
+     "extras": [
+      4,
+      0
+     ],
+     "value": "ReplaceableTextures\\CommandButtons\\BTNDust.blp"
+    },
+    {
+     "id": "gba1",
+     "type": 2,
+     "extras": [
+      0,
+      0
+     ],
+     "value": 0.25
+    },
+    {
+     "id": "gba2",
+     "type": 2,
+     "extras": [
+      0,
+      0
+     ],
+     "value": 0.30000001192092896
+    },
+    {
+     "id": "gmo2",
+     "type": 2,
+     "extras": [
+      0,
+      0
+     ],
+     "value": 0.30000001192092896
+    },
+    {
+     "id": "gba3",
+     "type": 2,
+     "extras": [
+      0,
+      0
+     ],
+     "value": 0.30000001192092896
+    },
+    {
+     "id": "gar1",
+     "type": 3,
+     "extras": [
+      5,
+      0
+     ],
+     "value": "ReplaceableTextures\\CommandButtons\\BTNDust.blp"
+    },
+    {
+     "id": "gar1",
+     "type": 3,
+     "extras": [
+      6,
+      0
+     ],
+     "value": "ReplaceableTextures\\CommandButtons\\BTNDust.blp"
+    },
+    {
+     "id": "gar1",
+     "type": 3,
+     "extras": [
+      7,
+      0
+     ],
+     "value": "ReplaceableTextures\\CommandButtons\\BTNDust.blp"
+    },
+    {
+     "id": "gar1",
+     "type": 3,
+     "extras": [
+      8,
+      0
+     ],
+     "value": "ReplaceableTextures\\CommandButtons\\BTNDust.blp"
+    },
+    {
+     "id": "gar1",
+     "type": 3,
+     "extras": [
+      9,
+      0
+     ],
+     "value": "ReplaceableTextures\\CommandButtons\\BTNDust.blp"
+    },
+    {
+     "id": "gar1",
+     "type": 3,
+     "extras": [
+      10,
+      0
+     ],
+     "value": "ReplaceableTextures\\CommandButtons\\BTNDust.blp"
+    },
+    {
+     "id": "gnam",
+     "type": 3,
+     "extras": [
+      5,
+      0
+     ],
+     "value": "研究常規飲食"
+    },
+    {
+     "id": "gnam",
+     "type": 3,
+     "extras": [
+      6,
+      0
+     ],
+     "value": "研究改良飲食"
+    },
+    {
+     "id": "gnam",
+     "type": 3,
+     "extras": [
+      7,
+      0
+     ],
+     "value": "研究定制飲食"
+    },
+    {
+     "id": "gnam",
+     "type": 3,
+     "extras": [
+      8,
+      0
+     ],
+     "value": "研究科學飲食"
+    },
+    {
+     "id": "gnam",
+     "type": 3,
+     "extras": [
+      9,
+      0
+     ],
+     "value": "研究專用飲食"
+    },
+    {
+     "id": "gnam",
+     "type": 3,
+     "extras": [
+      10,
+      0
+     ],
+     "value": "研究理想飲食"
+    },
+    {
+     "id": "gtp1",
+     "type": 3,
+     "extras": [
+      2,
+      0
+     ],
+     "value": "額外增加視野 250"
+    },
+    {
+     "id": "gtp1",
+     "type": 3,
+     "extras": [
+      5,
+      0
+     ],
+     "value": "常規的飲食讓你的恐龍變得更強大"
+    },
+    {
+     "id": "gtp1",
+     "type": 3,
+     "extras": [
+      6,
+      0
+     ],
+     "value": "改良的飲食讓你的恐龍變得更強大"
+    },
+    {
+     "id": "gtp1",
+     "type": 3,
+     "extras": [
+      7,
+      0
+     ],
+     "value": "定制的飲食讓你的恐龍變得更強大"
+    },
+    {
+     "id": "gtp1",
+     "type": 3,
+     "extras": [
+      8,
+      0
+     ],
+     "value": "科學的飲食讓你的恐龍變得更強大"
+    },
+    {
+     "id": "gtp1",
+     "type": 3,
+     "extras": [
+      9,
+      0
+     ],
+     "value": "專門的飲食讓你的恐龍變得更強大"
+    },
+    {
+     "id": "gtp1",
+     "type": 3,
+     "extras": [
+      10,
+      0
+     ],
+     "value": "理想的飲食讓你的恐龍變得更強大"
+    },
+    {
+     "id": "gub1",
+     "type": 3,
+     "extras": [
+      5,
+      0
+     ],
+     "value": "+5攻擊傷害，+125%生命回復速度，+25%生命上限，+13%攻擊速度"
+    },
+    {
+     "id": "gub1",
+     "type": 3,
+     "extras": [
+      6,
+      0
+     ],
+     "value": "+6攻擊傷害，+150%生命回復速度，+35%生命上限，+15%攻擊速度"
+    },
+    {
+     "id": "gub1",
+     "type": 3,
+     "extras": [
+      7,
+      0
+     ],
+     "value": "+7攻擊傷害，+175%生命回復速度，+35%生命上限，+17%攻擊速度"
+    },
+    {
+     "id": "gub1",
+     "type": 3,
+     "extras": [
+      8,
+      0
+     ],
+     "value": "+8攻擊傷害，+200%生命回復速度，+40%生命上限，+19%攻擊速度"
+    },
+    {
+     "id": "gub1",
+     "type": 3,
+     "extras": [
+      9,
+      0
+     ],
+     "value": "+9攻擊傷害，+225%生命回復速度，+45%生命上限，+21%攻擊速度"
+    },
+    {
+     "id": "gub1",
+     "type": 3,
+     "extras": [
+      10,
+      0
+     ],
+     "value": "+10攻擊傷害，+250%生命回復速度，+50%生命上限，+23%攻擊速度"
+    },
+    {
+     "id": "gba4",
+     "type": 2,
+     "extras": [
+      0,
+      0
+     ],
+     "value": 0.05000000074505806
+    },
+    {
+     "id": "gmo4",
+     "type": 2,
+     "extras": [
+      0,
+      0
+     ],
+     "value": 1.0
+    },
+    {
+     "id": "grac",
+     "type": 3,
+     "extras": [
+      0,
+      0
+     ],
+     "value": "human"
+    },
+    {
+     "id": "gmo1",
+     "type": 2,
+     "extras": [
+      0,
+      0
+     ],
+     "value": 1.0
+    },
+    {
+     "id": "gmo3",
+     "type": 2,
+     "extras": [
+      0,
+      0
+     ],
+     "value": 0.30000001192092896
+    },
+    {
+     "id": "greq",
+     "type": 3,
+     "extras": [
+      1,
+      0
+     ],
+     "value": "R00W,R00T"
+    },
+    {
+     "id": "ginh",
+     "type": 0,
+     "extras": [
+      0,
+      0
+     ],
+     "value": 0
+    },
+    {
+     "id": "glmm",
+     "type": 0,
+     "extras": [
+      0,
+      0
+     ],
+     "value": 5
+    },
+    {
+     "id": "gglm",
+     "type": 0,
+     "extras": [
+      0,
+      0
+     ],
+     "value": 5
+    },
+    {
+     "id": "gtib",
+     "type": 0,
+     "extras": [
+      0,
+      0
+     ],
+     "value": 10
+    }
+   ]
+  },
+  {
+   "old_id": "Ropg",
+   "new_id": "R00V",
+   "mods": [
+    {
+     "id": "gnam",
+     "type": 3,
+     "extras": [
+      1,
+      0
+     ],
+     "value": "成為機械學院會員"
+    },
+    {
+     "id": "gtp1",
+     "type": 3,
+     "extras": [
+      1,
+      0
+     ],
+     "value": "成為機械學院會員"
+    },
+    {
+     "id": "gub1",
+     "type": 3,
+     "extras": [
+      1,
+      0
+     ],
+     "value": "允許你研究機械學院的技術，這只需要付一次錢，請先確定你有足夠的資源"
+    },
+    {
+     "id": "gglb",
+     "type": 0,
+     "extras": [
+      0,
+      0
+     ],
+     "value": 20
+    },
+    {
+     "id": "glmb",
+     "type": 0,
+     "extras": [
+      0,
+      0
+     ],
+     "value": 20
+    },
+    {
+     "id": "gar1",
+     "type": 3,
+     "extras": [
+      1,
+      0
+     ],
+     "value": "ReplaceableTextures\\CommandButtons\\BTNBookOfTheDead.blp"
+    },
+    {
+     "id": "grac",
+     "type": 3,
+     "extras": [
+      0,
+      0
+     ],
+     "value": "human"
+    },
+    {
+     "id": "gtib",
+     "type": 0,
+     "extras": [
+      0,
+      0
+     ],
+     "value": 5
+    }
+   ]
+  },
+  {
+   "old_id": "Ropg",
+   "new_id": "R00W",
+   "mods": [
+    {
+     "id": "gnam",
+     "type": 3,
+     "extras": [
+      1,
+      0
+     ],
+     "value": "成為生物學院會員"
+    },
+    {
+     "id": "gtp1",
+     "type": 3,
+     "extras": [
+      1,
+      0
+     ],
+     "value": "成為生物學院會員"
+    },
+    {
+     "id": "gub1",
+     "type": 3,
+     "extras": [
+      1,
+      0
+     ],
+     "value": "允許你研究生物學院的技術，這只需要付一次錢，請先確定你有足夠的資源"
+    },
+    {
+     "id": "gglb",
+     "type": 0,
+     "extras": [
+      0,
+      0
+     ],
+     "value": 20
+    },
+    {
+     "id": "glmb",
+     "type": 0,
+     "extras": [
+      0,
+      0
+     ],
+     "value": 20
+    },
+    {
+     "id": "gar1",
+     "type": 3,
+     "extras": [
+      1,
+      0
+     ],
+     "value": "ReplaceableTextures\\CommandButtons\\BTNBookOfTheDead.blp"
+    },
+    {
+     "id": "grac",
+     "type": 3,
+     "extras": [
+      0,
+      0
+     ],
+     "value": "human"
+    },
+    {
+     "id": "gtib",
+     "type": 0,
+     "extras": [
+      0,
+      0
+     ],
+     "value": 5
+    }
+   ]
+  },
+  {
+   "old_id": "Ropg",
+   "new_id": "R00X",
+   "mods": [
+    {
+     "id": "gnam",
+     "type": 3,
+     "extras": [
+      1,
+      0
+     ],
+     "value": "成為零售學院會員"
+    },
+    {
+     "id": "gtp1",
+     "type": 3,
+     "extras": [
+      1,
+      0
+     ],
+     "value": "成為零售學院會員"
+    },
+    {
+     "id": "gub1",
+     "type": 3,
+     "extras": [
+      1,
+      0
+     ],
+     "value": "允許你研究零售學院的技術，這只需要付一次錢，請先確定你有足夠的資源"
+    },
+    {
+     "id": "gglb",
+     "type": 0,
+     "extras": [
+      0,
+      0
+     ],
+     "value": 20
+    },
+    {
+     "id": "glmb",
+     "type": 0,
+     "extras": [
+      0,
+      0
+     ],
+     "value": 20
+    },
+    {
+     "id": "gar1",
+     "type": 3,
+     "extras": [
+      1,
+      0
+     ],
+     "value": "ReplaceableTextures\\CommandButtons\\BTNBookOfTheDead.blp"
+    },
+    {
+     "id": "grac",
+     "type": 3,
+     "extras": [
+      0,
+      0
+     ],
+     "value": "human"
+    },
+    {
+     "id": "gtib",
+     "type": 0,
+     "extras": [
+      0,
+      0
+     ],
+     "value": 5
+    },
+    {
+     "id": "ginh",
+     "type": 0,
+     "extras": [
+      0,
+      0
+     ],
+     "value": 0
+    }
+   ]
+  },
+  {
+   "old_id": "Ropg",
+   "new_id": "R00Y",
+   "mods": [
+    {
+     "id": "gnam",
+     "type": 3,
+     "extras": [
+      1,
+      0
+     ],
+     "value": "成為物理學院會員"
+    },
+    {
+     "id": "gtp1",
+     "type": 3,
+     "extras": [
+      1,
+      0
+     ],
+     "value": "成為物理學院會員"
+    },
+    {
+     "id": "gub1",
+     "type": 3,
+     "extras": [
+      1,
+      0
+     ],
+     "value": "允許你研究物理學院的技術，這只需要付一次錢，請先確定你有足夠的資源"
+    },
+    {
+     "id": "gglb",
+     "type": 0,
+     "extras": [
+      0,
+      0
+     ],
+     "value": 20
+    },
+    {
+     "id": "glmb",
+     "type": 0,
+     "extras": [
+      0,
+      0
+     ],
+     "value": 20
+    },
+    {
+     "id": "gar1",
+     "type": 3,
+     "extras": [
+      1,
+      0
+     ],
+     "value": "ReplaceableTextures\\CommandButtons\\BTNBookOfTheDead.blp"
+    },
+    {
+     "id": "grac",
+     "type": 3,
+     "extras": [
+      0,
+      0
+     ],
+     "value": "human"
+    },
+    {
+     "id": "gtib",
+     "type": 0,
+     "extras": [
+      0,
+      0
+     ],
+     "value": 5
+    },
+    {
+     "id": "ginh",
+     "type": 0,
+     "extras": [
+      0,
+      0
+     ],
+     "value": 0
+    }
+   ]
+  },
+  {
+   "old_id": "Ropg",
+   "new_id": "R00Z",
+   "mods": [
+    {
+     "id": "gnam",
+     "type": 3,
+     "extras": [
+      1,
+      0
+     ],
+     "value": "成為盜獵學院會員"
+    },
+    {
+     "id": "gtp1",
+     "type": 3,
+     "extras": [
+      1,
+      0
+     ],
+     "value": "成為盜獵學院會員"
+    },
+    {
+     "id": "gub1",
+     "type": 3,
+     "extras": [
+      1,
+      0
+     ],
+     "value": "允許你研究盜獵學院的技術，這只需要付一次錢，請先確定你有足夠的資源"
+    },
+    {
+     "id": "gglb",
+     "type": 0,
+     "extras": [
+      0,
+      0
+     ],
+     "value": 20
+    },
+    {
+     "id": "glmb",
+     "type": 0,
+     "extras": [
+      0,
+      0
+     ],
+     "value": 20
+    },
+    {
+     "id": "gar1",
+     "type": 3,
+     "extras": [
+      1,
+      0
+     ],
+     "value": "ReplaceableTextures\\CommandButtons\\BTNBookOfTheDead.blp"
+    },
+    {
+     "id": "grac",
+     "type": 3,
+     "extras": [
+      0,
+      0
+     ],
+     "value": "human"
+    },
+    {
+     "id": "gtib",
+     "type": 0,
+     "extras": [
+      0,
+      0
+     ],
+     "value": 5
+    },
+    {
+     "id": "ginh",
+     "type": 0,
+     "extras": [
+      0,
+      0
+     ],
+     "value": 0
+    }
+   ]
+  },
+  {
+   "old_id": "Ropg",
+   "new_id": "R010",
+   "mods": [
+    {
+     "id": "gnam",
+     "type": 3,
+     "extras": [
+      1,
+      0
+     ],
+     "value": "物理學：彈藥發射軌跡"
+    },
+    {
+     "id": "gtp1",
+     "type": 3,
+     "extras": [
+      1,
+      0
+     ],
+     "value": "物理學：彈藥發射軌跡"
+    },
+    {
+     "id": "gub1",
+     "type": 3,
+     "extras": [
+      1,
+      0
+     ],
+     "value": "利用電腦更精準的控制砲塔射擊能力，使每個砲塔攻擊力增加5%"
+    },
+    {
+     "id": "gglb",
+     "type": 0,
+     "extras": [
+      0,
+      0
+     ],
+     "value": 40
+    },
+    {
+     "id": "glmb",
+     "type": 0,
+     "extras": [
+      0,
+      0
+     ],
+     "value": 40
+    },
+    {
+     "id": "gar1",
+     "type": 3,
+     "extras": [
+      1,
+      0
+     ],
+     "value": "ReplaceableTextures\\CommandButtons\\BTNGreaterRejuvScroll.blp"
+    },
+    {
+     "id": "grac",
+     "type": 3,
+     "extras": [
+      0,
+      0
+     ],
+     "value": "human"
+    },
+    {
+     "id": "greq",
+     "type": 3,
+     "extras": [
+      1,
+      0
+     ],
+     "value": "R00Y"
+    },
+    {
+     "id": "ginh",
+     "type": 0,
+     "extras": [
+      0,
+      0
+     ],
+     "value": 0
+    }
+   ]
+  },
+  {
+   "old_id": "Ropg",
+   "new_id": "R011",
+   "mods": [
+    {
+     "id": "gnam",
+     "type": 3,
+     "extras": [
+      1,
+      0
+     ],
+     "value": "物理學：電腦運算設備"
+    },
+    {
+     "id": "gtp1",
+     "type": 3,
+     "extras": [
+      1,
+      0
+     ],
+     "value": "物理學：電腦運算設備"
+    },
+    {
+     "id": "gub1",
+     "type": 3,
+     "extras": [
+      1,
+      0
+     ],
+     "value": "侏儸紀公園需要電腦能力才能維持運作，你可以將你的電腦能力賣給侏儸紀公園，你每60秒將獲得6金"
+    },
+    {
+     "id": "gglb",
+     "type": 0,
+     "extras": [
+      0,
+      0
+     ],
+     "value": 30
+    },
+    {
+     "id": "glmb",
+     "type": 0,
+     "extras": [
+      0,
+      0
+     ],
+     "value": 30
+    },
+    {
+     "id": "gar1",
+     "type": 3,
+     "extras": [
+      1,
+      0
+     ],
+     "value": "ReplaceableTextures\\CommandButtons\\BTNGreaterRejuvScroll.blp"
+    },
+    {
+     "id": "grac",
+     "type": 3,
+     "extras": [
+      0,
+      0
+     ],
+     "value": "human"
+    },
+    {
+     "id": "greq",
+     "type": 3,
+     "extras": [
+      1,
+      0
+     ],
+     "value": "R00Y"
+    },
+    {
+     "id": "ginh",
+     "type": 0,
+     "extras": [
+      0,
+      0
+     ],
+     "value": 0
+    }
+   ]
+  },
+  {
+   "old_id": "Ropg",
+   "new_id": "R012",
+   "mods": [
+    {
+     "id": "gnam",
+     "type": 3,
+     "extras": [
+      1,
+      0
+     ],
+     "value": "生物學：恐龍伐木技術"
+    },
+    {
+     "id": "gtp1",
+     "type": 3,
+     "extras": [
+      1,
+      0
+     ],
+     "value": "生物學：恐龍伐木技術"
+    },
+    {
+     "id": "gub1",
+     "type": 3,
+     "extras": [
+      1,
+      0
+     ],
+     "value": "讓你的恐龍能夠採集木材"
+    },
+    {
+     "id": "gar1",
+     "type": 3,
+     "extras": [
+      1,
+      0
+     ],
+     "value": "ReplaceableTextures\\CommandButtons\\BTNBundleOfLumber.blp"
+    },
+    {
+     "id": "glmb",
+     "type": 0,
+     "extras": [
+      0,
+      0
+     ],
+     "value": 50
+    },
+    {
+     "id": "greq",
+     "type": 3,
+     "extras": [
+      1,
+      0
+     ],
+     "value": "R00B,R00W"
+    },
+    {
+     "id": "gglb",
+     "type": 0,
+     "extras": [
+      0,
+      0
+     ],
+     "value": 50
+    },
+    {
+     "id": "grqc",
+     "type": 3,
+     "extras": [
+      1,
+      0
+     ],
+     "value": "4,1"
+    },
+    {
+     "id": "ginh",
+     "type": 0,
+     "extras": [
+      0,
+      0
+     ],
+     "value": 0
+    }
+   ]
+  },
+  {
+   "old_id": "Ropg",
+   "new_id": "R013",
+   "mods": [
+    {
+     "id": "gnam",
+     "type": 3,
+     "extras": [
+      1,
+      0
+     ],
+     "value": "生物學：醫療機器人"
+    },
+    {
+     "id": "gtp1",
+     "type": 3,
+     "extras": [
+      1,
+      0
+     ],
+     "value": "生物學：醫療機器人"
+    },
+    {
+     "id": "gub1",
+     "type": 3,
+     "extras": [
+      1,
+      0
+     ],
+     "value": "允許你生產醫療機器人"
+    },
+    {
+     "id": "gar1",
+     "type": 3,
+     "extras": [
+      1,
+      0
+     ],
+     "value": "ReplaceableTextures\\CommandButtons\\BTNControlMagic.blp"
+    },
+    {
+     "id": "glmb",
+     "type": 0,
+     "extras": [
+      0,
+      0
+     ],
+     "value": 40
+    },
+    {
+     "id": "gglb",
+     "type": 0,
+     "extras": [
+      0,
+      0
+     ],
+     "value": 40
+    },
+    {
+     "id": "grac",
+     "type": 3,
+     "extras": [
+      0,
+      0
+     ],
+     "value": "human"
+    },
+    {
+     "id": "greq",
+     "type": 3,
+     "extras": [
+      1,
+      0
+     ],
+     "value": "R00W"
+    },
+    {
+     "id": "ginh",
+     "type": 0,
+     "extras": [
+      0,
+      0
+     ],
+     "value": 0
+    }
+   ]
+  },
+  {
+   "old_id": "Ropg",
+   "new_id": "R014",
+   "mods": [
+    {
+     "id": "gnam",
+     "type": 3,
+     "extras": [
+      1,
+      0
+     ],
+     "value": "盜獵學：戰地機關槍技術"
+    },
+    {
+     "id": "gtp1",
+     "type": 3,
+     "extras": [
+      1,
+      0
+     ],
+     "value": "盜獵學：戰地機關槍技術"
+    },
+    {
+     "id": "gub1",
+     "type": 3,
+     "extras": [
+      1,
+      0
+     ],
+     "value": "允許你的倖存者能使用戰地機關槍"
+    },
+    {
+     "id": "gglb",
+     "type": 0,
+     "extras": [
+      0,
+      0
+     ],
+     "value": 60
+    },
+    {
+     "id": "gtib",
+     "type": 0,
+     "extras": [
+      0,
+      0
+     ],
+     "value": 40
+    },
+    {
+     "id": "gar1",
+     "type": 3,
+     "extras": [
+      1,
+      0
+     ],
+     "value": "ReplaceableTextures\\CommandButtons\\BTNMachine.blp"
+    },
+    {
+     "id": "grac",
+     "type": 3,
+     "extras": [
+      0,
+      0
+     ],
+     "value": "human"
+    },
+    {
+     "id": "greq",
+     "type": 3,
+     "extras": [
+      1,
+      0
+     ],
+     "value": "R004,R00Z"
+    },
+    {
+     "id": "glmb",
+     "type": 0,
+     "extras": [
+      0,
+      0
+     ],
+     "value": 60
+    },
+    {
+     "id": "ginh",
+     "type": 0,
+     "extras": [
+      0,
+      0
+     ],
+     "value": 0
+    }
+   ]
+  },
+  {
+   "old_id": "Ropg",
+   "new_id": "R015",
+   "mods": [
+    {
+     "id": "gnam",
+     "type": 3,
+     "extras": [
+      1,
+      0
+     ],
+     "value": "盜獵學：火砲機器人"
+    },
+    {
+     "id": "gtp1",
+     "type": 3,
+     "extras": [
+      1,
+      0
+     ],
+     "value": "盜獵學：火砲機器人"
+    },
+    {
+     "id": "gub1",
+     "type": 3,
+     "extras": [
+      1,
+      0
+     ],
+     "value": "允許你生產火砲機器人"
+    },
+    {
+     "id": "gar1",
+     "type": 3,
+     "extras": [
+      1,
+      0
+     ],
+     "value": "ReplaceableTextures\\CommandButtons\\BTNControlMagic.blp"
+    },
+    {
+     "id": "glmb",
+     "type": 0,
+     "extras": [
+      0,
+      0
+     ],
+     "value": 40
+    },
+    {
+     "id": "gglb",
+     "type": 0,
+     "extras": [
+      0,
+      0
+     ],
+     "value": 40
+    },
+    {
+     "id": "grac",
+     "type": 3,
+     "extras": [
+      0,
+      0
+     ],
+     "value": "human"
+    },
+    {
+     "id": "greq",
+     "type": 3,
+     "extras": [
+      1,
+      0
+     ],
+     "value": "R00Z"
+    },
+    {
+     "id": "ginh",
+     "type": 0,
+     "extras": [
+      0,
+      0
+     ],
+     "value": 0
+    }
+   ]
+  },
+  {
+   "old_id": "Ropg",
+   "new_id": "R016",
+   "mods": [
+    {
+     "id": "gnam",
+     "type": 3,
+     "extras": [
+      1,
+      0
+     ],
+     "value": "機械學：機器礦工"
+    },
+    {
+     "id": "gtp1",
+     "type": 3,
+     "extras": [
+      1,
+      0
+     ],
+     "value": "機械學：機器礦工"
+    },
+    {
+     "id": "gub1",
+     "type": 3,
+     "extras": [
+      1,
+      0
+     ],
+     "value": "允許你生產機器礦工"
+    },
+    {
+     "id": "gar1",
+     "type": 3,
+     "extras": [
+      1,
+      0
+     ],
+     "value": "ReplaceableTextures\\CommandButtons\\BTNControlMagic.blp"
+    },
+    {
+     "id": "glmb",
+     "type": 0,
+     "extras": [
+      0,
+      0
+     ],
+     "value": 40
+    },
+    {
+     "id": "gglb",
+     "type": 0,
+     "extras": [
+      0,
+      0
+     ],
+     "value": 40
+    },
+    {
+     "id": "grac",
+     "type": 3,
+     "extras": [
+      0,
+      0
+     ],
+     "value": "human"
+    },
+    {
+     "id": "greq",
+     "type": 3,
+     "extras": [
+      1,
+      0
+     ],
+     "value": "R00V"
+    },
+    {
+     "id": "ginh",
+     "type": 0,
+     "extras": [
+      0,
+      0
+     ],
+     "value": 0
+    }
+   ]
+  },
+  {
+   "old_id": "Ropg",
+   "new_id": "R017",
+   "mods": [
+    {
+     "id": "gnam",
+     "type": 3,
+     "extras": [
+      1,
+      0
+     ],
+     "value": "憤怒的迅猛龍的蛋"
+    },
+    {
+     "id": "gtp1",
+     "type": 3,
+     "extras": [
+      1,
+      0
+     ],
+     "value": "憤怒的迅猛龍的蛋"
+    },
+    {
+     "id": "gub1",
+     "type": 3,
+     "extras": [
+      1,
+      0
+     ],
+     "value": "允許你訓練憤怒的迅猛龍《上限2》"
+    },
+    {
+     "id": "gglb",
+     "type": 0,
+     "extras": [
+      0,
+      0
+     ],
+     "value": 20
+    },
+    {
+     "id": "glmb",
+     "type": 0,
+     "extras": [
+      0,
+      0
+     ],
+     "value": 20
+    },
+    {
+     "id": "gar1",
+     "type": 3,
+     "extras": [
+      1,
+      0
+     ],
+     "value": "ReplaceableTextures\\CommandButtons\\BTN3M3.blp"
+    },
+    {
+     "id": "gtib",
+     "type": 0,
+     "extras": [
+      0,
+      0
+     ],
+     "value": 20
+    }
+   ]
+  },
+  {
+   "old_id": "Rhhb",
+   "new_id": "R019",
+   "mods": [
+    {
+     "id": "gnam",
+     "type": 3,
+     "extras": [
+      1,
+      0
+     ],
+     "value": "生物學：種植藥草"
+    },
+    {
+     "id": "gtp1",
+     "type": 3,
+     "extras": [
+      1,
+      0
+     ],
+     "value": "生物學：種植藥草"
+    },
+    {
+     "id": "gub1",
+     "type": 3,
+     "extras": [
+      1,
+      0
+     ],
+     "value": "使你能夠種植刺花藥草"
+    },
+    {
+     "id": "gar1",
+     "type": 3,
+     "extras": [
+      1,
+      0
+     ],
+     "value": "ReplaceableTextures\\CommandButtons\\BTNShimmerWeed.blp"
+    },
+    {
+     "id": "gef1",
+     "type": 3,
+     "extras": [
+      0,
+      0
+     ],
+     "value": ""
+    },
+    {
+     "id": "glmb",
+     "type": 0,
+     "extras": [
+      0,
+      0
+     ],
+     "value": 50
+    },
+    {
+     "id": "gglb",
+     "type": 0,
+     "extras": [
+      0,
+      0
+     ],
+     "value": 85
+    },
+    {
+     "id": "greq",
+     "type": 3,
+     "extras": [
+      1,
+      0
+     ],
+     "value": "R00W,R013"
+    }
+   ]
+  },
+  {
+   "old_id": "Rhhb",
+   "new_id": "R01A",
+   "mods": [
+    {
+     "id": "gnam",
+     "type": 3,
+     "extras": [
+      1,
+      0
+     ],
+     "value": "生物學：生化槍塔 II"
+    },
+    {
+     "id": "gtp1",
+     "type": 3,
+     "extras": [
+      1,
+      0
+     ],
+     "value": "生物學：生化槍塔 II"
+    },
+    {
+     "id": "gub1",
+     "type": 3,
+     "extras": [
+      1,
+      0
+     ],
+     "value": "使你能夠建造生化槍塔"
+    },
+    {
+     "id": "gar1",
+     "type": 3,
+     "extras": [
+      1,
+      0
+     ],
+     "value": "ReplaceableTextures\\CommandButtons\\BTNNagaWeaponUp3.blp"
+    },
+    {
+     "id": "gef1",
+     "type": 3,
+     "extras": [
+      0,
+      0
+     ],
+     "value": ""
+    },
+    {
+     "id": "glmb",
+     "type": 0,
+     "extras": [
+      0,
+      0
+     ],
+     "value": 80
+    },
+    {
+     "id": "gglb",
+     "type": 0,
+     "extras": [
+      0,
+      0
+     ],
+     "value": 95
+    },
+    {
+     "id": "greq",
+     "type": 3,
+     "extras": [
+      1,
+      0
+     ],
+     "value": "R018,R00W"
+    }
+   ]
+  },
+  {
+   "old_id": "Rhac",
+   "new_id": "R01B",
+   "mods": [
+    {
+     "id": "gnam",
+     "type": 3,
+     "extras": [
+      1,
+      0
+     ],
+     "value": "機械學：加強型電牆"
+    },
+    {
+     "id": "glvl",
+     "type": 0,
+     "extras": [
+      0,
+      0
+     ],
+     "value": 1
+    },
+    {
+     "id": "gtp1",
+     "type": 3,
+     "extras": [
+      1,
+      0
+     ],
+     "value": "機械學：加強型電牆"
+    },
+    {
+     "id": "gub1",
+     "type": 3,
+     "extras": [
+      1,
+      0
+     ],
+     "value": "允許你建造加強型電牆"
+    },
+    {
+     "id": "gglb",
+     "type": 0,
+     "extras": [
+      0,
+      0
+     ],
+     "value": 35
+    },
+    {
+     "id": "glmb",
+     "type": 0,
+     "extras": [
+      0,
+      0
+     ],
+     "value": 20
+    },
+    {
+     "id": "gtib",
+     "type": 0,
+     "extras": [
+      0,
+      0
+     ],
+     "value": 10
+    },
+    {
+     "id": "greq",
+     "type": 3,
+     "extras": [
+      1,
+      0
+     ],
+     "value": "R00V,R016"
+    }
+   ]
+  },
+  {
+   "old_id": "Rhac",
+   "new_id": "R01C",
+   "mods": [
+    {
+     "id": "gnam",
+     "type": 3,
+     "extras": [
+      1,
+      0
+     ],
+     "value": "生物學：藤蔓電牆"
+    },
+    {
+     "id": "glvl",
+     "type": 0,
+     "extras": [
+      0,
+      0
+     ],
+     "value": 1
+    },
+    {
+     "id": "gtp1",
+     "type": 3,
+     "extras": [
+      1,
+      0
+     ],
+     "value": "生物學：藤蔓電牆"
+    },
+    {
+     "id": "gub1",
+     "type": 3,
+     "extras": [
+      1,
+      0
+     ],
+     "value": "允許你建造藤蔓電牆"
+    },
+    {
+     "id": "gglm",
+     "type": 0,
+     "extras": [
+      0,
+      0
+     ],
+     "value": 0
+    },
+    {
+     "id": "glmm",
+     "type": 0,
+     "extras": [
+      0,
+      0
+     ],
+     "value": 0
+    },
+    {
+     "id": "gtim",
+     "type": 0,
+     "extras": [
+      0,
+      0
+     ],
+     "value": 0
+    },
+    {
+     "id": "gglb",
+     "type": 0,
+     "extras": [
+      0,
+      0
+     ],
+     "value": 35
+    },
+    {
+     "id": "glmb",
+     "type": 0,
+     "extras": [
+      0,
+      0
+     ],
+     "value": 20
+    },
+    {
+     "id": "gtib",
+     "type": 0,
+     "extras": [
+      0,
+      0
+     ],
+     "value": 10
+    },
+    {
+     "id": "greq",
+     "type": 3,
+     "extras": [
+      1,
+      0
+     ],
+     "value": "R00W,R013"
+    }
+   ]
+  },
+  {
+   "old_id": "Rhac",
+   "new_id": "R01D",
+   "mods": [
+    {
+     "id": "gnam",
+     "type": 3,
+     "extras": [
+      1,
+      0
+     ],
+     "value": "物理學：機械電牆"
+    },
+    {
+     "id": "glvl",
+     "type": 0,
+     "extras": [
+      0,
+      0
+     ],
+     "value": 1
+    },
+    {
+     "id": "gtp1",
+     "type": 3,
+     "extras": [
+      1,
+      0
+     ],
+     "value": "物理學：機械電牆"
+    },
+    {
+     "id": "gub1",
+     "type": 3,
+     "extras": [
+      1,
+      0
+     ],
+     "value": "允許你建造機械電牆"
+    },
+    {
+     "id": "gglb",
+     "type": 0,
+     "extras": [
+      0,
+      0
+     ],
+     "value": 125
+    },
+    {
+     "id": "glmb",
+     "type": 0,
+     "extras": [
+      0,
+      0
+     ],
+     "value": 45
+    },
+    {
+     "id": "gtib",
+     "type": 0,
+     "extras": [
+      0,
+      0
+     ],
+     "value": 10
+    },
+    {
+     "id": "greq",
+     "type": 3,
+     "extras": [
+      1,
+      0
+     ],
+     "value": "R00Y,R00M"
+    },
+    {
+     "id": "gef1",
+     "type": 3,
+     "extras": [
+      0,
+      0
+     ],
+     "value": ""
+    },
+    {
+     "id": "gef2",
+     "type": 3,
+     "extras": [
+      0,
+      0
+     ],
+     "value": ""
+    }
+   ]
+  },
+  {
+   "old_id": "Rhac",
+   "new_id": "R01E",
+   "mods": [
+    {
+     "id": "gnam",
+     "type": 3,
+     "extras": [
+      1,
+      0
+     ],
+     "value": "盜獵學：尖刺電牆"
+    },
+    {
+     "id": "glvl",
+     "type": 0,
+     "extras": [
+      0,
+      0
+     ],
+     "value": 1
+    },
+    {
+     "id": "gtp1",
+     "type": 3,
+     "extras": [
+      1,
+      0
+     ],
+     "value": "盜獵學：尖刺電牆"
+    },
+    {
+     "id": "gub1",
+     "type": 3,
+     "extras": [
+      1,
+      0
+     ],
+     "value": "允許你建造尖刺電牆"
+    },
+    {
+     "id": "gglb",
+     "type": 0,
+     "extras": [
+      0,
+      0
+     ],
+     "value": 35
+    },
+    {
+     "id": "glmb",
+     "type": 0,
+     "extras": [
+      0,
+      0
+     ],
+     "value": 20
+    },
+    {
+     "id": "gtib",
+     "type": 0,
+     "extras": [
+      0,
+      0
+     ],
+     "value": 10
+    },
+    {
+     "id": "greq",
+     "type": 3,
+     "extras": [
+      1,
+      0
+     ],
+     "value": "R00Z,R015"
+    }
+   ]
+  },
+  {
+   "old_id": "Rhac",
+   "new_id": "R01F",
+   "mods": [
+    {
+     "id": "gnam",
+     "type": 3,
+     "extras": [
+      1,
+      0
+     ],
+     "value": "生物學：生物倉庫"
+    },
+    {
+     "id": "glvl",
+     "type": 0,
+     "extras": [
+      0,
+      0
+     ],
+     "value": 1
+    },
+    {
+     "id": "gef2",
+     "type": 3,
+     "extras": [
+      0,
+      0
+     ],
+     "value": ""
+    },
+    {
+     "id": "gef1",
+     "type": 3,
+     "extras": [
+      0,
+      0
+     ],
+     "value": ""
+    },
+    {
+     "id": "gar1",
+     "type": 3,
+     "extras": [
+      1,
+      0
+     ],
+     "value": "ReplaceableTextures\\CommandButtons\\BTNZiggurat.blp"
+    },
+    {
+     "id": "gtp1",
+     "type": 3,
+     "extras": [
+      1,
+      0
+     ],
+     "value": "生物學：生物倉庫"
+    },
+    {
+     "id": "gub1",
+     "type": 3,
+     "extras": [
+      1,
+      0
+     ],
+     "value": "允許你建造生物倉庫"
+    },
+    {
+     "id": "gglb",
+     "type": 0,
+     "extras": [
+      0,
+      0
+     ],
+     "value": 25
+    },
+    {
+     "id": "glmb",
+     "type": 0,
+     "extras": [
+      0,
+      0
+     ],
+     "value": 35
+    },
+    {
+     "id": "greq",
+     "type": 3,
+     "extras": [
+      1,
+      0
+     ],
+     "value": "R00W,R00T,R00B"
+    }
+   ]
+  },
+  {
+   "old_id": "Rhac",
+   "new_id": "R018",
+   "mods": [
+    {
+     "id": "gnam",
+     "type": 3,
+     "extras": [
+      1,
+      0
+     ],
+     "value": "生物學：增強腿力"
+    },
+    {
+     "id": "glvl",
+     "type": 0,
+     "extras": [
+      0,
+      0
+     ],
+     "value": 10
+    },
+    {
+     "id": "gtp1",
+     "type": 3,
+     "extras": [
+      1,
+      0
+     ],
+     "value": "生物學：增強腿力"
+    },
+    {
+     "id": "gub1",
+     "type": 3,
+     "extras": [
+      1,
+      0
+     ],
+     "value": "增加倖存者10點移動速度"
+    },
+    {
+     "id": "gef1",
+     "type": 3,
+     "extras": [
+      0,
+      0
+     ],
+     "value": "rmvx"
+    },
+    {
+     "id": "gmo1",
+     "type": 2,
+     "extras": [
+      0,
+      0
+     ],
+     "value": 10.0
+    },
+    {
+     "id": "gba1",
+     "type": 2,
+     "extras": [
+      0,
+      0
+     ],
+     "value": 10.0
+    },
+    {
+     "id": "gef2",
+     "type": 3,
+     "extras": [
+      0,
+      0
+     ],
+     "value": ""
+    },
+    {
+     "id": "gub1",
+     "type": 3,
+     "extras": [
+      2,
+      0
+     ],
+     "value": "增加倖存者10點移動速度"
+    },
+    {
+     "id": "gub1",
+     "type": 3,
+     "extras": [
+      3,
+      0
+     ],
+     "value": "增加倖存者10點移動速度"
+    },
+    {
+     "id": "gub1",
+     "type": 3,
+     "extras": [
+      4,
+      0
+     ],
+     "value": "增加倖存者10點移動速度"
+    },
+    {
+     "id": "gub1",
+     "type": 3,
+     "extras": [
+      5,
+      0
+     ],
+     "value": "增加倖存者10點移動速度"
+    },
+    {
+     "id": "gub1",
+     "type": 3,
+     "extras": [
+      6,
+      0
+     ],
+     "value": "增加倖存者10點移動速度"
+    },
+    {
+     "id": "gub1",
+     "type": 3,
+     "extras": [
+      7,
+      0
+     ],
+     "value": "增加倖存者10點移動速度"
+    },
+    {
+     "id": "gub1",
+     "type": 3,
+     "extras": [
+      8,
+      0
+     ],
+     "value": "增加倖存者10點移動速度"
+    },
+    {
+     "id": "gub1",
+     "type": 3,
+     "extras": [
+      9,
+      0
+     ],
+     "value": "增加倖存者10點移動速度"
+    },
+    {
+     "id": "gub1",
+     "type": 3,
+     "extras": [
+      10,
+      0
+     ],
+     "value": "增加倖存者10點移動速度"
+    },
+    {
+     "id": "gtp1",
+     "type": 3,
+     "extras": [
+      2,
+      0
+     ],
+     "value": "生物學：增強腿力"
+    },
+    {
+     "id": "gtp1",
+     "type": 3,
+     "extras": [
+      3,
+      0
+     ],
+     "value": "生物學：增強腿力"
+    },
+    {
+     "id": "gtp1",
+     "type": 3,
+     "extras": [
+      4,
+      0
+     ],
+     "value": "生物學：增強腿力"
+    },
+    {
+     "id": "gtp1",
+     "type": 3,
+     "extras": [
+      5,
+      0
+     ],
+     "value": "生物學：增強腿力"
+    },
+    {
+     "id": "gtp1",
+     "type": 3,
+     "extras": [
+      6,
+      0
+     ],
+     "value": "生物學：增強腿力"
+    },
+    {
+     "id": "gtp1",
+     "type": 3,
+     "extras": [
+      7,
+      0
+     ],
+     "value": "生物學：增強腿力"
+    },
+    {
+     "id": "gtp1",
+     "type": 3,
+     "extras": [
+      9,
+      0
+     ],
+     "value": "生物學：增強腿力"
+    },
+    {
+     "id": "gtp1",
+     "type": 3,
+     "extras": [
+      8,
+      0
+     ],
+     "value": "生物學：增強腿力"
+    },
+    {
+     "id": "gtp1",
+     "type": 3,
+     "extras": [
+      10,
+      0
+     ],
+     "value": "生物學：增強腿力"
+    },
+    {
+     "id": "gnam",
+     "type": 3,
+     "extras": [
+      2,
+      0
+     ],
+     "value": "生物學：增強腿力"
+    },
+    {
+     "id": "gnam",
+     "type": 3,
+     "extras": [
+      3,
+      0
+     ],
+     "value": "生物學：增強腿力"
+    },
+    {
+     "id": "gnam",
+     "type": 3,
+     "extras": [
+      4,
+      0
+     ],
+     "value": "生物學：增強腿力"
+    },
+    {
+     "id": "gnam",
+     "type": 3,
+     "extras": [
+      5,
+      0
+     ],
+     "value": "生物學：增強腿力"
+    },
+    {
+     "id": "gnam",
+     "type": 3,
+     "extras": [
+      6,
+      0
+     ],
+     "value": "生物學：增強腿力"
+    },
+    {
+     "id": "gnam",
+     "type": 3,
+     "extras": [
+      8,
+      0
+     ],
+     "value": "生物學：增強腿力"
+    },
+    {
+     "id": "gnam",
+     "type": 3,
+     "extras": [
+      7,
+      0
+     ],
+     "value": "生物學：增強腿力"
+    },
+    {
+     "id": "gnam",
+     "type": 3,
+     "extras": [
+      9,
+      0
+     ],
+     "value": "生物學：增強腿力"
+    },
+    {
+     "id": "gnam",
+     "type": 3,
+     "extras": [
+      10,
+      0
+     ],
+     "value": "生物學：增強腿力"
+    },
+    {
+     "id": "gar1",
+     "type": 3,
+     "extras": [
+      1,
+      0
+     ],
+     "value": "ReplaceableTextures\\CommandButtons\\BTNWirtsLeg.blp"
+    },
+    {
+     "id": "gar1",
+     "type": 3,
+     "extras": [
+      2,
+      0
+     ],
+     "value": "ReplaceableTextures\\CommandButtons\\BTNWirtsLeg.blp"
+    },
+    {
+     "id": "gar1",
+     "type": 3,
+     "extras": [
+      3,
+      0
+     ],
+     "value": "ReplaceableTextures\\CommandButtons\\BTNWirtsLeg.blp"
+    },
+    {
+     "id": "gar1",
+     "type": 3,
+     "extras": [
+      4,
+      0
+     ],
+     "value": "ReplaceableTextures\\CommandButtons\\BTNWirtsLeg.blp"
+    },
+    {
+     "id": "gar1",
+     "type": 3,
+     "extras": [
+      5,
+      0
+     ],
+     "value": "ReplaceableTextures\\CommandButtons\\BTNWirtsLeg.blp"
+    },
+    {
+     "id": "gar1",
+     "type": 3,
+     "extras": [
+      6,
+      0
+     ],
+     "value": "ReplaceableTextures\\CommandButtons\\BTNWirtsLeg.blp"
+    },
+    {
+     "id": "gar1",
+     "type": 3,
+     "extras": [
+      7,
+      0
+     ],
+     "value": "ReplaceableTextures\\CommandButtons\\BTNWirtsLeg.blp"
+    },
+    {
+     "id": "gar1",
+     "type": 3,
+     "extras": [
+      8,
+      0
+     ],
+     "value": "ReplaceableTextures\\CommandButtons\\BTNWirtsLeg.blp"
+    },
+    {
+     "id": "gar1",
+     "type": 3,
+     "extras": [
+      9,
+      0
+     ],
+     "value": "ReplaceableTextures\\CommandButtons\\BTNWirtsLeg.blp"
+    },
+    {
+     "id": "gar1",
+     "type": 3,
+     "extras": [
+      10,
+      0
+     ],
+     "value": "ReplaceableTextures\\CommandButtons\\BTNWirtsLeg.blp"
+    },
+    {
+     "id": "greq",
+     "type": 3,
+     "extras": [
+      2,
+      0
+     ],
+     "value": ""
+    },
+    {
+     "id": "greq",
+     "type": 3,
+     "extras": [
+      3,
+      0
+     ],
+     "value": ""
+    },
+    {
+     "id": "gtim",
+     "type": 0,
+     "extras": [
+      0,
+      0
+     ],
+     "value": 0
+    },
+    {
+     "id": "gtib",
+     "type": 0,
+     "extras": [
+      0,
+      0
+     ],
+     "value": 6
+    },
+    {
+     "id": "glmb",
+     "type": 0,
+     "extras": [
+      0,
+      0
+     ],
+     "value": 15
+    },
+    {
+     "id": "glmm",
+     "type": 0,
+     "extras": [
+      0,
+      0
+     ],
+     "value": 10
+    },
+    {
+     "id": "gglm",
+     "type": 0,
+     "extras": [
+      0,
+      0
+     ],
+     "value": 10
+    },
+    {
+     "id": "gglb",
+     "type": 0,
+     "extras": [
+      0,
+      0
+     ],
+     "value": 15
+    },
+    {
+     "id": "greq",
+     "type": 3,
+     "extras": [
+      1,
+      0
+     ],
+     "value": "R013"
+    }
+   ]
+  },
+  {
+   "old_id": "Rome",
+   "new_id": "R01G",
+   "mods": [
+    {
+     "id": "gnam",
+     "type": 3,
+     "extras": [
+      1,
+      0
+     ],
+     "value": "生物學：增強臂力"
+    },
+    {
+     "id": "glvl",
+     "type": 0,
+     "extras": [
+      0,
+      0
+     ],
+     "value": 10
+    },
+    {
+     "id": "greq",
+     "type": 3,
+     "extras": [
+      2,
+      0
+     ],
+     "value": ""
+    },
+    {
+     "id": "greq",
+     "type": 3,
+     "extras": [
+      3,
+      0
+     ],
+     "value": ""
+    },
+    {
+     "id": "gar1",
+     "type": 3,
+     "extras": [
+      1,
+      0
+     ],
+     "value": "ReplaceableTextures\\CommandButtons\\BTNClayFigurine.blp"
+    },
+    {
+     "id": "gar1",
+     "type": 3,
+     "extras": [
+      2,
+      0
+     ],
+     "value": "ReplaceableTextures\\CommandButtons\\BTNClayFigurine.blp"
+    },
+    {
+     "id": "gar1",
+     "type": 3,
+     "extras": [
+      3,
+      0
+     ],
+     "value": "ReplaceableTextures\\CommandButtons\\BTNClayFigurine.blp"
+    },
+    {
+     "id": "gar1",
+     "type": 3,
+     "extras": [
+      4,
+      0
+     ],
+     "value": "ReplaceableTextures\\CommandButtons\\BTNClayFigurine.blp"
+    },
+    {
+     "id": "gar1",
+     "type": 3,
+     "extras": [
+      5,
+      0
+     ],
+     "value": "ReplaceableTextures\\CommandButtons\\BTNClayFigurine.blp"
+    },
+    {
+     "id": "gar1",
+     "type": 3,
+     "extras": [
+      6,
+      0
+     ],
+     "value": "ReplaceableTextures\\CommandButtons\\BTNClayFigurine.blp"
+    },
+    {
+     "id": "gar1",
+     "type": 3,
+     "extras": [
+      7,
+      0
+     ],
+     "value": "ReplaceableTextures\\CommandButtons\\BTNClayFigurine.blp"
+    },
+    {
+     "id": "gar1",
+     "type": 3,
+     "extras": [
+      9,
+      0
+     ],
+     "value": "ReplaceableTextures\\CommandButtons\\BTNClayFigurine.blp"
+    },
+    {
+     "id": "gar1",
+     "type": 3,
+     "extras": [
+      8,
+      0
+     ],
+     "value": "ReplaceableTextures\\CommandButtons\\BTNClayFigurine.blp"
+    },
+    {
+     "id": "gar1",
+     "type": 3,
+     "extras": [
+      10,
+      0
+     ],
+     "value": "ReplaceableTextures\\CommandButtons\\BTNClayFigurine.blp"
+    },
+    {
+     "id": "gnam",
+     "type": 3,
+     "extras": [
+      2,
+      0
+     ],
+     "value": "生物學：增強臂力"
+    },
+    {
+     "id": "gnam",
+     "type": 3,
+     "extras": [
+      3,
+      0
+     ],
+     "value": "生物學：增強臂力"
+    },
+    {
+     "id": "gnam",
+     "type": 3,
+     "extras": [
+      4,
+      0
+     ],
+     "value": "生物學：增強臂力"
+    },
+    {
+     "id": "gnam",
+     "type": 3,
+     "extras": [
+      5,
+      0
+     ],
+     "value": "生物學：增強臂力"
+    },
+    {
+     "id": "gnam",
+     "type": 3,
+     "extras": [
+      7,
+      0
+     ],
+     "value": "生物學：增強臂力"
+    },
+    {
+     "id": "gnam",
+     "type": 3,
+     "extras": [
+      6,
+      0
+     ],
+     "value": "生物學：增強臂力"
+    },
+    {
+     "id": "gnam",
+     "type": 3,
+     "extras": [
+      8,
+      0
+     ],
+     "value": "生物學：增強臂力"
+    },
+    {
+     "id": "gnam",
+     "type": 3,
+     "extras": [
+      9,
+      0
+     ],
+     "value": "生物學：增強臂力"
+    },
+    {
+     "id": "gnam",
+     "type": 3,
+     "extras": [
+      10,
+      0
+     ],
+     "value": "生物學：增強臂力"
+    },
+    {
+     "id": "gtp1",
+     "type": 3,
+     "extras": [
+      1,
+      0
+     ],
+     "value": "生物學：增強臂力"
+    },
+    {
+     "id": "gtp1",
+     "type": 3,
+     "extras": [
+      2,
+      0
+     ],
+     "value": "生物學：增強臂力"
+    },
+    {
+     "id": "gtp1",
+     "type": 3,
+     "extras": [
+      3,
+      0
+     ],
+     "value": "生物學：增強臂力"
+    },
+    {
+     "id": "gtp1",
+     "type": 3,
+     "extras": [
+      4,
+      0
+     ],
+     "value": "生物學：增強臂力"
+    },
+    {
+     "id": "gtp1",
+     "type": 3,
+     "extras": [
+      5,
+      0
+     ],
+     "value": "生物學：增強臂力"
+    },
+    {
+     "id": "gtp1",
+     "type": 3,
+     "extras": [
+      6,
+      0
+     ],
+     "value": "生物學：增強臂力"
+    },
+    {
+     "id": "gtp1",
+     "type": 3,
+     "extras": [
+      7,
+      0
+     ],
+     "value": "生物學：增強臂力"
+    },
+    {
+     "id": "gtp1",
+     "type": 3,
+     "extras": [
+      8,
+      0
+     ],
+     "value": "生物學：增強臂力"
+    },
+    {
+     "id": "gtp1",
+     "type": 3,
+     "extras": [
+      9,
+      0
+     ],
+     "value": "生物學：增強臂力"
+    },
+    {
+     "id": "gtp1",
+     "type": 3,
+     "extras": [
+      10,
+      0
+     ],
+     "value": "生物學：增強臂力"
+    },
+    {
+     "id": "gub1",
+     "type": 3,
+     "extras": [
+      1,
+      0
+     ],
+     "value": "增加倖存者15點攻擊力"
+    },
+    {
+     "id": "gub1",
+     "type": 3,
+     "extras": [
+      2,
+      0
+     ],
+     "value": "增加倖存者15點攻擊力"
+    },
+    {
+     "id": "gub1",
+     "type": 3,
+     "extras": [
+      3,
+      0
+     ],
+     "value": "增加倖存者15點攻擊力"
+    },
+    {
+     "id": "gub1",
+     "type": 3,
+     "extras": [
+      4,
+      0
+     ],
+     "value": "增加倖存者15點攻擊力"
+    },
+    {
+     "id": "gub1",
+     "type": 3,
+     "extras": [
+      5,
+      0
+     ],
+     "value": "增加倖存者15點攻擊力"
+    },
+    {
+     "id": "gub1",
+     "type": 3,
+     "extras": [
+      6,
+      0
+     ],
+     "value": "增加倖存者15點攻擊力"
+    },
+    {
+     "id": "gub1",
+     "type": 3,
+     "extras": [
+      8,
+      0
+     ],
+     "value": "增加倖存者15點攻擊力"
+    },
+    {
+     "id": "gub1",
+     "type": 3,
+     "extras": [
+      7,
+      0
+     ],
+     "value": "增加倖存者15點攻擊力"
+    },
+    {
+     "id": "gub1",
+     "type": 3,
+     "extras": [
+      9,
+      0
+     ],
+     "value": "增加倖存者15點攻擊力"
+    },
+    {
+     "id": "gub1",
+     "type": 3,
+     "extras": [
+      10,
+      0
+     ],
+     "value": "增加倖存者15點攻擊力"
+    },
+    {
+     "id": "gef1",
+     "type": 3,
+     "extras": [
+      0,
+      0
+     ],
+     "value": "ratx"
+    },
+    {
+     "id": "gmo1",
+     "type": 2,
+     "extras": [
+      0,
+      0
+     ],
+     "value": 15.0
+    },
+    {
+     "id": "gba1",
+     "type": 2,
+     "extras": [
+      0,
+      0
+     ],
+     "value": 15.0
+    },
+    {
+     "id": "gglm",
+     "type": 0,
+     "extras": [
+      0,
+      0
+     ],
+     "value": 4
+    },
+    {
+     "id": "glmb",
+     "type": 0,
+     "extras": [
+      0,
+      0
+     ],
+     "value": 22
+    },
+    {
+     "id": "glmm",
+     "type": 0,
+     "extras": [
+      0,
+      0
+     ],
+     "value": 8
+    },
+    {
+     "id": "gglb",
+     "type": 0,
+     "extras": [
+      0,
+      0
+     ],
+     "value": 25
+    },
+    {
+     "id": "gtib",
+     "type": 0,
+     "extras": [
+      0,
+      0
+     ],
+     "value": 30
+    },
+    {
+     "id": "gtim",
+     "type": 0,
+     "extras": [
+      0,
+      0
+     ],
+     "value": 10
+    }
+   ]
+  },
+  {
+   "old_id": "Rome",
+   "new_id": "R01H",
+   "mods": [
+    {
+     "id": "gnam",
+     "type": 3,
+     "extras": [
+      1,
+      0
+     ],
+     "value": "盜獵學：爆破技術"
+    },
+    {
+     "id": "glvl",
+     "type": 0,
+     "extras": [
+      0,
+      0
+     ],
+     "value": 1
+    },
+    {
+     "id": "gef1",
+     "type": 3,
+     "extras": [
+      0,
+      0
+     ],
+     "value": ""
+    },
+    {
+     "id": "gar1",
+     "type": 3,
+     "extras": [
+      1,
+      0
+     ],
+     "value": "ReplaceableTextures\\CommandButtons\\BTNWallOfFire.blp"
+    },
+    {
+     "id": "gtp1",
+     "type": 3,
+     "extras": [
+      1,
+      0
+     ],
+     "value": "盜獵學：爆破技術"
+    },
+    {
+     "id": "gub1",
+     "type": 3,
+     "extras": [
+      1,
+      0
+     ],
+     "value": "允許你建造爆破物資中心"
+    },
+    {
+     "id": "gglm",
+     "type": 0,
+     "extras": [
+      0,
+      0
+     ],
+     "value": 0
+    },
+    {
+     "id": "glmm",
+     "type": 0,
+     "extras": [
+      0,
+      0
+     ],
+     "value": 0
+    },
+    {
+     "id": "greq",
+     "type": 3,
+     "extras": [
+      1,
+      0
+     ],
+     "value": "R00E,R004"
+    },
+    {
+     "id": "gglb",
+     "type": 0,
+     "extras": [
+      0,
+      0
+     ],
+     "value": 45
+    },
+    {
+     "id": "glmb",
+     "type": 0,
+     "extras": [
+      0,
+      0
+     ],
+     "value": 25
+    }
+   ]
+  },
+  {
+   "old_id": "Rhac",
+   "new_id": "R01I",
+   "mods": [
+    {
+     "id": "gnam",
+     "type": 3,
+     "extras": [
+      1,
+      0
+     ],
+     "value": "物理學：智慧學習型砲塔 IXX"
+    },
+    {
+     "id": "glvl",
+     "type": 0,
+     "extras": [
+      0,
+      0
+     ],
+     "value": 1
+    },
+    {
+     "id": "gub1",
+     "type": 3,
+     "extras": [
+      1,
+      0
+     ],
+     "value": "一個植入電腦升級而成的砲塔，能從敵人身上學習，每殺死一隻恐龍將增加攻擊力，最多只能製造1個"
+    },
+    {
+     "id": "gtp1",
+     "type": 3,
+     "extras": [
+      1,
+      0
+     ],
+     "value": "物理學：智慧學習型砲塔 IXX"
+    },
+    {
+     "id": "gef1",
+     "type": 3,
+     "extras": [
+      0,
+      0
+     ],
+     "value": ""
+    },
+    {
+     "id": "gef2",
+     "type": 3,
+     "extras": [
+      0,
+      0
+     ],
+     "value": ""
+    },
+    {
+     "id": "gglb",
+     "type": 0,
+     "extras": [
+      0,
+      0
+     ],
+     "value": 400
+    },
+    {
+     "id": "gtib",
+     "type": 0,
+     "extras": [
+      0,
+      0
+     ],
+     "value": 45
+    },
+    {
+     "id": "gar1",
+     "type": 3,
+     "extras": [
+      1,
+      0
+     ],
+     "value": "ReplaceableTextures\\CommandButtons\\BTNMagicalSentry.blp"
+    },
+    {
+     "id": "greq",
+     "type": 3,
+     "extras": [
+      1,
+      0
+     ],
+     "value": "R00Y,R001,R005"
+    },
+    {
+     "id": "glmb",
+     "type": 0,
+     "extras": [
+      0,
+      0
+     ],
+     "value": 180
+    }
+   ]
+  },
+  {
+   "old_id": "Rhac",
+   "new_id": "R01J",
+   "mods": [
+    {
+     "id": "gnam",
+     "type": 3,
+     "extras": [
+      1,
+      0
+     ],
+     "value": "機械學：製造鋼彈技術"
+    },
+    {
+     "id": "gef2",
+     "type": 3,
+     "extras": [
+      0,
+      0
+     ],
+     "value": ""
+    },
+    {
+     "id": "gef1",
+     "type": 3,
+     "extras": [
+      0,
+      0
+     ],
+     "value": ""
+    },
+    {
+     "id": "glvl",
+     "type": 0,
+     "extras": [
+      0,
+      0
+     ],
+     "value": 1
+    },
+    {
+     "id": "gtp1",
+     "type": 3,
+     "extras": [
+      1,
+      0
+     ],
+     "value": "機械學：製造鋼彈技術"
+    },
+    {
+     "id": "gub1",
+     "type": 3,
+     "extras": [
+      1,
+      0
+     ],
+     "value": "允許你生產最強的機器人，奧比力特雷托鋼彈"
+    },
+    {
+     "id": "gtib",
+     "type": 0,
+     "extras": [
+      0,
+      0
+     ],
+     "value": 1
+    },
+    {
+     "id": "gar1",
+     "type": 3,
+     "extras": [
+      1,
+      0
+     ],
+     "value": "ReplaceableTextures\\CommandButtons\\BTNROBOGOBLIN.blp"
+    },
+    {
+     "id": "greq",
+     "type": 3,
+     "extras": [
+      1,
+      0
+     ],
+     "value": "R00V,R002,R007"
+    },
+    {
+     "id": "gglb",
+     "type": 0,
+     "extras": [
+      0,
+      0
+     ],
+     "value": 420
+    },
+    {
+     "id": "glmb",
+     "type": 0,
+     "extras": [
+      0,
+      0
+     ],
+     "value": 320
+    }
+   ]
+  },
+  {
+   "old_id": "Rhac",
+   "new_id": "R01K",
+   "mods": [
+    {
+     "id": "gnam",
+     "type": 3,
+     "extras": [
+      1,
+      0
+     ],
+     "value": "生物學：浩克藥水"
+    },
+    {
+     "id": "glvl",
+     "type": 0,
+     "extras": [
+      0,
+      0
+     ],
+     "value": 1
+    },
+    {
+     "id": "gtp1",
+     "type": 3,
+     "extras": [
+      1,
+      0
+     ],
+     "value": "生物學：浩克藥水"
+    },
+    {
+     "id": "gub1",
+     "type": 3,
+     "extras": [
+      1,
+      0
+     ],
+     "value": "允許你製造變身成為綠巨人浩克的藥水"
+    },
+    {
+     "id": "gef1",
+     "type": 3,
+     "extras": [
+      0,
+      0
+     ],
+     "value": ""
+    },
+    {
+     "id": "gmo1",
+     "type": 2,
+     "extras": [
+      0,
+      0
+     ],
+     "value": 10.0
+    },
+    {
+     "id": "gba1",
+     "type": 2,
+     "extras": [
+      0,
+      0
+     ],
+     "value": 10.0
+    },
+    {
+     "id": "gef2",
+     "type": 3,
+     "extras": [
+      0,
+      0
+     ],
+     "value": ""
+    },
+    {
+     "id": "gub1",
+     "type": 3,
+     "extras": [
+      2,
+      0
+     ],
+     "value": "增加倖存者10點移動速度"
+    },
+    {
+     "id": "gub1",
+     "type": 3,
+     "extras": [
+      3,
+      0
+     ],
+     "value": "增加倖存者10點移動速度"
+    },
+    {
+     "id": "gub1",
+     "type": 3,
+     "extras": [
+      4,
+      0
+     ],
+     "value": "增加倖存者10點移動速度"
+    },
+    {
+     "id": "gub1",
+     "type": 3,
+     "extras": [
+      5,
+      0
+     ],
+     "value": "增加倖存者10點移動速度"
+    },
+    {
+     "id": "gub1",
+     "type": 3,
+     "extras": [
+      6,
+      0
+     ],
+     "value": "增加倖存者10點移動速度"
+    },
+    {
+     "id": "gub1",
+     "type": 3,
+     "extras": [
+      7,
+      0
+     ],
+     "value": "增加倖存者10點移動速度"
+    },
+    {
+     "id": "gub1",
+     "type": 3,
+     "extras": [
+      8,
+      0
+     ],
+     "value": "增加倖存者10點移動速度"
+    },
+    {
+     "id": "gub1",
+     "type": 3,
+     "extras": [
+      9,
+      0
+     ],
+     "value": "增加倖存者10點移動速度"
+    },
+    {
+     "id": "gub1",
+     "type": 3,
+     "extras": [
+      10,
+      0
+     ],
+     "value": "增加倖存者10點移動速度"
+    },
+    {
+     "id": "gtp1",
+     "type": 3,
+     "extras": [
+      2,
+      0
+     ],
+     "value": "生物學：增強腿力"
+    },
+    {
+     "id": "gtp1",
+     "type": 3,
+     "extras": [
+      3,
+      0
+     ],
+     "value": "生物學：增強腿力"
+    },
+    {
+     "id": "gtp1",
+     "type": 3,
+     "extras": [
+      4,
+      0
+     ],
+     "value": "生物學：增強腿力"
+    },
+    {
+     "id": "gtp1",
+     "type": 3,
+     "extras": [
+      5,
+      0
+     ],
+     "value": "生物學：增強腿力"
+    },
+    {
+     "id": "gtp1",
+     "type": 3,
+     "extras": [
+      6,
+      0
+     ],
+     "value": "生物學：增強腿力"
+    },
+    {
+     "id": "gtp1",
+     "type": 3,
+     "extras": [
+      7,
+      0
+     ],
+     "value": "生物學：增強腿力"
+    },
+    {
+     "id": "gtp1",
+     "type": 3,
+     "extras": [
+      9,
+      0
+     ],
+     "value": "生物學：增強腿力"
+    },
+    {
+     "id": "gtp1",
+     "type": 3,
+     "extras": [
+      8,
+      0
+     ],
+     "value": "生物學：增強腿力"
+    },
+    {
+     "id": "gtp1",
+     "type": 3,
+     "extras": [
+      10,
+      0
+     ],
+     "value": "生物學：增強腿力"
+    },
+    {
+     "id": "gnam",
+     "type": 3,
+     "extras": [
+      2,
+      0
+     ],
+     "value": "生物學：突變技術"
+    },
+    {
+     "id": "gnam",
+     "type": 3,
+     "extras": [
+      3,
+      0
+     ],
+     "value": "生物學：突變技術"
+    },
+    {
+     "id": "gnam",
+     "type": 3,
+     "extras": [
+      4,
+      0
+     ],
+     "value": "生物學：突變技術"
+    },
+    {
+     "id": "gnam",
+     "type": 3,
+     "extras": [
+      5,
+      0
+     ],
+     "value": "生物學：突變技術"
+    },
+    {
+     "id": "gnam",
+     "type": 3,
+     "extras": [
+      6,
+      0
+     ],
+     "value": "生物學：突變技術"
+    },
+    {
+     "id": "gnam",
+     "type": 3,
+     "extras": [
+      8,
+      0
+     ],
+     "value": "生物學：突變技術"
+    },
+    {
+     "id": "gnam",
+     "type": 3,
+     "extras": [
+      7,
+      0
+     ],
+     "value": "生物學：突變技術"
+    },
+    {
+     "id": "gnam",
+     "type": 3,
+     "extras": [
+      9,
+      0
+     ],
+     "value": "生物學：突變技術"
+    },
+    {
+     "id": "gnam",
+     "type": 3,
+     "extras": [
+      10,
+      0
+     ],
+     "value": "生物學：突變技術"
+    },
+    {
+     "id": "gar1",
+     "type": 3,
+     "extras": [
+      1,
+      0
+     ],
+     "value": "ReplaceableTextures\\CommandButtons\\BTNBerserkForTrolls.blp"
+    },
+    {
+     "id": "gar1",
+     "type": 3,
+     "extras": [
+      2,
+      0
+     ],
+     "value": "ReplaceableTextures\\CommandButtons\\BTNWirtsLeg.blp"
+    },
+    {
+     "id": "gar1",
+     "type": 3,
+     "extras": [
+      3,
+      0
+     ],
+     "value": "ReplaceableTextures\\CommandButtons\\BTNWirtsLeg.blp"
+    },
+    {
+     "id": "gar1",
+     "type": 3,
+     "extras": [
+      4,
+      0
+     ],
+     "value": "ReplaceableTextures\\CommandButtons\\BTNWirtsLeg.blp"
+    },
+    {
+     "id": "gar1",
+     "type": 3,
+     "extras": [
+      5,
+      0
+     ],
+     "value": "ReplaceableTextures\\CommandButtons\\BTNWirtsLeg.blp"
+    },
+    {
+     "id": "gar1",
+     "type": 3,
+     "extras": [
+      6,
+      0
+     ],
+     "value": "ReplaceableTextures\\CommandButtons\\BTNWirtsLeg.blp"
+    },
+    {
+     "id": "gar1",
+     "type": 3,
+     "extras": [
+      7,
+      0
+     ],
+     "value": "ReplaceableTextures\\CommandButtons\\BTNWirtsLeg.blp"
+    },
+    {
+     "id": "gar1",
+     "type": 3,
+     "extras": [
+      8,
+      0
+     ],
+     "value": "ReplaceableTextures\\CommandButtons\\BTNWirtsLeg.blp"
+    },
+    {
+     "id": "gar1",
+     "type": 3,
+     "extras": [
+      9,
+      0
+     ],
+     "value": "ReplaceableTextures\\CommandButtons\\BTNWirtsLeg.blp"
+    },
+    {
+     "id": "gar1",
+     "type": 3,
+     "extras": [
+      10,
+      0
+     ],
+     "value": "ReplaceableTextures\\CommandButtons\\BTNWirtsLeg.blp"
+    },
+    {
+     "id": "greq",
+     "type": 3,
+     "extras": [
+      2,
+      0
+     ],
+     "value": ""
+    },
+    {
+     "id": "greq",
+     "type": 3,
+     "extras": [
+      3,
+      0
+     ],
+     "value": ""
+    },
+    {
+     "id": "gtim",
+     "type": 0,
+     "extras": [
+      0,
+      0
+     ],
+     "value": 0
+    },
+    {
+     "id": "gtib",
+     "type": 0,
+     "extras": [
+      0,
+      0
+     ],
+     "value": 5
+    },
+    {
+     "id": "glmb",
+     "type": 0,
+     "extras": [
+      0,
+      0
+     ],
+     "value": 20
+    },
+    {
+     "id": "glmm",
+     "type": 0,
+     "extras": [
+      0,
+      0
+     ],
+     "value": 5
+    },
+    {
+     "id": "gglm",
+     "type": 0,
+     "extras": [
+      0,
+      0
+     ],
+     "value": 5
+    },
+    {
+     "id": "gglb",
+     "type": 0,
+     "extras": [
+      0,
+      0
+     ],
+     "value": 35
+    },
+    {
+     "id": "greq",
+     "type": 3,
+     "extras": [
+      1,
+      0
+     ],
+     "value": "R013"
+    }
+   ]
+  },
+  {
+   "old_id": "Rome",
+   "new_id": "R01L",
+   "mods": [
+    {
+     "id": "gnam",
+     "type": 3,
+     "extras": [
+      1,
+      0
+     ],
+     "value": "生物學：環境抵抗力"
+    },
+    {
+     "id": "glvl",
+     "type": 0,
+     "extras": [
+      0,
+      0
+     ],
+     "value": 1
+    },
+    {
+     "id": "greq",
+     "type": 3,
+     "extras": [
+      2,
+      0
+     ],
+     "value": ""
+    },
+    {
+     "id": "greq",
+     "type": 3,
+     "extras": [
+      3,
+      0
+     ],
+     "value": ""
+    },
+    {
+     "id": "gar1",
+     "type": 3,
+     "extras": [
+      1,
+      0
+     ],
+     "value": "ReplaceableTextures\\CommandButtons\\BTNEvasion.blp"
+    },
+    {
+     "id": "gar1",
+     "type": 3,
+     "extras": [
+      2,
+      0
+     ],
+     "value": "ReplaceableTextures\\CommandButtons\\BTNClayFigurine.blp"
+    },
+    {
+     "id": "gar1",
+     "type": 3,
+     "extras": [
+      3,
+      0
+     ],
+     "value": "ReplaceableTextures\\CommandButtons\\BTNClayFigurine.blp"
+    },
+    {
+     "id": "gar1",
+     "type": 3,
+     "extras": [
+      4,
+      0
+     ],
+     "value": "ReplaceableTextures\\CommandButtons\\BTNClayFigurine.blp"
+    },
+    {
+     "id": "gar1",
+     "type": 3,
+     "extras": [
+      5,
+      0
+     ],
+     "value": "ReplaceableTextures\\CommandButtons\\BTNClayFigurine.blp"
+    },
+    {
+     "id": "gar1",
+     "type": 3,
+     "extras": [
+      6,
+      0
+     ],
+     "value": "ReplaceableTextures\\CommandButtons\\BTNClayFigurine.blp"
+    },
+    {
+     "id": "gar1",
+     "type": 3,
+     "extras": [
+      7,
+      0
+     ],
+     "value": "ReplaceableTextures\\CommandButtons\\BTNClayFigurine.blp"
+    },
+    {
+     "id": "gar1",
+     "type": 3,
+     "extras": [
+      9,
+      0
+     ],
+     "value": "ReplaceableTextures\\CommandButtons\\BTNClayFigurine.blp"
+    },
+    {
+     "id": "gar1",
+     "type": 3,
+     "extras": [
+      8,
+      0
+     ],
+     "value": "ReplaceableTextures\\CommandButtons\\BTNClayFigurine.blp"
+    },
+    {
+     "id": "gar1",
+     "type": 3,
+     "extras": [
+      10,
+      0
+     ],
+     "value": "ReplaceableTextures\\CommandButtons\\BTNClayFigurine.blp"
+    },
+    {
+     "id": "gnam",
+     "type": 3,
+     "extras": [
+      2,
+      0
+     ],
+     "value": "生物學：環境抵抗力"
+    },
+    {
+     "id": "gnam",
+     "type": 3,
+     "extras": [
+      3,
+      0
+     ],
+     "value": "生物學：增強臂力"
+    },
+    {
+     "id": "gnam",
+     "type": 3,
+     "extras": [
+      4,
+      0
+     ],
+     "value": "生物學：增強臂力"
+    },
+    {
+     "id": "gnam",
+     "type": 3,
+     "extras": [
+      5,
+      0
+     ],
+     "value": "生物學：增強臂力"
+    },
+    {
+     "id": "gnam",
+     "type": 3,
+     "extras": [
+      7,
+      0
+     ],
+     "value": "生物學：增強臂力"
+    },
+    {
+     "id": "gnam",
+     "type": 3,
+     "extras": [
+      6,
+      0
+     ],
+     "value": "生物學：增強臂力"
+    },
+    {
+     "id": "gnam",
+     "type": 3,
+     "extras": [
+      8,
+      0
+     ],
+     "value": "生物學：增強臂力"
+    },
+    {
+     "id": "gnam",
+     "type": 3,
+     "extras": [
+      9,
+      0
+     ],
+     "value": "生物學：增強臂力"
+    },
+    {
+     "id": "gnam",
+     "type": 3,
+     "extras": [
+      10,
+      0
+     ],
+     "value": "生物學：增強臂力"
+    },
+    {
+     "id": "gtp1",
+     "type": 3,
+     "extras": [
+      1,
+      0
+     ],
+     "value": "生物學：環境抵抗力"
+    },
+    {
+     "id": "gtp1",
+     "type": 3,
+     "extras": [
+      2,
+      0
+     ],
+     "value": "生物學：增強臂力"
+    },
+    {
+     "id": "gtp1",
+     "type": 3,
+     "extras": [
+      3,
+      0
+     ],
+     "value": "生物學：增強臂力"
+    },
+    {
+     "id": "gtp1",
+     "type": 3,
+     "extras": [
+      4,
+      0
+     ],
+     "value": "生物學：增強臂力"
+    },
+    {
+     "id": "gtp1",
+     "type": 3,
+     "extras": [
+      5,
+      0
+     ],
+     "value": "生物學：增強臂力"
+    },
+    {
+     "id": "gtp1",
+     "type": 3,
+     "extras": [
+      6,
+      0
+     ],
+     "value": "生物學：增強臂力"
+    },
+    {
+     "id": "gtp1",
+     "type": 3,
+     "extras": [
+      7,
+      0
+     ],
+     "value": "生物學：增強臂力"
+    },
+    {
+     "id": "gtp1",
+     "type": 3,
+     "extras": [
+      8,
+      0
+     ],
+     "value": "生物學：增強臂力"
+    },
+    {
+     "id": "gtp1",
+     "type": 3,
+     "extras": [
+      9,
+      0
+     ],
+     "value": "生物學：增強臂力"
+    },
+    {
+     "id": "gtp1",
+     "type": 3,
+     "extras": [
+      10,
+      0
+     ],
+     "value": "生物學：增強臂力"
+    },
+    {
+     "id": "gub1",
+     "type": 3,
+     "extras": [
+      1,
+      0
+     ],
+     "value": "提升你的單位對環境的適應力，所有負面效果消除"
+    },
+    {
+     "id": "gub1",
+     "type": 3,
+     "extras": [
+      2,
+      0
+     ],
+     "value": "增加倖存者15點攻擊力"
+    },
+    {
+     "id": "gub1",
+     "type": 3,
+     "extras": [
+      3,
+      0
+     ],
+     "value": "增加倖存者15點攻擊力"
+    },
+    {
+     "id": "gub1",
+     "type": 3,
+     "extras": [
+      4,
+      0
+     ],
+     "value": "增加倖存者15點攻擊力"
+    },
+    {
+     "id": "gub1",
+     "type": 3,
+     "extras": [
+      5,
+      0
+     ],
+     "value": "增加倖存者15點攻擊力"
+    },
+    {
+     "id": "gub1",
+     "type": 3,
+     "extras": [
+      6,
+      0
+     ],
+     "value": "增加倖存者15點攻擊力"
+    },
+    {
+     "id": "gub1",
+     "type": 3,
+     "extras": [
+      8,
+      0
+     ],
+     "value": "增加倖存者15點攻擊力"
+    },
+    {
+     "id": "gub1",
+     "type": 3,
+     "extras": [
+      7,
+      0
+     ],
+     "value": "增加倖存者15點攻擊力"
+    },
+    {
+     "id": "gub1",
+     "type": 3,
+     "extras": [
+      9,
+      0
+     ],
+     "value": "增加倖存者15點攻擊力"
+    },
+    {
+     "id": "gub1",
+     "type": 3,
+     "extras": [
+      10,
+      0
+     ],
+     "value": "增加倖存者15點攻擊力"
+    },
+    {
+     "id": "gef1",
+     "type": 3,
+     "extras": [
+      0,
+      0
+     ],
+     "value": "rmim"
+    },
+    {
+     "id": "gmo1",
+     "type": 2,
+     "extras": [
+      0,
+      0
+     ],
+     "value": 15.0
+    },
+    {
+     "id": "gba1",
+     "type": 2,
+     "extras": [
+      0,
+      0
+     ],
+     "value": 15.0
+    },
+    {
+     "id": "gglm",
+     "type": 0,
+     "extras": [
+      0,
+      0
+     ],
+     "value": 10
+    },
+    {
+     "id": "glmb",
+     "type": 0,
+     "extras": [
+      0,
+      0
+     ],
+     "value": 18
+    },
+    {
+     "id": "glmm",
+     "type": 0,
+     "extras": [
+      0,
+      0
+     ],
+     "value": 10
+    },
+    {
+     "id": "gglb",
+     "type": 0,
+     "extras": [
+      0,
+      0
+     ],
+     "value": 20
+    }
+   ]
+  },
+  {
+   "old_id": "Rhac",
+   "new_id": "R01M",
+   "mods": [
+    {
+     "id": "gnam",
+     "type": 3,
+     "extras": [
+      1,
+      0
+     ],
+     "value": "Nests Difficulty"
+    },
+    {
+     "id": "glvl",
+     "type": 0,
+     "extras": [
+      0,
+      0
+     ],
+     "value": 6
+    },
+    {
+     "id": "gnam",
+     "type": 3,
+     "extras": [
+      2,
+      0
+     ],
+     "value": "巢穴的難處"
+    },
+    {
+     "id": "gnam",
+     "type": 3,
+     "extras": [
+      3,
+      0
+     ],
+     "value": "巢穴的難處"
+    },
+    {
+     "id": "gar1",
+     "type": 3,
+     "extras": [
+      2,
+      0
+     ],
+     "value": "ReplaceableTextures\\CommandButtons\\BTNStoneArchitecture.blp"
+    },
+    {
+     "id": "gar1",
+     "type": 3,
+     "extras": [
+      4,
+      0
+     ],
+     "value": "ReplaceableTextures\\CommandButtons\\BTNImbuedMasonry.blp"
+    },
+    {
+     "id": "gar1",
+     "type": 3,
+     "extras": [
+      5,
+      0
+     ],
+     "value": "ReplaceableTextures\\CommandButtons\\BTNImbuedMasonry.blp"
+    },
+    {
+     "id": "gar1",
+     "type": 3,
+     "extras": [
+      6,
+      0
+     ],
+     "value": "ReplaceableTextures\\CommandButtons\\BTNImbuedMasonry.blp"
+    },
+    {
+     "id": "greq",
+     "type": 3,
+     "extras": [
+      2,
+      0
+     ],
+     "value": ""
+    },
+    {
+     "id": "greq",
+     "type": 3,
+     "extras": [
+      3,
+      0
+     ],
+     "value": ""
+    }
+   ]
+  },
+  {
+   "old_id": "Rome",
+   "new_id": "R01N",
+   "mods": [
+    {
+     "id": "gnam",
+     "type": 3,
+     "extras": [
+      1,
+      0
+     ],
+     "value": "生物學：抗蟲疫苗"
+    },
+    {
+     "id": "glvl",
+     "type": 0,
+     "extras": [
+      0,
+      0
+     ],
+     "value": 1
+    },
+    {
+     "id": "greq",
+     "type": 3,
+     "extras": [
+      2,
+      0
+     ],
+     "value": ""
+    },
+    {
+     "id": "greq",
+     "type": 3,
+     "extras": [
+      3,
+      0
+     ],
+     "value": ""
+    },
+    {
+     "id": "gar1",
+     "type": 3,
+     "extras": [
+      1,
+      0
+     ],
+     "value": "ReplaceableTextures\\PassiveButtons\\PASBTNPoisonSting.blp"
+    },
+    {
+     "id": "gar1",
+     "type": 3,
+     "extras": [
+      2,
+      0
+     ],
+     "value": "ReplaceableTextures\\CommandButtons\\BTNClayFigurine.blp"
+    },
+    {
+     "id": "gar1",
+     "type": 3,
+     "extras": [
+      3,
+      0
+     ],
+     "value": "ReplaceableTextures\\CommandButtons\\BTNClayFigurine.blp"
+    },
+    {
+     "id": "gar1",
+     "type": 3,
+     "extras": [
+      4,
+      0
+     ],
+     "value": "ReplaceableTextures\\CommandButtons\\BTNClayFigurine.blp"
+    },
+    {
+     "id": "gar1",
+     "type": 3,
+     "extras": [
+      5,
+      0
+     ],
+     "value": "ReplaceableTextures\\CommandButtons\\BTNClayFigurine.blp"
+    },
+    {
+     "id": "gar1",
+     "type": 3,
+     "extras": [
+      6,
+      0
+     ],
+     "value": "ReplaceableTextures\\CommandButtons\\BTNClayFigurine.blp"
+    },
+    {
+     "id": "gar1",
+     "type": 3,
+     "extras": [
+      7,
+      0
+     ],
+     "value": "ReplaceableTextures\\CommandButtons\\BTNClayFigurine.blp"
+    },
+    {
+     "id": "gar1",
+     "type": 3,
+     "extras": [
+      9,
+      0
+     ],
+     "value": "ReplaceableTextures\\CommandButtons\\BTNClayFigurine.blp"
+    },
+    {
+     "id": "gar1",
+     "type": 3,
+     "extras": [
+      8,
+      0
+     ],
+     "value": "ReplaceableTextures\\CommandButtons\\BTNClayFigurine.blp"
+    },
+    {
+     "id": "gar1",
+     "type": 3,
+     "extras": [
+      10,
+      0
+     ],
+     "value": "ReplaceableTextures\\CommandButtons\\BTNClayFigurine.blp"
+    },
+    {
+     "id": "gnam",
+     "type": 3,
+     "extras": [
+      2,
+      0
+     ],
+     "value": "生物學：抗蟲疫苗"
+    },
+    {
+     "id": "gnam",
+     "type": 3,
+     "extras": [
+      3,
+      0
+     ],
+     "value": "生物學：抗蟲疫苗"
+    },
+    {
+     "id": "gnam",
+     "type": 3,
+     "extras": [
+      4,
+      0
+     ],
+     "value": "生物學：抗蟲疫苗"
+    },
+    {
+     "id": "gnam",
+     "type": 3,
+     "extras": [
+      5,
+      0
+     ],
+     "value": "生物學：抗蟲疫苗"
+    },
+    {
+     "id": "gnam",
+     "type": 3,
+     "extras": [
+      7,
+      0
+     ],
+     "value": "生物學：抗蟲疫苗"
+    },
+    {
+     "id": "gnam",
+     "type": 3,
+     "extras": [
+      6,
+      0
+     ],
+     "value": "生物學：抗蟲疫苗"
+    },
+    {
+     "id": "gnam",
+     "type": 3,
+     "extras": [
+      8,
+      0
+     ],
+     "value": "生物學：抗蟲疫苗"
+    },
+    {
+     "id": "gnam",
+     "type": 3,
+     "extras": [
+      9,
+      0
+     ],
+     "value": "生物學：抗蟲疫苗"
+    },
+    {
+     "id": "gnam",
+     "type": 3,
+     "extras": [
+      10,
+      0
+     ],
+     "value": "生物學：抗蟲疫苗"
+    },
+    {
+     "id": "gtp1",
+     "type": 3,
+     "extras": [
+      1,
+      0
+     ],
+     "value": "生物學：抗蟲疫苗"
+    },
+    {
+     "id": "gtp1",
+     "type": 3,
+     "extras": [
+      2,
+      0
+     ],
+     "value": "生物學：抗蟲疫苗"
+    },
+    {
+     "id": "gtp1",
+     "type": 3,
+     "extras": [
+      3,
+      0
+     ],
+     "value": "生物學：抗蟲疫苗"
+    },
+    {
+     "id": "gtp1",
+     "type": 3,
+     "extras": [
+      4,
+      0
+     ],
+     "value": "生物學：抗蟲疫苗"
+    },
+    {
+     "id": "gtp1",
+     "type": 3,
+     "extras": [
+      5,
+      0
+     ],
+     "value": "生物學：抗蟲疫苗"
+    },
+    {
+     "id": "gtp1",
+     "type": 3,
+     "extras": [
+      6,
+      0
+     ],
+     "value": "生物學：抗蟲疫苗"
+    },
+    {
+     "id": "gtp1",
+     "type": 3,
+     "extras": [
+      7,
+      0
+     ],
+     "value": "生物學：抗蟲疫苗"
+    },
+    {
+     "id": "gtp1",
+     "type": 3,
+     "extras": [
+      8,
+      0
+     ],
+     "value": "生物學：抗蟲疫苗"
+    },
+    {
+     "id": "gtp1",
+     "type": 3,
+     "extras": [
+      9,
+      0
+     ],
+     "value": "生物學：抗蟲疫苗"
+    },
+    {
+     "id": "gtp1",
+     "type": 3,
+     "extras": [
+      10,
+      0
+     ],
+     "value": "生物學：抗蟲疫苗"
+    },
+    {
+     "id": "gub1",
+     "type": 3,
+     "extras": [
+      1,
+      0
+     ],
+     "value": "為你的倖存者注入疫苗，攻擊你的蚊蟲將會死亡"
+    },
+    {
+     "id": "gub1",
+     "type": 3,
+     "extras": [
+      2,
+      0
+     ],
+     "value": "增加倖存者15點攻擊力"
+    },
+    {
+     "id": "gub1",
+     "type": 3,
+     "extras": [
+      3,
+      0
+     ],
+     "value": "增加倖存者15點攻擊力"
+    },
+    {
+     "id": "gub1",
+     "type": 3,
+     "extras": [
+      4,
+      0
+     ],
+     "value": "增加倖存者15點攻擊力"
+    },
+    {
+     "id": "gub1",
+     "type": 3,
+     "extras": [
+      5,
+      0
+     ],
+     "value": "增加倖存者15點攻擊力"
+    },
+    {
+     "id": "gub1",
+     "type": 3,
+     "extras": [
+      6,
+      0
+     ],
+     "value": "增加倖存者15點攻擊力"
+    },
+    {
+     "id": "gub1",
+     "type": 3,
+     "extras": [
+      8,
+      0
+     ],
+     "value": "增加倖存者15點攻擊力"
+    },
+    {
+     "id": "gub1",
+     "type": 3,
+     "extras": [
+      7,
+      0
+     ],
+     "value": "增加倖存者15點攻擊力"
+    },
+    {
+     "id": "gub1",
+     "type": 3,
+     "extras": [
+      9,
+      0
+     ],
+     "value": "增加倖存者15點攻擊力"
+    },
+    {
+     "id": "gub1",
+     "type": 3,
+     "extras": [
+      10,
+      0
+     ],
+     "value": "增加倖存者15點攻擊力"
+    },
+    {
+     "id": "gef1",
+     "type": 3,
+     "extras": [
+      0,
+      0
+     ],
+     "value": ""
+    },
+    {
+     "id": "gmo1",
+     "type": 2,
+     "extras": [
+      0,
+      0
+     ],
+     "value": 15.0
+    },
+    {
+     "id": "gba1",
+     "type": 2,
+     "extras": [
+      0,
+      0
+     ],
+     "value": 15.0
+    },
+    {
+     "id": "gglm",
+     "type": 0,
+     "extras": [
+      0,
+      0
+     ],
+     "value": 4
+    },
+    {
+     "id": "glmb",
+     "type": 0,
+     "extras": [
+      0,
+      0
+     ],
+     "value": 95
+    },
+    {
+     "id": "glmm",
+     "type": 0,
+     "extras": [
+      0,
+      0
+     ],
+     "value": 8
+    },
+    {
+     "id": "gglb",
+     "type": 0,
+     "extras": [
+      0,
+      0
+     ],
+     "value": 175
+    }
+   ]
+  },
+  {
+   "old_id": "Rhhb",
+   "new_id": "R01O",
+   "mods": [
+    {
+     "id": "gnam",
+     "type": 3,
+     "extras": [
+      1,
+      0
+     ],
+     "value": "侏儸紀公園積分：135"
+    },
+    {
+     "id": "gar1",
+     "type": 3,
+     "extras": [
+      1,
+      0
+     ],
+     "value": "ReplaceableTextures\\CommandButtons\\BTNShamanMaster.blp"
+    },
+    {
+     "id": "gef1",
+     "type": 3,
+     "extras": [
+      0,
+      0
+     ],
+     "value": ""
+    },
+    {
+     "id": "gglb",
+     "type": 0,
+     "extras": [
+      0,
+      0
+     ],
+     "value": 1
+    },
+    {
+     "id": "glmb",
+     "type": 0,
+     "extras": [
+      0,
+      0
+     ],
+     "value": 321
+    }
+   ]
+  },
+  {
+   "old_id": "Rhac",
+   "new_id": "R01S",
+   "mods": [
+    {
+     "id": "gnam",
+     "type": 3,
+     "extras": [
+      1,
+      0
+     ],
+     "value": "機械學：範圍冰凍機"
+    },
+    {
+     "id": "gef2",
+     "type": 3,
+     "extras": [
+      0,
+      0
+     ],
+     "value": ""
+    },
+    {
+     "id": "gef1",
+     "type": 3,
+     "extras": [
+      0,
+      0
+     ],
+     "value": ""
+    },
+    {
+     "id": "gba1",
+     "type": 2,
+     "extras": [
+      0,
+      0
+     ],
+     "value": 25.0
+    },
+    {
+     "id": "gmo2",
+     "type": 2,
+     "extras": [
+      0,
+      0
+     ],
+     "value": 5.0
+    },
+    {
+     "id": "gmo1",
+     "type": 2,
+     "extras": [
+      0,
+      0
+     ],
+     "value": 25.0
+    },
+    {
+     "id": "gba2",
+     "type": 2,
+     "extras": [
+      0,
+      0
+     ],
+     "value": 5.0
+    },
+    {
+     "id": "gnam",
+     "type": 3,
+     "extras": [
+      2,
+      0
+     ],
+     "value": "機械學：動力環繞光束"
+    },
+    {
+     "id": "gnam",
+     "type": 3,
+     "extras": [
+      3,
+      0
+     ],
+     "value": "機械學：動力環繞光束"
+    },
+    {
+     "id": "gtp1",
+     "type": 3,
+     "extras": [
+      1,
+      0
+     ],
+     "value": "研究範圍冰凍機"
+    },
+    {
+     "id": "gtp1",
+     "type": 3,
+     "extras": [
+      2,
+      0
+     ],
+     "value": "研究等離子《|cffffcc00R|r》"
+    },
+    {
+     "id": "gtp1",
+     "type": 3,
+     "extras": [
+      3,
+      0
+     ],
+     "value": "研究質子《|cffffcc00R|r》"
+    },
+    {
+     "id": "gub1",
+     "type": 3,
+     "extras": [
+      1,
+      0
+     ],
+     "value": "讓奧比力特雷托鋼彈裝備上能冰凍附近敵人的裝置"
+    },
+    {
+     "id": "gub1",
+     "type": 3,
+     "extras": [
+      2,
+      0
+     ],
+     "value": "增加奧比力特雷托鋼彈生命上限25點，法力上限5點，法力回復速度15%"
+    },
+    {
+     "id": "gub1",
+     "type": 3,
+     "extras": [
+      3,
+      0
+     ],
+     "value": "增加奧比力特雷托鋼彈生命上限25點，法力上限5點，法力回復速度15%"
+    },
+    {
+     "id": "ghk1",
+     "type": 3,
+     "extras": [
+      1,
+      0
+     ],
+     "value": "R"
+    },
+    {
+     "id": "ghk1",
+     "type": 3,
+     "extras": [
+      2,
+      0
+     ],
+     "value": "R"
+    },
+    {
+     "id": "ghk1",
+     "type": 3,
+     "extras": [
+      3,
+      0
+     ],
+     "value": "R"
+    },
+    {
+     "id": "greq",
+     "type": 3,
+     "extras": [
+      2,
+      0
+     ],
+     "value": ""
+    },
+    {
+     "id": "greq",
+     "type": 3,
+     "extras": [
+      3,
+      0
+     ],
+     "value": ""
+    },
+    {
+     "id": "gba3",
+     "type": 2,
+     "extras": [
+      0,
+      0
+     ],
+     "value": 0.15000000596046448
+    },
+    {
+     "id": "gmo3",
+     "type": 2,
+     "extras": [
+      0,
+      0
+     ],
+     "value": 0.15000000596046448
+    },
+    {
+     "id": "glvl",
+     "type": 0,
+     "extras": [
+      0,
+      0
+     ],
+     "value": 1
+    },
+    {
+     "id": "gglb",
+     "type": 0,
+     "extras": [
+      0,
+      0
+     ],
+     "value": 420
+    },
+    {
+     "id": "gar1",
+     "type": 3,
+     "extras": [
+      1,
+      0
+     ],
+     "value": "ReplaceableTextures\\CommandButtons\\BTNGlacier.blp"
+    },
+    {
+     "id": "gtib",
+     "type": 0,
+     "extras": [
+      0,
+      0
+     ],
+     "value": 30
+    },
+    {
+     "id": "glmb",
+     "type": 0,
+     "extras": [
+      0,
+      0
+     ],
+     "value": 320
+    }
+   ]
+  },
+  {
+   "old_id": "Rhac",
+   "new_id": "R01T",
+   "mods": [
+    {
+     "id": "gnam",
+     "type": 3,
+     "extras": [
+      1,
+      0
+     ],
+     "value": "機械學：爆破植入技術"
+    },
+    {
+     "id": "gef2",
+     "type": 3,
+     "extras": [
+      0,
+      0
+     ],
+     "value": ""
+    },
+    {
+     "id": "gef1",
+     "type": 3,
+     "extras": [
+      0,
+      0
+     ],
+     "value": ""
+    },
+    {
+     "id": "gba1",
+     "type": 2,
+     "extras": [
+      0,
+      0
+     ],
+     "value": 25.0
+    },
+    {
+     "id": "gmo2",
+     "type": 2,
+     "extras": [
+      0,
+      0
+     ],
+     "value": 5.0
+    },
+    {
+     "id": "gmo1",
+     "type": 2,
+     "extras": [
+      0,
+      0
+     ],
+     "value": 25.0
+    },
+    {
+     "id": "gba2",
+     "type": 2,
+     "extras": [
+      0,
+      0
+     ],
+     "value": 5.0
+    },
+    {
+     "id": "gnam",
+     "type": 3,
+     "extras": [
+      2,
+      0
+     ],
+     "value": "機械學：動力環繞光束"
+    },
+    {
+     "id": "gnam",
+     "type": 3,
+     "extras": [
+      3,
+      0
+     ],
+     "value": "機械學：動力環繞光束"
+    },
+    {
+     "id": "gtp1",
+     "type": 3,
+     "extras": [
+      1,
+      0
+     ],
+     "value": "研究爆破植入技術"
+    },
+    {
+     "id": "gtp1",
+     "type": 3,
+     "extras": [
+      2,
+      0
+     ],
+     "value": "研究等離子《|cffffcc00R|r》"
+    },
+    {
+     "id": "gtp1",
+     "type": 3,
+     "extras": [
+      3,
+      0
+     ],
+     "value": "研究質子《|cffffcc00R|r》"
+    },
+    {
+     "id": "gub1",
+     "type": 3,
+     "extras": [
+      1,
+      0
+     ],
+     "value": "植入高性能爆破炸彈在奧比力特雷托鋼彈機體裡，在危急能使奧比力特雷托鋼彈自爆"
+    },
+    {
+     "id": "gub1",
+     "type": 3,
+     "extras": [
+      2,
+      0
+     ],
+     "value": "增加奧比力特雷托鋼彈生命上限25點，法力上限5點，法力回復速度15%"
+    },
+    {
+     "id": "gub1",
+     "type": 3,
+     "extras": [
+      3,
+      0
+     ],
+     "value": "增加奧比力特雷托鋼彈生命上限25點，法力上限5點，法力回復速度15%"
+    },
+    {
+     "id": "ghk1",
+     "type": 3,
+     "extras": [
+      1,
+      0
+     ],
+     "value": "R"
+    },
+    {
+     "id": "ghk1",
+     "type": 3,
+     "extras": [
+      2,
+      0
+     ],
+     "value": "R"
+    },
+    {
+     "id": "ghk1",
+     "type": 3,
+     "extras": [
+      3,
+      0
+     ],
+     "value": "R"
+    },
+    {
+     "id": "greq",
+     "type": 3,
+     "extras": [
+      2,
+      0
+     ],
+     "value": ""
+    },
+    {
+     "id": "greq",
+     "type": 3,
+     "extras": [
+      3,
+      0
+     ],
+     "value": ""
+    },
+    {
+     "id": "gba3",
+     "type": 2,
+     "extras": [
+      0,
+      0
+     ],
+     "value": 0.15000000596046448
+    },
+    {
+     "id": "gmo3",
+     "type": 2,
+     "extras": [
+      0,
+      0
+     ],
+     "value": 0.15000000596046448
+    },
+    {
+     "id": "glvl",
+     "type": 0,
+     "extras": [
+      0,
+      0
+     ],
+     "value": 1
+    },
+    {
+     "id": "gglb",
+     "type": 0,
+     "extras": [
+      0,
+      0
+     ],
+     "value": 200
+    },
+    {
+     "id": "gar1",
+     "type": 3,
+     "extras": [
+      1,
+      0
+     ],
+     "value": "ReplaceableTextures\\CommandButtons\\BTNWallOfFire.blp"
+    },
+    {
+     "id": "gtib",
+     "type": 0,
+     "extras": [
+      0,
+      0
+     ],
+     "value": 10
+    },
+    {
+     "id": "glmb",
+     "type": 0,
+     "extras": [
+      0,
+      0
+     ],
+     "value": 50
+    }
+   ]
+  },
+  {
+   "old_id": "Rhhb",
+   "new_id": "R01P",
+   "mods": [
+    {
+     "id": "gnam",
+     "type": 3,
+     "extras": [
+      1,
+      0
+     ],
+     "value": "侏儸紀公園積分：35"
+    },
+    {
+     "id": "gar1",
+     "type": 3,
+     "extras": [
+      1,
+      0
+     ],
+     "value": "ReplaceableTextures\\CommandButtons\\BTNShamanMaster.blp"
+    },
+    {
+     "id": "gef1",
+     "type": 3,
+     "extras": [
+      0,
+      0
+     ],
+     "value": ""
+    },
+    {
+     "id": "gglb",
+     "type": 0,
+     "extras": [
+      0,
+      0
+     ],
+     "value": 1
+    },
+    {
+     "id": "glmb",
+     "type": 0,
+     "extras": [
+      0,
+      0
+     ],
+     "value": 321
+    }
+   ]
+  },
+  {
+   "old_id": "Rhhb",
+   "new_id": "R01Q",
+   "mods": [
+    {
+     "id": "gnam",
+     "type": 3,
+     "extras": [
+      1,
+      0
+     ],
+     "value": "侏儸紀公園積分：70"
+    },
+    {
+     "id": "gar1",
+     "type": 3,
+     "extras": [
+      1,
+      0
+     ],
+     "value": "ReplaceableTextures\\CommandButtons\\BTNShamanMaster.blp"
+    },
+    {
+     "id": "gef1",
+     "type": 3,
+     "extras": [
+      0,
+      0
+     ],
+     "value": ""
+    },
+    {
+     "id": "gglb",
+     "type": 0,
+     "extras": [
+      0,
+      0
+     ],
+     "value": 1
+    },
+    {
+     "id": "glmb",
+     "type": 0,
+     "extras": [
+      0,
+      0
+     ],
+     "value": 321
+    }
+   ]
+  },
+  {
+   "old_id": "Rhhb",
+   "new_id": "R01R",
+   "mods": [
+    {
+     "id": "gnam",
+     "type": 3,
+     "extras": [
+      1,
+      0
+     ],
+     "value": "侏儸紀公園積分：200"
+    },
+    {
+     "id": "gar1",
+     "type": 3,
+     "extras": [
+      1,
+      0
+     ],
+     "value": "ReplaceableTextures\\CommandButtons\\BTNShamanMaster.blp"
+    },
+    {
+     "id": "gef1",
+     "type": 3,
+     "extras": [
+      0,
+      0
+     ],
+     "value": ""
+    },
+    {
+     "id": "gglb",
+     "type": 0,
+     "extras": [
+      0,
+      0
+     ],
+     "value": 1
+    },
+    {
+     "id": "glmb",
+     "type": 0,
+     "extras": [
+      0,
+      0
+     ],
+     "value": 321
+    }
+   ]
+  },
+  {
+   "old_id": "Rhac",
+   "new_id": "R01U",
+   "mods": [
+    {
+     "id": "gnam",
+     "type": 3,
+     "extras": [
+      1,
+      0
+     ],
+     "value": "增加浩克生命上限"
+    },
+    {
+     "id": "glvl",
+     "type": 0,
+     "extras": [
+      0,
+      0
+     ],
+     "value": 1
+    },
+    {
+     "id": "gef1",
+     "type": 3,
+     "extras": [
+      0,
+      0
+     ],
+     "value": "rhpx"
+    },
+    {
+     "id": "gmo1",
+     "type": 2,
+     "extras": [
+      0,
+      0
+     ],
+     "value": 200.0
+    },
+    {
+     "id": "gef2",
+     "type": 3,
+     "extras": [
+      0,
+      0
+     ],
+     "value": ""
+    },
+    {
+     "id": "gba1",
+     "type": 2,
+     "extras": [
+      0,
+      0
+     ],
+     "value": 200.0
+    }
+   ]
+  },
+  {
+   "old_id": "Rhac",
+   "new_id": "R01V",
+   "mods": [
+    {
+     "id": "gnam",
+     "type": 3,
+     "extras": [
+      1,
+      0
+     ],
+     "value": "增加奧比力特雷托鋼彈法力上限"
+    },
+    {
+     "id": "glvl",
+     "type": 0,
+     "extras": [
+      0,
+      0
+     ],
+     "value": 1
+    },
+    {
+     "id": "gef1",
+     "type": 3,
+     "extras": [
+      0,
+      0
+     ],
+     "value": "rmnx"
+    },
+    {
+     "id": "gmo1",
+     "type": 2,
+     "extras": [
+      0,
+      0
+     ],
+     "value": 50.0
+    },
+    {
+     "id": "gef2",
+     "type": 3,
+     "extras": [
+      0,
+      0
+     ],
+     "value": ""
+    },
+    {
+     "id": "gba1",
+     "type": 2,
+     "extras": [
+      0,
+      0
+     ],
+     "value": 50.0
+    }
+   ]
+  }
+ ],
+ "remaining_bytes": 0,
+ "total_len": 50535
+}

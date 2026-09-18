@@ -1,0 +1,860 @@
+{
+ "version": 2,
+ "original": [],
+ "custom": [
+  {
+   "old_id": "CObl",
+   "new_id": "D000",
+   "mods": [
+    {
+     "id": "dfil",
+     "type": 3,
+     "extras": [
+      0,
+      0
+     ],
+     "value": "war3mapImported\\grassAnimated2.mdl"
+    },
+    {
+     "id": "dmas",
+     "type": 2,
+     "extras": [
+      0,
+      0
+     ],
+     "value": 4.5
+    },
+    {
+     "id": "dmis",
+     "type": 2,
+     "extras": [
+      0,
+      0
+     ],
+     "value": 4.0
+    },
+    {
+     "id": "dvis",
+     "type": 2,
+     "extras": [
+      0,
+      0
+     ],
+     "value": 90.0
+    },
+    {
+     "id": "dimc",
+     "type": 0,
+     "extras": [
+      0,
+      0
+     ],
+     "value": 1
+    },
+    {
+     "id": "dptx",
+     "type": 3,
+     "extras": [
+      0,
+      0
+     ],
+     "value": ""
+    }
+   ]
+  },
+  {
+   "old_id": "OPop",
+   "new_id": "D001",
+   "mods": [
+    {
+     "id": "dtil",
+     "type": 3,
+     "extras": [
+      0,
+      0
+     ],
+     "value": "*"
+    },
+    {
+     "id": "dmas",
+     "type": 2,
+     "extras": [
+      0,
+      0
+     ],
+     "value": 1.2999999523162842
+    },
+    {
+     "id": "dvr1",
+     "type": 0,
+     "extras": [
+      1,
+      0
+     ],
+     "value": 200
+    },
+    {
+     "id": "dvb1",
+     "type": 0,
+     "extras": [
+      1,
+      0
+     ],
+     "value": 100
+    },
+    {
+     "id": "dvb1",
+     "type": 0,
+     "extras": [
+      2,
+      0
+     ],
+     "value": 65
+    },
+    {
+     "id": "dvb1",
+     "type": 0,
+     "extras": [
+      3,
+      0
+     ],
+     "value": 100
+    },
+    {
+     "id": "dvb1",
+     "type": 0,
+     "extras": [
+      4,
+      0
+     ],
+     "value": 65
+    },
+    {
+     "id": "dvb1",
+     "type": 0,
+     "extras": [
+      5,
+      0
+     ],
+     "value": 65
+    },
+    {
+     "id": "dvb1",
+     "type": 0,
+     "extras": [
+      6,
+      0
+     ],
+     "value": 90
+    },
+    {
+     "id": "dvb1",
+     "type": 0,
+     "extras": [
+      7,
+      0
+     ],
+     "value": 65
+    },
+    {
+     "id": "dvb1",
+     "type": 0,
+     "extras": [
+      8,
+      0
+     ],
+     "value": 100
+    },
+    {
+     "id": "dvr1",
+     "type": 0,
+     "extras": [
+      2,
+      0
+     ],
+     "value": 100
+    },
+    {
+     "id": "dvr1",
+     "type": 0,
+     "extras": [
+      3,
+      0
+     ],
+     "value": 200
+    },
+    {
+     "id": "dvr1",
+     "type": 0,
+     "extras": [
+      4,
+      0
+     ],
+     "value": 100
+    },
+    {
+     "id": "dvr1",
+     "type": 0,
+     "extras": [
+      5,
+      0
+     ],
+     "value": 100
+    },
+    {
+     "id": "dvr1",
+     "type": 0,
+     "extras": [
+      6,
+      0
+     ],
+     "value": 150
+    },
+    {
+     "id": "dvr1",
+     "type": 0,
+     "extras": [
+      7,
+      0
+     ],
+     "value": 100
+    },
+    {
+     "id": "dcat",
+     "type": 3,
+     "extras": [
+      0,
+      0
+     ],
+     "value": "O"
+    },
+    {
+     "id": "dwlk",
+     "type": 0,
+     "extras": [
+      0,
+      0
+     ],
+     "value": 1
+    },
+    {
+     "id": "dimc",
+     "type": 0,
+     "extras": [
+      0,
+      0
+     ],
+     "value": 1
+    },
+    {
+     "id": "dptx",
+     "type": 3,
+     "extras": [
+      0,
+      0
+     ],
+     "value": ""
+    }
+   ]
+  },
+  {
+   "old_id": "ZPvp",
+   "new_id": "D002",
+   "mods": [
+    {
+     "id": "dtil",
+     "type": 3,
+     "extras": [
+      0,
+      0
+     ],
+     "value": "*"
+    },
+    {
+     "id": "dvr1",
+     "type": 0,
+     "extras": [
+      1,
+      0
+     ],
+     "value": 150
+    },
+    {
+     "id": "dvg1",
+     "type": 0,
+     "extras": [
+      1,
+      0
+     ],
+     "value": 150
+    },
+    {
+     "id": "dvb1",
+     "type": 0,
+     "extras": [
+      1,
+      0
+     ],
+     "value": 150
+    },
+    {
+     "id": "dvr1",
+     "type": 0,
+     "extras": [
+      2,
+      0
+     ],
+     "value": 150
+    },
+    {
+     "id": "dvr1",
+     "type": 0,
+     "extras": [
+      3,
+      0
+     ],
+     "value": 150
+    },
+    {
+     "id": "dvr1",
+     "type": 0,
+     "extras": [
+      4,
+      0
+     ],
+     "value": 150
+    },
+    {
+     "id": "dvg1",
+     "type": 0,
+     "extras": [
+      2,
+      0
+     ],
+     "value": 150
+    },
+    {
+     "id": "dvg1",
+     "type": 0,
+     "extras": [
+      3,
+      0
+     ],
+     "value": 150
+    },
+    {
+     "id": "dvg1",
+     "type": 0,
+     "extras": [
+      4,
+      0
+     ],
+     "value": 150
+    },
+    {
+     "id": "dvb1",
+     "type": 0,
+     "extras": [
+      2,
+      0
+     ],
+     "value": 150
+    },
+    {
+     "id": "dvb1",
+     "type": 0,
+     "extras": [
+      3,
+      0
+     ],
+     "value": 150
+    },
+    {
+     "id": "dvb1",
+     "type": 0,
+     "extras": [
+      4,
+      0
+     ],
+     "value": 150
+    },
+    {
+     "id": "dwlk",
+     "type": 0,
+     "extras": [
+      0,
+      0
+     ],
+     "value": 1
+    },
+    {
+     "id": "dptx",
+     "type": 3,
+     "extras": [
+      0,
+      0
+     ],
+     "value": ""
+    },
+    {
+     "id": "dmar",
+     "type": 2,
+     "extras": [
+      0,
+      0
+     ],
+     "value": 0.10000000149011612
+    },
+    {
+     "id": "dmap",
+     "type": 2,
+     "extras": [
+      0,
+      0
+     ],
+     "value": 0.10000000149011612
+    },
+    {
+     "id": "dimc",
+     "type": 0,
+     "extras": [
+      0,
+      0
+     ],
+     "value": 1
+    }
+   ]
+  },
+  {
+   "old_id": "ZPsh",
+   "new_id": "D003",
+   "mods": [
+    {
+     "id": "dmas",
+     "type": 2,
+     "extras": [
+      0,
+      0
+     ],
+     "value": 5.0
+    },
+    {
+     "id": "dmis",
+     "type": 2,
+     "extras": [
+      0,
+      0
+     ],
+     "value": 3.0
+    }
+   ]
+  },
+  {
+   "old_id": "ZPvp",
+   "new_id": "D004",
+   "mods": [
+    {
+     "id": "dtil",
+     "type": 3,
+     "extras": [
+      0,
+      0
+     ],
+     "value": "*"
+    },
+    {
+     "id": "dvr1",
+     "type": 0,
+     "extras": [
+      1,
+      0
+     ],
+     "value": 150
+    },
+    {
+     "id": "dvg1",
+     "type": 0,
+     "extras": [
+      1,
+      0
+     ],
+     "value": 150
+    },
+    {
+     "id": "dvb1",
+     "type": 0,
+     "extras": [
+      1,
+      0
+     ],
+     "value": 150
+    },
+    {
+     "id": "dvr1",
+     "type": 0,
+     "extras": [
+      2,
+      0
+     ],
+     "value": 150
+    },
+    {
+     "id": "dvr1",
+     "type": 0,
+     "extras": [
+      3,
+      0
+     ],
+     "value": 150
+    },
+    {
+     "id": "dvr1",
+     "type": 0,
+     "extras": [
+      4,
+      0
+     ],
+     "value": 150
+    },
+    {
+     "id": "dvg1",
+     "type": 0,
+     "extras": [
+      2,
+      0
+     ],
+     "value": 150
+    },
+    {
+     "id": "dvg1",
+     "type": 0,
+     "extras": [
+      3,
+      0
+     ],
+     "value": 150
+    },
+    {
+     "id": "dvg1",
+     "type": 0,
+     "extras": [
+      4,
+      0
+     ],
+     "value": 150
+    },
+    {
+     "id": "dvb1",
+     "type": 0,
+     "extras": [
+      2,
+      0
+     ],
+     "value": 150
+    },
+    {
+     "id": "dvb1",
+     "type": 0,
+     "extras": [
+      3,
+      0
+     ],
+     "value": 150
+    },
+    {
+     "id": "dvb1",
+     "type": 0,
+     "extras": [
+      4,
+      0
+     ],
+     "value": 150
+    },
+    {
+     "id": "dwlk",
+     "type": 0,
+     "extras": [
+      0,
+      0
+     ],
+     "value": 1
+    },
+    {
+     "id": "dptx",
+     "type": 3,
+     "extras": [
+      0,
+      0
+     ],
+     "value": ""
+    },
+    {
+     "id": "dmar",
+     "type": 2,
+     "extras": [
+      0,
+      0
+     ],
+     "value": 0.10000000149011612
+    },
+    {
+     "id": "dmap",
+     "type": 2,
+     "extras": [
+      0,
+      0
+     ],
+     "value": 0.10000000149011612
+    },
+    {
+     "id": "dimc",
+     "type": 0,
+     "extras": [
+      0,
+      0
+     ],
+     "value": 1
+    },
+    {
+     "id": "dmas",
+     "type": 2,
+     "extras": [
+      0,
+      0
+     ],
+     "value": 5.0
+    },
+    {
+     "id": "dmis",
+     "type": 2,
+     "extras": [
+      0,
+      0
+     ],
+     "value": 3.0
+    }
+   ]
+  },
+  {
+   "old_id": "OPop",
+   "new_id": "D005",
+   "mods": [
+    {
+     "id": "dtil",
+     "type": 3,
+     "extras": [
+      0,
+      0
+     ],
+     "value": "*"
+    },
+    {
+     "id": "dmas",
+     "type": 2,
+     "extras": [
+      0,
+      0
+     ],
+     "value": 5.0
+    },
+    {
+     "id": "dvr1",
+     "type": 0,
+     "extras": [
+      1,
+      0
+     ],
+     "value": 200
+    },
+    {
+     "id": "dvb1",
+     "type": 0,
+     "extras": [
+      1,
+      0
+     ],
+     "value": 100
+    },
+    {
+     "id": "dvb1",
+     "type": 0,
+     "extras": [
+      2,
+      0
+     ],
+     "value": 65
+    },
+    {
+     "id": "dvb1",
+     "type": 0,
+     "extras": [
+      3,
+      0
+     ],
+     "value": 100
+    },
+    {
+     "id": "dvb1",
+     "type": 0,
+     "extras": [
+      4,
+      0
+     ],
+     "value": 65
+    },
+    {
+     "id": "dvb1",
+     "type": 0,
+     "extras": [
+      5,
+      0
+     ],
+     "value": 65
+    },
+    {
+     "id": "dvb1",
+     "type": 0,
+     "extras": [
+      6,
+      0
+     ],
+     "value": 90
+    },
+    {
+     "id": "dvb1",
+     "type": 0,
+     "extras": [
+      7,
+      0
+     ],
+     "value": 65
+    },
+    {
+     "id": "dvb1",
+     "type": 0,
+     "extras": [
+      8,
+      0
+     ],
+     "value": 100
+    },
+    {
+     "id": "dvr1",
+     "type": 0,
+     "extras": [
+      2,
+      0
+     ],
+     "value": 100
+    },
+    {
+     "id": "dvr1",
+     "type": 0,
+     "extras": [
+      3,
+      0
+     ],
+     "value": 200
+    },
+    {
+     "id": "dvr1",
+     "type": 0,
+     "extras": [
+      4,
+      0
+     ],
+     "value": 100
+    },
+    {
+     "id": "dvr1",
+     "type": 0,
+     "extras": [
+      5,
+      0
+     ],
+     "value": 100
+    },
+    {
+     "id": "dvr1",
+     "type": 0,
+     "extras": [
+      6,
+      0
+     ],
+     "value": 150
+    },
+    {
+     "id": "dvr1",
+     "type": 0,
+     "extras": [
+      7,
+      0
+     ],
+     "value": 100
+    },
+    {
+     "id": "dcat",
+     "type": 3,
+     "extras": [
+      0,
+      0
+     ],
+     "value": "O"
+    },
+    {
+     "id": "dwlk",
+     "type": 0,
+     "extras": [
+      0,
+      0
+     ],
+     "value": 1
+    },
+    {
+     "id": "dimc",
+     "type": 0,
+     "extras": [
+      0,
+      0
+     ],
+     "value": 1
+    },
+    {
+     "id": "dptx",
+     "type": 3,
+     "extras": [
+      0,
+      0
+     ],
+     "value": ""
+    },
+    {
+     "id": "dmis",
+     "type": 2,
+     "extras": [
+      0,
+      0
+     ],
+     "value": 3.0
+    }
+   ]
+  },
+  {
+   "old_id": "ISs1",
+   "new_id": "D006",
+   "mods": [
+    {
+     "id": "dptx",
+     "type": 3,
+     "extras": [
+      0,
+      0
+     ],
+     "value": ""
+    }
+   ]
+  }
+ ],
+ "remaining_bytes": 0,
+ "total_len": 2257
+}

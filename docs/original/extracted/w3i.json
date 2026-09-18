@@ -1,0 +1,206 @@
+{
+ "version": 25,
+ "saves": 2523,
+ "editor_version": 6058,
+ "map_name": "TRIGSTR_001",
+ "map_author": "TRIGSTR_004",
+ "map_description": "TRIGSTR_3395",
+ "players_recommended": "TRIGSTR_002",
+ "camera_bounds": [
+  -6912.0,
+  -7424.0,
+  6912.0,
+  6912.0,
+  -6912.0,
+  6912.0,
+  6912.0,
+  -7424.0
+ ],
+ "camera_complements": [
+  6,
+  6,
+  4,
+  8
+ ],
+ "playable_width": 116,
+ "playable_height": 116,
+ "flags": 56696,
+ "tileset": "Z",
+ "loading_bg_idx": -1,
+ "loading_model_path": "forest_trees.mdx",
+ "loading_text": "TRIGSTR_1127",
+ "loading_title": "TRIGSTR_578",
+ "loading_subtitle": "TRIGSTR_579",
+ "game_data_set": 0,
+ "prologue_path": "",
+ "prologue_text": "",
+ "prologue_title": "",
+ "prologue_subtitle": "",
+ "fog_flag": 0,
+ "fog_start": 3000.0,
+ "fog_end": 5000.0,
+ "fog_density": 0.5,
+ "fog_rgba": [
+  0,
+  0,
+  0,
+  255
+ ],
+ "weather_id": 0,
+ "sound_env": "lake",
+ "light_tileset": "Z",
+ "water_rgba": [
+  255,
+  255,
+  255,
+  255
+ ],
+ "players": [
+  {
+   "id": 0,
+   "type": 1,
+   "race": 1,
+   "fixed_start": 0,
+   "name": "TRIGSTR_007",
+   "start_x": 128.0,
+   "start_y": 1472.0,
+   "ally_low": 0,
+   "ally_high": 16
+  },
+  {
+   "id": 1,
+   "type": 1,
+   "race": 1,
+   "fixed_start": 0,
+   "name": "TRIGSTR_008",
+   "start_x": 5120.0,
+   "start_y": 2624.0,
+   "ally_low": 16,
+   "ally_high": 41
+  },
+  {
+   "id": 2,
+   "type": 1,
+   "race": 1,
+   "fixed_start": 0,
+   "name": "TRIGSTR_009",
+   "start_x": 3584.0,
+   "start_y": -4224.0,
+   "ally_low": 0,
+   "ally_high": 8
+  },
+  {
+   "id": 3,
+   "type": 1,
+   "race": 1,
+   "fixed_start": 0,
+   "name": "TRIGSTR_010",
+   "start_x": 5184.0,
+   "start_y": -1664.0,
+   "ally_low": 2,
+   "ally_high": 4
+  },
+  {
+   "id": 4,
+   "type": 1,
+   "race": 1,
+   "fixed_start": 0,
+   "name": "TRIGSTR_011",
+   "start_x": -512.0,
+   "start_y": 3136.0,
+   "ally_low": 0,
+   "ally_high": 1
+  },
+  {
+   "id": 5,
+   "type": 1,
+   "race": 1,
+   "fixed_start": 0,
+   "name": "TRIGSTR_012",
+   "start_x": 2112.0,
+   "start_y": 6080.0,
+   "ally_low": 1,
+   "ally_high": 18
+  },
+  {
+   "id": 6,
+   "type": 1,
+   "race": 1,
+   "fixed_start": 0,
+   "name": "TRIGSTR_013",
+   "start_x": -1408.0,
+   "start_y": -2880.0,
+   "ally_low": 24,
+   "ally_high": 5
+  },
+  {
+   "id": 7,
+   "type": 2,
+   "race": 0,
+   "fixed_start": 2,
+   "name": "TRIGSTR_014",
+   "start_x": 3136.0,
+   "start_y": 0.0,
+   "ally_low": 0,
+   "ally_high": 3967
+  },
+  {
+   "id": 8,
+   "type": 2,
+   "race": 0,
+   "fixed_start": 2,
+   "name": "TRIGSTR_015",
+   "start_x": -4736.0,
+   "start_y": 256.0,
+   "ally_low": 0,
+   "ally_high": 3839
+  },
+  {
+   "id": 9,
+   "type": 2,
+   "race": 0,
+   "fixed_start": 2,
+   "name": "TRIGSTR_016",
+   "start_x": -4096.0,
+   "start_y": 3648.0,
+   "ally_low": 0,
+   "ally_high": 3583
+  },
+  {
+   "id": 10,
+   "type": 2,
+   "race": 0,
+   "fixed_start": 2,
+   "name": "TRIGSTR_017",
+   "start_x": -6016.0,
+   "start_y": -2368.0,
+   "ally_low": 0,
+   "ally_high": 3071
+  },
+  {
+   "id": 11,
+   "type": 3,
+   "race": 0,
+   "fixed_start": 2,
+   "name": "TRIGSTR_018",
+   "start_x": -640.0,
+   "start_y": -5056.0,
+   "ally_low": 0,
+   "ally_high": 2047
+  }
+ ],
+ "forces": [
+  {
+   "flags": 11,
+   "player_mask": -3969,
+   "name": "TRIGSTR_492"
+  },
+  {
+   "flags": 11,
+   "player_mask": 3968,
+   "name": "TRIGSTR_3186"
+  }
+ ],
+ "remaining_bytes": 1,
+ "total_len": 800
+}

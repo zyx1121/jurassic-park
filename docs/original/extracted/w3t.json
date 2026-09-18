@@ -1,0 +1,8427 @@
+{
+ "version": 2,
+ "original": [
+  {
+   "old_id": "lmbr",
+   "new_id": "\u0000\u0000\u0000\u0000",
+   "mods": [
+    {
+     "id": "ihtp",
+     "type": 0,
+     "extras": [],
+     "value": 20
+    },
+    {
+     "id": "unam",
+     "type": 3,
+     "extras": [],
+     "value": "一捆木頭"
+    },
+    {
+     "id": "igol",
+     "type": 0,
+     "extras": [],
+     "value": 30
+    },
+    {
+     "id": "istr",
+     "type": 0,
+     "extras": [],
+     "value": 45
+    }
+   ]
+  },
+  {
+   "old_id": "ckng",
+   "new_id": "\u0000\u0000\u0000\u0000",
+   "mods": [
+    {
+     "id": "ilev",
+     "type": 0,
+     "extras": [],
+     "value": 7
+    }
+   ]
+  },
+  {
+   "old_id": "modt",
+   "new_id": "\u0000\u0000\u0000\u0000",
+   "mods": [
+    {
+     "id": "ilev",
+     "type": 0,
+     "extras": [],
+     "value": 7
+    }
+   ]
+  },
+  {
+   "old_id": "tkno",
+   "new_id": "\u0000\u0000\u0000\u0000",
+   "mods": [
+    {
+     "id": "ilev",
+     "type": 0,
+     "extras": [],
+     "value": 7
+    }
+   ]
+  },
+  {
+   "old_id": "crys",
+   "new_id": "\u0000\u0000\u0000\u0000",
+   "mods": [
+    {
+     "id": "iabi",
+     "type": 3,
+     "extras": [],
+     "value": "A00Q"
+    }
+   ]
+  },
+  {
+   "old_id": "wlsd",
+   "new_id": "\u0000\u0000\u0000\u0000",
+   "mods": [
+    {
+     "id": "icid",
+     "type": 3,
+     "extras": [],
+     "value": "A002"
+    }
+   ]
+  }
+ ],
+ "custom": [
+  {
+   "old_id": "ratf",
+   "new_id": "I001",
+   "mods": [
+    {
+     "id": "unam",
+     "type": 3,
+     "extras": [],
+     "value": "網子《|cffffcc00E|r》"
+    },
+    {
+     "id": "icla",
+     "type": 3,
+     "extras": [],
+     "value": "Purchasable"
+    },
+    {
+     "id": "iabi",
+     "type": 3,
+     "extras": [],
+     "value": "A000"
+    },
+    {
+     "id": "iico",
+     "type": 3,
+     "extras": [],
+     "value": "ReplaceableTextures\\CommandButtons\\BTNEnsnare.blp"
+    },
+    {
+     "id": "igol",
+     "type": 0,
+     "extras": [],
+     "value": 15
+    },
+    {
+     "id": "istr",
+     "type": 0,
+     "extras": [],
+     "value": 1
+    },
+    {
+     "id": "ides",
+     "type": 3,
+     "extras": [],
+     "value": "阻止恐龍移動，持續15秒 (有機會捕捉到恐龍)"
+    },
+    {
+     "id": "utub",
+     "type": 3,
+     "extras": [],
+     "value": "阻止恐龍移動，持續15秒"
+    },
+    {
+     "id": "utip",
+     "type": 3,
+     "extras": [],
+     "value": "購買網子《|cffffcc00E|r》《2包》"
+    },
+    {
+     "id": "icid",
+     "type": 3,
+     "extras": [],
+     "value": "A000"
+    },
+    {
+     "id": "ilum",
+     "type": 0,
+     "extras": [],
+     "value": 15
+    },
+    {
+     "id": "ipaw",
+     "type": 0,
+     "extras": [],
+     "value": 0
+    },
+    {
+     "id": "uhot",
+     "type": 3,
+     "extras": [],
+     "value": "E"
+    },
+    {
+     "id": "iper",
+     "type": 0,
+     "extras": [],
+     "value": 1
+    },
+    {
+     "id": "iuse",
+     "type": 0,
+     "extras": [],
+     "value": 2
+    },
+    {
+     "id": "isto",
+     "type": 0,
+     "extras": [],
+     "value": 2
+    },
+    {
+     "id": "idrp",
+     "type": 0,
+     "extras": [],
+     "value": 1
+    }
+   ]
+  },
+  {
+   "old_id": "ratf",
+   "new_id": "I002",
+   "mods": [
+    {
+     "id": "unam",
+     "type": 3,
+     "extras": [],
+     "value": "散彈槍《|cffffcc00G|r》"
+    },
+    {
+     "id": "icla",
+     "type": 3,
+     "extras": [],
+     "value": "Charged"
+    },
+    {
+     "id": "iabi",
+     "type": 3,
+     "extras": [],
+     "value": ""
+    },
+    {
+     "id": "igol",
+     "type": 0,
+     "extras": [],
+     "value": 28
+    },
+    {
+     "id": "istr",
+     "type": 0,
+     "extras": [],
+     "value": 100
+    },
+    {
+     "id": "ides",
+     "type": 3,
+     "extras": [],
+     "value": "射出子彈，對前面的敵人造成100點傷害  |n|cffffcc00需要散彈槍子彈|r"
+    },
+    {
+     "id": "utub",
+     "type": 3,
+     "extras": [],
+     "value": "射出子彈，對前面的敵人造成100點傷害  |n|cffffcc00需要散彈槍子彈|r"
+    },
+    {
+     "id": "utip",
+     "type": 3,
+     "extras": [],
+     "value": "購買散彈槍《|cffffcc00G|r》"
+    },
+    {
+     "id": "iico",
+     "type": 3,
+     "extras": [],
+     "value": "ReplaceableTextures\\CommandButtons\\BTNShotgun.blp"
+    },
+    {
+     "id": "ilum",
+     "type": 0,
+     "extras": [],
+     "value": 18
+    },
+    {
+     "id": "icid",
+     "type": 3,
+     "extras": [],
+     "value": "A002"
+    },
+    {
+     "id": "ipaw",
+     "type": 0,
+     "extras": [],
+     "value": 0
+    },
+    {
+     "id": "uhot",
+     "type": 3,
+     "extras": [],
+     "value": "G"
+    },
+    {
+     "id": "isto",
+     "type": 0,
+     "extras": [],
+     "value": 2
+    },
+    {
+     "id": "ifil",
+     "type": 3,
+     "extras": [],
+     "value": "war3mapImported\\ShotgunItem.mdl"
+    },
+    {
+     "id": "idrp",
+     "type": 0,
+     "extras": [],
+     "value": 1
+    }
+   ]
+  },
+  {
+   "old_id": "ratf",
+   "new_id": "I003",
+   "mods": [
+    {
+     "id": "unam",
+     "type": 3,
+     "extras": [],
+     "value": "麻醉槍《|cffffcc00T|r》"
+    },
+    {
+     "id": "icla",
+     "type": 3,
+     "extras": [],
+     "value": "Charged"
+    },
+    {
+     "id": "iabi",
+     "type": 3,
+     "extras": [],
+     "value": ""
+    },
+    {
+     "id": "igol",
+     "type": 0,
+     "extras": [],
+     "value": 15
+    },
+    {
+     "id": "istr",
+     "type": 0,
+     "extras": [],
+     "value": 100
+    },
+    {
+     "id": "ides",
+     "type": 3,
+     "extras": [],
+     "value": "使恐龍沉睡120秒 (受到攻擊會醒來)  |n|cffffcc00需要麻醉槍子彈|r"
+    },
+    {
+     "id": "utub",
+     "type": 3,
+     "extras": [],
+     "value": "使恐龍停止行動的好武器"
+    },
+    {
+     "id": "utip",
+     "type": 3,
+     "extras": [],
+     "value": "購買麻醉槍《|cffffcc00T|r》"
+    },
+    {
+     "id": "iico",
+     "type": 3,
+     "extras": [],
+     "value": "ReplaceableTextures\\CommandButtons\\BTNTranq.blp"
+    },
+    {
+     "id": "ilum",
+     "type": 0,
+     "extras": [],
+     "value": 8
+    },
+    {
+     "id": "icid",
+     "type": 3,
+     "extras": [],
+     "value": "A003"
+    },
+    {
+     "id": "ipaw",
+     "type": 0,
+     "extras": [],
+     "value": 0
+    },
+    {
+     "id": "uhot",
+     "type": 3,
+     "extras": [],
+     "value": "T"
+    },
+    {
+     "id": "isto",
+     "type": 0,
+     "extras": [],
+     "value": 4
+    },
+    {
+     "id": "ifil",
+     "type": 3,
+     "extras": [],
+     "value": "war3mapImported\\ShotgunItem.mdl"
+    },
+    {
+     "id": "idrp",
+     "type": 0,
+     "extras": [],
+     "value": 1
+    }
+   ]
+  },
+  {
+   "old_id": "tels",
+   "new_id": "I008",
+   "mods": [
+    {
+     "id": "unam",
+     "type": 3,
+     "extras": [],
+     "value": "夜視鏡"
+    },
+    {
+     "id": "icla",
+     "type": 3,
+     "extras": [],
+     "value": "Purchasable"
+    },
+    {
+     "id": "ilum",
+     "type": 0,
+     "extras": [],
+     "value": 15
+    },
+    {
+     "id": "isto",
+     "type": 0,
+     "extras": [],
+     "value": 1
+    },
+    {
+     "id": "istr",
+     "type": 0,
+     "extras": [],
+     "value": 1
+    },
+    {
+     "id": "utub",
+     "type": 3,
+     "extras": [],
+     "value": "在夜間增加700視野"
+    },
+    {
+     "id": "utip",
+     "type": 3,
+     "extras": [],
+     "value": "購買夜視鏡"
+    },
+    {
+     "id": "uhot",
+     "type": 3,
+     "extras": [],
+     "value": ""
+    },
+    {
+     "id": "igol",
+     "type": 0,
+     "extras": [],
+     "value": 15
+    },
+    {
+     "id": "ides",
+     "type": 3,
+     "extras": [],
+     "value": "在夜間增加700視野"
+    },
+    {
+     "id": "ipaw",
+     "type": 0,
+     "extras": [],
+     "value": 0
+    },
+    {
+     "id": "idrp",
+     "type": 0,
+     "extras": [],
+     "value": 1
+    }
+   ]
+  },
+  {
+   "old_id": "tels",
+   "new_id": "I00A",
+   "mods": [
+    {
+     "id": "unam",
+     "type": 3,
+     "extras": [],
+     "value": "散彈槍子彈"
+    },
+    {
+     "id": "icla",
+     "type": 3,
+     "extras": [],
+     "value": "Charged"
+    },
+    {
+     "id": "iico",
+     "type": 3,
+     "extras": [],
+     "value": "ReplaceableTextures\\CommandButtons\\BTNShotgunShells.blp"
+    },
+    {
+     "id": "ilum",
+     "type": 0,
+     "extras": [],
+     "value": 8
+    },
+    {
+     "id": "istr",
+     "type": 0,
+     "extras": [],
+     "value": 10
+    },
+    {
+     "id": "ides",
+     "type": 3,
+     "extras": [],
+     "value": "須配合散彈槍才能有效使用"
+    },
+    {
+     "id": "utub",
+     "type": 3,
+     "extras": [],
+     "value": "須配合散彈槍才能有效使用."
+    },
+    {
+     "id": "utip",
+     "type": 3,
+     "extras": [],
+     "value": "購買散彈槍彈藥《|cffffcc00S|r》《2發》"
+    },
+    {
+     "id": "uhot",
+     "type": 3,
+     "extras": [],
+     "value": "S"
+    },
+    {
+     "id": "iabi",
+     "type": 3,
+     "extras": [],
+     "value": ""
+    },
+    {
+     "id": "isto",
+     "type": 0,
+     "extras": [],
+     "value": 5
+    },
+    {
+     "id": "iuse",
+     "type": 0,
+     "extras": [],
+     "value": 2
+    },
+    {
+     "id": "iper",
+     "type": 0,
+     "extras": [],
+     "value": 1
+    },
+    {
+     "id": "igol",
+     "type": 0,
+     "extras": [],
+     "value": 8
+    },
+    {
+     "id": "ipaw",
+     "type": 0,
+     "extras": [],
+     "value": 0
+    },
+    {
+     "id": "idrp",
+     "type": 0,
+     "extras": [],
+     "value": 1
+    }
+   ]
+  },
+  {
+   "old_id": "tels",
+   "new_id": "I00B",
+   "mods": [
+    {
+     "id": "unam",
+     "type": 3,
+     "extras": [],
+     "value": "麻醉槍子彈"
+    },
+    {
+     "id": "icla",
+     "type": 3,
+     "extras": [],
+     "value": "Charged"
+    },
+    {
+     "id": "iico",
+     "type": 3,
+     "extras": [],
+     "value": "ReplaceableTextures\\CommandButtons\\BTNTranqDarts.blp"
+    },
+    {
+     "id": "ilum",
+     "type": 0,
+     "extras": [],
+     "value": 8
+    },
+    {
+     "id": "istr",
+     "type": 0,
+     "extras": [],
+     "value": 20
+    },
+    {
+     "id": "ides",
+     "type": 3,
+     "extras": [],
+     "value": "須配合麻醉槍才能有效使用"
+    },
+    {
+     "id": "utub",
+     "type": 3,
+     "extras": [],
+     "value": "須配合麻醉槍才能有效使用"
+    },
+    {
+     "id": "utip",
+     "type": 3,
+     "extras": [],
+     "value": "購買麻醉槍子彈《|cffffcc00D|r》《4發》"
+    },
+    {
+     "id": "uhot",
+     "type": 3,
+     "extras": [],
+     "value": "D"
+    },
+    {
+     "id": "iabi",
+     "type": 3,
+     "extras": [],
+     "value": ""
+    },
+    {
+     "id": "iuse",
+     "type": 0,
+     "extras": [],
+     "value": 4
+    },
+    {
+     "id": "iper",
+     "type": 0,
+     "extras": [],
+     "value": 1
+    },
+    {
+     "id": "igol",
+     "type": 0,
+     "extras": [],
+     "value": 8
+    },
+    {
+     "id": "ipaw",
+     "type": 0,
+     "extras": [],
+     "value": 0
+    },
+    {
+     "id": "idrp",
+     "type": 0,
+     "extras": [],
+     "value": 1
+    }
+   ]
+  },
+  {
+   "old_id": "phea",
+   "new_id": "I00C",
+   "mods": [
+    {
+     "id": "unam",
+     "type": 3,
+     "extras": [],
+     "value": "披薩"
+    },
+    {
+     "id": "iico",
+     "type": 3,
+     "extras": [],
+     "value": "ReplaceableTextures\\CommandButtons\\BTNPizza.blp"
+    },
+    {
+     "id": "ubpy",
+     "type": 0,
+     "extras": [],
+     "value": 0
+    },
+    {
+     "id": "utub",
+     "type": 3,
+     "extras": [],
+     "value": "回復100HP"
+    },
+    {
+     "id": "ides",
+     "type": 3,
+     "extras": [],
+     "value": "回復100HP"
+    },
+    {
+     "id": "iabi",
+     "type": 3,
+     "extras": [],
+     "value": "A00I"
+    },
+    {
+     "id": "icid",
+     "type": 3,
+     "extras": [],
+     "value": "A00I"
+    },
+    {
+     "id": "iicd",
+     "type": 0,
+     "extras": [],
+     "value": 1
+    },
+    {
+     "id": "utip",
+     "type": 3,
+     "extras": [],
+     "value": "購買披薩"
+    },
+    {
+     "id": "uhot",
+     "type": 3,
+     "extras": [],
+     "value": ""
+    },
+    {
+     "id": "isto",
+     "type": 0,
+     "extras": [],
+     "value": 1
+    },
+    {
+     "id": "istr",
+     "type": 0,
+     "extras": [],
+     "value": 0
+    },
+    {
+     "id": "isst",
+     "type": 0,
+     "extras": [],
+     "value": 0
+    },
+    {
+     "id": "ilum",
+     "type": 0,
+     "extras": [],
+     "value": 8
+    },
+    {
+     "id": "igol",
+     "type": 0,
+     "extras": [],
+     "value": 8
+    },
+    {
+     "id": "ureq",
+     "type": 3,
+     "extras": [],
+     "value": ""
+    },
+    {
+     "id": "ipaw",
+     "type": 0,
+     "extras": [],
+     "value": 0
+    },
+    {
+     "id": "icla",
+     "type": 3,
+     "extras": [],
+     "value": "PowerUp"
+    },
+    {
+     "id": "idrp",
+     "type": 0,
+     "extras": [],
+     "value": 1
+    }
+   ]
+  },
+  {
+   "old_id": "pman",
+   "new_id": "I00D",
+   "mods": [
+    {
+     "id": "unam",
+     "type": 3,
+     "extras": [],
+     "value": "百事可樂"
+    },
+    {
+     "id": "ubpx",
+     "type": 0,
+     "extras": [],
+     "value": 0
+    },
+    {
+     "id": "ubpy",
+     "type": 0,
+     "extras": [],
+     "value": 0
+    },
+    {
+     "id": "utub",
+     "type": 3,
+     "extras": [],
+     "value": "回復100MP"
+    },
+    {
+     "id": "ides",
+     "type": 3,
+     "extras": [],
+     "value": "回復100MP"
+    },
+    {
+     "id": "iabi",
+     "type": 3,
+     "extras": [],
+     "value": "A00J"
+    },
+    {
+     "id": "iico",
+     "type": 3,
+     "extras": [],
+     "value": "ReplaceableTextures\\CommandButtons\\BTNPepsi.blp"
+    },
+    {
+     "id": "iicd",
+     "type": 0,
+     "extras": [],
+     "value": 1
+    },
+    {
+     "id": "icid",
+     "type": 3,
+     "extras": [],
+     "value": "A00J"
+    },
+    {
+     "id": "uhot",
+     "type": 3,
+     "extras": [],
+     "value": ""
+    },
+    {
+     "id": "ilum",
+     "type": 0,
+     "extras": [],
+     "value": 2
+    },
+    {
+     "id": "isto",
+     "type": 0,
+     "extras": [],
+     "value": 1
+    },
+    {
+     "id": "istr",
+     "type": 0,
+     "extras": [],
+     "value": 0
+    },
+    {
+     "id": "isst",
+     "type": 0,
+     "extras": [],
+     "value": 0
+    },
+    {
+     "id": "utip",
+     "type": 3,
+     "extras": [],
+     "value": "購買百事可樂"
+    },
+    {
+     "id": "igol",
+     "type": 0,
+     "extras": [],
+     "value": 5
+    },
+    {
+     "id": "ureq",
+     "type": 3,
+     "extras": [],
+     "value": ""
+    },
+    {
+     "id": "ipaw",
+     "type": 0,
+     "extras": [],
+     "value": 0
+    },
+    {
+     "id": "icla",
+     "type": 3,
+     "extras": [],
+     "value": "PowerUp"
+    },
+    {
+     "id": "idrp",
+     "type": 0,
+     "extras": [],
+     "value": 1
+    }
+   ]
+  },
+  {
+   "old_id": "pnvl",
+   "new_id": "I00F",
+   "mods": [
+    {
+     "id": "unam",
+     "type": 3,
+     "extras": [],
+     "value": "暴龍尿液"
+    },
+    {
+     "id": "ubpx",
+     "type": 0,
+     "extras": [],
+     "value": 0
+    },
+    {
+     "id": "ubpy",
+     "type": 0,
+     "extras": [],
+     "value": 0
+    },
+    {
+     "id": "igol",
+     "type": 0,
+     "extras": [],
+     "value": 15
+    },
+    {
+     "id": "ilum",
+     "type": 0,
+     "extras": [],
+     "value": 15
+    },
+    {
+     "id": "isst",
+     "type": 0,
+     "extras": [],
+     "value": 0
+    },
+    {
+     "id": "uhot",
+     "type": 3,
+     "extras": [],
+     "value": ""
+    },
+    {
+     "id": "utub",
+     "type": 3,
+     "extras": [],
+     "value": "會嚇跑小型恐龍，但會招來大型恐龍，適合在遊戲後期或危險時使用"
+    },
+    {
+     "id": "ides",
+     "type": 3,
+     "extras": [],
+     "value": "使你無敵60秒，並會吸引大型恐龍"
+    },
+    {
+     "id": "utip",
+     "type": 3,
+     "extras": [],
+     "value": "購買暴龍尿液"
+    },
+    {
+     "id": "iabi",
+     "type": 3,
+     "extras": [],
+     "value": "A00L"
+    },
+    {
+     "id": "icid",
+     "type": 3,
+     "extras": [],
+     "value": "A00L"
+    },
+    {
+     "id": "ipaw",
+     "type": 0,
+     "extras": [],
+     "value": 0
+    },
+    {
+     "id": "idrp",
+     "type": 0,
+     "extras": [],
+     "value": 1
+    },
+    {
+     "id": "icla",
+     "type": 3,
+     "extras": [],
+     "value": "Campaign"
+    }
+   ]
+  },
+  {
+   "old_id": "pgma",
+   "new_id": "I000",
+   "mods": [
+    {
+     "id": "unam",
+     "type": 3,
+     "extras": [],
+     "value": "汽油"
+    },
+    {
+     "id": "icla",
+     "type": 3,
+     "extras": [],
+     "value": "Campaign"
+    },
+    {
+     "id": "iabi",
+     "type": 3,
+     "extras": [],
+     "value": "A00B"
+    },
+    {
+     "id": "icid",
+     "type": 3,
+     "extras": [],
+     "value": "A00B"
+    },
+    {
+     "id": "iicd",
+     "type": 0,
+     "extras": [],
+     "value": 1
+    },
+    {
+     "id": "igol",
+     "type": 0,
+     "extras": [],
+     "value": 10
+    },
+    {
+     "id": "ilum",
+     "type": 0,
+     "extras": [],
+     "value": 10
+    },
+    {
+     "id": "istr",
+     "type": 0,
+     "extras": [],
+     "value": 0
+    },
+    {
+     "id": "ides",
+     "type": 3,
+     "extras": [],
+     "value": "讓你的車增加100點汽油"
+    },
+    {
+     "id": "utub",
+     "type": 3,
+     "extras": [],
+     "value": "讓你的車增加100點汽油，補充汽油需要5秒的時間"
+    },
+    {
+     "id": "utip",
+     "type": 3,
+     "extras": [],
+     "value": "購買汽油《|cffffcc00G|r》"
+    },
+    {
+     "id": "uhot",
+     "type": 3,
+     "extras": [],
+     "value": "G"
+    },
+    {
+     "id": "ubpy",
+     "type": 0,
+     "extras": [],
+     "value": 1
+    },
+    {
+     "id": "ipaw",
+     "type": 0,
+     "extras": [],
+     "value": 0
+    },
+    {
+     "id": "idrp",
+     "type": 0,
+     "extras": [],
+     "value": 1
+    }
+   ]
+  },
+  {
+   "old_id": "lmbr",
+   "new_id": "I004",
+   "mods": [
+    {
+     "id": "ihtp",
+     "type": 0,
+     "extras": [],
+     "value": 25
+    },
+    {
+     "id": "unam",
+     "type": 3,
+     "extras": [],
+     "value": "一捆木材"
+    },
+    {
+     "id": "igol",
+     "type": 0,
+     "extras": [],
+     "value": 100
+    },
+    {
+     "id": "ipaw",
+     "type": 0,
+     "extras": [],
+     "value": 0
+    },
+    {
+     "id": "idrp",
+     "type": 0,
+     "extras": [],
+     "value": 1
+    }
+   ]
+  },
+  {
+   "old_id": "phea",
+   "new_id": "I005",
+   "mods": [
+    {
+     "id": "unam",
+     "type": 3,
+     "extras": [],
+     "value": "快樂兒童餐(有玩具)"
+    },
+    {
+     "id": "iico",
+     "type": 3,
+     "extras": [],
+     "value": "ReplaceableTextures\\CommandButtons\\BTNHappyMeal.blp"
+    },
+    {
+     "id": "ubpy",
+     "type": 0,
+     "extras": [],
+     "value": 0
+    },
+    {
+     "id": "utub",
+     "type": 3,
+     "extras": [],
+     "value": "包含著無限驚喜，點擊打開看看裡面會給你什麼禮物"
+    },
+    {
+     "id": "ides",
+     "type": 3,
+     "extras": [],
+     "value": "裡面有免費的玩具和食物"
+    },
+    {
+     "id": "iabi",
+     "type": 3,
+     "extras": [],
+     "value": "A02W"
+    },
+    {
+     "id": "icid",
+     "type": 3,
+     "extras": [],
+     "value": "A00I"
+    },
+    {
+     "id": "iicd",
+     "type": 0,
+     "extras": [],
+     "value": 1
+    },
+    {
+     "id": "utip",
+     "type": 3,
+     "extras": [],
+     "value": "購買快樂兒童餐"
+    },
+    {
+     "id": "uhot",
+     "type": 3,
+     "extras": [],
+     "value": ""
+    },
+    {
+     "id": "isto",
+     "type": 0,
+     "extras": [],
+     "value": 1
+    },
+    {
+     "id": "istr",
+     "type": 0,
+     "extras": [],
+     "value": 0
+    },
+    {
+     "id": "isst",
+     "type": 0,
+     "extras": [],
+     "value": 0
+    },
+    {
+     "id": "ilum",
+     "type": 0,
+     "extras": [],
+     "value": 10
+    },
+    {
+     "id": "igol",
+     "type": 0,
+     "extras": [],
+     "value": 10
+    },
+    {
+     "id": "ureq",
+     "type": 3,
+     "extras": [],
+     "value": ""
+    },
+    {
+     "id": "ipaw",
+     "type": 0,
+     "extras": [],
+     "value": 0
+    },
+    {
+     "id": "icla",
+     "type": 3,
+     "extras": [],
+     "value": "PowerUp"
+    },
+    {
+     "id": "idrp",
+     "type": 0,
+     "extras": [],
+     "value": 1
+    }
+   ]
+  },
+  {
+   "old_id": "tfar",
+   "new_id": "I006",
+   "mods": [
+    {
+     "id": "unam",
+     "type": 3,
+     "extras": [],
+     "value": "建造篝火"
+    },
+    {
+     "id": "iabi",
+     "type": 3,
+     "extras": [],
+     "value": "A00K"
+    },
+    {
+     "id": "iico",
+     "type": 3,
+     "extras": [],
+     "value": "ReplaceableTextures\\CommandButtons\\BTNCrate.blp"
+    },
+    {
+     "id": "igol",
+     "type": 0,
+     "extras": [],
+     "value": 7
+    },
+    {
+     "id": "ilum",
+     "type": 0,
+     "extras": [],
+     "value": 5
+    },
+    {
+     "id": "isto",
+     "type": 0,
+     "extras": [],
+     "value": 4
+    },
+    {
+     "id": "istr",
+     "type": 0,
+     "extras": [],
+     "value": 45
+    },
+    {
+     "id": "ifil",
+     "type": 3,
+     "extras": [],
+     "value": "Doodads\\LordaeronSummer\\Terrain\\Crates\\Crates0.mdl"
+    },
+    {
+     "id": "utip",
+     "type": 3,
+     "extras": [],
+     "value": "購買篝火工具包"
+    },
+    {
+     "id": "isst",
+     "type": 0,
+     "extras": [],
+     "value": 1
+    },
+    {
+     "id": "utub",
+     "type": 3,
+     "extras": [],
+     "value": "在目標區域建造一個篝火"
+    },
+    {
+     "id": "ides",
+     "type": 3,
+     "extras": [],
+     "value": "建造一個篝火"
+    },
+    {
+     "id": "ipaw",
+     "type": 0,
+     "extras": [],
+     "value": 0
+    },
+    {
+     "id": "idrp",
+     "type": 0,
+     "extras": [],
+     "value": 1
+    },
+    {
+     "id": "icid",
+     "type": 3,
+     "extras": [],
+     "value": "A00K"
+    }
+   ]
+  },
+  {
+   "old_id": "tfar",
+   "new_id": "I007",
+   "mods": [
+    {
+     "id": "unam",
+     "type": 3,
+     "extras": [],
+     "value": "建造營火"
+    },
+    {
+     "id": "iabi",
+     "type": 3,
+     "extras": [],
+     "value": "A00H"
+    },
+    {
+     "id": "iico",
+     "type": 3,
+     "extras": [],
+     "value": "ReplaceableTextures\\CommandButtons\\BTNCrate.blp"
+    },
+    {
+     "id": "igol",
+     "type": 0,
+     "extras": [],
+     "value": 6
+    },
+    {
+     "id": "ilum",
+     "type": 0,
+     "extras": [],
+     "value": 6
+    },
+    {
+     "id": "isto",
+     "type": 0,
+     "extras": [],
+     "value": 4
+    },
+    {
+     "id": "istr",
+     "type": 0,
+     "extras": [],
+     "value": 45
+    },
+    {
+     "id": "ifil",
+     "type": 3,
+     "extras": [],
+     "value": "Doodads\\LordaeronSummer\\Terrain\\Crates\\Crates0.mdl"
+    },
+    {
+     "id": "utip",
+     "type": 3,
+     "extras": [],
+     "value": "購買營火工具包"
+    },
+    {
+     "id": "utub",
+     "type": 3,
+     "extras": [],
+     "value": "在目標區域建造一個營火"
+    },
+    {
+     "id": "ides",
+     "type": 3,
+     "extras": [],
+     "value": "建造一個營火"
+    },
+    {
+     "id": "ipaw",
+     "type": 0,
+     "extras": [],
+     "value": 0
+    },
+    {
+     "id": "idrp",
+     "type": 0,
+     "extras": [],
+     "value": 1
+    },
+    {
+     "id": "icid",
+     "type": 3,
+     "extras": [],
+     "value": "A00H"
+    }
+   ]
+  },
+  {
+   "old_id": "tfar",
+   "new_id": "I009",
+   "mods": [
+    {
+     "id": "unam",
+     "type": 3,
+     "extras": [],
+     "value": "建造帳篷"
+    },
+    {
+     "id": "iabi",
+     "type": 3,
+     "extras": [],
+     "value": "A00O"
+    },
+    {
+     "id": "iico",
+     "type": 3,
+     "extras": [],
+     "value": "ReplaceableTextures\\CommandButtons\\BTNCrate.blp"
+    },
+    {
+     "id": "igol",
+     "type": 0,
+     "extras": [],
+     "value": 1
+    },
+    {
+     "id": "ilum",
+     "type": 0,
+     "extras": [],
+     "value": 1
+    },
+    {
+     "id": "isto",
+     "type": 0,
+     "extras": [],
+     "value": 5
+    },
+    {
+     "id": "istr",
+     "type": 0,
+     "extras": [],
+     "value": 45
+    },
+    {
+     "id": "ifil",
+     "type": 3,
+     "extras": [],
+     "value": "Doodads\\LordaeronSummer\\Terrain\\Crates\\Crates0.mdl"
+    },
+    {
+     "id": "utip",
+     "type": 3,
+     "extras": [],
+     "value": "購買帳篷工具包"
+    },
+    {
+     "id": "utub",
+     "type": 3,
+     "extras": [],
+     "value": "在目標區域建造一個帳篷"
+    },
+    {
+     "id": "ides",
+     "type": 3,
+     "extras": [],
+     "value": "建造一個帳篷"
+    },
+    {
+     "id": "ipaw",
+     "type": 0,
+     "extras": [],
+     "value": 0
+    },
+    {
+     "id": "idrp",
+     "type": 0,
+     "extras": [],
+     "value": 1
+    },
+    {
+     "id": "icid",
+     "type": 3,
+     "extras": [],
+     "value": "A00O"
+    }
+   ]
+  },
+  {
+   "old_id": "tfar",
+   "new_id": "I00E",
+   "mods": [
+    {
+     "id": "unam",
+     "type": 3,
+     "extras": [],
+     "value": "建造發電廠"
+    },
+    {
+     "id": "iabi",
+     "type": 3,
+     "extras": [],
+     "value": "A00G"
+    },
+    {
+     "id": "iico",
+     "type": 3,
+     "extras": [],
+     "value": "ReplaceableTextures\\CommandButtons\\BTNCrate.blp"
+    },
+    {
+     "id": "igol",
+     "type": 0,
+     "extras": [],
+     "value": 11
+    },
+    {
+     "id": "ilum",
+     "type": 0,
+     "extras": [],
+     "value": 10
+    },
+    {
+     "id": "isto",
+     "type": 0,
+     "extras": [],
+     "value": 2
+    },
+    {
+     "id": "istr",
+     "type": 0,
+     "extras": [],
+     "value": 45
+    },
+    {
+     "id": "ifil",
+     "type": 3,
+     "extras": [],
+     "value": "Doodads\\LordaeronSummer\\Terrain\\Crates\\Crates0.mdl"
+    },
+    {
+     "id": "utip",
+     "type": 3,
+     "extras": [],
+     "value": "購買發電廠工具包"
+    },
+    {
+     "id": "utub",
+     "type": 3,
+     "extras": [],
+     "value": "在目標區域建造一個發電廠"
+    },
+    {
+     "id": "ides",
+     "type": 3,
+     "extras": [],
+     "value": "建造一個發電廠"
+    },
+    {
+     "id": "ipaw",
+     "type": 0,
+     "extras": [],
+     "value": 0
+    },
+    {
+     "id": "idrp",
+     "type": 0,
+     "extras": [],
+     "value": 1
+    },
+    {
+     "id": "icid",
+     "type": 3,
+     "extras": [],
+     "value": "A00G"
+    }
+   ]
+  },
+  {
+   "old_id": "tfar",
+   "new_id": "I00G",
+   "mods": [
+    {
+     "id": "unam",
+     "type": 3,
+     "extras": [],
+     "value": "建造電牆"
+    },
+    {
+     "id": "iabi",
+     "type": 3,
+     "extras": [],
+     "value": "A00F"
+    },
+    {
+     "id": "iico",
+     "type": 3,
+     "extras": [],
+     "value": "ReplaceableTextures\\CommandButtons\\BTNCrate.blp"
+    },
+    {
+     "id": "igol",
+     "type": 0,
+     "extras": [],
+     "value": 12
+    },
+    {
+     "id": "ilum",
+     "type": 0,
+     "extras": [],
+     "value": 12
+    },
+    {
+     "id": "isto",
+     "type": 0,
+     "extras": [],
+     "value": 4
+    },
+    {
+     "id": "istr",
+     "type": 0,
+     "extras": [],
+     "value": 45
+    },
+    {
+     "id": "ifil",
+     "type": 3,
+     "extras": [],
+     "value": "Doodads\\LordaeronSummer\\Terrain\\Crates\\Crates0.mdl"
+    },
+    {
+     "id": "utip",
+     "type": 3,
+     "extras": [],
+     "value": "購買電牆工具包"
+    },
+    {
+     "id": "utub",
+     "type": 3,
+     "extras": [],
+     "value": "在目標區域建造一個電牆"
+    },
+    {
+     "id": "ides",
+     "type": 3,
+     "extras": [],
+     "value": "建造一個電牆"
+    },
+    {
+     "id": "ipaw",
+     "type": 0,
+     "extras": [],
+     "value": 0
+    },
+    {
+     "id": "idrp",
+     "type": 0,
+     "extras": [],
+     "value": 1
+    },
+    {
+     "id": "icid",
+     "type": 3,
+     "extras": [],
+     "value": "A00F"
+    }
+   ]
+  },
+  {
+   "old_id": "pinv",
+   "new_id": "I00H",
+   "mods": [
+    {
+     "id": "unam",
+     "type": 3,
+     "extras": [],
+     "value": "蝙蝠俠迷彩服"
+    },
+    {
+     "id": "iico",
+     "type": 3,
+     "extras": [],
+     "value": "ReplaceableTextures\\CommandButtons\\BTNCamo.blp"
+    },
+    {
+     "id": "ides",
+     "type": 3,
+     "extras": [],
+     "value": "能使你的倖存者隱身，但似乎不太合身，穿過一次就會破掉"
+    },
+    {
+     "id": "utip",
+     "type": 3,
+     "extras": [],
+     "value": "購買蝙蝠俠迷彩服"
+    },
+    {
+     "id": "igol",
+     "type": 0,
+     "extras": [],
+     "value": 10
+    },
+    {
+     "id": "ilum",
+     "type": 0,
+     "extras": [],
+     "value": 10
+    },
+    {
+     "id": "ilev",
+     "type": 0,
+     "extras": [],
+     "value": 8
+    },
+    {
+     "id": "iabi",
+     "type": 3,
+     "extras": [],
+     "value": "A01J"
+    },
+    {
+     "id": "ipaw",
+     "type": 0,
+     "extras": [],
+     "value": 0
+    },
+    {
+     "id": "idrp",
+     "type": 0,
+     "extras": [],
+     "value": 1
+    }
+   ]
+  },
+  {
+   "old_id": "tfar",
+   "new_id": "I00I",
+   "mods": [
+    {
+     "id": "unam",
+     "type": 3,
+     "extras": [],
+     "value": "兒童放大鏡"
+    },
+    {
+     "id": "iabi",
+     "type": 3,
+     "extras": [],
+     "value": "A002"
+    },
+    {
+     "id": "iico",
+     "type": 3,
+     "extras": [],
+     "value": "ReplaceableTextures\\CommandButtons\\BTNMag.blp"
+    },
+    {
+     "id": "igol",
+     "type": 0,
+     "extras": [],
+     "value": 6
+    },
+    {
+     "id": "ilum",
+     "type": 0,
+     "extras": [],
+     "value": 6
+    },
+    {
+     "id": "isto",
+     "type": 0,
+     "extras": [],
+     "value": 4
+    },
+    {
+     "id": "istr",
+     "type": 0,
+     "extras": [],
+     "value": 30
+    },
+    {
+     "id": "utip",
+     "type": 3,
+     "extras": [],
+     "value": "購買兒童放大鏡"
+    },
+    {
+     "id": "utub",
+     "type": 3,
+     "extras": [],
+     "value": "能在早上創建營火 (7:00-18:00)"
+    },
+    {
+     "id": "ides",
+     "type": 3,
+     "extras": [],
+     "value": "看起來是不錯，只是它是用便宜的金屬去做成的"
+    },
+    {
+     "id": "ilev",
+     "type": 0,
+     "extras": [],
+     "value": 8
+    },
+    {
+     "id": "icid",
+     "type": 3,
+     "extras": [],
+     "value": "A002"
+    },
+    {
+     "id": "iuse",
+     "type": 0,
+     "extras": [],
+     "value": 99
+    },
+    {
+     "id": "ipaw",
+     "type": 0,
+     "extras": [],
+     "value": 0
+    },
+    {
+     "id": "idrp",
+     "type": 0,
+     "extras": [],
+     "value": 1
+    },
+    {
+     "id": "icla",
+     "type": 3,
+     "extras": [],
+     "value": "Purchasable"
+    }
+   ]
+  },
+  {
+   "old_id": "tels",
+   "new_id": "I00J",
+   "mods": [
+    {
+     "id": "unam",
+     "type": 3,
+     "extras": [],
+     "value": "望遠鏡"
+    },
+    {
+     "id": "icla",
+     "type": 3,
+     "extras": [],
+     "value": "Purchasable"
+    },
+    {
+     "id": "ilum",
+     "type": 0,
+     "extras": [],
+     "value": 15
+    },
+    {
+     "id": "isto",
+     "type": 0,
+     "extras": [],
+     "value": 1
+    },
+    {
+     "id": "istr",
+     "type": 0,
+     "extras": [],
+     "value": 1
+    },
+    {
+     "id": "utub",
+     "type": 3,
+     "extras": [],
+     "value": "增加400視野"
+    },
+    {
+     "id": "utip",
+     "type": 3,
+     "extras": [],
+     "value": "購買望遠鏡"
+    },
+    {
+     "id": "uhot",
+     "type": 3,
+     "extras": [],
+     "value": ""
+    },
+    {
+     "id": "igol",
+     "type": 0,
+     "extras": [],
+     "value": 15
+    },
+    {
+     "id": "ides",
+     "type": 3,
+     "extras": [],
+     "value": "增加400視野"
+    },
+    {
+     "id": "ipaw",
+     "type": 0,
+     "extras": [],
+     "value": 0
+    },
+    {
+     "id": "iabi",
+     "type": 3,
+     "extras": [],
+     "value": "A00P"
+    },
+    {
+     "id": "ilev",
+     "type": 0,
+     "extras": [],
+     "value": 8
+    },
+    {
+     "id": "iico",
+     "type": 3,
+     "extras": [],
+     "value": "ReplaceableTextures\\CommandButtons\\BTNBarrelT.blp"
+    },
+    {
+     "id": "idrp",
+     "type": 0,
+     "extras": [],
+     "value": 1
+    },
+    {
+     "id": "isst",
+     "type": 0,
+     "extras": [],
+     "value": 1
+    }
+   ]
+  },
+  {
+   "old_id": "pres",
+   "new_id": "I00K",
+   "mods": [
+    {
+     "id": "iico",
+     "type": 3,
+     "extras": [],
+     "value": "ReplaceableTextures\\CommandButtons\\BTNCrystalBall.blp"
+    },
+    {
+     "id": "utub",
+     "type": 3,
+     "extras": [],
+     "value": "色彩繽紛的球，能用來吸引恐龍住意"
+    },
+    {
+     "id": "unam",
+     "type": 3,
+     "extras": [],
+     "value": "彩球"
+    },
+    {
+     "id": "utip",
+     "type": 3,
+     "extras": [],
+     "value": "購買彩球"
+    },
+    {
+     "id": "iabi",
+     "type": 3,
+     "extras": [],
+     "value": "A00Q"
+    },
+    {
+     "id": "ilev",
+     "type": 0,
+     "extras": [],
+     "value": 8
+    },
+    {
+     "id": "icla",
+     "type": 3,
+     "extras": [],
+     "value": "Purchasable"
+    },
+    {
+     "id": "igol",
+     "type": 0,
+     "extras": [],
+     "value": 10
+    },
+    {
+     "id": "icid",
+     "type": 3,
+     "extras": [],
+     "value": "A00Q"
+    },
+    {
+     "id": "ipri",
+     "type": 0,
+     "extras": [],
+     "value": 0
+    },
+    {
+     "id": "isst",
+     "type": 0,
+     "extras": [],
+     "value": 0
+    },
+    {
+     "id": "ipaw",
+     "type": 0,
+     "extras": [],
+     "value": 0
+    },
+    {
+     "id": "idrp",
+     "type": 0,
+     "extras": [],
+     "value": 1
+    },
+    {
+     "id": "iuse",
+     "type": 0,
+     "extras": [],
+     "value": 2
+    }
+   ]
+  },
+  {
+   "old_id": "tels",
+   "new_id": "I00L",
+   "mods": [
+    {
+     "id": "unam",
+     "type": 3,
+     "extras": [],
+     "value": "手槍子彈"
+    },
+    {
+     "id": "icla",
+     "type": 3,
+     "extras": [],
+     "value": "Charged"
+    },
+    {
+     "id": "iico",
+     "type": 3,
+     "extras": [],
+     "value": "ReplaceableTextures\\CommandButtons\\BTNPBullets.blp"
+    },
+    {
+     "id": "ilum",
+     "type": 0,
+     "extras": [],
+     "value": 5
+    },
+    {
+     "id": "istr",
+     "type": 0,
+     "extras": [],
+     "value": 20
+    },
+    {
+     "id": "ides",
+     "type": 3,
+     "extras": [],
+     "value": "須配合手槍才能有效使用"
+    },
+    {
+     "id": "utub",
+     "type": 3,
+     "extras": [],
+     "value": "須配合手槍才能有效使用"
+    },
+    {
+     "id": "utip",
+     "type": 3,
+     "extras": [],
+     "value": "購買手槍子彈《|cffffcc00B|r》《7發》"
+    },
+    {
+     "id": "uhot",
+     "type": 3,
+     "extras": [],
+     "value": "B"
+    },
+    {
+     "id": "iabi",
+     "type": 3,
+     "extras": [],
+     "value": ""
+    },
+    {
+     "id": "isto",
+     "type": 0,
+     "extras": [],
+     "value": 5
+    },
+    {
+     "id": "iuse",
+     "type": 0,
+     "extras": [],
+     "value": 7
+    },
+    {
+     "id": "iper",
+     "type": 0,
+     "extras": [],
+     "value": 1
+    },
+    {
+     "id": "igol",
+     "type": 0,
+     "extras": [],
+     "value": 5
+    },
+    {
+     "id": "ipaw",
+     "type": 0,
+     "extras": [],
+     "value": 0
+    },
+    {
+     "id": "idrp",
+     "type": 0,
+     "extras": [],
+     "value": 1
+    }
+   ]
+  },
+  {
+   "old_id": "ratf",
+   "new_id": "I00M",
+   "mods": [
+    {
+     "id": "unam",
+     "type": 3,
+     "extras": [],
+     "value": "手槍"
+    },
+    {
+     "id": "icla",
+     "type": 3,
+     "extras": [],
+     "value": "Charged"
+    },
+    {
+     "id": "iabi",
+     "type": 3,
+     "extras": [],
+     "value": ""
+    },
+    {
+     "id": "igol",
+     "type": 0,
+     "extras": [],
+     "value": 20
+    },
+    {
+     "id": "istr",
+     "type": 0,
+     "extras": [],
+     "value": 100
+    },
+    {
+     "id": "ides",
+     "type": 3,
+     "extras": [],
+     "value": "對單一恐龍造成75點傷害  |n|cffffcc00需要手槍子彈|r"
+    },
+    {
+     "id": "utub",
+     "type": 3,
+     "extras": [],
+     "value": "對單一恐龍造成75點傷害  |n|cffffcc00需要手槍子彈|r"
+    },
+    {
+     "id": "utip",
+     "type": 3,
+     "extras": [],
+     "value": "購買手槍《|cffffcc00L|r》"
+    },
+    {
+     "id": "iico",
+     "type": 3,
+     "extras": [],
+     "value": "ReplaceableTextures\\CommandButtons\\BTNPistol.blp"
+    },
+    {
+     "id": "ilum",
+     "type": 0,
+     "extras": [],
+     "value": 8
+    },
+    {
+     "id": "icid",
+     "type": 3,
+     "extras": [],
+     "value": "A002"
+    },
+    {
+     "id": "ipaw",
+     "type": 0,
+     "extras": [],
+     "value": 0
+    },
+    {
+     "id": "uhot",
+     "type": 3,
+     "extras": [],
+     "value": "L"
+    },
+    {
+     "id": "isto",
+     "type": 0,
+     "extras": [],
+     "value": 3
+    },
+    {
+     "id": "ifil",
+     "type": 3,
+     "extras": [],
+     "value": "war3mapImported\\pistol.mdl"
+    },
+    {
+     "id": "idrp",
+     "type": 0,
+     "extras": [],
+     "value": 1
+    }
+   ]
+  },
+  {
+   "old_id": "phea",
+   "new_id": "I00N",
+   "mods": [
+    {
+     "id": "unam",
+     "type": 3,
+     "extras": [],
+     "value": "恐龍用藥膏"
+    },
+    {
+     "id": "iico",
+     "type": 3,
+     "extras": [],
+     "value": "ReplaceableTextures\\CommandButtons\\BTNRejuvPotion.blp"
+    },
+    {
+     "id": "ubpy",
+     "type": 0,
+     "extras": [],
+     "value": 0
+    },
+    {
+     "id": "utub",
+     "type": 3,
+     "extras": [],
+     "value": "治療恐龍150HP，倖存者不能用"
+    },
+    {
+     "id": "ides",
+     "type": 3,
+     "extras": [],
+     "value": "治療恐龍150HP，倖存者不能用"
+    },
+    {
+     "id": "iabi",
+     "type": 3,
+     "extras": [],
+     "value": "Arej"
+    },
+    {
+     "id": "icid",
+     "type": 3,
+     "extras": [],
+     "value": "Arej"
+    },
+    {
+     "id": "iicd",
+     "type": 0,
+     "extras": [],
+     "value": 1
+    },
+    {
+     "id": "utip",
+     "type": 3,
+     "extras": [],
+     "value": "購買恐龍用藥膏"
+    },
+    {
+     "id": "uhot",
+     "type": 3,
+     "extras": [],
+     "value": ""
+    },
+    {
+     "id": "isto",
+     "type": 0,
+     "extras": [],
+     "value": 1
+    },
+    {
+     "id": "istr",
+     "type": 0,
+     "extras": [],
+     "value": 0
+    },
+    {
+     "id": "isst",
+     "type": 0,
+     "extras": [],
+     "value": 0
+    },
+    {
+     "id": "ilum",
+     "type": 0,
+     "extras": [],
+     "value": 10
+    },
+    {
+     "id": "igol",
+     "type": 0,
+     "extras": [],
+     "value": 10
+    },
+    {
+     "id": "ureq",
+     "type": 3,
+     "extras": [],
+     "value": ""
+    },
+    {
+     "id": "ipaw",
+     "type": 0,
+     "extras": [],
+     "value": 0
+    },
+    {
+     "id": "icla",
+     "type": 3,
+     "extras": [],
+     "value": "PowerUp"
+    },
+    {
+     "id": "iuse",
+     "type": 0,
+     "extras": [],
+     "value": 2
+    },
+    {
+     "id": "idrp",
+     "type": 0,
+     "extras": [],
+     "value": 1
+    }
+   ]
+  },
+  {
+   "old_id": "sror",
+   "new_id": "I00O",
+   "mods": [
+    {
+     "id": "iabi",
+     "type": 3,
+     "extras": [],
+     "value": ""
+    },
+    {
+     "id": "iuse",
+     "type": 0,
+     "extras": [],
+     "value": 0
+    },
+    {
+     "id": "iper",
+     "type": 0,
+     "extras": [],
+     "value": 0
+    },
+    {
+     "id": "ides",
+     "type": 3,
+     "extras": [],
+     "value": ""
+    },
+    {
+     "id": "utub",
+     "type": 3,
+     "extras": [],
+     "value": "**************類別*****************    在人類的身上試驗恐龍用藥膏，結果導致了皮膚改變結構，這皮膚看來能夠更加抵抗傷害，可惜沒有足夠的資金和研究員幫助我繼續研究下去  - Dr Geoff Mayor"
+    },
+    {
+     "id": "unam",
+     "type": 3,
+     "extras": [],
+     "value": "生物研究筆記"
+    },
+    {
+     "id": "utip",
+     "type": 3,
+     "extras": [],
+     "value": "閱讀生物研究筆記"
+    },
+    {
+     "id": "idrp",
+     "type": 0,
+     "extras": [],
+     "value": 1
+    },
+    {
+     "id": "igol",
+     "type": 0,
+     "extras": [],
+     "value": 0
+    }
+   ]
+  },
+  {
+   "old_id": "sror",
+   "new_id": "I00P",
+   "mods": [
+    {
+     "id": "iabi",
+     "type": 3,
+     "extras": [],
+     "value": ""
+    },
+    {
+     "id": "iuse",
+     "type": 0,
+     "extras": [],
+     "value": 0
+    },
+    {
+     "id": "iper",
+     "type": 0,
+     "extras": [],
+     "value": 0
+    },
+    {
+     "id": "ides",
+     "type": 3,
+     "extras": [],
+     "value": ""
+    },
+    {
+     "id": "utub",
+     "type": 3,
+     "extras": [],
+     "value": "看起來恐龍能用網子馴服，等我做出進一步的研究之後，我會列出一張能馴服的恐龍列表  -Dr Sarah Speilberg"
+    },
+    {
+     "id": "unam",
+     "type": 3,
+     "extras": [],
+     "value": "生物研究筆記"
+    },
+    {
+     "id": "utip",
+     "type": 3,
+     "extras": [],
+     "value": "閱讀生物研究筆記"
+    },
+    {
+     "id": "idrp",
+     "type": 0,
+     "extras": [],
+     "value": 1
+    },
+    {
+     "id": "igol",
+     "type": 0,
+     "extras": [],
+     "value": 0
+    }
+   ]
+  },
+  {
+   "old_id": "ratf",
+   "new_id": "I00Q",
+   "mods": [
+    {
+     "id": "unam",
+     "type": 3,
+     "extras": [],
+     "value": "機關槍"
+    },
+    {
+     "id": "icla",
+     "type": 3,
+     "extras": [],
+     "value": "Charged"
+    },
+    {
+     "id": "iabi",
+     "type": 3,
+     "extras": [],
+     "value": ""
+    },
+    {
+     "id": "igol",
+     "type": 0,
+     "extras": [],
+     "value": 50
+    },
+    {
+     "id": "istr",
+     "type": 0,
+     "extras": [],
+     "value": 100
+    },
+    {
+     "id": "ides",
+     "type": 3,
+     "extras": [],
+     "value": "射出子彈，對前面的敵人造成120點傷害  |n|cffffcc00需要機關槍子彈|r"
+    },
+    {
+     "id": "utub",
+     "type": 3,
+     "extras": [],
+     "value": "射出子彈，對前面的敵人造成120點傷害  |n|cffffcc00需要機關槍子彈|r"
+    },
+    {
+     "id": "utip",
+     "type": 3,
+     "extras": [],
+     "value": "購買機關槍《|cffffcc00H|r》"
+    },
+    {
+     "id": "iico",
+     "type": 3,
+     "extras": [],
+     "value": "ReplaceableTextures\\CommandButtons\\BTNMachine.blp"
+    },
+    {
+     "id": "ilum",
+     "type": 0,
+     "extras": [],
+     "value": 28
+    },
+    {
+     "id": "icid",
+     "type": 3,
+     "extras": [],
+     "value": "A002"
+    },
+    {
+     "id": "ipaw",
+     "type": 0,
+     "extras": [],
+     "value": 0
+    },
+    {
+     "id": "uhot",
+     "type": 3,
+     "extras": [],
+     "value": "H"
+    },
+    {
+     "id": "ifil",
+     "type": 3,
+     "extras": [],
+     "value": "war3mapImported\\SubmachinegunItem.mdl"
+    },
+    {
+     "id": "ureq",
+     "type": 3,
+     "extras": [],
+     "value": "R004"
+    },
+    {
+     "id": "idrp",
+     "type": 0,
+     "extras": [],
+     "value": 1
+    }
+   ]
+  },
+  {
+   "old_id": "tels",
+   "new_id": "I00R",
+   "mods": [
+    {
+     "id": "unam",
+     "type": 3,
+     "extras": [],
+     "value": "機關槍子彈"
+    },
+    {
+     "id": "icla",
+     "type": 3,
+     "extras": [],
+     "value": "Charged"
+    },
+    {
+     "id": "iico",
+     "type": 3,
+     "extras": [],
+     "value": "ReplaceableTextures\\CommandButtons\\BTNPBullets.blp"
+    },
+    {
+     "id": "ilum",
+     "type": 0,
+     "extras": [],
+     "value": 6
+    },
+    {
+     "id": "istr",
+     "type": 0,
+     "extras": [],
+     "value": 20
+    },
+    {
+     "id": "ides",
+     "type": 3,
+     "extras": [],
+     "value": "須配合機關槍才能有效使用"
+    },
+    {
+     "id": "utub",
+     "type": 3,
+     "extras": [],
+     "value": "須配合機關槍才能有效使用"
+    },
+    {
+     "id": "utip",
+     "type": 3,
+     "extras": [],
+     "value": "購買機關槍子彈《|cffffcc00B|r》《30發》"
+    },
+    {
+     "id": "uhot",
+     "type": 3,
+     "extras": [],
+     "value": "B"
+    },
+    {
+     "id": "iabi",
+     "type": 3,
+     "extras": [],
+     "value": ""
+    },
+    {
+     "id": "isto",
+     "type": 0,
+     "extras": [],
+     "value": 5
+    },
+    {
+     "id": "iuse",
+     "type": 0,
+     "extras": [],
+     "value": 30
+    },
+    {
+     "id": "iper",
+     "type": 0,
+     "extras": [],
+     "value": 1
+    },
+    {
+     "id": "igol",
+     "type": 0,
+     "extras": [],
+     "value": 14
+    },
+    {
+     "id": "ipaw",
+     "type": 0,
+     "extras": [],
+     "value": 0
+    },
+    {
+     "id": "ureq",
+     "type": 3,
+     "extras": [],
+     "value": "R004"
+    },
+    {
+     "id": "idrp",
+     "type": 0,
+     "extras": [],
+     "value": 1
+    }
+   ]
+  },
+  {
+   "old_id": "ckng",
+   "new_id": "I00S",
+   "mods": [
+    {
+     "id": "unam",
+     "type": 3,
+     "extras": [],
+     "value": "機關槍砲塔"
+    },
+    {
+     "id": "iico",
+     "type": 3,
+     "extras": [],
+     "value": "ReplaceableTextures\\CommandButtons\\BTNFlakCannons.blp"
+    },
+    {
+     "id": "iabi",
+     "type": 3,
+     "extras": [],
+     "value": "A01D"
+    },
+    {
+     "id": "ides",
+     "type": 3,
+     "extras": [],
+     "value": "利用機關槍攻擊的砲塔"
+    },
+    {
+     "id": "utub",
+     "type": 3,
+     "extras": [],
+     "value": "傷害：|cff33BBBB27r |n範圍： |cff33BBBB600|r |n冷卻時間：|cff33BBBB2秒|r"
+    },
+    {
+     "id": "utip",
+     "type": 3,
+     "extras": [],
+     "value": "購買機關槍砲塔《|cffffcc00H|r》"
+    },
+    {
+     "id": "uhot",
+     "type": 3,
+     "extras": [],
+     "value": "H"
+    },
+    {
+     "id": "icid",
+     "type": 3,
+     "extras": [],
+     "value": "Aslo"
+    },
+    {
+     "id": "istr",
+     "type": 0,
+     "extras": [],
+     "value": 90
+    },
+    {
+     "id": "isst",
+     "type": 0,
+     "extras": [],
+     "value": 1
+    },
+    {
+     "id": "igol",
+     "type": 0,
+     "extras": [],
+     "value": 75
+    },
+    {
+     "id": "ihtp",
+     "type": 0,
+     "extras": [],
+     "value": 1390
+    },
+    {
+     "id": "ilum",
+     "type": 0,
+     "extras": [],
+     "value": 60
+    },
+    {
+     "id": "ipaw",
+     "type": 0,
+     "extras": [],
+     "value": 0
+    },
+    {
+     "id": "idrp",
+     "type": 0,
+     "extras": [],
+     "value": 1
+    }
+   ]
+  },
+  {
+   "old_id": "ckng",
+   "new_id": "I00T",
+   "mods": [
+    {
+     "id": "unam",
+     "type": 3,
+     "extras": [],
+     "value": "雷射砲塔"
+    },
+    {
+     "id": "iico",
+     "type": 3,
+     "extras": [],
+     "value": "ReplaceableTextures\\CommandButtons\\BTNStasisTrap.blp"
+    },
+    {
+     "id": "iabi",
+     "type": 3,
+     "extras": [],
+     "value": "A01E"
+    },
+    {
+     "id": "ides",
+     "type": 3,
+     "extras": [],
+     "value": "用強大的雷射激光燒殺恐龍"
+    },
+    {
+     "id": "utub",
+     "type": 3,
+     "extras": [],
+     "value": "傷害：|cff33BBBB20|r |n範圍：|cff33BBBB450|r |n冷卻時間：|cff33BBBB0.5秒|r"
+    },
+    {
+     "id": "utip",
+     "type": 3,
+     "extras": [],
+     "value": "購買雷射砲塔《|cffffcc00L|r》"
+    },
+    {
+     "id": "uhot",
+     "type": 3,
+     "extras": [],
+     "value": "L"
+    },
+    {
+     "id": "icid",
+     "type": 3,
+     "extras": [],
+     "value": "Aslo"
+    },
+    {
+     "id": "istr",
+     "type": 0,
+     "extras": [],
+     "value": 90
+    },
+    {
+     "id": "isst",
+     "type": 0,
+     "extras": [],
+     "value": 1
+    },
+    {
+     "id": "igol",
+     "type": 0,
+     "extras": [],
+     "value": 175
+    },
+    {
+     "id": "ihtp",
+     "type": 0,
+     "extras": [],
+     "value": 16000
+    },
+    {
+     "id": "ilum",
+     "type": 0,
+     "extras": [],
+     "value": 120
+    },
+    {
+     "id": "ipaw",
+     "type": 0,
+     "extras": [],
+     "value": 0
+    },
+    {
+     "id": "idrp",
+     "type": 0,
+     "extras": [],
+     "value": 1
+    }
+   ]
+  },
+  {
+   "old_id": "ckng",
+   "new_id": "I00V",
+   "mods": [
+    {
+     "id": "unam",
+     "type": 3,
+     "extras": [],
+     "value": "火焰噴射砲塔"
+    },
+    {
+     "id": "iico",
+     "type": 3,
+     "extras": [],
+     "value": "ReplaceableTextures\\CommandButtons\\BTNBreathOfFire.blp"
+    },
+    {
+     "id": "iabi",
+     "type": 3,
+     "extras": [],
+     "value": "A01F"
+    },
+    {
+     "id": "ides",
+     "type": 3,
+     "extras": [],
+     "value": "利用燃燒的火焰驅趕恐龍的砲塔"
+    },
+    {
+     "id": "utub",
+     "type": 3,
+     "extras": [],
+     "value": "傷害：|cff33BBBB2|r |n範圍：|cff33BBBB400|r |n冷卻時間：|cff33BBBB0.08秒|r"
+    },
+    {
+     "id": "utip",
+     "type": 3,
+     "extras": [],
+     "value": "購買火焰噴射砲塔《|cffffcc00F|r》"
+    },
+    {
+     "id": "uhot",
+     "type": 3,
+     "extras": [],
+     "value": "F"
+    },
+    {
+     "id": "icid",
+     "type": 3,
+     "extras": [],
+     "value": "Aslo"
+    },
+    {
+     "id": "istr",
+     "type": 0,
+     "extras": [],
+     "value": 90
+    },
+    {
+     "id": "isst",
+     "type": 0,
+     "extras": [],
+     "value": 1
+    },
+    {
+     "id": "igol",
+     "type": 0,
+     "extras": [],
+     "value": 80
+    },
+    {
+     "id": "ihtp",
+     "type": 0,
+     "extras": [],
+     "value": 6800
+    },
+    {
+     "id": "ilum",
+     "type": 0,
+     "extras": [],
+     "value": 70
+    },
+    {
+     "id": "ipaw",
+     "type": 0,
+     "extras": [],
+     "value": 0
+    },
+    {
+     "id": "idrp",
+     "type": 0,
+     "extras": [],
+     "value": 1
+    }
+   ]
+  },
+  {
+   "old_id": "ckng",
+   "new_id": "I00W",
+   "mods": [
+    {
+     "id": "unam",
+     "type": 3,
+     "extras": [],
+     "value": "火箭筒砲塔"
+    },
+    {
+     "id": "iico",
+     "type": 3,
+     "extras": [],
+     "value": "ReplaceableTextures\\CommandButtons\\BTNHumanMissileUpThree.blp"
+    },
+    {
+     "id": "iabi",
+     "type": 3,
+     "extras": [],
+     "value": "A01G"
+    },
+    {
+     "id": "ides",
+     "type": 3,
+     "extras": [],
+     "value": "攻速慢，但威力強大的砲塔"
+    },
+    {
+     "id": "utub",
+     "type": 3,
+     "extras": [],
+     "value": "傷害：|cff33BBBB35r |n範圍：|cff33BBBB600|r |n冷卻時間：|cff33BBBB1.5秒|r"
+    },
+    {
+     "id": "utip",
+     "type": 3,
+     "extras": [],
+     "value": "購買火箭筒砲塔《|cffffcc00M|r》"
+    },
+    {
+     "id": "uhot",
+     "type": 3,
+     "extras": [],
+     "value": "M"
+    },
+    {
+     "id": "icid",
+     "type": 3,
+     "extras": [],
+     "value": "Aslo"
+    },
+    {
+     "id": "istr",
+     "type": 0,
+     "extras": [],
+     "value": 90
+    },
+    {
+     "id": "isst",
+     "type": 0,
+     "extras": [],
+     "value": 1
+    },
+    {
+     "id": "ihtp",
+     "type": 0,
+     "extras": [],
+     "value": 3700
+    },
+    {
+     "id": "igol",
+     "type": 0,
+     "extras": [],
+     "value": 100
+    },
+    {
+     "id": "ilum",
+     "type": 0,
+     "extras": [],
+     "value": 85
+    },
+    {
+     "id": "ipaw",
+     "type": 0,
+     "extras": [],
+     "value": 0
+    },
+    {
+     "id": "idrp",
+     "type": 0,
+     "extras": [],
+     "value": 1
+    }
+   ]
+  },
+  {
+   "old_id": "phea",
+   "new_id": "I00U",
+   "mods": [
+    {
+     "id": "unam",
+     "type": 3,
+     "extras": [],
+     "value": "快樂兒童餐(沒有玩具)"
+    },
+    {
+     "id": "iico",
+     "type": 3,
+     "extras": [],
+     "value": "ReplaceableTextures\\CommandButtons\\BTNHappyMeal.blp"
+    },
+    {
+     "id": "ubpy",
+     "type": 0,
+     "extras": [],
+     "value": 0
+    },
+    {
+     "id": "utub",
+     "type": 3,
+     "extras": [],
+     "value": "恢復50HP和25MP，裡面的玩具被拿走了"
+    },
+    {
+     "id": "ides",
+     "type": 3,
+     "extras": [],
+     "value": "恢復50HP和25MP，裡面的玩具被拿走了"
+    },
+    {
+     "id": "iabi",
+     "type": 3,
+     "extras": [],
+     "value": "AIp2"
+    },
+    {
+     "id": "icid",
+     "type": 3,
+     "extras": [],
+     "value": "A00I"
+    },
+    {
+     "id": "iicd",
+     "type": 0,
+     "extras": [],
+     "value": 1
+    },
+    {
+     "id": "utip",
+     "type": 3,
+     "extras": [],
+     "value": "購買快樂兒童餐(沒有玩具)"
+    },
+    {
+     "id": "uhot",
+     "type": 3,
+     "extras": [],
+     "value": ""
+    },
+    {
+     "id": "isto",
+     "type": 0,
+     "extras": [],
+     "value": 1
+    },
+    {
+     "id": "istr",
+     "type": 0,
+     "extras": [],
+     "value": 0
+    },
+    {
+     "id": "isst",
+     "type": 0,
+     "extras": [],
+     "value": 0
+    },
+    {
+     "id": "ilum",
+     "type": 0,
+     "extras": [],
+     "value": 10
+    },
+    {
+     "id": "igol",
+     "type": 0,
+     "extras": [],
+     "value": 10
+    },
+    {
+     "id": "ureq",
+     "type": 3,
+     "extras": [],
+     "value": ""
+    },
+    {
+     "id": "ipaw",
+     "type": 0,
+     "extras": [],
+     "value": 0
+    },
+    {
+     "id": "icla",
+     "type": 3,
+     "extras": [],
+     "value": "PowerUp"
+    },
+    {
+     "id": "idrp",
+     "type": 0,
+     "extras": [],
+     "value": 1
+    }
+   ]
+  },
+  {
+   "old_id": "phea",
+   "new_id": "I00X",
+   "mods": [
+    {
+     "id": "unam",
+     "type": 3,
+     "extras": [],
+     "value": "水球炸彈"
+    },
+    {
+     "id": "iico",
+     "type": 3,
+     "extras": [],
+     "value": "ReplaceableTextures\\CommandButtons\\BTNRune.blp"
+    },
+    {
+     "id": "ubpy",
+     "type": 0,
+     "extras": [],
+     "value": 0
+    },
+    {
+     "id": "utub",
+     "type": 3,
+     "extras": [],
+     "value": "能擊昏恐龍2秒"
+    },
+    {
+     "id": "ides",
+     "type": 3,
+     "extras": [],
+     "value": "能擊昏恐龍2秒"
+    },
+    {
+     "id": "iabi",
+     "type": 3,
+     "extras": [],
+     "value": "A01H"
+    },
+    {
+     "id": "icid",
+     "type": 3,
+     "extras": [],
+     "value": "A01H"
+    },
+    {
+     "id": "iicd",
+     "type": 0,
+     "extras": [],
+     "value": 1
+    },
+    {
+     "id": "utip",
+     "type": 3,
+     "extras": [],
+     "value": "購買水球炸彈"
+    },
+    {
+     "id": "uhot",
+     "type": 3,
+     "extras": [],
+     "value": ""
+    },
+    {
+     "id": "isto",
+     "type": 0,
+     "extras": [],
+     "value": 1
+    },
+    {
+     "id": "istr",
+     "type": 0,
+     "extras": [],
+     "value": 0
+    },
+    {
+     "id": "isst",
+     "type": 0,
+     "extras": [],
+     "value": 0
+    },
+    {
+     "id": "ilum",
+     "type": 0,
+     "extras": [],
+     "value": 10
+    },
+    {
+     "id": "igol",
+     "type": 0,
+     "extras": [],
+     "value": 10
+    },
+    {
+     "id": "ureq",
+     "type": 3,
+     "extras": [],
+     "value": ""
+    },
+    {
+     "id": "ipaw",
+     "type": 0,
+     "extras": [],
+     "value": 0
+    },
+    {
+     "id": "iuse",
+     "type": 0,
+     "extras": [],
+     "value": 3
+    },
+    {
+     "id": "idrp",
+     "type": 0,
+     "extras": [],
+     "value": 1
+    },
+    {
+     "id": "ilvo",
+     "type": 0,
+     "extras": [],
+     "value": 8
+    }
+   ]
+  },
+  {
+   "old_id": "gold",
+   "new_id": "I00Y",
+   "mods": [
+    {
+     "id": "unam",
+     "type": 3,
+     "extras": [],
+     "value": "恐龍蛋"
+    },
+    {
+     "id": "iabi",
+     "type": 3,
+     "extras": [],
+     "value": "A01I"
+    },
+    {
+     "id": "ifil",
+     "type": 3,
+     "extras": [],
+     "value": "EggPrize3.mdl"
+    },
+    {
+     "id": "igol",
+     "type": 0,
+     "extras": [],
+     "value": 1000
+    },
+    {
+     "id": "ides",
+     "type": 3,
+     "extras": [],
+     "value": "恐龍蛋"
+    },
+    {
+     "id": "utip",
+     "type": 3,
+     "extras": [],
+     "value": "購買恐龍蛋《|cffffcc00G|r》"
+    },
+    {
+     "id": "istr",
+     "type": 0,
+     "extras": [],
+     "value": 0
+    },
+    {
+     "id": "iico",
+     "type": 3,
+     "extras": [],
+     "value": "ReplaceableTextures\\CommandButtons\\BTNStone.tga"
+    },
+    {
+     "id": "utub",
+     "type": 3,
+     "extras": [],
+     "value": "恐龍蛋"
+    },
+    {
+     "id": "uhot",
+     "type": 3,
+     "extras": [],
+     "value": "G"
+    }
+   ]
+  },
+  {
+   "old_id": "pinv",
+   "new_id": "I00Z",
+   "mods": [
+    {
+     "id": "unam",
+     "type": 3,
+     "extras": [],
+     "value": "間諜迷彩服"
+    },
+    {
+     "id": "iico",
+     "type": 3,
+     "extras": [],
+     "value": "ReplaceableTextures\\CommandButtons\\BTNCamo.blp"
+    },
+    {
+     "id": "ides",
+     "type": 3,
+     "extras": [],
+     "value": "能使你的倖存者隱身，但材質似乎很差，穿過一次就會破掉"
+    },
+    {
+     "id": "utip",
+     "type": 3,
+     "extras": [],
+     "value": "購買間諜迷彩服"
+    },
+    {
+     "id": "igol",
+     "type": 0,
+     "extras": [],
+     "value": 10
+    },
+    {
+     "id": "ilum",
+     "type": 0,
+     "extras": [],
+     "value": 10
+    },
+    {
+     "id": "ilev",
+     "type": 0,
+     "extras": [],
+     "value": 8
+    },
+    {
+     "id": "ipaw",
+     "type": 0,
+     "extras": [],
+     "value": 0
+    },
+    {
+     "id": "idrp",
+     "type": 0,
+     "extras": [],
+     "value": 1
+    }
+   ]
+  },
+  {
+   "old_id": "tfar",
+   "new_id": "I010",
+   "mods": [
+    {
+     "id": "unam",
+     "type": 3,
+     "extras": [],
+     "value": "建造篝火"
+    },
+    {
+     "id": "iabi",
+     "type": 3,
+     "extras": [],
+     "value": "A00K"
+    },
+    {
+     "id": "iico",
+     "type": 3,
+     "extras": [],
+     "value": "ReplaceableTextures\\CommandButtons\\BTNCrate.blp"
+    },
+    {
+     "id": "igol",
+     "type": 0,
+     "extras": [],
+     "value": 18
+    },
+    {
+     "id": "ilum",
+     "type": 0,
+     "extras": [],
+     "value": 10
+    },
+    {
+     "id": "isto",
+     "type": 0,
+     "extras": [],
+     "value": 4
+    },
+    {
+     "id": "istr",
+     "type": 0,
+     "extras": [],
+     "value": 30
+    },
+    {
+     "id": "ifil",
+     "type": 3,
+     "extras": [],
+     "value": "Doodads\\LordaeronSummer\\Terrain\\Crates\\Crates0.mdl"
+    },
+    {
+     "id": "utip",
+     "type": 3,
+     "extras": [],
+     "value": "購買篝火工具包 (3包)"
+    },
+    {
+     "id": "isst",
+     "type": 0,
+     "extras": [],
+     "value": 1
+    },
+    {
+     "id": "utub",
+     "type": 3,
+     "extras": [],
+     "value": "在目標區域建造一個篝火"
+    },
+    {
+     "id": "iuse",
+     "type": 0,
+     "extras": [],
+     "value": 3
+    },
+    {
+     "id": "ides",
+     "type": 3,
+     "extras": [],
+     "value": "建造篝火"
+    },
+    {
+     "id": "ipaw",
+     "type": 0,
+     "extras": [],
+     "value": 0
+    },
+    {
+     "id": "idrp",
+     "type": 0,
+     "extras": [],
+     "value": 1
+    },
+    {
+     "id": "icid",
+     "type": 3,
+     "extras": [],
+     "value": "A00K"
+    }
+   ]
+  },
+  {
+   "old_id": "tfar",
+   "new_id": "I011",
+   "mods": [
+    {
+     "id": "unam",
+     "type": 3,
+     "extras": [],
+     "value": "建造營火"
+    },
+    {
+     "id": "iabi",
+     "type": 3,
+     "extras": [],
+     "value": "A00H"
+    },
+    {
+     "id": "iico",
+     "type": 3,
+     "extras": [],
+     "value": "ReplaceableTextures\\CommandButtons\\BTNCrate.blp"
+    },
+    {
+     "id": "igol",
+     "type": 0,
+     "extras": [],
+     "value": 7
+    },
+    {
+     "id": "ilum",
+     "type": 0,
+     "extras": [],
+     "value": 6
+    },
+    {
+     "id": "isto",
+     "type": 0,
+     "extras": [],
+     "value": 4
+    },
+    {
+     "id": "istr",
+     "type": 0,
+     "extras": [],
+     "value": 30
+    },
+    {
+     "id": "ifil",
+     "type": 3,
+     "extras": [],
+     "value": "Doodads\\LordaeronSummer\\Terrain\\Crates\\Crates0.mdl"
+    },
+    {
+     "id": "utip",
+     "type": 3,
+     "extras": [],
+     "value": "購買營火工具包 (2包)"
+    },
+    {
+     "id": "utub",
+     "type": 3,
+     "extras": [],
+     "value": "在目標區域建造營火"
+    },
+    {
+     "id": "ides",
+     "type": 3,
+     "extras": [],
+     "value": "建造營火"
+    },
+    {
+     "id": "iuse",
+     "type": 0,
+     "extras": [],
+     "value": 2
+    },
+    {
+     "id": "ipaw",
+     "type": 0,
+     "extras": [],
+     "value": 0
+    },
+    {
+     "id": "idrp",
+     "type": 0,
+     "extras": [],
+     "value": 1
+    },
+    {
+     "id": "icid",
+     "type": 3,
+     "extras": [],
+     "value": "A00H"
+    }
+   ]
+  },
+  {
+   "old_id": "tfar",
+   "new_id": "I012",
+   "mods": [
+    {
+     "id": "unam",
+     "type": 3,
+     "extras": [],
+     "value": "建造電牆"
+    },
+    {
+     "id": "iabi",
+     "type": 3,
+     "extras": [],
+     "value": "A00F"
+    },
+    {
+     "id": "iico",
+     "type": 3,
+     "extras": [],
+     "value": "ReplaceableTextures\\CommandButtons\\BTNCrate.blp"
+    },
+    {
+     "id": "igol",
+     "type": 0,
+     "extras": [],
+     "value": 30
+    },
+    {
+     "id": "isto",
+     "type": 0,
+     "extras": [],
+     "value": 4
+    },
+    {
+     "id": "istr",
+     "type": 0,
+     "extras": [],
+     "value": 30
+    },
+    {
+     "id": "ifil",
+     "type": 3,
+     "extras": [],
+     "value": "Doodads\\LordaeronSummer\\Terrain\\Crates\\Crates0.mdl"
+    },
+    {
+     "id": "utip",
+     "type": 3,
+     "extras": [],
+     "value": "購買電牆工具包 (3包)"
+    },
+    {
+     "id": "utub",
+     "type": 3,
+     "extras": [],
+     "value": "在目標區域建造一個電牆"
+    },
+    {
+     "id": "iuse",
+     "type": 0,
+     "extras": [],
+     "value": 3
+    },
+    {
+     "id": "ides",
+     "type": 3,
+     "extras": [],
+     "value": "建造電牆"
+    },
+    {
+     "id": "ipaw",
+     "type": 0,
+     "extras": [],
+     "value": 0
+    },
+    {
+     "id": "idrp",
+     "type": 0,
+     "extras": [],
+     "value": 1
+    },
+    {
+     "id": "icid",
+     "type": 3,
+     "extras": [],
+     "value": "A00F"
+    },
+    {
+     "id": "ilum",
+     "type": 0,
+     "extras": [],
+     "value": 25
+    }
+   ]
+  },
+  {
+   "old_id": "tfar",
+   "new_id": "I013",
+   "mods": [
+    {
+     "id": "unam",
+     "type": 3,
+     "extras": [],
+     "value": "建造發電廠"
+    },
+    {
+     "id": "iabi",
+     "type": 3,
+     "extras": [],
+     "value": "A00G"
+    },
+    {
+     "id": "iico",
+     "type": 3,
+     "extras": [],
+     "value": "ReplaceableTextures\\CommandButtons\\BTNCrate.blp"
+    },
+    {
+     "id": "igol",
+     "type": 0,
+     "extras": [],
+     "value": 23
+    },
+    {
+     "id": "ilum",
+     "type": 0,
+     "extras": [],
+     "value": 22
+    },
+    {
+     "id": "isto",
+     "type": 0,
+     "extras": [],
+     "value": 2
+    },
+    {
+     "id": "istr",
+     "type": 0,
+     "extras": [],
+     "value": 30
+    },
+    {
+     "id": "ifil",
+     "type": 3,
+     "extras": [],
+     "value": "Doodads\\LordaeronSummer\\Terrain\\Crates\\Crates0.mdl"
+    },
+    {
+     "id": "utip",
+     "type": 3,
+     "extras": [],
+     "value": "購買發電廠工具包 (3包)"
+    },
+    {
+     "id": "utub",
+     "type": 3,
+     "extras": [],
+     "value": "在目標區域建造一個發電廠"
+    },
+    {
+     "id": "iuse",
+     "type": 0,
+     "extras": [],
+     "value": 3
+    },
+    {
+     "id": "ides",
+     "type": 3,
+     "extras": [],
+     "value": "建造發電廠"
+    },
+    {
+     "id": "ipaw",
+     "type": 0,
+     "extras": [],
+     "value": 0
+    },
+    {
+     "id": "idrp",
+     "type": 0,
+     "extras": [],
+     "value": 1
+    },
+    {
+     "id": "icid",
+     "type": 3,
+     "extras": [],
+     "value": "A00G"
+    }
+   ]
+  },
+  {
+   "old_id": "tfar",
+   "new_id": "I014",
+   "mods": [
+    {
+     "id": "unam",
+     "type": 3,
+     "extras": [],
+     "value": "建造帳篷"
+    },
+    {
+     "id": "iabi",
+     "type": 3,
+     "extras": [],
+     "value": "A00O"
+    },
+    {
+     "id": "iico",
+     "type": 3,
+     "extras": [],
+     "value": "ReplaceableTextures\\CommandButtons\\BTNCrate.blp"
+    },
+    {
+     "id": "igol",
+     "type": 0,
+     "extras": [],
+     "value": 1
+    },
+    {
+     "id": "ilum",
+     "type": 0,
+     "extras": [],
+     "value": 1
+    },
+    {
+     "id": "isto",
+     "type": 0,
+     "extras": [],
+     "value": 5
+    },
+    {
+     "id": "istr",
+     "type": 0,
+     "extras": [],
+     "value": 30
+    },
+    {
+     "id": "ifil",
+     "type": 3,
+     "extras": [],
+     "value": "Doodads\\LordaeronSummer\\Terrain\\Crates\\Crates0.mdl"
+    },
+    {
+     "id": "utip",
+     "type": 3,
+     "extras": [],
+     "value": "購買帳棚工具包 (2包)"
+    },
+    {
+     "id": "utub",
+     "type": 3,
+     "extras": [],
+     "value": "在目標區域建造一個帳篷"
+    },
+    {
+     "id": "iuse",
+     "type": 0,
+     "extras": [],
+     "value": 2
+    },
+    {
+     "id": "ides",
+     "type": 3,
+     "extras": [],
+     "value": "建造帳篷"
+    },
+    {
+     "id": "ipaw",
+     "type": 0,
+     "extras": [],
+     "value": 0
+    },
+    {
+     "id": "idrp",
+     "type": 0,
+     "extras": [],
+     "value": 1
+    },
+    {
+     "id": "icid",
+     "type": 3,
+     "extras": [],
+     "value": "A00O"
+    }
+   ]
+  },
+  {
+   "old_id": "phea",
+   "new_id": "I015",
+   "mods": [
+    {
+     "id": "unam",
+     "type": 3,
+     "extras": [],
+     "value": "火焰噴射器(點擊開啟)"
+    },
+    {
+     "id": "iico",
+     "type": 3,
+     "extras": [],
+     "value": "ReplaceableTextures\\CommandButtonsDisabled\\DISBTNBreathOfFire.blp"
+    },
+    {
+     "id": "ubpy",
+     "type": 0,
+     "extras": [],
+     "value": 0
+    },
+    {
+     "id": "utub",
+     "type": 3,
+     "extras": [],
+     "value": "你不能同時使用兩個火焰噴射器"
+    },
+    {
+     "id": "ides",
+     "type": 3,
+     "extras": [],
+     "value": "每5秒消耗10點能量，適用在陸棲戰車和坦克上"
+    },
+    {
+     "id": "iabi",
+     "type": 3,
+     "extras": [],
+     "value": "A01L"
+    },
+    {
+     "id": "icid",
+     "type": 3,
+     "extras": [],
+     "value": "Arej"
+    },
+    {
+     "id": "iicd",
+     "type": 0,
+     "extras": [],
+     "value": 1
+    },
+    {
+     "id": "utip",
+     "type": 3,
+     "extras": [],
+     "value": "購買火焰噴射器(點擊開啟)"
+    },
+    {
+     "id": "uhot",
+     "type": 3,
+     "extras": [],
+     "value": ""
+    },
+    {
+     "id": "isto",
+     "type": 0,
+     "extras": [],
+     "value": 1
+    },
+    {
+     "id": "istr",
+     "type": 0,
+     "extras": [],
+     "value": 90
+    },
+    {
+     "id": "isst",
+     "type": 0,
+     "extras": [],
+     "value": 0
+    },
+    {
+     "id": "ilum",
+     "type": 0,
+     "extras": [],
+     "value": 90
+    },
+    {
+     "id": "igol",
+     "type": 0,
+     "extras": [],
+     "value": 90
+    },
+    {
+     "id": "ureq",
+     "type": 3,
+     "extras": [],
+     "value": ""
+    },
+    {
+     "id": "ipaw",
+     "type": 0,
+     "extras": [],
+     "value": 0
+    },
+    {
+     "id": "icla",
+     "type": 3,
+     "extras": [],
+     "value": "Artifact"
+    },
+    {
+     "id": "idrp",
+     "type": 0,
+     "extras": [],
+     "value": 1
+    }
+   ]
+  },
+  {
+   "old_id": "phea",
+   "new_id": "I016",
+   "mods": [
+    {
+     "id": "unam",
+     "type": 3,
+     "extras": [],
+     "value": "火焰噴射器(點擊關閉)"
+    },
+    {
+     "id": "iico",
+     "type": 3,
+     "extras": [],
+     "value": "ReplaceableTextures\\CommandButtons\\BTNBreathOfFire.blp"
+    },
+    {
+     "id": "ubpy",
+     "type": 0,
+     "extras": [],
+     "value": 0
+    },
+    {
+     "id": "utub",
+     "type": 3,
+     "extras": [],
+     "value": "你不能同時使用兩個火焰噴射器"
+    },
+    {
+     "id": "ides",
+     "type": 3,
+     "extras": [],
+     "value": "每5秒消耗10點能量，適用在陸棲戰車和坦克上"
+    },
+    {
+     "id": "iabi",
+     "type": 3,
+     "extras": [],
+     "value": "A011"
+    },
+    {
+     "id": "icid",
+     "type": 3,
+     "extras": [],
+     "value": "Arej"
+    },
+    {
+     "id": "iicd",
+     "type": 0,
+     "extras": [],
+     "value": 1
+    },
+    {
+     "id": "utip",
+     "type": 3,
+     "extras": [],
+     "value": "購買火焰噴射器(點擊關閉)"
+    },
+    {
+     "id": "uhot",
+     "type": 3,
+     "extras": [],
+     "value": ""
+    },
+    {
+     "id": "isto",
+     "type": 0,
+     "extras": [],
+     "value": 1
+    },
+    {
+     "id": "istr",
+     "type": 0,
+     "extras": [],
+     "value": 90
+    },
+    {
+     "id": "isst",
+     "type": 0,
+     "extras": [],
+     "value": 0
+    },
+    {
+     "id": "ilum",
+     "type": 0,
+     "extras": [],
+     "value": 90
+    },
+    {
+     "id": "igol",
+     "type": 0,
+     "extras": [],
+     "value": 90
+    },
+    {
+     "id": "ureq",
+     "type": 3,
+     "extras": [],
+     "value": ""
+    },
+    {
+     "id": "ipaw",
+     "type": 0,
+     "extras": [],
+     "value": 0
+    },
+    {
+     "id": "icla",
+     "type": 3,
+     "extras": [],
+     "value": "Artifact"
+    },
+    {
+     "id": "idro",
+     "type": 0,
+     "extras": [],
+     "value": 0
+    }
+   ]
+  },
+  {
+   "old_id": "pgma",
+   "new_id": "I017",
+   "mods": [
+    {
+     "id": "unam",
+     "type": 3,
+     "extras": [],
+     "value": "物資電池"
+    },
+    {
+     "id": "icla",
+     "type": 3,
+     "extras": [],
+     "value": "Campaign"
+    },
+    {
+     "id": "iabi",
+     "type": 3,
+     "extras": [],
+     "value": "A01K"
+    },
+    {
+     "id": "icid",
+     "type": 3,
+     "extras": [],
+     "value": "A00B"
+    },
+    {
+     "id": "iicd",
+     "type": 0,
+     "extras": [],
+     "value": 1
+    },
+    {
+     "id": "igol",
+     "type": 0,
+     "extras": [],
+     "value": 15
+    },
+    {
+     "id": "ilum",
+     "type": 0,
+     "extras": [],
+     "value": 15
+    },
+    {
+     "id": "istr",
+     "type": 0,
+     "extras": [],
+     "value": 0
+    },
+    {
+     "id": "ides",
+     "type": 3,
+     "extras": [],
+     "value": "讓你的陸棲戰車或坦克增加250點能量"
+    },
+    {
+     "id": "utub",
+     "type": 3,
+     "extras": [],
+     "value": "讓你的陸棲戰車或坦克增加250點能量，使用時需要耗費5秒時間"
+    },
+    {
+     "id": "utip",
+     "type": 3,
+     "extras": [],
+     "value": "購買物資電池《|cffffcc00G|r》"
+    },
+    {
+     "id": "uhot",
+     "type": 3,
+     "extras": [],
+     "value": "G"
+    },
+    {
+     "id": "ubpy",
+     "type": 0,
+     "extras": [],
+     "value": 1
+    },
+    {
+     "id": "ipaw",
+     "type": 0,
+     "extras": [],
+     "value": 0
+    },
+    {
+     "id": "idrp",
+     "type": 0,
+     "extras": [],
+     "value": 1
+    },
+    {
+     "id": "iico",
+     "type": 3,
+     "extras": [],
+     "value": "ReplaceableTextures\\CommandButtons\\BTNPotionOfRestoration.blp"
+    }
+   ]
+  },
+  {
+   "old_id": "pres",
+   "new_id": "I018",
+   "mods": [
+    {
+     "id": "iico",
+     "type": 3,
+     "extras": [],
+     "value": "ReplaceableTextures\\CommandButtons\\BTNSeigeEngine.blp"
+    },
+    {
+     "id": "utub",
+     "type": 3,
+     "extras": [],
+     "value": "一輛用於搜索附近區域的RC遙控車"
+    },
+    {
+     "id": "unam",
+     "type": 3,
+     "extras": [],
+     "value": "RC遙控車"
+    },
+    {
+     "id": "utip",
+     "type": 3,
+     "extras": [],
+     "value": "購買RC遙控車"
+    },
+    {
+     "id": "iabi",
+     "type": 3,
+     "extras": [],
+     "value": "A01M"
+    },
+    {
+     "id": "ilev",
+     "type": 0,
+     "extras": [],
+     "value": 8
+    },
+    {
+     "id": "icla",
+     "type": 3,
+     "extras": [],
+     "value": "Purchasable"
+    },
+    {
+     "id": "igol",
+     "type": 0,
+     "extras": [],
+     "value": 10
+    },
+    {
+     "id": "icid",
+     "type": 3,
+     "extras": [],
+     "value": "A01M"
+    },
+    {
+     "id": "ipri",
+     "type": 0,
+     "extras": [],
+     "value": 0
+    },
+    {
+     "id": "isst",
+     "type": 0,
+     "extras": [],
+     "value": 0
+    },
+    {
+     "id": "ipaw",
+     "type": 0,
+     "extras": [],
+     "value": 0
+    },
+    {
+     "id": "idrp",
+     "type": 0,
+     "extras": [],
+     "value": 1
+    },
+    {
+     "id": "iuse",
+     "type": 0,
+     "extras": [],
+     "value": 2
+    }
+   ]
+  },
+  {
+   "old_id": "phea",
+   "new_id": "I019",
+   "mods": [
+    {
+     "id": "unam",
+     "type": 3,
+     "extras": [],
+     "value": "火箭發射器(點擊開啟)"
+    },
+    {
+     "id": "iico",
+     "type": 3,
+     "extras": [],
+     "value": "ReplaceableTextures\\CommandButtonsDisabled\\DISBTNClusterRockets.blp"
+    },
+    {
+     "id": "ubpy",
+     "type": 0,
+     "extras": [],
+     "value": 0
+    },
+    {
+     "id": "utub",
+     "type": 3,
+     "extras": [],
+     "value": "你不能同時使用2個火箭發射器"
+    },
+    {
+     "id": "ides",
+     "type": 3,
+     "extras": [],
+     "value": "每5秒消耗10點能量，適用在陸棲戰車和坦克上"
+    },
+    {
+     "id": "iabi",
+     "type": 3,
+     "extras": [],
+     "value": "A01L"
+    },
+    {
+     "id": "icid",
+     "type": 3,
+     "extras": [],
+     "value": "Arej"
+    },
+    {
+     "id": "iicd",
+     "type": 0,
+     "extras": [],
+     "value": 1
+    },
+    {
+     "id": "utip",
+     "type": 3,
+     "extras": [],
+     "value": "購買火箭發射器(點擊開啟)"
+    },
+    {
+     "id": "uhot",
+     "type": 3,
+     "extras": [],
+     "value": ""
+    },
+    {
+     "id": "isto",
+     "type": 0,
+     "extras": [],
+     "value": 1
+    },
+    {
+     "id": "istr",
+     "type": 0,
+     "extras": [],
+     "value": 90
+    },
+    {
+     "id": "isst",
+     "type": 0,
+     "extras": [],
+     "value": 0
+    },
+    {
+     "id": "ilum",
+     "type": 0,
+     "extras": [],
+     "value": 90
+    },
+    {
+     "id": "igol",
+     "type": 0,
+     "extras": [],
+     "value": 90
+    },
+    {
+     "id": "ureq",
+     "type": 3,
+     "extras": [],
+     "value": "R009"
+    },
+    {
+     "id": "ipaw",
+     "type": 0,
+     "extras": [],
+     "value": 0
+    },
+    {
+     "id": "icla",
+     "type": 3,
+     "extras": [],
+     "value": "Artifact"
+    },
+    {
+     "id": "idrp",
+     "type": 0,
+     "extras": [],
+     "value": 1
+    }
+   ]
+  },
+  {
+   "old_id": "phea",
+   "new_id": "I01A",
+   "mods": [
+    {
+     "id": "unam",
+     "type": 3,
+     "extras": [],
+     "value": "火箭發射器(點擊關閉)"
+    },
+    {
+     "id": "iico",
+     "type": 3,
+     "extras": [],
+     "value": "ReplaceableTextures\\CommandButtons\\BTNClusterRockets.blp"
+    },
+    {
+     "id": "ubpy",
+     "type": 0,
+     "extras": [],
+     "value": 0
+    },
+    {
+     "id": "utub",
+     "type": 3,
+     "extras": [],
+     "value": "你不能同時使用2個火箭發射器"
+    },
+    {
+     "id": "ides",
+     "type": 3,
+     "extras": [],
+     "value": "每5秒消耗10點能量，適用在陸棲戰車和坦克上"
+    },
+    {
+     "id": "iabi",
+     "type": 3,
+     "extras": [],
+     "value": "A011"
+    },
+    {
+     "id": "icid",
+     "type": 3,
+     "extras": [],
+     "value": "Arej"
+    },
+    {
+     "id": "iicd",
+     "type": 0,
+     "extras": [],
+     "value": 1
+    },
+    {
+     "id": "utip",
+     "type": 3,
+     "extras": [],
+     "value": "購買火箭發射器(點擊關閉)"
+    },
+    {
+     "id": "uhot",
+     "type": 3,
+     "extras": [],
+     "value": ""
+    },
+    {
+     "id": "isto",
+     "type": 0,
+     "extras": [],
+     "value": 1
+    },
+    {
+     "id": "istr",
+     "type": 0,
+     "extras": [],
+     "value": 90
+    },
+    {
+     "id": "isst",
+     "type": 0,
+     "extras": [],
+     "value": 0
+    },
+    {
+     "id": "ilum",
+     "type": 0,
+     "extras": [],
+     "value": 90
+    },
+    {
+     "id": "igol",
+     "type": 0,
+     "extras": [],
+     "value": 90
+    },
+    {
+     "id": "ureq",
+     "type": 3,
+     "extras": [],
+     "value": "R009"
+    },
+    {
+     "id": "ipaw",
+     "type": 0,
+     "extras": [],
+     "value": 0
+    },
+    {
+     "id": "icla",
+     "type": 3,
+     "extras": [],
+     "value": "Artifact"
+    },
+    {
+     "id": "idro",
+     "type": 0,
+     "extras": [],
+     "value": 0
+    }
+   ]
+  },
+  {
+   "old_id": "phea",
+   "new_id": "I01B",
+   "mods": [
+    {
+     "id": "unam",
+     "type": 3,
+     "extras": [],
+     "value": "雷射激光器(點擊開啟)"
+    },
+    {
+     "id": "iico",
+     "type": 3,
+     "extras": [],
+     "value": "ReplaceableTextures\\CommandButtonsDisabled\\DISBTNBlink.blp"
+    },
+    {
+     "id": "ubpy",
+     "type": 0,
+     "extras": [],
+     "value": 0
+    },
+    {
+     "id": "utub",
+     "type": 3,
+     "extras": [],
+     "value": "你不能同時使用兩個雷射激光器"
+    },
+    {
+     "id": "ides",
+     "type": 3,
+     "extras": [],
+     "value": "每5秒消耗10點能量，適用在陸棲戰車和坦克上"
+    },
+    {
+     "id": "iabi",
+     "type": 3,
+     "extras": [],
+     "value": "A01L"
+    },
+    {
+     "id": "icid",
+     "type": 3,
+     "extras": [],
+     "value": "Arej"
+    },
+    {
+     "id": "iicd",
+     "type": 0,
+     "extras": [],
+     "value": 1
+    },
+    {
+     "id": "utip",
+     "type": 3,
+     "extras": [],
+     "value": "購買雷射激光器(點擊開啟)"
+    },
+    {
+     "id": "uhot",
+     "type": 3,
+     "extras": [],
+     "value": ""
+    },
+    {
+     "id": "isto",
+     "type": 0,
+     "extras": [],
+     "value": 1
+    },
+    {
+     "id": "istr",
+     "type": 0,
+     "extras": [],
+     "value": 90
+    },
+    {
+     "id": "isst",
+     "type": 0,
+     "extras": [],
+     "value": 0
+    },
+    {
+     "id": "ilum",
+     "type": 0,
+     "extras": [],
+     "value": 90
+    },
+    {
+     "id": "igol",
+     "type": 0,
+     "extras": [],
+     "value": 90
+    },
+    {
+     "id": "ureq",
+     "type": 3,
+     "extras": [],
+     "value": "R008"
+    },
+    {
+     "id": "ipaw",
+     "type": 0,
+     "extras": [],
+     "value": 0
+    },
+    {
+     "id": "icla",
+     "type": 3,
+     "extras": [],
+     "value": "Artifact"
+    },
+    {
+     "id": "idrp",
+     "type": 0,
+     "extras": [],
+     "value": 1
+    }
+   ]
+  },
+  {
+   "old_id": "phea",
+   "new_id": "I01C",
+   "mods": [
+    {
+     "id": "unam",
+     "type": 3,
+     "extras": [],
+     "value": "雷射激光器(點擊關閉)"
+    },
+    {
+     "id": "iico",
+     "type": 3,
+     "extras": [],
+     "value": "ReplaceableTextures\\CommandButtons\\BTNBlink.blp"
+    },
+    {
+     "id": "ubpy",
+     "type": 0,
+     "extras": [],
+     "value": 0
+    },
+    {
+     "id": "utub",
+     "type": 3,
+     "extras": [],
+     "value": "你不能同時使用兩個雷射激光器"
+    },
+    {
+     "id": "ides",
+     "type": 3,
+     "extras": [],
+     "value": "每5秒消耗10點能量，適用在陸棲戰車和坦克上"
+    },
+    {
+     "id": "iabi",
+     "type": 3,
+     "extras": [],
+     "value": "A011"
+    },
+    {
+     "id": "icid",
+     "type": 3,
+     "extras": [],
+     "value": "Arej"
+    },
+    {
+     "id": "iicd",
+     "type": 0,
+     "extras": [],
+     "value": 1
+    },
+    {
+     "id": "utip",
+     "type": 3,
+     "extras": [],
+     "value": "購買雷射激光器(點擊關閉)"
+    },
+    {
+     "id": "uhot",
+     "type": 3,
+     "extras": [],
+     "value": ""
+    },
+    {
+     "id": "isto",
+     "type": 0,
+     "extras": [],
+     "value": 1
+    },
+    {
+     "id": "istr",
+     "type": 0,
+     "extras": [],
+     "value": 90
+    },
+    {
+     "id": "isst",
+     "type": 0,
+     "extras": [],
+     "value": 0
+    },
+    {
+     "id": "ilum",
+     "type": 0,
+     "extras": [],
+     "value": 90
+    },
+    {
+     "id": "igol",
+     "type": 0,
+     "extras": [],
+     "value": 90
+    },
+    {
+     "id": "ureq",
+     "type": 3,
+     "extras": [],
+     "value": "R008"
+    },
+    {
+     "id": "ipaw",
+     "type": 0,
+     "extras": [],
+     "value": 0
+    },
+    {
+     "id": "icla",
+     "type": 3,
+     "extras": [],
+     "value": "Artifact"
+    },
+    {
+     "id": "idro",
+     "type": 0,
+     "extras": [],
+     "value": 0
+    }
+   ]
+  },
+  {
+   "old_id": "phea",
+   "new_id": "I01D",
+   "mods": [
+    {
+     "id": "unam",
+     "type": 3,
+     "extras": [],
+     "value": "機械修理包"
+    },
+    {
+     "id": "iico",
+     "type": 3,
+     "extras": [],
+     "value": "ReplaceableTextures\\CommandButtons\\BTNAdvancedFlameTower.blp"
+    },
+    {
+     "id": "ubpy",
+     "type": 0,
+     "extras": [],
+     "value": 0
+    },
+    {
+     "id": "utub",
+     "type": 3,
+     "extras": [],
+     "value": "將機械修理包放在車上，不需倖存者就可進行自我修復，每個修理包恢復200點HP"
+    },
+    {
+     "id": "ides",
+     "type": 3,
+     "extras": [],
+     "value": "修理受損的車輛"
+    },
+    {
+     "id": "iabi",
+     "type": 3,
+     "extras": [],
+     "value": "A00X"
+    },
+    {
+     "id": "icid",
+     "type": 3,
+     "extras": [],
+     "value": "A00I"
+    },
+    {
+     "id": "iicd",
+     "type": 0,
+     "extras": [],
+     "value": 1
+    },
+    {
+     "id": "utip",
+     "type": 3,
+     "extras": [],
+     "value": ""
+    },
+    {
+     "id": "uhot",
+     "type": 3,
+     "extras": [],
+     "value": ""
+    },
+    {
+     "id": "isto",
+     "type": 0,
+     "extras": [],
+     "value": 1
+    },
+    {
+     "id": "istr",
+     "type": 0,
+     "extras": [],
+     "value": 0
+    },
+    {
+     "id": "isst",
+     "type": 0,
+     "extras": [],
+     "value": 0
+    },
+    {
+     "id": "ilum",
+     "type": 0,
+     "extras": [],
+     "value": 10
+    },
+    {
+     "id": "igol",
+     "type": 0,
+     "extras": [],
+     "value": 14
+    },
+    {
+     "id": "ureq",
+     "type": 3,
+     "extras": [],
+     "value": ""
+    },
+    {
+     "id": "ipaw",
+     "type": 0,
+     "extras": [],
+     "value": 0
+    },
+    {
+     "id": "icla",
+     "type": 3,
+     "extras": [],
+     "value": "PowerUp"
+    },
+    {
+     "id": "idrp",
+     "type": 0,
+     "extras": [],
+     "value": 1
+    }
+   ]
+  },
+  {
+   "old_id": "ratf",
+   "new_id": "I01E",
+   "mods": [
+    {
+     "id": "unam",
+     "type": 3,
+     "extras": [],
+     "value": "重型鐵斧"
+    },
+    {
+     "id": "icla",
+     "type": 3,
+     "extras": [],
+     "value": "Charged"
+    },
+    {
+     "id": "iabi",
+     "type": 3,
+     "extras": [],
+     "value": ""
+    },
+    {
+     "id": "igol",
+     "type": 0,
+     "extras": [],
+     "value": 3
+    },
+    {
+     "id": "istr",
+     "type": 0,
+     "extras": [],
+     "value": 50
+    },
+    {
+     "id": "ides",
+     "type": 3,
+     "extras": [],
+     "value": "揮動重型鐵斧，能對建築物造成50傷害"
+    },
+    {
+     "id": "utub",
+     "type": 3,
+     "extras": [],
+     "value": "揮動重型鐵斧，能對建築物造成50傷害"
+    },
+    {
+     "id": "utip",
+     "type": 3,
+     "extras": [],
+     "value": "購買重型鐵斧《|cffffcc00L|r》"
+    },
+    {
+     "id": "iico",
+     "type": 3,
+     "extras": [],
+     "value": "ReplaceableTextures\\CommandButtons\\BTNSpiritWalkerAdeptTraining.blp"
+    },
+    {
+     "id": "ilum",
+     "type": 0,
+     "extras": [],
+     "value": 3
+    },
+    {
+     "id": "icid",
+     "type": 3,
+     "extras": [],
+     "value": "A002"
+    },
+    {
+     "id": "ipaw",
+     "type": 0,
+     "extras": [],
+     "value": 0
+    },
+    {
+     "id": "uhot",
+     "type": 3,
+     "extras": [],
+     "value": "L"
+    },
+    {
+     "id": "isto",
+     "type": 0,
+     "extras": [],
+     "value": 3
+    },
+    {
+     "id": "idrp",
+     "type": 0,
+     "extras": [],
+     "value": 1
+    }
+   ]
+  },
+  {
+   "old_id": "phea",
+   "new_id": "I01F",
+   "mods": [
+    {
+     "id": "unam",
+     "type": 3,
+     "extras": [],
+     "value": "噴霧殺蟲劑"
+    },
+    {
+     "id": "iico",
+     "type": 3,
+     "extras": [],
+     "value": "ReplaceableTextures\\CommandButtons\\BTNFlySpray.blp"
+    },
+    {
+     "id": "ubpy",
+     "type": 0,
+     "extras": [],
+     "value": 0
+    },
+    {
+     "id": "utub",
+     "type": 3,
+     "extras": [],
+     "value": "撲殺蚊蟲的好工具"
+    },
+    {
+     "id": "ides",
+     "type": 3,
+     "extras": [],
+     "value": ""
+    },
+    {
+     "id": "iabi",
+     "type": 3,
+     "extras": [],
+     "value": "A00U"
+    },
+    {
+     "id": "icid",
+     "type": 3,
+     "extras": [],
+     "value": "A00U"
+    },
+    {
+     "id": "iicd",
+     "type": 0,
+     "extras": [],
+     "value": 1
+    },
+    {
+     "id": "utip",
+     "type": 3,
+     "extras": [],
+     "value": "購買噴霧殺蟲劑"
+    },
+    {
+     "id": "uhot",
+     "type": 3,
+     "extras": [],
+     "value": ""
+    },
+    {
+     "id": "isto",
+     "type": 0,
+     "extras": [],
+     "value": 1
+    },
+    {
+     "id": "istr",
+     "type": 0,
+     "extras": [],
+     "value": 0
+    },
+    {
+     "id": "isst",
+     "type": 0,
+     "extras": [],
+     "value": 0
+    },
+    {
+     "id": "ilum",
+     "type": 0,
+     "extras": [],
+     "value": 10
+    },
+    {
+     "id": "igol",
+     "type": 0,
+     "extras": [],
+     "value": 10
+    },
+    {
+     "id": "ureq",
+     "type": 3,
+     "extras": [],
+     "value": ""
+    },
+    {
+     "id": "ipaw",
+     "type": 0,
+     "extras": [],
+     "value": 0
+    },
+    {
+     "id": "icla",
+     "type": 3,
+     "extras": [],
+     "value": "PowerUp"
+    },
+    {
+     "id": "iuse",
+     "type": 0,
+     "extras": [],
+     "value": 30
+    },
+    {
+     "id": "idrp",
+     "type": 0,
+     "extras": [],
+     "value": 1
+    }
+   ]
+  },
+  {
+   "old_id": "lmbr",
+   "new_id": "I01G",
+   "mods": [
+    {
+     "id": "ihtp",
+     "type": 0,
+     "extras": [],
+     "value": 60
+    },
+    {
+     "id": "unam",
+     "type": 3,
+     "extras": [],
+     "value": "大捆木材"
+    },
+    {
+     "id": "igol",
+     "type": 0,
+     "extras": [],
+     "value": 70
+    },
+    {
+     "id": "istr",
+     "type": 0,
+     "extras": [],
+     "value": 45
+    },
+    {
+     "id": "isto",
+     "type": 0,
+     "extras": [],
+     "value": 4
+    },
+    {
+     "id": "iabi",
+     "type": 3,
+     "extras": [],
+     "value": "A01N"
+    },
+    {
+     "id": "utub",
+     "type": 3,
+     "extras": [],
+     "value": "用金幣購買大量的木材"
+    },
+    {
+     "id": "iico",
+     "type": 3,
+     "extras": [],
+     "value": "ReplaceableTextures\\CommandButtons\\BTNGLExchange.blp"
+    }
+   ]
+  },
+  {
+   "old_id": "tels",
+   "new_id": "I01H",
+   "mods": [
+    {
+     "id": "unam",
+     "type": 3,
+     "extras": [],
+     "value": "手槍子彈"
+    },
+    {
+     "id": "icla",
+     "type": 3,
+     "extras": [],
+     "value": "Charged"
+    },
+    {
+     "id": "iico",
+     "type": 3,
+     "extras": [],
+     "value": "ReplaceableTextures\\CommandButtons\\BTNPBullets.blp"
+    },
+    {
+     "id": "ilum",
+     "type": 0,
+     "extras": [],
+     "value": 20
+    },
+    {
+     "id": "istr",
+     "type": 0,
+     "extras": [],
+     "value": 20
+    },
+    {
+     "id": "ides",
+     "type": 3,
+     "extras": [],
+     "value": "配合手槍才能有效的使用"
+    },
+    {
+     "id": "utub",
+     "type": 3,
+     "extras": [],
+     "value": "配合手槍才能有效的使用"
+    },
+    {
+     "id": "utip",
+     "type": 3,
+     "extras": [],
+     "value": "購買手槍子彈《|cffffcc00B|r》《28發》"
+    },
+    {
+     "id": "uhot",
+     "type": 3,
+     "extras": [],
+     "value": "B"
+    },
+    {
+     "id": "iabi",
+     "type": 3,
+     "extras": [],
+     "value": ""
+    },
+    {
+     "id": "isto",
+     "type": 0,
+     "extras": [],
+     "value": 5
+    },
+    {
+     "id": "iuse",
+     "type": 0,
+     "extras": [],
+     "value": 7
+    },
+    {
+     "id": "iper",
+     "type": 0,
+     "extras": [],
+     "value": 1
+    },
+    {
+     "id": "igol",
+     "type": 0,
+     "extras": [],
+     "value": 20
+    },
+    {
+     "id": "ipaw",
+     "type": 0,
+     "extras": [],
+     "value": 0
+    },
+    {
+     "id": "idrp",
+     "type": 0,
+     "extras": [],
+     "value": 1
+    }
+   ]
+  },
+  {
+   "old_id": "tels",
+   "new_id": "I01I",
+   "mods": [
+    {
+     "id": "unam",
+     "type": 3,
+     "extras": [],
+     "value": "機關槍子彈"
+    },
+    {
+     "id": "icla",
+     "type": 3,
+     "extras": [],
+     "value": "Charged"
+    },
+    {
+     "id": "iico",
+     "type": 3,
+     "extras": [],
+     "value": "ReplaceableTextures\\CommandButtons\\BTNPBullets.blp"
+    },
+    {
+     "id": "ilum",
+     "type": 0,
+     "extras": [],
+     "value": 20
+    },
+    {
+     "id": "istr",
+     "type": 0,
+     "extras": [],
+     "value": 20
+    },
+    {
+     "id": "ides",
+     "type": 3,
+     "extras": [],
+     "value": "須配合機關槍才能有效使用"
+    },
+    {
+     "id": "utub",
+     "type": 3,
+     "extras": [],
+     "value": "須配合機關槍才能有效使用"
+    },
+    {
+     "id": "utip",
+     "type": 3,
+     "extras": [],
+     "value": "購買機關槍子彈《|cffffcc00N|r》《120發》"
+    },
+    {
+     "id": "uhot",
+     "type": 3,
+     "extras": [],
+     "value": "N"
+    },
+    {
+     "id": "iabi",
+     "type": 3,
+     "extras": [],
+     "value": ""
+    },
+    {
+     "id": "isto",
+     "type": 0,
+     "extras": [],
+     "value": 5
+    },
+    {
+     "id": "iuse",
+     "type": 0,
+     "extras": [],
+     "value": 30
+    },
+    {
+     "id": "iper",
+     "type": 0,
+     "extras": [],
+     "value": 1
+    },
+    {
+     "id": "igol",
+     "type": 0,
+     "extras": [],
+     "value": 40
+    },
+    {
+     "id": "ipaw",
+     "type": 0,
+     "extras": [],
+     "value": 0
+    },
+    {
+     "id": "ureq",
+     "type": 3,
+     "extras": [],
+     "value": "R004"
+    },
+    {
+     "id": "idrp",
+     "type": 0,
+     "extras": [],
+     "value": 1
+    }
+   ]
+  },
+  {
+   "old_id": "tels",
+   "new_id": "I01J",
+   "mods": [
+    {
+     "id": "unam",
+     "type": 3,
+     "extras": [],
+     "value": "散彈槍子彈"
+    },
+    {
+     "id": "icla",
+     "type": 3,
+     "extras": [],
+     "value": "Charged"
+    },
+    {
+     "id": "iico",
+     "type": 3,
+     "extras": [],
+     "value": "ReplaceableTextures\\CommandButtons\\BTNShotgunShells.blp"
+    },
+    {
+     "id": "ilum",
+     "type": 0,
+     "extras": [],
+     "value": 18
+    },
+    {
+     "id": "istr",
+     "type": 0,
+     "extras": [],
+     "value": 11
+    },
+    {
+     "id": "ides",
+     "type": 3,
+     "extras": [],
+     "value": "須配合散彈槍才能有效使用"
+    },
+    {
+     "id": "utub",
+     "type": 3,
+     "extras": [],
+     "value": "須配合散彈槍才能有效使用"
+    },
+    {
+     "id": "utip",
+     "type": 3,
+     "extras": [],
+     "value": "購買散彈槍子彈《|cffffcc00S|r》《8發》"
+    },
+    {
+     "id": "uhot",
+     "type": 3,
+     "extras": [],
+     "value": "S"
+    },
+    {
+     "id": "iabi",
+     "type": 3,
+     "extras": [],
+     "value": ""
+    },
+    {
+     "id": "isto",
+     "type": 0,
+     "extras": [],
+     "value": 5
+    },
+    {
+     "id": "iuse",
+     "type": 0,
+     "extras": [],
+     "value": 2
+    },
+    {
+     "id": "iper",
+     "type": 0,
+     "extras": [],
+     "value": 1
+    },
+    {
+     "id": "igol",
+     "type": 0,
+     "extras": [],
+     "value": 22
+    },
+    {
+     "id": "ipaw",
+     "type": 0,
+     "extras": [],
+     "value": 0
+    },
+    {
+     "id": "idrp",
+     "type": 0,
+     "extras": [],
+     "value": 1
+    }
+   ]
+  },
+  {
+   "old_id": "phea",
+   "new_id": "I01K",
+   "mods": [
+    {
+     "id": "unam",
+     "type": 3,
+     "extras": [],
+     "value": "雙重火焰噴射器(點擊關閉)"
+    },
+    {
+     "id": "iico",
+     "type": 3,
+     "extras": [],
+     "value": "ReplaceableTextures\\CommandButtons\\BTNBreathOfFire.blp"
+    },
+    {
+     "id": "ubpy",
+     "type": 0,
+     "extras": [],
+     "value": 0
+    },
+    {
+     "id": "utub",
+     "type": 3,
+     "extras": [],
+     "value": "你不能同時使用兩個火焰噴射器"
+    },
+    {
+     "id": "ides",
+     "type": 3,
+     "extras": [],
+     "value": "每5秒消耗10點能量，適用在陸棲戰車和坦克上"
+    },
+    {
+     "id": "iabi",
+     "type": 3,
+     "extras": [],
+     "value": "A011"
+    },
+    {
+     "id": "icid",
+     "type": 3,
+     "extras": [],
+     "value": "Arej"
+    },
+    {
+     "id": "iicd",
+     "type": 0,
+     "extras": [],
+     "value": 1
+    },
+    {
+     "id": "utip",
+     "type": 3,
+     "extras": [],
+     "value": "購買雙重火焰噴射器(點擊關閉)"
+    },
+    {
+     "id": "uhot",
+     "type": 3,
+     "extras": [],
+     "value": ""
+    },
+    {
+     "id": "isto",
+     "type": 0,
+     "extras": [],
+     "value": 1
+    },
+    {
+     "id": "istr",
+     "type": 0,
+     "extras": [],
+     "value": 90
+    },
+    {
+     "id": "isst",
+     "type": 0,
+     "extras": [],
+     "value": 0
+    },
+    {
+     "id": "ilum",
+     "type": 0,
+     "extras": [],
+     "value": 90
+    },
+    {
+     "id": "igol",
+     "type": 0,
+     "extras": [],
+     "value": 90
+    },
+    {
+     "id": "ureq",
+     "type": 3,
+     "extras": [],
+     "value": ""
+    },
+    {
+     "id": "ipaw",
+     "type": 0,
+     "extras": [],
+     "value": 0
+    },
+    {
+     "id": "icla",
+     "type": 3,
+     "extras": [],
+     "value": "Artifact"
+    },
+    {
+     "id": "idro",
+     "type": 0,
+     "extras": [],
+     "value": 0
+    }
+   ]
+  },
+  {
+   "old_id": "phea",
+   "new_id": "I01L",
+   "mods": [
+    {
+     "id": "unam",
+     "type": 3,
+     "extras": [],
+     "value": "雙重火焰噴射器(點擊開啟)"
+    },
+    {
+     "id": "iico",
+     "type": 3,
+     "extras": [],
+     "value": "ReplaceableTextures\\CommandButtonsDisabled\\DISBTNBreathOfFire.blp"
+    },
+    {
+     "id": "ubpy",
+     "type": 0,
+     "extras": [],
+     "value": 0
+    },
+    {
+     "id": "utub",
+     "type": 3,
+     "extras": [],
+     "value": "你不能同時使用兩個火焰噴射器"
+    },
+    {
+     "id": "ides",
+     "type": 3,
+     "extras": [],
+     "value": "每5秒消耗10點能量，適用在陸棲戰車和坦克上"
+    },
+    {
+     "id": "iabi",
+     "type": 3,
+     "extras": [],
+     "value": "A01L"
+    },
+    {
+     "id": "icid",
+     "type": 3,
+     "extras": [],
+     "value": "Arej"
+    },
+    {
+     "id": "iicd",
+     "type": 0,
+     "extras": [],
+     "value": 1
+    },
+    {
+     "id": "utip",
+     "type": 3,
+     "extras": [],
+     "value": "購買雙重火焰發射器(點擊開啟)"
+    },
+    {
+     "id": "uhot",
+     "type": 3,
+     "extras": [],
+     "value": ""
+    },
+    {
+     "id": "isto",
+     "type": 0,
+     "extras": [],
+     "value": 1
+    },
+    {
+     "id": "istr",
+     "type": 0,
+     "extras": [],
+     "value": 90
+    },
+    {
+     "id": "isst",
+     "type": 0,
+     "extras": [],
+     "value": 0
+    },
+    {
+     "id": "ilum",
+     "type": 0,
+     "extras": [],
+     "value": 90
+    },
+    {
+     "id": "igol",
+     "type": 0,
+     "extras": [],
+     "value": 90
+    },
+    {
+     "id": "ureq",
+     "type": 3,
+     "extras": [],
+     "value": ""
+    },
+    {
+     "id": "ipaw",
+     "type": 0,
+     "extras": [],
+     "value": 0
+    },
+    {
+     "id": "icla",
+     "type": 3,
+     "extras": [],
+     "value": "Artifact"
+    },
+    {
+     "id": "idrp",
+     "type": 0,
+     "extras": [],
+     "value": 1
+    }
+   ]
+  },
+  {
+   "old_id": "phea",
+   "new_id": "I01M",
+   "mods": [
+    {
+     "id": "unam",
+     "type": 3,
+     "extras": [],
+     "value": "循環雷射激光器(點擊關閉)"
+    },
+    {
+     "id": "iico",
+     "type": 3,
+     "extras": [],
+     "value": "ReplaceableTextures\\CommandButtons\\BTNBlink.blp"
+    },
+    {
+     "id": "ubpy",
+     "type": 0,
+     "extras": [],
+     "value": 0
+    },
+    {
+     "id": "utub",
+     "type": 3,
+     "extras": [],
+     "value": "你不能同時使用兩個雷射激光器"
+    },
+    {
+     "id": "ides",
+     "type": 3,
+     "extras": [],
+     "value": "每5秒消耗10點能量，適用在陸棲戰車和坦克上"
+    },
+    {
+     "id": "iabi",
+     "type": 3,
+     "extras": [],
+     "value": "A011"
+    },
+    {
+     "id": "icid",
+     "type": 3,
+     "extras": [],
+     "value": "Arej"
+    },
+    {
+     "id": "iicd",
+     "type": 0,
+     "extras": [],
+     "value": 1
+    },
+    {
+     "id": "utip",
+     "type": 3,
+     "extras": [],
+     "value": "購買循環雷射激光器(點擊關閉)"
+    },
+    {
+     "id": "uhot",
+     "type": 3,
+     "extras": [],
+     "value": ""
+    },
+    {
+     "id": "isto",
+     "type": 0,
+     "extras": [],
+     "value": 1
+    },
+    {
+     "id": "istr",
+     "type": 0,
+     "extras": [],
+     "value": 90
+    },
+    {
+     "id": "isst",
+     "type": 0,
+     "extras": [],
+     "value": 0
+    },
+    {
+     "id": "ilum",
+     "type": 0,
+     "extras": [],
+     "value": 90
+    },
+    {
+     "id": "igol",
+     "type": 0,
+     "extras": [],
+     "value": 90
+    },
+    {
+     "id": "ureq",
+     "type": 3,
+     "extras": [],
+     "value": "R008"
+    },
+    {
+     "id": "ipaw",
+     "type": 0,
+     "extras": [],
+     "value": 0
+    },
+    {
+     "id": "icla",
+     "type": 3,
+     "extras": [],
+     "value": "Artifact"
+    },
+    {
+     "id": "idro",
+     "type": 0,
+     "extras": [],
+     "value": 0
+    }
+   ]
+  },
+  {
+   "old_id": "phea",
+   "new_id": "I01N",
+   "mods": [
+    {
+     "id": "unam",
+     "type": 3,
+     "extras": [],
+     "value": "循環雷射激光器(點擊開啟)"
+    },
+    {
+     "id": "iico",
+     "type": 3,
+     "extras": [],
+     "value": "ReplaceableTextures\\CommandButtonsDisabled\\DISBTNBlink.blp"
+    },
+    {
+     "id": "ubpy",
+     "type": 0,
+     "extras": [],
+     "value": 0
+    },
+    {
+     "id": "utub",
+     "type": 3,
+     "extras": [],
+     "value": "你不同同時使用兩個雷射激光器"
+    },
+    {
+     "id": "ides",
+     "type": 3,
+     "extras": [],
+     "value": "每5秒消耗10點能量，適用在陸棲戰車和坦克上"
+    },
+    {
+     "id": "iabi",
+     "type": 3,
+     "extras": [],
+     "value": "A01L"
+    },
+    {
+     "id": "icid",
+     "type": 3,
+     "extras": [],
+     "value": "Arej"
+    },
+    {
+     "id": "iicd",
+     "type": 0,
+     "extras": [],
+     "value": 1
+    },
+    {
+     "id": "utip",
+     "type": 3,
+     "extras": [],
+     "value": "購循環雷射激光器(點擊開啟)"
+    },
+    {
+     "id": "uhot",
+     "type": 3,
+     "extras": [],
+     "value": ""
+    },
+    {
+     "id": "isto",
+     "type": 0,
+     "extras": [],
+     "value": 1
+    },
+    {
+     "id": "istr",
+     "type": 0,
+     "extras": [],
+     "value": 90
+    },
+    {
+     "id": "isst",
+     "type": 0,
+     "extras": [],
+     "value": 0
+    },
+    {
+     "id": "ilum",
+     "type": 0,
+     "extras": [],
+     "value": 90
+    },
+    {
+     "id": "igol",
+     "type": 0,
+     "extras": [],
+     "value": 90
+    },
+    {
+     "id": "ureq",
+     "type": 3,
+     "extras": [],
+     "value": "R008"
+    },
+    {
+     "id": "ipaw",
+     "type": 0,
+     "extras": [],
+     "value": 0
+    },
+    {
+     "id": "icla",
+     "type": 3,
+     "extras": [],
+     "value": "Artifact"
+    },
+    {
+     "id": "idrp",
+     "type": 0,
+     "extras": [],
+     "value": 1
+    }
+   ]
+  },
+  {
+   "old_id": "phea",
+   "new_id": "I01O",
+   "mods": [
+    {
+     "id": "unam",
+     "type": 3,
+     "extras": [],
+     "value": "集叢火箭發射器(點擊關閉)"
+    },
+    {
+     "id": "iico",
+     "type": 3,
+     "extras": [],
+     "value": "ReplaceableTextures\\CommandButtons\\BTNClusterRockets.blp"
+    },
+    {
+     "id": "ubpy",
+     "type": 0,
+     "extras": [],
+     "value": 0
+    },
+    {
+     "id": "utub",
+     "type": 3,
+     "extras": [],
+     "value": "你不能同時使用兩個火箭發射器"
+    },
+    {
+     "id": "ides",
+     "type": 3,
+     "extras": [],
+     "value": "每5秒消耗10點能量，適用在陸棲戰車和坦克上"
+    },
+    {
+     "id": "iabi",
+     "type": 3,
+     "extras": [],
+     "value": "A011"
+    },
+    {
+     "id": "icid",
+     "type": 3,
+     "extras": [],
+     "value": "Arej"
+    },
+    {
+     "id": "iicd",
+     "type": 0,
+     "extras": [],
+     "value": 1
+    },
+    {
+     "id": "utip",
+     "type": 3,
+     "extras": [],
+     "value": "購買集叢火箭發射器(點擊關閉)"
+    },
+    {
+     "id": "uhot",
+     "type": 3,
+     "extras": [],
+     "value": ""
+    },
+    {
+     "id": "isto",
+     "type": 0,
+     "extras": [],
+     "value": 1
+    },
+    {
+     "id": "istr",
+     "type": 0,
+     "extras": [],
+     "value": 90
+    },
+    {
+     "id": "isst",
+     "type": 0,
+     "extras": [],
+     "value": 0
+    },
+    {
+     "id": "ilum",
+     "type": 0,
+     "extras": [],
+     "value": 90
+    },
+    {
+     "id": "igol",
+     "type": 0,
+     "extras": [],
+     "value": 90
+    },
+    {
+     "id": "ureq",
+     "type": 3,
+     "extras": [],
+     "value": "R009"
+    },
+    {
+     "id": "ipaw",
+     "type": 0,
+     "extras": [],
+     "value": 0
+    },
+    {
+     "id": "icla",
+     "type": 3,
+     "extras": [],
+     "value": "Artifact"
+    },
+    {
+     "id": "idro",
+     "type": 0,
+     "extras": [],
+     "value": 0
+    }
+   ]
+  },
+  {
+   "old_id": "phea",
+   "new_id": "I01P",
+   "mods": [
+    {
+     "id": "unam",
+     "type": 3,
+     "extras": [],
+     "value": "集叢火箭發射器(點擊開啟)"
+    },
+    {
+     "id": "iico",
+     "type": 3,
+     "extras": [],
+     "value": "ReplaceableTextures\\CommandButtonsDisabled\\DISBTNClusterRockets.blp"
+    },
+    {
+     "id": "ubpy",
+     "type": 0,
+     "extras": [],
+     "value": 0
+    },
+    {
+     "id": "utub",
+     "type": 3,
+     "extras": [],
+     "value": "你不能同時使用兩個火箭發射器"
+    },
+    {
+     "id": "ides",
+     "type": 3,
+     "extras": [],
+     "value": "每5秒消耗10點能量，適用在陸棲戰車和坦克上"
+    },
+    {
+     "id": "iabi",
+     "type": 3,
+     "extras": [],
+     "value": "A01L"
+    },
+    {
+     "id": "icid",
+     "type": 3,
+     "extras": [],
+     "value": "Arej"
+    },
+    {
+     "id": "iicd",
+     "type": 0,
+     "extras": [],
+     "value": 1
+    },
+    {
+     "id": "utip",
+     "type": 3,
+     "extras": [],
+     "value": "購買集叢火箭發射器(點擊開啟)"
+    },
+    {
+     "id": "uhot",
+     "type": 3,
+     "extras": [],
+     "value": ""
+    },
+    {
+     "id": "isto",
+     "type": 0,
+     "extras": [],
+     "value": 1
+    },
+    {
+     "id": "istr",
+     "type": 0,
+     "extras": [],
+     "value": 90
+    },
+    {
+     "id": "isst",
+     "type": 0,
+     "extras": [],
+     "value": 0
+    },
+    {
+     "id": "ilum",
+     "type": 0,
+     "extras": [],
+     "value": 90
+    },
+    {
+     "id": "igol",
+     "type": 0,
+     "extras": [],
+     "value": 90
+    },
+    {
+     "id": "ureq",
+     "type": 3,
+     "extras": [],
+     "value": "R009"
+    },
+    {
+     "id": "ipaw",
+     "type": 0,
+     "extras": [],
+     "value": 0
+    },
+    {
+     "id": "icla",
+     "type": 3,
+     "extras": [],
+     "value": "Artifact"
+    },
+    {
+     "id": "idrp",
+     "type": 0,
+     "extras": [],
+     "value": 1
+    }
+   ]
+  },
+  {
+   "old_id": "pres",
+   "new_id": "I01Q",
+   "mods": [
+    {
+     "id": "iico",
+     "type": 3,
+     "extras": [],
+     "value": "ReplaceableTextures\\CommandButtons\\BTNMech.blp"
+    },
+    {
+     "id": "utub",
+     "type": 3,
+     "extras": [],
+     "value": "一輛適合用於搜索的RC陸棲戰車"
+    },
+    {
+     "id": "unam",
+     "type": 3,
+     "extras": [],
+     "value": "RC陸棲戰車"
+    },
+    {
+     "id": "utip",
+     "type": 3,
+     "extras": [],
+     "value": "購買RC陸棲戰車"
+    },
+    {
+     "id": "iabi",
+     "type": 3,
+     "extras": [],
+     "value": "A01T"
+    },
+    {
+     "id": "ilev",
+     "type": 0,
+     "extras": [],
+     "value": 8
+    },
+    {
+     "id": "icla",
+     "type": 3,
+     "extras": [],
+     "value": "Purchasable"
+    },
+    {
+     "id": "igol",
+     "type": 0,
+     "extras": [],
+     "value": 10
+    },
+    {
+     "id": "icid",
+     "type": 3,
+     "extras": [],
+     "value": "A01T"
+    },
+    {
+     "id": "ipri",
+     "type": 0,
+     "extras": [],
+     "value": 0
+    },
+    {
+     "id": "isst",
+     "type": 0,
+     "extras": [],
+     "value": 0
+    },
+    {
+     "id": "ipaw",
+     "type": 0,
+     "extras": [],
+     "value": 0
+    },
+    {
+     "id": "idrp",
+     "type": 0,
+     "extras": [],
+     "value": 1
+    },
+    {
+     "id": "iuse",
+     "type": 0,
+     "extras": [],
+     "value": 2
+    }
+   ]
+  },
+  {
+   "old_id": "pman",
+   "new_id": "I01R",
+   "mods": [
+    {
+     "id": "unam",
+     "type": 3,
+     "extras": [],
+     "value": "百事可樂"
+    },
+    {
+     "id": "ubpx",
+     "type": 0,
+     "extras": [],
+     "value": 0
+    },
+    {
+     "id": "ubpy",
+     "type": 0,
+     "extras": [],
+     "value": 0
+    },
+    {
+     "id": "utub",
+     "type": 3,
+     "extras": [],
+     "value": "回復100MP"
+    },
+    {
+     "id": "ides",
+     "type": 3,
+     "extras": [],
+     "value": "回復100MP"
+    },
+    {
+     "id": "iabi",
+     "type": 3,
+     "extras": [],
+     "value": "A01S"
+    },
+    {
+     "id": "iico",
+     "type": 3,
+     "extras": [],
+     "value": "ReplaceableTextures\\CommandButtons\\BTNPepsi.blp"
+    },
+    {
+     "id": "iicd",
+     "type": 0,
+     "extras": [],
+     "value": 1
+    },
+    {
+     "id": "icid",
+     "type": 3,
+     "extras": [],
+     "value": "A00J"
+    },
+    {
+     "id": "uhot",
+     "type": 3,
+     "extras": [],
+     "value": ""
+    },
+    {
+     "id": "ilum",
+     "type": 0,
+     "extras": [],
+     "value": 2
+    },
+    {
+     "id": "isto",
+     "type": 0,
+     "extras": [],
+     "value": 1
+    },
+    {
+     "id": "istr",
+     "type": 0,
+     "extras": [],
+     "value": 0
+    },
+    {
+     "id": "isst",
+     "type": 0,
+     "extras": [],
+     "value": 0
+    },
+    {
+     "id": "utip",
+     "type": 3,
+     "extras": [],
+     "value": "購買百事可樂"
+    },
+    {
+     "id": "igol",
+     "type": 0,
+     "extras": [],
+     "value": 5
+    },
+    {
+     "id": "ureq",
+     "type": 3,
+     "extras": [],
+     "value": ""
+    },
+    {
+     "id": "ipaw",
+     "type": 0,
+     "extras": [],
+     "value": 0
+    },
+    {
+     "id": "icla",
+     "type": 3,
+     "extras": [],
+     "value": "PowerUp"
+    },
+    {
+     "id": "idrp",
+     "type": 0,
+     "extras": [],
+     "value": 1
+    }
+   ]
+  },
+  {
+   "old_id": "ratf",
+   "new_id": "I01S",
+   "mods": [
+    {
+     "id": "unam",
+     "type": 3,
+     "extras": [],
+     "value": "網子"
+    },
+    {
+     "id": "icla",
+     "type": 3,
+     "extras": [],
+     "value": "Purchasable"
+    },
+    {
+     "id": "iabi",
+     "type": 3,
+     "extras": [],
+     "value": "A000"
+    },
+    {
+     "id": "iico",
+     "type": 3,
+     "extras": [],
+     "value": "ReplaceableTextures\\CommandButtons\\BTNEnsnare.blp"
+    },
+    {
+     "id": "igol",
+     "type": 0,
+     "extras": [],
+     "value": 37
+    },
+    {
+     "id": "istr",
+     "type": 0,
+     "extras": [],
+     "value": 1
+    },
+    {
+     "id": "ides",
+     "type": 3,
+     "extras": [],
+     "value": "能阻止恐龍移動，持續15秒"
+    },
+    {
+     "id": "utub",
+     "type": 3,
+     "extras": [],
+     "value": "能阻止恐龍移動，持續15秒"
+    },
+    {
+     "id": "utip",
+     "type": 3,
+     "extras": [],
+     "value": "購買網子《|cffffcc00E|r》《6個》"
+    },
+    {
+     "id": "icid",
+     "type": 3,
+     "extras": [],
+     "value": "A000"
+    },
+    {
+     "id": "ilum",
+     "type": 0,
+     "extras": [],
+     "value": 37
+    },
+    {
+     "id": "ipaw",
+     "type": 0,
+     "extras": [],
+     "value": 0
+    },
+    {
+     "id": "uhot",
+     "type": 3,
+     "extras": [],
+     "value": "E"
+    },
+    {
+     "id": "iper",
+     "type": 0,
+     "extras": [],
+     "value": 1
+    },
+    {
+     "id": "iuse",
+     "type": 0,
+     "extras": [],
+     "value": 6
+    },
+    {
+     "id": "isto",
+     "type": 0,
+     "extras": [],
+     "value": 3
+    },
+    {
+     "id": "idrp",
+     "type": 0,
+     "extras": [],
+     "value": 1
+    }
+   ]
+  },
+  {
+   "old_id": "phea",
+   "new_id": "I01T",
+   "mods": [
+    {
+     "id": "unam",
+     "type": 3,
+     "extras": [],
+     "value": "肥皂泡泡槍"
+    },
+    {
+     "id": "iico",
+     "type": 3,
+     "extras": [],
+     "value": "ReplaceableTextures\\CommandButtons\\BTNAlleriaFlute.blp"
+    },
+    {
+     "id": "ubpy",
+     "type": 0,
+     "extras": [],
+     "value": 0
+    },
+    {
+     "id": "utub",
+     "type": 3,
+     "extras": [],
+     "value": "能用肥皂水吹出泡泡，看起來對昆蟲很有效"
+    },
+    {
+     "id": "ides",
+     "type": 3,
+     "extras": [],
+     "value": ""
+    },
+    {
+     "id": "iabi",
+     "type": 3,
+     "extras": [],
+     "value": "A01U"
+    },
+    {
+     "id": "icid",
+     "type": 3,
+     "extras": [],
+     "value": "A00U"
+    },
+    {
+     "id": "iicd",
+     "type": 0,
+     "extras": [],
+     "value": 1
+    },
+    {
+     "id": "utip",
+     "type": 3,
+     "extras": [],
+     "value": "購買肥皂泡泡槍"
+    },
+    {
+     "id": "uhot",
+     "type": 3,
+     "extras": [],
+     "value": ""
+    },
+    {
+     "id": "isto",
+     "type": 0,
+     "extras": [],
+     "value": 1
+    },
+    {
+     "id": "istr",
+     "type": 0,
+     "extras": [],
+     "value": 0
+    },
+    {
+     "id": "isst",
+     "type": 0,
+     "extras": [],
+     "value": 0
+    },
+    {
+     "id": "ilum",
+     "type": 0,
+     "extras": [],
+     "value": 10
+    },
+    {
+     "id": "igol",
+     "type": 0,
+     "extras": [],
+     "value": 10
+    },
+    {
+     "id": "ureq",
+     "type": 3,
+     "extras": [],
+     "value": ""
+    },
+    {
+     "id": "ipaw",
+     "type": 0,
+     "extras": [],
+     "value": 0
+    },
+    {
+     "id": "iuse",
+     "type": 0,
+     "extras": [],
+     "value": 250
+    },
+    {
+     "id": "idrp",
+     "type": 0,
+     "extras": [],
+     "value": 1
+    },
+    {
+     "id": "ilev",
+     "type": 0,
+     "extras": [],
+     "value": 8
+    }
+   ]
+  },
+  {
+   "old_id": "sror",
+   "new_id": "I01U",
+   "mods": [
+    {
+     "id": "iabi",
+     "type": 3,
+     "extras": [],
+     "value": ""
+    },
+    {
+     "id": "iuse",
+     "type": 0,
+     "extras": [],
+     "value": 0
+    },
+    {
+     "id": "iper",
+     "type": 0,
+     "extras": [],
+     "value": 0
+    },
+    {
+     "id": "ides",
+     "type": 3,
+     "extras": [],
+     "value": ""
+    },
+    {
+     "id": "utub",
+     "type": 3,
+     "extras": [],
+     "value": "百事可樂司似乎也可以拿來當汽油使用，它比汽油還便宜更多"
+    },
+    {
+     "id": "unam",
+     "type": 3,
+     "extras": [],
+     "value": "機械研究筆記"
+    },
+    {
+     "id": "utip",
+     "type": 3,
+     "extras": [],
+     "value": "閱讀機械研究筆記"
+    },
+    {
+     "id": "idrp",
+     "type": 0,
+     "extras": [],
+     "value": 1
+    },
+    {
+     "id": "igol",
+     "type": 0,
+     "extras": [],
+     "value": 0
+    }
+   ]
+  },
+  {
+   "old_id": "ratf",
+   "new_id": "I01V",
+   "mods": [
+    {
+     "id": "unam",
+     "type": 3,
+     "extras": [],
+     "value": "戰地機關槍"
+    },
+    {
+     "id": "icla",
+     "type": 3,
+     "extras": [],
+     "value": "Charged"
+    },
+    {
+     "id": "iabi",
+     "type": 3,
+     "extras": [],
+     "value": ""
+    },
+    {
+     "id": "igol",
+     "type": 0,
+     "extras": [],
+     "value": 120
+    },
+    {
+     "id": "istr",
+     "type": 0,
+     "extras": [],
+     "value": 100
+    },
+    {
+     "id": "ides",
+     "type": 3,
+     "extras": [],
+     "value": "對目標射出子彈，造成420點傷害"
+    },
+    {
+     "id": "utub",
+     "type": 3,
+     "extras": [],
+     "value": "對目標射出子彈，造成420點傷害"
+    },
+    {
+     "id": "utip",
+     "type": 3,
+     "extras": [],
+     "value": "購買戰地機關槍《|cffffcc00H|r》"
+    },
+    {
+     "id": "iico",
+     "type": 3,
+     "extras": [],
+     "value": "ReplaceableTextures\\CommandButtons\\BTNMachine.blp"
+    },
+    {
+     "id": "ilum",
+     "type": 0,
+     "extras": [],
+     "value": 60
+    },
+    {
+     "id": "icid",
+     "type": 3,
+     "extras": [],
+     "value": "A002"
+    },
+    {
+     "id": "ipaw",
+     "type": 0,
+     "extras": [],
+     "value": 0
+    },
+    {
+     "id": "uhot",
+     "type": 3,
+     "extras": [],
+     "value": "H"
+    },
+    {
+     "id": "ifil",
+     "type": 3,
+     "extras": [],
+     "value": "war3mapImported\\SubmachinegunItem.mdl"
+    },
+    {
+     "id": "ureq",
+     "type": 3,
+     "extras": [],
+     "value": "R004"
+    },
+    {
+     "id": "idrp",
+     "type": 0,
+     "extras": [],
+     "value": 1
+    }
+   ]
+  },
+  {
+   "old_id": "tels",
+   "new_id": "I01W",
+   "mods": [
+    {
+     "id": "unam",
+     "type": 3,
+     "extras": [],
+     "value": "戰地機關槍子彈"
+    },
+    {
+     "id": "icla",
+     "type": 3,
+     "extras": [],
+     "value": "Charged"
+    },
+    {
+     "id": "iico",
+     "type": 3,
+     "extras": [],
+     "value": "ReplaceableTextures\\CommandButtons\\BTNPBullets.blp"
+    },
+    {
+     "id": "ilum",
+     "type": 0,
+     "extras": [],
+     "value": 25
+    },
+    {
+     "id": "istr",
+     "type": 0,
+     "extras": [],
+     "value": 20
+    },
+    {
+     "id": "ides",
+     "type": 3,
+     "extras": [],
+     "value": "須配合戰地機關槍才能有效使用"
+    },
+    {
+     "id": "utub",
+     "type": 3,
+     "extras": [],
+     "value": "需配合戰地機關槍才能有效使用"
+    },
+    {
+     "id": "utip",
+     "type": 3,
+     "extras": [],
+     "value": "購買戰地機關槍子彈《|cffffcc00R|r》《50發》"
+    },
+    {
+     "id": "uhot",
+     "type": 3,
+     "extras": [],
+     "value": "R"
+    },
+    {
+     "id": "iabi",
+     "type": 3,
+     "extras": [],
+     "value": ""
+    },
+    {
+     "id": "isto",
+     "type": 0,
+     "extras": [],
+     "value": 5
+    },
+    {
+     "id": "iuse",
+     "type": 0,
+     "extras": [],
+     "value": 50
+    },
+    {
+     "id": "iper",
+     "type": 0,
+     "extras": [],
+     "value": 1
+    },
+    {
+     "id": "igol",
+     "type": 0,
+     "extras": [],
+     "value": 35
+    },
+    {
+     "id": "ipaw",
+     "type": 0,
+     "extras": [],
+     "value": 0
+    },
+    {
+     "id": "ureq",
+     "type": 3,
+     "extras": [],
+     "value": "R004"
+    },
+    {
+     "id": "idrp",
+     "type": 0,
+     "extras": [],
+     "value": 1
+    }
+   ]
+  },
+  {
+   "old_id": "phea",
+   "new_id": "I01X",
+   "mods": [
+    {
+     "id": "unam",
+     "type": 3,
+     "extras": [],
+     "value": "GPS衛星偵察機"
+    },
+    {
+     "id": "iico",
+     "type": 3,
+     "extras": [],
+     "value": "ReplaceableTextures\\CommandButtons\\BTNOrbOfDarkness.blp"
+    },
+    {
+     "id": "ubpy",
+     "type": 0,
+     "extras": [],
+     "value": 0
+    },
+    {
+     "id": "utub",
+     "type": 3,
+     "extras": [],
+     "value": "利用衛星能發現恐龍巢穴的位置，但有可能發現已經被破壞的巢穴"
+    },
+    {
+     "id": "ides",
+     "type": 3,
+     "extras": [],
+     "value": ""
+    },
+    {
+     "id": "iabi",
+     "type": 3,
+     "extras": [],
+     "value": "A027"
+    },
+    {
+     "id": "icid",
+     "type": 3,
+     "extras": [],
+     "value": "A027"
+    },
+    {
+     "id": "iicd",
+     "type": 0,
+     "extras": [],
+     "value": 1
+    },
+    {
+     "id": "utip",
+     "type": 3,
+     "extras": [],
+     "value": "購買GPS衛星偵查機"
+    },
+    {
+     "id": "uhot",
+     "type": 3,
+     "extras": [],
+     "value": ""
+    },
+    {
+     "id": "isto",
+     "type": 0,
+     "extras": [],
+     "value": 1
+    },
+    {
+     "id": "istr",
+     "type": 0,
+     "extras": [],
+     "value": 0
+    },
+    {
+     "id": "isst",
+     "type": 0,
+     "extras": [],
+     "value": 0
+    },
+    {
+     "id": "ilum",
+     "type": 0,
+     "extras": [],
+     "value": 15
+    },
+    {
+     "id": "igol",
+     "type": 0,
+     "extras": [],
+     "value": 15
+    },
+    {
+     "id": "ureq",
+     "type": 3,
+     "extras": [],
+     "value": ""
+    },
+    {
+     "id": "ipaw",
+     "type": 0,
+     "extras": [],
+     "value": 0
+    },
+    {
+     "id": "icla",
+     "type": 3,
+     "extras": [],
+     "value": "PowerUp"
+    },
+    {
+     "id": "iuse",
+     "type": 0,
+     "extras": [],
+     "value": 3
+    },
+    {
+     "id": "idrp",
+     "type": 0,
+     "extras": [],
+     "value": 1
+    }
+   ]
+  },
+  {
+   "old_id": "phea",
+   "new_id": "I01Y",
+   "mods": [
+    {
+     "id": "unam",
+     "type": 3,
+     "extras": [],
+     "value": "心跳偵察機"
+    },
+    {
+     "id": "iico",
+     "type": 3,
+     "extras": [],
+     "value": "ReplaceableTextures\\CommandButtons\\BTNOrbOfLightning.blp"
+    },
+    {
+     "id": "ubpy",
+     "type": 0,
+     "extras": [],
+     "value": 0
+    },
+    {
+     "id": "utub",
+     "type": 3,
+     "extras": [],
+     "value": "利用心跳偵察機能發現附近的恐龍位置"
+    },
+    {
+     "id": "ides",
+     "type": 3,
+     "extras": [],
+     "value": ""
+    },
+    {
+     "id": "iabi",
+     "type": 3,
+     "extras": [],
+     "value": "A028"
+    },
+    {
+     "id": "icid",
+     "type": 3,
+     "extras": [],
+     "value": "A028"
+    },
+    {
+     "id": "iicd",
+     "type": 0,
+     "extras": [],
+     "value": 1
+    },
+    {
+     "id": "utip",
+     "type": 3,
+     "extras": [],
+     "value": "購買心跳偵察機"
+    },
+    {
+     "id": "uhot",
+     "type": 3,
+     "extras": [],
+     "value": ""
+    },
+    {
+     "id": "isto",
+     "type": 0,
+     "extras": [],
+     "value": 1
+    },
+    {
+     "id": "istr",
+     "type": 0,
+     "extras": [],
+     "value": 0
+    },
+    {
+     "id": "isst",
+     "type": 0,
+     "extras": [],
+     "value": 0
+    },
+    {
+     "id": "ilum",
+     "type": 0,
+     "extras": [],
+     "value": 15
+    },
+    {
+     "id": "igol",
+     "type": 0,
+     "extras": [],
+     "value": 15
+    },
+    {
+     "id": "ureq",
+     "type": 3,
+     "extras": [],
+     "value": ""
+    },
+    {
+     "id": "ipaw",
+     "type": 0,
+     "extras": [],
+     "value": 0
+    },
+    {
+     "id": "icla",
+     "type": 3,
+     "extras": [],
+     "value": "PowerUp"
+    },
+    {
+     "id": "iuse",
+     "type": 0,
+     "extras": [],
+     "value": 3
+    },
+    {
+     "id": "idrp",
+     "type": 0,
+     "extras": [],
+     "value": 1
+    }
+   ]
+  },
+  {
+   "old_id": "hlst",
+   "new_id": "I01Z",
+   "mods": [
+    {
+     "id": "unam",
+     "type": 3,
+     "extras": [],
+     "value": "刺花藥草"
+    },
+    {
+     "id": "iabi",
+     "type": 3,
+     "extras": [],
+     "value": "A02D,A02C"
+    },
+    {
+     "id": "utub",
+     "type": 3,
+     "extras": [],
+     "value": "一種神奇的古代花朵，能增加攜帶者的生命上限，並提升每秒HP回復速度3點"
+    },
+    {
+     "id": "iico",
+     "type": 3,
+     "extras": [],
+     "value": "ReplaceableTextures\\CommandButtons\\BTNShimmerWeed.blp"
+    },
+    {
+     "id": "ides",
+     "type": 3,
+     "extras": [],
+     "value": "一種神奇的古代花朵，能增加攜帶者的生命上限，並提升每秒HP回復速度3點"
+    },
+    {
+     "id": "ifil",
+     "type": 3,
+     "extras": [],
+     "value": "Doodads\\Outland\\Plants\\Outland_Plant\\Outland_Plant4.mdl"
+    },
+    {
+     "id": "utip",
+     "type": 3,
+     "extras": [],
+     "value": ""
+    },
+    {
+     "id": "iuse",
+     "type": 0,
+     "extras": [],
+     "value": 0
+    },
+    {
+     "id": "icla",
+     "type": 3,
+     "extras": [],
+     "value": "Artifact"
+    },
+    {
+     "id": "iper",
+     "type": 0,
+     "extras": [],
+     "value": 0
+    },
+    {
+     "id": "igol",
+     "type": 0,
+     "extras": [],
+     "value": 0
+    },
+    {
+     "id": "ihtp",
+     "type": 0,
+     "extras": [],
+     "value": 300
+    }
+   ]
+  },
+  {
+   "old_id": "wcyc",
+   "new_id": "I020",
+   "mods": [
+    {
+     "id": "unam",
+     "type": 3,
+     "extras": [],
+     "value": "生化散彈槍"
+    },
+    {
+     "id": "iico",
+     "type": 3,
+     "extras": [],
+     "value": "ReplaceableTextures\\CommandButtons\\BTNNagaWeaponUp1.blp"
+    },
+    {
+     "id": "utub",
+     "type": 3,
+     "extras": [],
+     "value": "射出有毒子彈，對前方的敵人造成每秒50點傷害，持續10秒"
+    },
+    {
+     "id": "iabi",
+     "type": 3,
+     "extras": [],
+     "value": ""
+    },
+    {
+     "id": "utip",
+     "type": 3,
+     "extras": [],
+     "value": "購買生化散彈槍"
+    },
+    {
+     "id": "iuse",
+     "type": 0,
+     "extras": [],
+     "value": 0
+    },
+    {
+     "id": "iper",
+     "type": 0,
+     "extras": [],
+     "value": 0
+    },
+    {
+     "id": "ipri",
+     "type": 0,
+     "extras": [],
+     "value": 29
+    },
+    {
+     "id": "ides",
+     "type": 3,
+     "extras": [],
+     "value": "射出有毒子彈，對前方的敵人造成每秒50點傷害，持續10秒"
+    },
+    {
+     "id": "ipaw",
+     "type": 0,
+     "extras": [],
+     "value": 0
+    },
+    {
+     "id": "igol",
+     "type": 0,
+     "extras": [],
+     "value": 165
+    },
+    {
+     "id": "ilum",
+     "type": 0,
+     "extras": [],
+     "value": 125
+    }
+   ]
+  },
+  {
+   "old_id": "wcyc",
+   "new_id": "I021",
+   "mods": [
+    {
+     "id": "unam",
+     "type": 3,
+     "extras": [],
+     "value": "生化機關槍"
+    },
+    {
+     "id": "iico",
+     "type": 3,
+     "extras": [],
+     "value": "ReplaceableTextures\\CommandButtons\\BTNEnvenomedSpear.blp"
+    },
+    {
+     "id": "utub",
+     "type": 3,
+     "extras": [],
+     "value": "對目標射出有毒子彈，造成每秒15點傷害，持續5秒"
+    },
+    {
+     "id": "iabi",
+     "type": 3,
+     "extras": [],
+     "value": ""
+    },
+    {
+     "id": "utip",
+     "type": 3,
+     "extras": [],
+     "value": "購買生化機關槍"
+    },
+    {
+     "id": "iuse",
+     "type": 0,
+     "extras": [],
+     "value": 0
+    },
+    {
+     "id": "iper",
+     "type": 0,
+     "extras": [],
+     "value": 0
+    },
+    {
+     "id": "ides",
+     "type": 3,
+     "extras": [],
+     "value": "對目標射出有毒子彈，造成每秒15點傷害，持續5秒"
+    },
+    {
+     "id": "igol",
+     "type": 0,
+     "extras": [],
+     "value": 120
+    },
+    {
+     "id": "ilum",
+     "type": 0,
+     "extras": [],
+     "value": 75
+    },
+    {
+     "id": "ipaw",
+     "type": 0,
+     "extras": [],
+     "value": 0
+    }
+   ]
+  },
+  {
+   "old_id": "wcyc",
+   "new_id": "I022",
+   "mods": [
+    {
+     "id": "unam",
+     "type": 3,
+     "extras": [],
+     "value": "寄生蟲注射器"
+    },
+    {
+     "id": "iico",
+     "type": 3,
+     "extras": [],
+     "value": "ReplaceableTextures\\CommandButtons\\BTNParasiteOff.blp"
+    },
+    {
+     "id": "utub",
+     "type": 3,
+     "extras": [],
+     "value": "對目標射出含有寄生蟲的針筒，造成每秒75點傷害，持續30秒，如果目標在30死亡，寄生蟲就會從屍體出現"
+    },
+    {
+     "id": "iabi",
+     "type": 3,
+     "extras": [],
+     "value": ""
+    },
+    {
+     "id": "utip",
+     "type": 3,
+     "extras": [],
+     "value": "購買寄生蟲注射器"
+    },
+    {
+     "id": "iuse",
+     "type": 0,
+     "extras": [],
+     "value": 0
+    },
+    {
+     "id": "iper",
+     "type": 0,
+     "extras": [],
+     "value": 0
+    },
+    {
+     "id": "ides",
+     "type": 3,
+     "extras": [],
+     "value": "對目標射出含有寄生蟲的針筒，造成每秒75點傷害，持續30秒，如果目標在30死亡，寄生蟲就會從屍體出現"
+    },
+    {
+     "id": "ipaw",
+     "type": 0,
+     "extras": [],
+     "value": 0
+    },
+    {
+     "id": "igol",
+     "type": 0,
+     "extras": [],
+     "value": 180
+    },
+    {
+     "id": "ilum",
+     "type": 0,
+     "extras": [],
+     "value": 120
+    }
+   ]
+  },
+  {
+   "old_id": "gold",
+   "new_id": "I026",
+   "mods": [
+    {
+     "id": "unam",
+     "type": 3,
+     "extras": [],
+     "value": "寶石原礦"
+    },
+    {
+     "id": "iabi",
+     "type": 3,
+     "extras": [],
+     "value": "A02R"
+    },
+    {
+     "id": "ifil",
+     "type": 3,
+     "extras": [],
+     "value": "Objects\\InventoryItems\\ThunderLizardEgg\\ThunderLizardEgg.mdl"
+    }
+   ]
+  },
+  {
+   "old_id": "gold",
+   "new_id": "I023",
+   "mods": [
+    {
+     "id": "unam",
+     "type": 3,
+     "extras": [],
+     "value": "1金幣"
+    },
+    {
+     "id": "iabi",
+     "type": 3,
+     "extras": [],
+     "value": "A02T"
+    }
+   ]
+  },
+  {
+   "old_id": "lmbr",
+   "new_id": "I024",
+   "mods": [
+    {
+     "id": "unam",
+     "type": 3,
+     "extras": [],
+     "value": "1木材"
+    },
+    {
+     "id": "iabi",
+     "type": 3,
+     "extras": [],
+     "value": "A02U"
+    }
+   ]
+  },
+  {
+   "old_id": "manh",
+   "new_id": "I028",
+   "mods": [
+    {
+     "id": "igol",
+     "type": 0,
+     "extras": [],
+     "value": 0
+    },
+    {
+     "id": "utub",
+     "type": 3,
+     "extras": [],
+     "value": ""
+    },
+    {
+     "id": "utip",
+     "type": 3,
+     "extras": [],
+     "value": ""
+    },
+    {
+     "id": "unam",
+     "type": 3,
+     "extras": [],
+     "value": "機械電牆 生命/傷害"
+    },
+    {
+     "id": "iabi",
+     "type": 3,
+     "extras": [],
+     "value": "A030,A031"
+    },
+    {
+     "id": "ides",
+     "type": 3,
+     "extras": [],
+     "value": ""
+    },
+    {
+     "id": "ifil",
+     "type": 3,
+     "extras": [],
+     "value": "Objects\\InventoryItems\\BattleStandard\\BattleStandard.mdl"
+    }
+   ]
+  },
+  {
+   "old_id": "tels",
+   "new_id": "I027",
+   "mods": [
+    {
+     "id": "unam",
+     "type": 3,
+     "extras": [],
+     "value": "機械電牆"
+    },
+    {
+     "id": "iabi",
+     "type": 3,
+     "extras": [],
+     "value": ""
+    },
+    {
+     "id": "iico",
+     "type": 3,
+     "extras": [],
+     "value": "ReplaceableTextures\\CommandButtons\\BTNScourgeBuild.blp"
+    },
+    {
+     "id": "ipaw",
+     "type": 0,
+     "extras": [],
+     "value": 0
+    },
+    {
+     "id": "isel",
+     "type": 0,
+     "extras": [],
+     "value": 0
+    },
+    {
+     "id": "idro",
+     "type": 0,
+     "extras": [],
+     "value": 0
+    },
+    {
+     "id": "ides",
+     "type": 3,
+     "extras": [],
+     "value": ""
+    },
+    {
+     "id": "utip",
+     "type": 3,
+     "extras": [],
+     "value": "機械電牆"
+    },
+    {
+     "id": "utub",
+     "type": 3,
+     "extras": [],
+     "value": "一個植入電腦升級而成的電牆，能從敵人身上學習，每殺死一隻單位將增加攻擊力及生命上限"
+    }
+   ]
+  },
+  {
+   "old_id": "pclr",
+   "new_id": "I029",
+   "mods": [
+    {
+     "id": "unam",
+     "type": 3,
+     "extras": [],
+     "value": "浩克藥水"
+    },
+    {
+     "id": "iabi",
+     "type": 3,
+     "extras": [],
+     "value": "A035"
+    },
+    {
+     "id": "ides",
+     "type": 3,
+     "extras": [],
+     "value": "使用後變身成綠巨人浩克"
+    },
+    {
+     "id": "utip",
+     "type": 3,
+     "extras": [],
+     "value": "購買浩克藥水"
+    },
+    {
+     "id": "utub",
+     "type": 3,
+     "extras": [],
+     "value": "讓你的倖存者變成綠巨人浩克，持續60秒，在這期間無法建築或修理房子"
+    },
+    {
+     "id": "uhot",
+     "type": 3,
+     "extras": [],
+     "value": ""
+    },
+    {
+     "id": "ureq",
+     "type": 3,
+     "extras": [],
+     "value": ""
+    },
+    {
+     "id": "idrp",
+     "type": 0,
+     "extras": [],
+     "value": 1
+    },
+    {
+     "id": "icid",
+     "type": 3,
+     "extras": [],
+     "value": "A035"
+    },
+    {
+     "id": "icla",
+     "type": 3,
+     "extras": [],
+     "value": "Charged"
+    },
+    {
+     "id": "igol",
+     "type": 0,
+     "extras": [],
+     "value": 95
+    },
+    {
+     "id": "ilum",
+     "type": 0,
+     "extras": [],
+     "value": 55
+    },
+    {
+     "id": "istr",
+     "type": 0,
+     "extras": [],
+     "value": 60
+    },
+    {
+     "id": "isto",
+     "type": 0,
+     "extras": [],
+     "value": 5
+    },
+    {
+     "id": "ipaw",
+     "type": 0,
+     "extras": [],
+     "value": 0
+    },
+    {
+     "id": "urqa",
+     "type": 3,
+     "extras": [],
+     "value": "1"
+    }
+   ]
+  },
+  {
+   "old_id": "wlsd",
+   "new_id": "I02A",
+   "mods": [
+    {
+     "id": "unam",
+     "type": 3,
+     "extras": [],
+     "value": "等離子C4核彈"
+    },
+    {
+     "id": "iico",
+     "type": 3,
+     "extras": [],
+     "value": "ReplaceableTextures\\CommandButtons\\BTNManaStone.blp"
+    },
+    {
+     "id": "iabi",
+     "type": 3,
+     "extras": [],
+     "value": "A03G"
+    },
+    {
+     "id": "utip",
+     "type": 3,
+     "extras": [],
+     "value": "購買等離子C4核彈"
+    },
+    {
+     "id": "utub",
+     "type": 3,
+     "extras": [],
+     "value": "融合所有爆破技術產生出來的核彈，對周圍所有的單位造成極大的傷害，使用時需要約15秒的時間"
+    },
+    {
+     "id": "ides",
+     "type": 3,
+     "extras": [],
+     "value": "等離子C4核彈"
+    },
+    {
+     "id": "iuse",
+     "type": 0,
+     "extras": [],
+     "value": 1
+    },
+    {
+     "id": "igol",
+     "type": 0,
+     "extras": [],
+     "value": 65
+    },
+    {
+     "id": "ilum",
+     "type": 0,
+     "extras": [],
+     "value": 35
+    }
+   ]
+  },
+  {
+   "old_id": "gobm",
+   "new_id": "I02B",
+   "mods": [
+    {
+     "id": "unam",
+     "type": 3,
+     "extras": [],
+     "value": "地雷"
+    },
+    {
+     "id": "iuse",
+     "type": 0,
+     "extras": [],
+     "value": 2
+    },
+    {
+     "id": "utip",
+     "type": 3,
+     "extras": [],
+     "value": "購買地雷"
+    },
+    {
+     "id": "igol",
+     "type": 0,
+     "extras": [],
+     "value": 25
+    },
+    {
+     "id": "istr",
+     "type": 0,
+     "extras": [],
+     "value": 30
+    }
+   ]
+  },
+  {
+   "old_id": "wlsd",
+   "new_id": "I02D",
+   "mods": [
+    {
+     "id": "unam",
+     "type": 3,
+     "extras": [],
+     "value": "塑膠定時炸彈"
+    },
+    {
+     "id": "iabi",
+     "type": 3,
+     "extras": [],
+     "value": "A03H"
+    },
+    {
+     "id": "utub",
+     "type": 3,
+     "extras": [],
+     "value": "一個倒數10秒計時的塑膠定時炸彈，多為外國革命軍使用"
+    },
+    {
+     "id": "utip",
+     "type": 3,
+     "extras": [],
+     "value": "購買塑膠定時炸彈"
+    },
+    {
+     "id": "ides",
+     "type": 3,
+     "extras": [],
+     "value": ""
+    },
+    {
+     "id": "iico",
+     "type": 3,
+     "extras": [],
+     "value": "ReplaceableTextures\\CommandButtons\\BTNBigBadVoodooSpell.blp"
+    },
+    {
+     "id": "igol",
+     "type": 0,
+     "extras": [],
+     "value": 45
+    },
+    {
+     "id": "ilum",
+     "type": 0,
+     "extras": [],
+     "value": 20
+    },
+    {
+     "id": "isto",
+     "type": 0,
+     "extras": [],
+     "value": 3
+    },
+    {
+     "id": "istr",
+     "type": 0,
+     "extras": [],
+     "value": 30
+    },
+    {
+     "id": "iuse",
+     "type": 0,
+     "extras": [],
+     "value": 1
+    }
+   ]
+  },
+  {
+   "old_id": "gold",
+   "new_id": "I02C",
+   "mods": [
+    {
+     "id": "unam",
+     "type": 3,
+     "extras": [],
+     "value": "智慧學習型砲塔 攻擊上升"
+    },
+    {
+     "id": "iabi",
+     "type": 3,
+     "extras": [],
+     "value": "A030"
+    },
+    {
+     "id": "ifil",
+     "type": 3,
+     "extras": [],
+     "value": "Objects\\InventoryItems\\BattleStandard\\BattleStandard.mdl"
+    }
+   ]
+  },
+  {
+   "old_id": "manh",
+   "new_id": "I02E",
+   "mods": [
+    {
+     "id": "unam",
+     "type": 3,
+     "extras": [],
+     "value": "生命之實"
+    },
+    {
+     "id": "iabi",
+     "type": 3,
+     "extras": [],
+     "value": "A03V"
+    },
+    {
+     "id": "ipaw",
+     "type": 0,
+     "extras": [],
+     "value": 0
+    },
+    {
+     "id": "ides",
+     "type": 3,
+     "extras": [],
+     "value": "增加生命上限 5 點"
+    },
+    {
+     "id": "utub",
+     "type": 3,
+     "extras": [],
+     "value": "一種生長在熱帶雨林的水果，好吃並且有增加HP上限的功用"
+    },
+    {
+     "id": "utip",
+     "type": 3,
+     "extras": [],
+     "value": "生命之實"
+    },
+    {
+     "id": "ifil",
+     "type": 3,
+     "extras": [],
+     "value": "Objects\\InventoryItems\\ThunderLizardEgg\\ThunderLizardEgg.mdl"
+    },
+    {
+     "id": "iclg",
+     "type": 0,
+     "extras": [],
+     "value": 100
+    },
+    {
+     "id": "iclb",
+     "type": 0,
+     "extras": [],
+     "value": 100
+    },
+    {
+     "id": "iico",
+     "type": 3,
+     "extras": [],
+     "value": "ReplaceableTextures\\CommandButtons\\BTNThunderLizardEgg.blp"
+    }
+   ]
+  },
+  {
+   "old_id": "woms",
+   "new_id": "I025",
+   "mods": [
+    {
+     "id": "unam",
+     "type": 3,
+     "extras": [],
+     "value": "逃生工具"
+    },
+    {
+     "id": "iuse",
+     "type": 0,
+     "extras": [],
+     "value": 1
+    },
+    {
+     "id": "utub",
+     "type": 3,
+     "extras": [],
+     "value": "能讓你的倖存者傳送一段距離，只能使用一次"
+    },
+    {
+     "id": "utip",
+     "type": 3,
+     "extras": [],
+     "value": "逃生工具"
+    },
+    {
+     "id": "ides",
+     "type": 3,
+     "extras": [],
+     "value": "能讓你的倖存者傳送一段距離，只能使用一次"
+    },
+    {
+     "id": "iabi",
+     "type": 3,
+     "extras": [],
+     "value": "A041"
+    },
+    {
+     "id": "ipaw",
+     "type": 0,
+     "extras": [],
+     "value": 0
+    },
+    {
+     "id": "igol",
+     "type": 0,
+     "extras": [],
+     "value": 0
+    }
+   ]
+  },
+  {
+   "old_id": "ratf",
+   "new_id": "I02F",
+   "mods": [
+    {
+     "id": "unam",
+     "type": 3,
+     "extras": [],
+     "value": "BBQ野豬之心"
+    },
+    {
+     "id": "utip",
+     "type": 3,
+     "extras": [],
+     "value": "BBQ小野豬的心臟"
+    },
+    {
+     "id": "utub",
+     "type": 3,
+     "extras": [],
+     "value": "增加生命上限120點，並且提升每秒HP回復速度3點"
+    },
+    {
+     "id": "iabi",
+     "type": 3,
+     "extras": [],
+     "value": "A048,A02C"
+    },
+    {
+     "id": "ides",
+     "type": 3,
+     "extras": [],
+     "value": "增加生命上限120點，並且提升每秒HP回復速度3點"
+    },
+    {
+     "id": "iico",
+     "type": 3,
+     "extras": [],
+     "value": "ReplaceableTextures\\CommandButtons\\BTNPhilosophersStone.blp"
+    },
+    {
+     "id": "igol",
+     "type": 0,
+     "extras": [],
+     "value": 0
+    }
+   ]
+  },
+  {
+   "old_id": "ratf",
+   "new_id": "I02G",
+   "mods": [
+    {
+     "id": "unam",
+     "type": 3,
+     "extras": [],
+     "value": "BBQ野豬之爪"
+    },
+    {
+     "id": "utip",
+     "type": 3,
+     "extras": [],
+     "value": "BBQ小野豬的爪子"
+    },
+    {
+     "id": "ides",
+     "type": 3,
+     "extras": [],
+     "value": "拿在手上時增加30點傷害"
+    },
+    {
+     "id": "utub",
+     "type": 3,
+     "extras": [],
+     "value": "拿在手上時增加30點傷害"
+    },
+    {
+     "id": "iabi",
+     "type": 3,
+     "extras": [],
+     "value": "AItf,AItf"
+    },
+    {
+     "id": "igol",
+     "type": 0,
+     "extras": [],
+     "value": 0
+    }
+   ]
+  },
+  {
+   "old_id": "pghe",
+   "new_id": "I02H",
+   "mods": [
+    {
+     "id": "unam",
+     "type": 3,
+     "extras": [],
+     "value": "蟹肉"
+    },
+    {
+     "id": "utip",
+     "type": 3,
+     "extras": [],
+     "value": "螃蟹的肉"
+    },
+    {
+     "id": "utub",
+     "type": 3,
+     "extras": [],
+     "value": "回復HP25點"
+    },
+    {
+     "id": "iico",
+     "type": 3,
+     "extras": [],
+     "value": "ReplaceableTextures\\CommandButtons\\BTNSpinyCrab.blp"
+    },
+    {
+     "id": "ifil",
+     "type": 3,
+     "extras": [],
+     "value": "units\\critters\\SpiderCrab\\SpiderCrab.mdl"
+    },
+    {
+     "id": "iabi",
+     "type": 3,
+     "extras": [],
+     "value": "A04B"
+    },
+    {
+     "id": "igol",
+     "type": 0,
+     "extras": [],
+     "value": 0
+    }
+   ]
+  },
+  {
+   "old_id": "pghe",
+   "new_id": "I02I",
+   "mods": [
+    {
+     "id": "unam",
+     "type": 3,
+     "extras": [],
+     "value": "寄居蟹肉"
+    },
+    {
+     "id": "utip",
+     "type": 3,
+     "extras": [],
+     "value": "寄居蟹的肉"
+    },
+    {
+     "id": "utub",
+     "type": 3,
+     "extras": [],
+     "value": "回復HP25點"
+    },
+    {
+     "id": "iico",
+     "type": 3,
+     "extras": [],
+     "value": "ReplaceableTextures\\CommandButtons\\BTNHermitCrab.blp"
+    },
+    {
+     "id": "ifil",
+     "type": 3,
+     "extras": [],
+     "value": "units\\critters\\HermitCrab\\HermitCrab.mdl"
+    },
+    {
+     "id": "iabi",
+     "type": 3,
+     "extras": [],
+     "value": "A04B"
+    },
+    {
+     "id": "igol",
+     "type": 0,
+     "extras": [],
+     "value": 0
+    }
+   ]
+  },
+  {
+   "old_id": "desc",
+   "new_id": "I02J",
+   "mods": [
+    {
+     "id": "unam",
+     "type": 3,
+     "extras": [],
+     "value": "小鐵斧"
+    },
+    {
+     "id": "iico",
+     "type": 3,
+     "extras": [],
+     "value": "ReplaceableTextures\\CommandButtons\\BTNOrcMeleeUpOne.blp"
+    },
+    {
+     "id": "iabi",
+     "type": 3,
+     "extras": [],
+     "value": "AItj,A04R"
+    },
+    {
+     "id": "igol",
+     "type": 0,
+     "extras": [],
+     "value": 0
+    },
+    {
+     "id": "utip",
+     "type": 3,
+     "extras": [],
+     "value": "一把輕巧的鐵斧"
+    },
+    {
+     "id": "utub",
+     "type": 3,
+     "extras": [],
+     "value": "+5傷害，並且能直接砍倒一棵樹(60秒CD)"
+    },
+    {
+     "id": "ides",
+     "type": 3,
+     "extras": [],
+     "value": "+5傷害，並且能直接砍倒一棵樹(60秒CD)"
+    }
+   ]
+  }
+ ],
+ "remaining_bytes": 0,
+ "total_len": 37375
+}
