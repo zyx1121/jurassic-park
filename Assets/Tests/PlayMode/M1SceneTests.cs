@@ -213,6 +213,43 @@ namespace JurassicPark.Tests.PlayMode
         }
 
         [UnityTest]
+        public IEnumerator ASelectedGateIsToggledFromTheCardAndNeverGivenAWalkOrder()
+        {
+            yield return LoadScene();
+            var hud = Object.FindFirstObjectByType<HudOverlay>();
+            Entity worker = First("survivor", local: true);
+            Entity gate = session.Runtime.Spawner.Spawn("gate", session.Runtime.LocalSeat, new Cell(21, 15), out string problem);
+            Assert.That(gate, Is.Not.Null, problem);
+            yield return new WaitForSeconds(0.25f);
+            Assert.That(session.Model.TryGet(gate.Id, out EntitySnapshot gateOnScreen), Is.True);
+            Assert.That(SelectionController.IsOwnSelectable(session.Model, gateOnScreen), Is.True, "a click may select an own gate");
+
+            // Gate alone: the card toggles it; nothing can be built by it.
+            selection.Select(new List<EntityId> { gate.Id });
+            Assert.That(selection.BeginPlacing("wall"), Is.False, "a building is not a builder");
+            Assert.That(session.Runtime.Structures.IsGateOpen(gate.Id), Is.False);
+            Assert.That(hud.Press(HudAction.ToggleGate), Is.True, "the card offers Toggle gate for the selected gate");
+            yield return new WaitForSeconds(0.25f);
+            Assert.That(session.Runtime.Structures.IsGateOpen(gate.Id), Is.True, "the button went through the same path as a right click");
+
+            // Gate and worker together: orders and Stop reach the worker only.
+            selection.Select(new List<EntityId> { gate.Id, worker.Id });
+            Vector3 groundWorld = EntityViewRegistry.ToWorld(session.Runtime.Map.CenterOf(new Cell(15, 12)));
+            rtsCamera.LookAt(groundWorld);
+            yield return null;
+            OrderResolver.Order? order = selection.OrderAt(viewCamera.WorldToScreenPoint(groundWorld), queue: false);
+            Assert.That(order.HasValue && order.Value.Kind == CommandKind.Move, Is.True);
+            yield return new WaitForSeconds(0.3f);
+            Assert.That(session.Runtime.Tasks.CurrentOf(worker.Id), Is.Not.Null, "the worker walks");
+            Assert.That(session.Runtime.Tasks.CurrentOf(gate.Id), Is.Null, "the gate was not asked to walk");
+            Assert.That(selection.LastRejection, Is.EqualTo(CommandRejection.None), "nothing was refused");
+            selection.StopSelection();
+            yield return new WaitForSeconds(0.3f);
+            Assert.That(session.Runtime.Tasks.CurrentOf(worker.Id), Is.Null, "Stop reached the worker");
+            Assert.That(selection.LastRejection, Is.EqualTo(CommandRejection.None));
+        }
+
+        [UnityTest]
         public IEnumerator PressingBAndClickingACellPlacesAWallSiteThatShowsUpAsASite()
         {
             yield return LoadScene();

@@ -178,10 +178,10 @@ namespace JurassicPark.Presentation
             return order;
         }
 
-        /// <summary>Enters placement for a buildable catalog entry. Needs a selection: somebody has to build it.</summary>
+        /// <summary>Enters placement for a buildable catalog entry. Needs a selected unit: somebody has to build it, and a building cannot.</summary>
         public bool BeginPlacing(string definitionId)
         {
-            if (selection.Count == 0) return false;
+            if (SelectedUnits().Count == 0) return false;
             EntityCatalogAsset catalog = session.CatalogAsset;
             for (int i = 0; i < catalog.entries.Length; i++)
             {
@@ -203,11 +203,13 @@ namespace JurassicPark.Presentation
         /// <summary>Sends the Build order for the cell under the screen point. The authority answers whether the site is legal.</summary>
         public bool PlaceAt(Vector2 screenPoint, bool queue)
         {
-            if (PlacingIndex < 0 || selection.Count == 0 || !TryGroundPoint(screenPoint, out SimVector2 point)) return false;
+            if (PlacingIndex < 0 || !TryGroundPoint(screenPoint, out SimVector2 point)) return false;
+            IReadOnlyList<EntityId> builders = SelectedUnits();
+            if (builders.Count == 0) return false;
             Cell cell = CellOf(point);
             float size = session.Model.Map.CellSize;
             var anchorPoint = new SimVector2((cell.X + 0.5f) * size, (cell.Y + 0.5f) * size);
-            session.Commands.Send(CommandKind.Build, selection, anchorPoint, EntityId.None, queue ? CommandMode.Queue : CommandMode.Replace, PlacingIndex);
+            session.Commands.Send(CommandKind.Build, builders, anchorPoint, EntityId.None, queue ? CommandMode.Queue : CommandMode.Replace, PlacingIndex);
             if (!(Keyboard.current != null && Keyboard.current.shiftKey.isPressed)) CancelPlacing();
             return true;
         }

@@ -260,6 +260,20 @@ namespace JurassicPark.Presentation
         }
 
         /// <summary>Every button goes out the same way a key press or a click would, so the HUD adds no rules of its own.</summary>
+        /// <summary>Presses the first button with this action as a click on the card would. For tests, where IMGUI does not run.</summary>
+        public bool Press(HudAction action)
+        {
+            if (session == null || session.Model == null) return false;
+            Rebuild(session.Model);
+            for (int i = 0; i < buttons.Count; i++)
+            {
+                if (buttons[i].Action != action || !buttons[i].Enabled) continue;
+                Invoke(buttons[i]);
+                return true;
+            }
+            return false;
+        }
+
         private void Invoke(in HudButton button)
         {
             switch (button.Action)
