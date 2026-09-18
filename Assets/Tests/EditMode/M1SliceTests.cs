@@ -38,6 +38,9 @@ namespace JurassicPark.Tests.EditMode
             return new CommandSender(runtime.Router, runtime.LocalSeat, seat.ControllerEpoch);
         }
 
+        private static SimulationRuntime BuildWithMatch() => SimulationRuntime.Build(
+            Load<SimulationSettingsAsset>("Simulation"), Load<MapDefinitionAsset>("Map"), Load<EntityCatalogAsset>("Catalog"), Load<ScenarioAsset>("Scenario"), Load<MatchRulesAsset>("MatchRules"));
+
         private static SimulationRuntime Build() => SimulationRuntime.Build(
             Load<SimulationSettingsAsset>("Simulation"), Load<MapDefinitionAsset>("Map"), Load<EntityCatalogAsset>("Catalog"), Load<ScenarioAsset>("Scenario"));
 
@@ -186,6 +189,37 @@ namespace JurassicPark.Tests.EditMode
             for (int i = 0; i < 1200 && runtime.World.IsAlive(bait.Id); i++) runtime.World.Step();
 
             Assert.That(runtime.World.IsAlive(bait.Id), Is.False, "the bait was hunted down by a raptor acting on its own");
+            Assert.That(runtime.World.IsFaulted, Is.False);
+        }
+
+        [Test]
+        public void TheGeneratedMatchRulesAreTheOriginals()
+        {
+            var rules = Load<MatchRulesAsset>("MatchRules").ToRules();
+            Assert.That(rules.SelectionWindowSeconds, Is.EqualTo(20f));
+            Assert.That(rules.Modes.Select(m => m.SurvivalSeconds), Is.EqualTo(new[] { 1800f, 2700f, 3600f }));
+            Assert.That(rules.HelicopterWindowSeconds, Is.EqualTo(300f));
+            Assert.That((rules.StartTimeOfDay, rules.FreezeTimeOfDayAtEvacuation, rules.DayLengthSeconds), Is.EqualTo((17.5f, 3f, 480f)));
+            Assert.That(rules.SpawnTimers, Has.Count.EqualTo(31));
+            Assert.That(rules.DifficultyCount, Is.EqualTo(6));
+            var catalog = Load<EntityCatalogAsset>("Catalog");
+            foreach (SpawnTimerRule timer in rules.SpawnTimers)
+                foreach (var alternative in timer.Batch.Alternatives)
+                    foreach (var unit in alternative)
+                        Assert.That(catalog.TryGet(unit.Key, out _), Is.True, $"timer {timer.Id} spawns '{unit.Key}', which is not in the catalog");
+        }
+
+        [Test]
+        public void WithTheOriginalRulesTheMatchWaitsTwentySecondsThenTheTimersStartFilling()
+        {
+            SimulationRuntime runtime = BuildWithMatch();
+            Assert.That(runtime.Match.Phase, Is.EqualTo(MatchPhase.Setup));
+            for (int i = 0; i < 200; i++) runtime.World.Step();
+            Assert.That(runtime.Match.Phase, Is.EqualTo(MatchPhase.Survival));
+            Assert.That(runtime.Match.SecondsLeft, Is.EqualTo(1800).Within(0.01));
+            int before = runtime.World.Entities.Count(e => e.Owner == new SeatId(8));
+            for (int i = 0; i < 1200; i++) runtime.World.Step();
+            Assert.That(runtime.World.Entities.Count(e => e.Owner == new SeatId(8)), Is.GreaterThan(before), "within two minutes on normal difficulty the timers have spawned something");
             Assert.That(runtime.World.IsFaulted, Is.False);
         }
     }

@@ -1,10 +1,13 @@
 using System.Collections.Generic;
+using System;
+using System.Linq;
 using System.Text;
 using JurassicPark.Net;
 using JurassicPark.Presentation;
 using JurassicPark.Simulation;
 using Unity.Netcode;
 using Unity.Netcode.Transports.UTP;
+using Newtonsoft.Json.Linq;
 using UnityEditor;
 using UnityEditor.SceneManagement;
 using UnityEngine;
@@ -42,7 +45,7 @@ namespace JurassicPark.Editor
             var defaults = ScriptableObject.CreateInstance<SimulationSettingsAsset>();
             EditorUtility.CopySerialized(defaults, settings);
             settings.name = "Simulation";
-            Object.DestroyImmediate(defaults);
+            UnityEngine.Object.DestroyImmediate(defaults);
             var catalog = Asset<EntityCatalogAsset>($"{DataFolder}/Catalog.asset");
             catalog.entries = Catalog();
             var mapAsset = Asset<MapDefinitionAsset>($"{DataFolder}/Map.asset");
@@ -50,6 +53,8 @@ namespace JurassicPark.Editor
             IReadOnlyList<string> problems = map.Validate();
             if (problems.Count > 0) throw new System.InvalidOperationException("M1 map is invalid:\n- " + string.Join("\n- ", problems));
             mapAsset.SetFrom(map);
+            var matchRules = Asset<MatchRulesAsset>($"{DataFolder}/MatchRules.asset");
+            FillMatchRules(matchRules, "docs/original/match_flow.json");
             var scenario = Asset<ScenarioAsset>($"{DataFolder}/Scenario.asset");
             scenario.seats = new[]
             {
@@ -59,7 +64,7 @@ namespace JurassicPark.Editor
             };
             scenario.localSeat = 1;
             scenario.placements = Placements(trees, depotAnchor, redStarts, blueStarts, new[] { new Cell(44, 26), new Cell(45, 6) });
-            foreach (Object asset in new Object[] { settings, catalog, mapAsset, scenario }) EditorUtility.SetDirty(asset);
+            foreach (UnityEngine.Object asset in new UnityEngine.Object[] { settings, catalog, mapAsset, scenario, matchRules }) EditorUtility.SetDirty(asset);
 
             Material entityMaterial = MaterialAsset($"{MaterialFolder}/Entity.mat", "Universal Render Pipeline/Lit", Color.white, true);
             Material ringMaterial = MaterialAsset($"{MaterialFolder}/SelectionRing.mat", "Universal Render Pipeline/Unlit", new Color(0.45f, 1f, 0.55f), false);
@@ -68,7 +73,7 @@ namespace JurassicPark.Editor
             var sessionObject = new GameObject("Session");
             var session = sessionObject.AddComponent<GameSession>();
             // The launcher decides between playing alone, hosting and joining, so the session waits for it.
-            session.Configure(settings, mapAsset, catalog, scenario, beginOffline: false);
+            session.Configure(settings, mapAsset, catalog, scenario, beginOffline: false, matchRules);
 
             var terrainObject = new GameObject("Terrain");
             terrainObject.GetOrAdd<MeshFilter>();
@@ -140,6 +145,75 @@ namespace JurassicPark.Editor
             EditorUtility.SetDirty(pipeline);
         }
 
+        /// <summary>
+        /// Which of our definitions stands in for each original rawcode until #114 imports the real roster. "Wv" is the
+        /// difficulty-dependent raptor tier and maps to the raptor as well.
+        /// </summary>
+        private static readonly Dictionary<string, string> RawcodeStandIns = new Dictionary<string, string>
+        {
+            ["Wv"] = "raptor", ["o004"] = "raptor", ["o00N"] = "raptor", ["o00O"] = "raptor", ["o00P"] = "raptor", ["o00Q"] = "raptor", ["o008"] = "raptor",
+            ["o002"] = "dilophosaurus", ["o00Y"] = "dilophosaurus",
+            ["o006"] = "stegosaurus", ["o00B"] = "triceratops", ["o00C"] = "triceratops",
+            ["o000"] = "spinosaurus", ["o00J"] = "spinosaurus",
+            ["o001"] = "trex", ["o007"] = "trex", ["o00F"] = "trex", ["o00L"] = "trex", ["o013"] = "trex", ["o00Z"] = "trex",
+            ["o005"] = "pteranodon", ["o00G"] = "pteranodon", ["o00W"] = "pteranodon",
+            ["e001"] = "insects", ["e002"] = "insects",
+        };
+
+        /// <summary>Reads the original's match flow (docs/original/match_flow.json, extracted from the map script) into the asset.</summary>
+        private static void FillMatchRules(MatchRulesAsset asset, string jsonPath)
+        {
+            JObject root = JObject.Parse(System.IO.File.ReadAllText(jsonPath));
+            JObject match = (JObject)root["match"];
+            asset.selectionWindowSeconds = (float)match["selectionWindowSeconds"];
+            var modes = new List<MatchRulesAsset.Mode>();
+            foreach (JObject mode in match["modes"])
+                modes.Add(new MatchRulesAsset.Mode { id = (string)mode["id"], label = (string)mode["label"], survivalSeconds = (float)mode["survivalSeconds"] });
+            asset.modes = modes.ToArray();
+            asset.defaultModeIndex = modes.FindIndex(m => m.id == (string)match["defaultMode"]);
+            asset.helicopterWindowSeconds = (float)match["helicopterWindowSeconds"];
+            asset.startTimeOfDay = (float)match["startTimeOfDay"];
+            asset.freezeTimeOfDayAtEvacuation = (float)match["freezeTimeOfDayAtEvacuation"];
+            asset.dayLengthSeconds = (float)match["dayLengthSeconds"];
+            asset.difficultyCount = ((JArray)root["difficulties"]).Count;
+            asset.defaultDifficulty = 2;
+            var timers = new List<MatchRulesAsset.Timer>();
+            var rawcodes = new HashSet<string>();
+            foreach (JObject t in root["spawnTimers"])
+            {
+                JObject period = (JObject)t["periodSeconds"];
+                var timer = new MatchRulesAsset.Timer
+                {
+                    id = (string)t["id"],
+                    enabledAtSeconds = (float)t["enabledAtSeconds"],
+                    difficultyGate = t["difficultyGate"] is JArray gate ? gate.Select(g => (int)g).ToArray() : Array.Empty<int>(),
+                    periodMinSeconds = period["fixed"] != null ? (float)period["fixed"] : (float)period["min"],
+                    periodMaxSeconds = period["fixed"] != null ? (float)period["fixed"] : (float)period["max"],
+                };
+                // "a,b" is one group of several kinds; "a|b" is a roll between alternatives; counts follow the same shape.
+                string[] codeAlternatives = ((string)t["unitRawcode"]).Split('|');
+                string[] countAlternatives = ((string)t["count"]).Split('|');
+                var alternatives = new List<MatchRulesAsset.Alternative>();
+                for (int a = 0; a < codeAlternatives.Length; a++)
+                {
+                    string[] codes = codeAlternatives[a].Split(',');
+                    string[] counts = countAlternatives[Math.Min(a, countAlternatives.Length - 1)].Split(',');
+                    var units = new List<MatchRulesAsset.UnitCount>();
+                    for (int u = 0; u < codes.Length; u++)
+                    {
+                        string code = codes[u].Trim();
+                        rawcodes.Add(code);
+                        units.Add(new MatchRulesAsset.UnitCount { definitionId = RawcodeStandIns.TryGetValue(code, out string def) ? def : "raptor", count = int.Parse(counts[Math.Min(u, counts.Length - 1)].Trim()) });
+                    }
+                    alternatives.Add(new MatchRulesAsset.Alternative { units = units.ToArray() });
+                }
+                timer.alternatives = alternatives.ToArray();
+                timers.Add(timer);
+            }
+            asset.timers = timers.ToArray();
+            asset.rawcodes = rawcodes.OrderBy(c => c).Select(c => new MatchRulesAsset.RawcodeMapping { rawcode = c, definitionId = RawcodeStandIns.TryGetValue(c, out string def) ? def : "raptor" }).ToArray();
+        }
+
         private static T GetOrAdd<T>(this GameObject gameObject) where T : Component =>
             gameObject.TryGetComponent(out T existing) ? existing : gameObject.AddComponent<T>();
 
@@ -159,6 +233,22 @@ namespace JurassicPark.Editor
                 shape = PlaceholderShape.Cylinder, color = new Color(0.17f, 0.35f, 0.31f), size = new Vector3(1.3f, 1.7f, 1.3f) },
             new EntityCatalogAsset.Entry { id = "raptor", kind = EntityKind.Unit, moveSpeed = 6f, maxHealth = 120, attackDamage = 12, attackSeconds = 0.8f, perceptionRadius = 28f, canBreach = true,
                 shape = PlaceholderShape.Capsule, color = new Color(0.45f, 0.62f, 0.30f), size = new Vector3(1.1f, 0.7f, 1.1f) },
+            new EntityCatalogAsset.Entry { id = "dilophosaurus", kind = EntityKind.Unit, moveSpeed = 5f, maxHealth = 90, attackDamage = 9, attackSeconds = 0.9f, perceptionRadius = 24f, canBreach = true,
+                shape = PlaceholderShape.Capsule, color = new Color(0.55f, 0.55f, 0.25f), size = new Vector3(1f, 0.65f, 1f) },
+            new EntityCatalogAsset.Entry { id = "stegosaurus", kind = EntityKind.Unit, moveSpeed = 3f, maxHealth = 260, attackDamage = 18, attackSeconds = 1.6f, perceptionRadius = 16f, canBreach = true,
+                shape = PlaceholderShape.Capsule, color = new Color(0.40f, 0.35f, 0.22f), size = new Vector3(1.6f, 0.9f, 1.6f) },
+            new EntityCatalogAsset.Entry { id = "triceratops", kind = EntityKind.Unit, moveSpeed = 3.5f, maxHealth = 320, attackDamage = 22, attackSeconds = 1.5f, perceptionRadius = 18f, canBreach = true,
+                shape = PlaceholderShape.Capsule, color = new Color(0.50f, 0.42f, 0.30f), size = new Vector3(1.7f, 0.95f, 1.7f) },
+            new EntityCatalogAsset.Entry { id = "spinosaurus", kind = EntityKind.Unit, moveSpeed = 4.5f, maxHealth = 420, attackDamage = 30, attackSeconds = 1.2f, perceptionRadius = 30f, canBreach = true,
+                shape = PlaceholderShape.Capsule, color = new Color(0.35f, 0.45f, 0.40f), size = new Vector3(1.8f, 1.2f, 1.8f) },
+            new EntityCatalogAsset.Entry { id = "trex", kind = EntityKind.Unit, moveSpeed = 5f, maxHealth = 600, attackDamage = 45, attackSeconds = 1.4f, perceptionRadius = 34f, canBreach = true,
+                shape = PlaceholderShape.Capsule, color = new Color(0.45f, 0.30f, 0.22f), size = new Vector3(2.2f, 1.5f, 2.2f) },
+            new EntityCatalogAsset.Entry { id = "pteranodon", kind = EntityKind.Unit, moveSpeed = 7f, maxHealth = 70, attackDamage = 8, attackSeconds = 0.7f, perceptionRadius = 30f, canBreach = false,
+                shape = PlaceholderShape.Sphere, color = new Color(0.55f, 0.50f, 0.60f), size = new Vector3(1.4f, 0.6f, 1.4f) },
+            new EntityCatalogAsset.Entry { id = "insects", kind = EntityKind.Unit, moveSpeed = 6f, maxHealth = 12, attackDamage = 2, attackSeconds = 0.5f, perceptionRadius = 14f, canBreach = false,
+                shape = PlaceholderShape.Sphere, color = new Color(0.25f, 0.25f, 0.25f), size = new Vector3(0.5f, 0.3f, 0.5f) },
+            new EntityCatalogAsset.Entry { id = "helicopter", kind = EntityKind.Building, footprintWidth = 2, footprintHeight = 2,
+                shape = PlaceholderShape.Box, color = new Color(0.85f, 0.85f, 0.90f), size = new Vector3(4.5f, 2.4f, 4.5f) },
             new EntityCatalogAsset.Entry { id = "pile", kind = EntityKind.GroundPile,
                 shape = PlaceholderShape.Sphere, color = new Color(0.81f, 0.66f, 0.47f), size = new Vector3(0.9f, 0.5f, 0.9f) },
         };

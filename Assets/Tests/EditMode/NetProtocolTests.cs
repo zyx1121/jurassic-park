@@ -121,6 +121,17 @@ namespace JurassicPark.Tests.EditMode
             }
         }
 
+        [Test]
+        public void TheMatchStateSurvivesTheWire()
+        {
+            var sent = new MatchSnapshot { Phase = MatchPhase.Evacuation, SecondsLeft = 123.5f, TimeOfDay = 3f, ModeIndex = 1, Difficulty = 5, BoardedByLocal = 2, LocalOutcome = SeatOutcome.Won, Helicopter = new EntityId(77) };
+            using FastBufferWriter writer = NetMessages.WriteMatch(sent);
+            FastBufferReader reader = ReaderOf(writer);
+            Assert.That(NetMessages.TryReadMatch(ref reader, out MatchSnapshot got), Is.True);
+            reader.Dispose();
+            Assert.That(got, Is.EqualTo(sent));
+        }
+
         // ---------------- seat binding ----------------
 
         private static (World world, SeatRegistry seats, SeatBinder binder) Binding()

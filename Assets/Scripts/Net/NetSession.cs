@@ -69,6 +69,7 @@ namespace JurassicPark.Net
             // A host whose simulation stopped lets its clients go, so they see a message instead of a frozen screen.
             session.Failed += OnHostFailed;
             session.SnapshotCaptured += BroadcastSnapshot;
+            session.SnapshotCaptured += SendMatchToEach;
             session.SeatsChanged += BroadcastSeats;
             return true;
         }
@@ -124,6 +125,18 @@ namespace JurassicPark.Net
                 network.CustomMessagingManager.SendNamedMessage(NetMessages.Snapshot, remoteClients, writer, NetworkDelivery.ReliableFragmentedSequenced);
         }
 
+        /// <summary>Each client gets the match as its own seat sees it: boarded count and outcome are per seat.</summary>
+        private void SendMatchToEach(long tick, IReadOnlyList<EntitySnapshot> entities)
+        {
+            if (session.Runtime.Match == null) return;
+            for (int i = 0; i < remoteClients.Count; i++)
+            {
+                if (!binder.TryGetSeat(remoteClients[i], out SeatId seat)) continue;
+                using (FastBufferWriter writer = NetMessages.WriteMatch(SnapshotCapture.Match(session.Runtime, seat)))
+                    network.CustomMessagingManager.SendNamedMessage(NetMessages.Match, remoteClients[i], writer, NetworkDelivery.ReliableSequenced);
+            }
+        }
+
         private void BroadcastSeats(IReadOnlyList<SeatSnapshot> seats)
         {
             if (remoteClients.Count == 0) return;
@@ -152,6 +165,7 @@ namespace JurassicPark.Net
             messages.RegisterNamedMessageHandler(NetMessages.Snapshot, OnSnapshot);
             messages.RegisterNamedMessageHandler(NetMessages.Seats, OnSeats);
             messages.RegisterNamedMessageHandler(NetMessages.Answer, OnAnswer);
+            messages.RegisterNamedMessageHandler(NetMessages.Match, OnMatch);
             messages.RegisterNamedMessageHandler(NetMessages.MatchFull, OnMatchFull);
             return true;
         }
@@ -202,6 +216,11 @@ namespace JurassicPark.Net
             if (NetMessages.TryReadSeats(ref reader, receivedSeats)) session.ApplyRemoteSeats(receivedSeats);
         }
 
+        private void OnMatch(ulong sender, FastBufferReader reader)
+        {
+            if (NetMessages.TryReadMatch(ref reader, out MatchSnapshot match)) session.ApplyRemoteMatch(match);
+        }
+
         private void OnAnswer(ulong sender, FastBufferReader reader)
         {
             if (NetMessages.TryReadAnswer(ref reader, out CommandResolved answer)) session.ObserveAnswer(answer);
@@ -227,6 +246,7 @@ namespace JurassicPark.Net
                 if (host != null) session.EventsDrained -= host.RouteAnswers;
                 session.Failed -= OnHostFailed;
                 session.SnapshotCaptured -= BroadcastSnapshot;
+                session.SnapshotCaptured -= SendMatchToEach;
                 session.SeatsChanged -= BroadcastSeats;
             }
             if (running && network.IsListening) network.Shutdown();

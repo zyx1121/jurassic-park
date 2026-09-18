@@ -1,0 +1,391 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6135c7d9ceb714ff38741750443d6e29, type: 3}
+  m_Name: MatchRules
+  m_EditorClassIdentifier: JurassicPark.Presentation::JurassicPark.Presentation.MatchRulesAsset
+  selectionWindowSeconds: 20
+  modes:
+  - id: A
+    label: "30\u5206\u9418 (\u666E\u901A\u96E3\u5EA6)"
+    survivalSeconds: 1800
+  - id: B
+    label: "45\u5206\u9418 (\u6B63\u5E38\u96E3\u5EA6)"
+    survivalSeconds: 2700
+  - id: C
+    label: "60\u5206\u9418 (\u56F0\u96E3\u96E3\u5EA6)"
+    survivalSeconds: 3600
+  defaultModeIndex: 0
+  difficultyCount: 6
+  defaultDifficulty: 2
+  helicopterWindowSeconds: 300
+  startTimeOfDay: 17.5
+  freezeTimeOfDayAtEvacuation: 3
+  dayLengthSeconds: 480
+  nightStartsAt: 18
+  nightEndsAt: 6
+  helicopterDefinitionId: helicopter
+  dinosaurSeat: 8
+  timers:
+  - id: vV
+    enabledAtSeconds: 600
+    difficultyGate: 0200000003000000040000000500000006000000
+    periodMinSeconds: 90
+    periodMaxSeconds: 100
+    alternatives:
+    - units:
+      - definitionId: insects
+        count: 2
+      - definitionId: insects
+        count: 2
+  - id: eV
+    enabledAtSeconds: 1500
+    difficultyGate: 
+    periodMinSeconds: 750
+    periodMaxSeconds: 750
+    alternatives:
+    - units:
+      - definitionId: spinosaurus
+        count: 2
+  - id: xV
+    enabledAtSeconds: 2700
+    difficultyGate: 06000000
+    periodMinSeconds: 300
+    periodMaxSeconds: 350
+    alternatives:
+    - units:
+      - definitionId: spinosaurus
+        count: 3
+  - id: oV
+    enabledAtSeconds: 2300
+    difficultyGate: 
+    periodMinSeconds: 160
+    periodMaxSeconds: 160
+    alternatives:
+    - units:
+      - definitionId: trex
+        count: 2
+    - units:
+      - definitionId: trex
+        count: 2
+      - definitionId: trex
+        count: 1
+  - id: rV
+    enabledAtSeconds: 2900
+    difficultyGate: 0500000006000000
+    periodMinSeconds: 200
+    periodMaxSeconds: 200
+    alternatives:
+    - units:
+      - definitionId: trex
+        count: 1
+    - units:
+      - definitionId: trex
+        count: 1
+  - id: iV
+    enabledAtSeconds: 2050
+    difficultyGate: 
+    periodMinSeconds: 120
+    periodMaxSeconds: 130
+    alternatives:
+    - units:
+      - definitionId: spinosaurus
+        count: 1
+  - id: aV
+    enabledAtSeconds: 1800
+    difficultyGate: 
+    periodMinSeconds: 40
+    periodMaxSeconds: 45
+    alternatives:
+    - units:
+      - definitionId: pteranodon
+        count: 1
+  - id: nV
+    enabledAtSeconds: 1800
+    difficultyGate: 
+    periodMinSeconds: 200
+    periodMaxSeconds: 250
+    alternatives:
+    - units:
+      - definitionId: raptor
+        count: 1
+      - definitionId: raptor
+        count: 6
+  - id: VV
+    enabledAtSeconds: 0
+    difficultyGate: 01000000
+    periodMinSeconds: 190
+    periodMaxSeconds: 190
+    alternatives:
+    - units:
+      - definitionId: trex
+        count: 1
+      - definitionId: trex
+        count: 1
+  - id: EV
+    enabledAtSeconds: 0
+    difficultyGate: 020000000300000004000000
+    periodMinSeconds: 160
+    periodMaxSeconds: 160
+    alternatives:
+    - units:
+      - definitionId: trex
+        count: 2
+      - definitionId: trex
+        count: 1
+  - id: XV
+    enabledAtSeconds: 0
+    difficultyGate: 0500000006000000
+    periodMinSeconds: 170
+    periodMaxSeconds: 170
+    alternatives:
+    - units:
+      - definitionId: trex
+        count: 3
+      - definitionId: trex
+        count: 1
+  - id: OV
+    enabledAtSeconds: 0
+    difficultyGate: 010000000200000003000000
+    periodMinSeconds: 310
+    periodMaxSeconds: 310
+    alternatives:
+    - units:
+      - definitionId: triceratops
+        count: 1
+  - id: RV
+    enabledAtSeconds: 0
+    difficultyGate: 040000000500000006000000
+    periodMinSeconds: 310
+    periodMaxSeconds: 310
+    alternatives:
+    - units:
+      - definitionId: triceratops
+        count: 2
+  - id: IV
+    enabledAtSeconds: 0
+    difficultyGate: 0100000002000000
+    periodMinSeconds: 310
+    periodMaxSeconds: 310
+    alternatives:
+    - units:
+      - definitionId: triceratops
+        count: 1
+  - id: AV
+    enabledAtSeconds: 0
+    difficultyGate: 03000000040000000500000006000000
+    periodMinSeconds: 310
+    periodMaxSeconds: 310
+    alternatives:
+    - units:
+      - definitionId: triceratops
+        count: 2
+  - id: NV
+    enabledAtSeconds: 0
+    difficultyGate: 0100000002000000
+    periodMinSeconds: 160
+    periodMaxSeconds: 160
+    alternatives:
+    - units:
+      - definitionId: spinosaurus
+        count: 1
+  - id: bV
+    enabledAtSeconds: 1200
+    difficultyGate: 
+    periodMinSeconds: 150
+    periodMaxSeconds: 150
+    alternatives:
+    - units:
+      - definitionId: spinosaurus
+        count: 1
+  - id: BV
+    enabledAtSeconds: 0
+    difficultyGate: 03000000040000000500000006000000
+    periodMinSeconds: 160
+    periodMaxSeconds: 160
+    alternatives:
+    - units:
+      - definitionId: spinosaurus
+        count: 2
+  - id: cV
+    enabledAtSeconds: 0
+    difficultyGate: 0100000002000000
+    periodMinSeconds: 70
+    periodMaxSeconds: 80
+    alternatives:
+    - units:
+      - definitionId: raptor
+        count: 1
+      - definitionId: raptor
+        count: 1
+  - id: CV
+    enabledAtSeconds: 0
+    difficultyGate: 020000000300000004000000
+    periodMinSeconds: 70
+    periodMaxSeconds: 90
+    alternatives:
+    - units:
+      - definitionId: raptor
+        count: 2
+      - definitionId: raptor
+        count: 1
+  - id: dV
+    enabledAtSeconds: 0
+    difficultyGate: 0500000006000000
+    periodMinSeconds: 90
+    periodMaxSeconds: 110
+    alternatives:
+    - units:
+      - definitionId: raptor
+        count: 3
+      - definitionId: raptor
+        count: 1
+  - id: DV
+    enabledAtSeconds: 1050
+    difficultyGate: 
+    periodMinSeconds: 250
+    periodMaxSeconds: 275
+    alternatives:
+    - units:
+      - definitionId: raptor
+        count: 1
+      - definitionId: raptor
+        count: 1
+  - id: fV
+    enabledAtSeconds: 0
+    difficultyGate: 010000000200000003000000
+    periodMinSeconds: 35
+    periodMaxSeconds: 50
+    alternatives:
+    - units:
+      - definitionId: dilophosaurus
+        count: 1
+  - id: FV
+    enabledAtSeconds: 1350
+    difficultyGate: 
+    periodMinSeconds: 200
+    periodMaxSeconds: 210
+    alternatives:
+    - units:
+      - definitionId: dilophosaurus
+        count: 1
+  - id: gV
+    enabledAtSeconds: 600
+    difficultyGate: 0500000006000000
+    periodMinSeconds: 150
+    periodMaxSeconds: 340
+    alternatives:
+    - units:
+      - definitionId: dilophosaurus
+        count: 2
+  - id: GV
+    enabledAtSeconds: 0
+    difficultyGate: 040000000500000006000000
+    periodMinSeconds: 45
+    periodMaxSeconds: 50
+    alternatives:
+    - units:
+      - definitionId: dilophosaurus
+        count: 2
+  - id: hV
+    enabledAtSeconds: 0
+    difficultyGate: 0100000002000000
+    periodMinSeconds: 35
+    periodMaxSeconds: 50
+    alternatives:
+    - units:
+      - definitionId: pteranodon
+        count: 1
+      - definitionId: pteranodon
+        count: 1
+  - id: HV
+    enabledAtSeconds: 1200
+    difficultyGate: 05000000
+    periodMinSeconds: 100
+    periodMaxSeconds: 200
+    alternatives:
+    - units:
+      - definitionId: pteranodon
+        count: 1
+      - definitionId: pteranodon
+        count: 1
+  - id: jV
+    enabledAtSeconds: 1200
+    difficultyGate: 06000000
+    periodMinSeconds: 100
+    periodMaxSeconds: 200
+    alternatives:
+    - units:
+      - definitionId: pteranodon
+        count: 1
+      - definitionId: pteranodon
+        count: 3
+  - id: JV
+    enabledAtSeconds: 0
+    difficultyGate: 01000000020000000300000004000000
+    periodMinSeconds: 30
+    periodMaxSeconds: 45
+    alternatives:
+    - units:
+      - definitionId: stegosaurus
+        count: 1
+  - id: kV
+    enabledAtSeconds: 0
+    difficultyGate: 0500000006000000
+    periodMinSeconds: 30
+    periodMaxSeconds: 45
+    alternatives:
+    - units:
+      - definitionId: stegosaurus
+        count: 2
+  rawcodes:
+  - rawcode: e001
+    definitionId: insects
+  - rawcode: e002
+    definitionId: insects
+  - rawcode: o000
+    definitionId: spinosaurus
+  - rawcode: o001
+    definitionId: trex
+  - rawcode: o002
+    definitionId: dilophosaurus
+  - rawcode: o004
+    definitionId: raptor
+  - rawcode: o005
+    definitionId: pteranodon
+  - rawcode: o006
+    definitionId: stegosaurus
+  - rawcode: o007
+    definitionId: trex
+  - rawcode: o008
+    definitionId: raptor
+  - rawcode: o00B
+    definitionId: triceratops
+  - rawcode: o00C
+    definitionId: triceratops
+  - rawcode: o00F
+    definitionId: trex
+  - rawcode: o00G
+    definitionId: pteranodon
+  - rawcode: o00J
+    definitionId: spinosaurus
+  - rawcode: o00L
+    definitionId: trex
+  - rawcode: o00W
+    definitionId: pteranodon
+  - rawcode: o00Y
+    definitionId: dilophosaurus
+  - rawcode: o00Z
+    definitionId: trex
+  - rawcode: o013
+    definitionId: trex
+  - rawcode: Wv
+    definitionId: raptor

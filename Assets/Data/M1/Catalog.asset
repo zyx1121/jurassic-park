@@ -155,6 +155,190 @@ MonoBehaviour:
     shape: 0
     color: {r: 0.45, g: 0.62, b: 0.3, a: 1}
     size: {x: 1.1, y: 0.7, z: 1.1}
+  - id: dilophosaurus
+    kind: 1
+    moveSpeed: 5
+    storageCapacity: 0
+    isDepot: 0
+    gatherSecondsPerUnit: 0
+    nodeResource: 
+    nodeAmount: 0
+    blocks: 0
+    footprintWidth: 1
+    footprintHeight: 1
+    destructible: 1
+    maxHealth: 90
+    attackDamage: 9
+    attackSeconds: 0.9
+    perceptionRadius: 24
+    canBreach: 1
+    buildCost: []
+    buildWorkSeconds: 0
+    isGate: 0
+    shape: 0
+    color: {r: 0.55, g: 0.55, b: 0.25, a: 1}
+    size: {x: 1, y: 0.65, z: 1}
+  - id: stegosaurus
+    kind: 1
+    moveSpeed: 3
+    storageCapacity: 0
+    isDepot: 0
+    gatherSecondsPerUnit: 0
+    nodeResource: 
+    nodeAmount: 0
+    blocks: 0
+    footprintWidth: 1
+    footprintHeight: 1
+    destructible: 1
+    maxHealth: 260
+    attackDamage: 18
+    attackSeconds: 1.6
+    perceptionRadius: 16
+    canBreach: 1
+    buildCost: []
+    buildWorkSeconds: 0
+    isGate: 0
+    shape: 0
+    color: {r: 0.4, g: 0.35, b: 0.22, a: 1}
+    size: {x: 1.6, y: 0.9, z: 1.6}
+  - id: triceratops
+    kind: 1
+    moveSpeed: 3.5
+    storageCapacity: 0
+    isDepot: 0
+    gatherSecondsPerUnit: 0
+    nodeResource: 
+    nodeAmount: 0
+    blocks: 0
+    footprintWidth: 1
+    footprintHeight: 1
+    destructible: 1
+    maxHealth: 320
+    attackDamage: 22
+    attackSeconds: 1.5
+    perceptionRadius: 18
+    canBreach: 1
+    buildCost: []
+    buildWorkSeconds: 0
+    isGate: 0
+    shape: 0
+    color: {r: 0.5, g: 0.42, b: 0.3, a: 1}
+    size: {x: 1.7, y: 0.95, z: 1.7}
+  - id: spinosaurus
+    kind: 1
+    moveSpeed: 4.5
+    storageCapacity: 0
+    isDepot: 0
+    gatherSecondsPerUnit: 0
+    nodeResource: 
+    nodeAmount: 0
+    blocks: 0
+    footprintWidth: 1
+    footprintHeight: 1
+    destructible: 1
+    maxHealth: 420
+    attackDamage: 30
+    attackSeconds: 1.2
+    perceptionRadius: 30
+    canBreach: 1
+    buildCost: []
+    buildWorkSeconds: 0
+    isGate: 0
+    shape: 0
+    color: {r: 0.35, g: 0.45, b: 0.4, a: 1}
+    size: {x: 1.8, y: 1.2, z: 1.8}
+  - id: trex
+    kind: 1
+    moveSpeed: 5
+    storageCapacity: 0
+    isDepot: 0
+    gatherSecondsPerUnit: 0
+    nodeResource: 
+    nodeAmount: 0
+    blocks: 0
+    footprintWidth: 1
+    footprintHeight: 1
+    destructible: 1
+    maxHealth: 600
+    attackDamage: 45
+    attackSeconds: 1.4
+    perceptionRadius: 34
+    canBreach: 1
+    buildCost: []
+    buildWorkSeconds: 0
+    isGate: 0
+    shape: 0
+    color: {r: 0.45, g: 0.3, b: 0.22, a: 1}
+    size: {x: 2.2, y: 1.5, z: 2.2}
+  - id: pteranodon
+    kind: 1
+    moveSpeed: 7
+    storageCapacity: 0
+    isDepot: 0
+    gatherSecondsPerUnit: 0
+    nodeResource: 
+    nodeAmount: 0
+    blocks: 0
+    footprintWidth: 1
+    footprintHeight: 1
+    destructible: 1
+    maxHealth: 70
+    attackDamage: 8
+    attackSeconds: 0.7
+    perceptionRadius: 30
+    canBreach: 0
+    buildCost: []
+    buildWorkSeconds: 0
+    isGate: 0
+    shape: 3
+    color: {r: 0.55, g: 0.5, b: 0.6, a: 1}
+    size: {x: 1.4, y: 0.6, z: 1.4}
+  - id: insects
+    kind: 1
+    moveSpeed: 6
+    storageCapacity: 0
+    isDepot: 0
+    gatherSecondsPerUnit: 0
+    nodeResource: 
+    nodeAmount: 0
+    blocks: 0
+    footprintWidth: 1
+    footprintHeight: 1
+    destructible: 1
+    maxHealth: 12
+    attackDamage: 2
+    attackSeconds: 0.5
+    perceptionRadius: 14
+    canBreach: 0
+    buildCost: []
+    buildWorkSeconds: 0
+    isGate: 0
+    shape: 3
+    color: {r: 0.25, g: 0.25, b: 0.25, a: 1}
+    size: {x: 0.5, y: 0.3, z: 0.5}
+  - id: helicopter
+    kind: 2
+    moveSpeed: 0
+    storageCapacity: 0
+    isDepot: 0
+    gatherSecondsPerUnit: 0
+    nodeResource: 
+    nodeAmount: 0
+    blocks: 0
+    footprintWidth: 2
+    footprintHeight: 2
+    destructible: 1
+    maxHealth: 0
+    attackDamage: 0
+    attackSeconds: 1
+    perceptionRadius: 0
+    canBreach: 0
+    buildCost: []
+    buildWorkSeconds: 0
+    isGate: 0
+    shape: 1
+    color: {r: 0.85, g: 0.85, b: 0.9, a: 1}
+    size: {x: 4.5, y: 2.4, z: 4.5}
   - id: pile
     kind: 4
     moveSpeed: 0

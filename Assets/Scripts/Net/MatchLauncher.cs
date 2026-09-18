@@ -19,6 +19,8 @@ namespace JurassicPark.Net
         [SerializeField] private ushort defaultPort = 7777;
 
         private string address = "127.0.0.1";
+        private int chosenMode;
+        private int chosenDifficulty = 2;
         private bool demoGather;
         private bool demoSent;
         private float nextStatusAt;
@@ -66,13 +68,38 @@ namespace JurassicPark.Net
             Debug.Log($"[MatchLauncher] demo: {own.Count} unit(s) of {session.Model.LocalSeat} ordered to gather {tree}");
         }
 
+        /// <summary>The original gives the first player a short window to choose length and difficulty. Any playable seat with a unit may choose; the first choice wins.</summary>
+        private void DrawSetupChoice()
+        {
+            MatchReadModel model = session.Model;
+            GUILayout.BeginArea(new Rect(Screen.width * 0.5f - 200f, Screen.height * 0.5f - 110f, 400f, 220f), GUI.skin.box);
+            GUILayout.Label($"Choose the match  ({(int)model.Match.SecondsLeft} s, then the defaults apply)");
+            GUILayout.BeginHorizontal();
+            for (int i = 0; i < 3; i++)
+                if (GUILayout.Toggle(chosenMode == i, i == 0 ? "30 min" : i == 1 ? "45 min" : "60 min", GUI.skin.button)) chosenMode = i;
+            GUILayout.EndHorizontal();
+            GUILayout.BeginHorizontal();
+            string[] names = { "Easy", "Normal", "Medium", "Hard", "Jurassic", "Jurassic II" };
+            for (int i = 1; i <= 6; i++)
+                if (GUILayout.Toggle(chosenDifficulty == i, names[i - 1], GUI.skin.button)) chosenDifficulty = i;
+            GUILayout.EndHorizontal();
+            if (GUILayout.Button("Start"))
+            {
+                var own = new List<EntityId>();
+                foreach (EntitySnapshot entity in model.Entities)
+                    if (entity.Kind == EntityKind.Unit && entity.Owner == model.LocalSeat) { own.Add(entity.Id); break; }
+                if (own.Count > 0) session.Commands.Send(CommandKind.ChooseMatch, own, argument: chosenMode * 10 + chosenDifficulty);
+            }
+            GUILayout.EndArea();
+        }
+
         /// <summary>Headless runs have no screen, so they say what the screen would show: enough to check a two-process match from its logs.</summary>
         private void LogStatus()
         {
             nextStatusAt = Time.unscaledTime + 5f;
             MatchReadModel model = session.Model;
             var line = new System.Text.StringBuilder();
-            line.Append("[Status] ").Append(session.Role).Append(" seat=").Append(model.LocalSeat.Value).Append(" tick=").Append(model.Tick)
+            line.Append("[Status] ").Append(session.Role).Append(" seat=").Append(model.LocalSeat.Value).Append(" tick=").Append(model.Tick).Append(' ').Append(model.Match.Phase).Append(' ').Append((int)model.Match.SecondsLeft).Append("s ").Append(model.Match.TimeOfDay.ToString("0.0")).Append('h')
                 .Append(" entities=").Append(model.Entities.Count).Append(" remoteClients=").Append(net.RemoteClientCount).Append(" snapshots=").Append(net.SnapshotsReceived);
             foreach (SeatSnapshot seat in model.Seats) line.Append(" seat").Append(seat.Id.Value).Append('=').Append(seat.Controller);
             foreach (EntitySnapshot entity in model.Entities)
