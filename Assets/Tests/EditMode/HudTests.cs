@@ -189,6 +189,33 @@ namespace JurassicPark.Tests.EditMode
         }
 
         [Test]
+        public void AClickMaySelectAnOwnGateSoTheCardCanOfferToToggleIt()
+        {
+            EntityId gate = Add("gate", Red, tweak: (ref EntitySnapshot s) => s.GateOpen = false);
+            EntityId alliedGate = Add("gate", Blue);
+            EntityId lostGate = Add("gate", Red, tweak: (ref EntitySnapshot s) => s.Remembered = true);
+            EntityId tree = Add("tree", SeatId.None, tweak: (ref EntitySnapshot s) => s.NodeRemaining = 40);
+            EntityId worker = Add("survivor", Red);
+            Apply();
+            model.TryGet(gate, out EntitySnapshot gateSnapshot);
+            model.TryGet(alliedGate, out EntitySnapshot alliedSnapshot);
+            model.TryGet(lostGate, out EntitySnapshot lostSnapshot);
+            model.TryGet(tree, out EntitySnapshot treeSnapshot);
+            model.TryGet(worker, out EntitySnapshot workerSnapshot);
+
+            // The same predicate a click uses: own units and own standing buildings only.
+            Assert.That(SelectionController.IsOwnSelectable(model, gateSnapshot), Is.True);
+            Assert.That(SelectionController.IsOwnSelectable(model, workerSnapshot), Is.True);
+            Assert.That(SelectionController.IsOwnSelectable(model, alliedSnapshot), Is.False, "a team mate's gate is usable, not selectable");
+            Assert.That(SelectionController.IsOwnSelectable(model, lostSnapshot), Is.False, "a memory cannot be selected");
+            Assert.That(SelectionController.IsOwnSelectable(model, treeSnapshot), Is.False);
+
+            var buttons = new List<HudButton>();
+            CommandCard.Build(model, new[] { gate }, -1, buttons, new StringBuilder());
+            Assert.That(buttons.Single(b => b.Action == HudAction.ToggleGate).Enabled, Is.True, "what a click selects, the card can toggle");
+        }
+
+        [Test]
         public void AnOwnGateOffersToggleGateAndATreeOffersNothing()
         {
             EntityId gate = Add("gate", Red, tweak: (ref EntitySnapshot s) => s.GateOpen = false);

@@ -105,7 +105,7 @@ namespace JurassicPark.Presentation
                 if (keyboard.escapeKey.wasPressedThisFrame) CancelPlacing();
                 if (keyboard.bKey.wasPressedThisFrame) BeginPlacing("wall");
                 if (keyboard.gKey.wasPressedThisFrame) BeginPlacing("gate");
-                if (keyboard.deleteKey.wasPressedThisFrame || keyboard.backspaceKey.wasPressedThisFrame) DemolishAt(cursor);
+                if ((keyboard.deleteKey.wasPressedThisFrame || keyboard.backspaceKey.wasPressedThisFrame) && !overHud) DemolishAt(cursor);
             }
             if (PlacingIndex >= 0)
             {
@@ -146,7 +146,8 @@ namespace JurassicPark.Presentation
         public void ClickSelect(Vector2 screenPoint, bool additive)
         {
             scratch.Clear();
-            if (TryPickAt(screenPoint, IsOwnUnit, out EntitySnapshot picked)) scratch.Add(picked.Id);
+            // A click picks own units and own buildings (a gate, to toggle it); a box picks units only, as in the original.
+            if (TryPickAt(screenPoint, IsOwnSelectable, out EntitySnapshot picked)) scratch.Add(picked.Id);
             Apply(additive);
         }
 
@@ -167,11 +168,13 @@ namespace JurassicPark.Presentation
         /// <summary>Orders the selection at a screen point. Returns the order sent, or null when there was nothing to order or nowhere to order it.</summary>
         public OrderResolver.Order? OrderAt(Vector2 screenPoint, bool queue)
         {
-            if (selection.Count == 0 || !TryGroundPoint(screenPoint, out SimVector2 point)) return null;
+            if (!TryGroundPoint(screenPoint, out SimVector2 point)) return null;
+            IReadOnlyList<EntityId> actors = SelectedUnits();
+            if (actors.Count == 0) return null;
             // Units are not order targets yet, so a friendly standing on the spot never swallows a move order.
             EntitySnapshot? target = TryPickAt(screenPoint, IsNotAUnit, out EntitySnapshot picked) ? picked : (EntitySnapshot?)null;
-            OrderResolver.Order order = OrderResolver.Resolve(session.Model, selection, target, point);
-            session.Commands.Send(order.Kind, selection, order.Point, order.Target, queue ? CommandMode.Queue : CommandMode.Replace);
+            OrderResolver.Order order = OrderResolver.Resolve(session.Model, actors, target, point);
+            session.Commands.Send(order.Kind, actors, order.Point, order.Target, queue ? CommandMode.Queue : CommandMode.Replace);
             return order;
         }
 
@@ -226,7 +229,19 @@ namespace JurassicPark.Presentation
 
         public void StopSelection()
         {
-            if (selection.Count > 0) session.Commands.Send(CommandKind.Stop, selection);
+            IReadOnlyList<EntityId> actors = SelectedUnits();
+            if (actors.Count > 0) session.Commands.Send(CommandKind.Stop, actors);
+        }
+
+        private readonly List<EntityId> unitScratch = new List<EntityId>();
+
+        /// <summary>The selected units: a selected building is looked at and toggled, never given a walk order.</summary>
+        private IReadOnlyList<EntityId> SelectedUnits()
+        {
+            unitScratch.Clear();
+            for (int i = 0; i < selection.Count; i++)
+                if (session.Model.TryGet(selection[i], out EntitySnapshot snapshot) && snapshot.Kind == EntityKind.Unit) unitScratch.Add(selection[i]);
+            return unitScratch;
         }
 
         private static bool IsNotAUnit(EntitySnapshot entity) => entity.Kind != EntityKind.Unit;
@@ -242,6 +257,12 @@ namespace JurassicPark.Presentation
         }
 
         private bool IsOwnUnit(EntitySnapshot entity) => entity.Kind == EntityKind.Unit && entity.Owner == session.Model.LocalSeat;
+
+        /// <summary>What a single click may select: own units and own standing buildings. Team mates' things are usable, not selectable.</summary>
+        public static bool IsOwnSelectable(MatchReadModel model, in EntitySnapshot entity) =>
+            entity.Owner == model.LocalSeat && !entity.Remembered && (entity.Kind == EntityKind.Unit || entity.Kind == EntityKind.Building);
+
+        private bool IsOwnSelectable(EntitySnapshot entity) => IsOwnSelectable(session.Model, entity);
 
         private void Apply(bool additive)
         {

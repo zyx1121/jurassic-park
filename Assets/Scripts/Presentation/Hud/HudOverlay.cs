@@ -32,6 +32,7 @@ namespace JurassicPark.Presentation
 
         private readonly StringBuilder text = new StringBuilder(256);
         private readonly List<HudButton> buttons = new List<HudButton>(8);
+        private readonly List<string> labels = new List<string>(8);   // built with the buttons, once per tick, never per event
         private readonly List<HudModel.DefinitionCount> counts = new List<HudModel.DefinitionCount>(8);
         private readonly MinimapPainter painter = new MinimapPainter();
 
@@ -117,8 +118,9 @@ namespace JurassicPark.Presentation
             float panelHeight = 44f + listedRows * 16f;
             panelRect = new Rect(Margin, Screen.height - Margin - panelHeight, panelWidth, panelHeight);
             minimapRect = new Rect((Screen.width - minimapWidth) * 0.5f, Screen.height - Margin - minimapHeight, minimapWidth, minimapHeight);
-            float cardHeight = Margin * 2f + Mathf.Max(1, buttons.Count) * (ButtonHeight + 2f);
-            cardRect = new Rect(Screen.width - Margin - cardWidth, Screen.height - Margin - cardHeight, cardWidth, cardHeight);
+            // No buttons, no card: an empty card must not swallow clicks in the corner.
+            float cardHeight = buttons.Count == 0 ? 0f : Margin * 2f + buttons.Count * (ButtonHeight + 2f);
+            cardRect = buttons.Count == 0 ? Rect.zero : new Rect(Screen.width - Margin - cardWidth, Screen.height - Margin - cardHeight, cardWidth, cardHeight);
         }
 
         private void OnGUI()
@@ -226,6 +228,8 @@ namespace JurassicPark.Presentation
             panelText = text.ToString();
 
             CommandCard.Build(model, selected, selection.PlacingIndex, buttons, text);
+            labels.Clear();
+            for (int i = 0; i < buttons.Count; i++) labels.Add(LabelOf(buttons[i]));
         }
 
         private void DrawCard()
@@ -239,13 +243,13 @@ namespace JurassicPark.Presentation
                 var rect = new Rect(cardRect.x + Margin, y, cardRect.width - Margin * 2f, ButtonHeight);
                 y += ButtonHeight + 2f;
                 GUI.enabled = button.Enabled;
-                bool pressed = GUI.Button(rect, LabelOf(button), buttonStyle);
+                bool pressed = GUI.Button(rect, labels[i], buttonStyle);
                 GUI.enabled = true;
                 if (pressed) Invoke(button);
             }
         }
 
-        /// <summary>The button's own text, with the hotkey and, when it is greyed, the reason it would be refused.</summary>
+        /// <summary>The button's own text, with the hotkey and, when it is greyed, the reason it would be refused. Called from Rebuild only.</summary>
         private string LabelOf(in HudButton button)
         {
             text.Clear();
