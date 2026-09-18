@@ -21,6 +21,8 @@ MonoBehaviour:
   replanIntervalTicks: 10
   maxReplans: 4
   maxQueuedPerActor: 8
+  predatorScanIntervalTicks: 5
+  breachCost: 74
   reservationLifetimeTicks: 50
   groundPileDefinitionId: pile
   targetFrameRate: 60

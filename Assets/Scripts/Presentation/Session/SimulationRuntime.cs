@@ -69,11 +69,14 @@ namespace JurassicPark.Presentation
             runtime.Router.Register(CommandKind.Build, new BuildCommandHandler(runtime.Tasks));
             runtime.Router.Register(CommandKind.Demolish, new StructureCommandHandler(runtime.Tasks, CommandKind.Demolish));
             runtime.Router.Register(CommandKind.ToggleGate, new StructureCommandHandler(runtime.Tasks, CommandKind.ToggleGate));
+            runtime.Router.Register(CommandKind.Attack, new AttackCommandHandler(runtime.Tasks));
             // Order is the contract: input, then work, then the books.
             runtime.World.AddSystem(runtime.Router);
             runtime.World.AddSystem(runtime.Tasks);
             runtime.World.AddSystem(runtime.Logistics);
             runtime.World.AddSystem(runtime.Structures);
+            // Instinct submits commands, which the router takes at the next tick boundary, so its place in the order does not matter for correctness.
+            runtime.World.AddSystem(new Predators(runtime.Tasks.Context, runtime.Router, settings.predatorScanIntervalTicks));
 
             var playable = new List<SeatId>();
             for (int i = 0; i < scenario.seats.Length; i++)

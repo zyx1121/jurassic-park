@@ -49,10 +49,11 @@ namespace JurassicPark.Tests.EditMode
             Assert.That(runtime.Map.Definition.Validate(), Is.Empty);
             Assert.That(runtime.Map.Definition.Camps, Has.Count.EqualTo(1));
             Assert.That(runtime.World.Entities.Count(e => e.DefinitionId == "survivor"), Is.EqualTo(4));
+            Assert.That(runtime.World.Entities.Count(e => e.DefinitionId == "raptor"), Is.EqualTo(2));
             Assert.That(runtime.World.Entities.Count(e => e.Kind == EntityKind.ResourceNode), Is.EqualTo(14));
             Entity depot = runtime.World.Entities.Single(e => e.DefinitionId == "depot");
             Assert.That(runtime.Map.FootprintOf(depot.Id), Has.Count.EqualTo(4), "the 2x2 depot blocks its four cells");
-            Assert.That(runtime.World.PendingEventCount, Is.EqualTo(19), "the setup batch is waiting for the first frame to drain it");
+            Assert.That(runtime.World.PendingEventCount, Is.EqualTo(21), "the setup batch is waiting for the first frame to drain it");
         }
 
         [Test]
@@ -166,6 +167,26 @@ namespace JurassicPark.Tests.EditMode
             Assert.That(store.AmountOf("wood"), Is.EqualTo(54));
             Assert.That(runtime.Map.IsDestructibleBlocker(entrance), Is.True);
             Assert.That(runtime.Logistics.LiveReservationCount, Is.EqualTo(0));
+        }
+
+        [Test]
+        public void TheRaptorsHuntOnTheirOwnAndAWalledCampHoldsThemOffUntilTheyBreakIn()
+        {
+            SimulationRuntime runtime = Build();
+            EntityId[] workers = runtime.World.Entities.Where(e => e.DefinitionId == "survivor" && e.Owner == runtime.LocalSeat).Select(e => e.Id).ToArray();
+            int survivorsBefore = runtime.World.Entities.Count(e => e.DefinitionId == "survivor");
+
+            // Raptors start far east with 28 m of perception; nobody is in reach at first.
+            for (int i = 0; i < 50; i++) runtime.World.Step();
+            Assert.That(runtime.World.Entities.Count(e => e.DefinitionId == "survivor"), Is.EqualTo(survivorsBefore));
+
+            // Lure: a worker walks out to the eastern grove, into a raptor's sight.
+            Entity bait = runtime.World.Entities.First(e => e.Id == workers[0]);
+            SenderOf(runtime).Send(CommandKind.Move, new[] { bait.Id }, runtime.Map.CenterOf(new Cell(40, 20)));
+            for (int i = 0; i < 1200 && runtime.World.IsAlive(bait.Id); i++) runtime.World.Step();
+
+            Assert.That(runtime.World.IsAlive(bait.Id), Is.False, "the bait was hunted down by a raptor acting on its own");
+            Assert.That(runtime.World.IsFaulted, Is.False);
         }
     }
 }

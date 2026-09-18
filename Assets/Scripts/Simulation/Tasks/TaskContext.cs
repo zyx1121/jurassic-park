@@ -20,6 +20,9 @@ namespace JurassicPark.Simulation
         public Structures Structures { get; }
         public Vitals Vitals { get; }
 
+        /// <summary>The task system this context belongs to, once it exists. Set by TaskSystem; lets an AI system ask what a unit is doing.</summary>
+        public TaskSystem Tasks { get; internal set; }
+
         public TaskContext(World world, GridMap map, DefinitionCatalog catalog, TaskConfig config, Logistics logistics = null, SeatRegistry seats = null, Structures structures = null, Vitals vitals = null)
         {
             World = world ?? throw new ArgumentNullException(nameof(world));

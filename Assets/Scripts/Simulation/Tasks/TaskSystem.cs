@@ -23,6 +23,7 @@ namespace JurassicPark.Simulation
         public TaskSystem(TaskContext context)
         {
             this.context = context ?? throw new ArgumentNullException(nameof(context));
+            context.Tasks = this;
         }
 
         public TaskContext Context => context;

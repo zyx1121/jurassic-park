@@ -22,6 +22,8 @@ namespace JurassicPark.Simulation
         private readonly List<Cell> routeCells = new List<Cell>();
         private SimVector2 goalPoint;
         private IReadOnlyList<Cell> goalFootprint;
+        private bool allowBreach;
+        private readonly List<EntityId> breached = new List<EntityId>();
         private int nextWaypoint;
         private long routeMapVersion;
         private long nextPlanTick;
@@ -38,15 +40,21 @@ namespace JurassicPark.Simulation
         {
             goalPoint = point;
             goalFootprint = null;
+            allowBreach = false;
             Restart();
         }
 
         /// <summary>Walk to the cheapest reachable cell beside the footprint: the operating position for gathering, delivering, building or attacking it.</summary>
-        public void GoBeside(IReadOnlyList<Cell> footprint)
+        /// <param name="breach">Plan through destructible blockers when that is the only or the cheaper way. The blockers on the route are listed in <see cref="Breached"/>.</param>
+        public void GoBeside(IReadOnlyList<Cell> footprint, bool breach = false)
         {
             goalFootprint = footprint;
+            allowBreach = breach;
             Restart();
         }
+
+        /// <summary>Destructible blockers the current route goes through, in walking order. Empty for a clear route.</summary>
+        public IReadOnlyList<EntityId> Breached => breached;
 
         private void Restart()
         {
@@ -54,6 +62,7 @@ namespace JurassicPark.Simulation
             Reason = TaskReason.None;
             waypoints.Clear();
             routeCells.Clear();
+            breached.Clear();
             nextWaypoint = 0;
             nextPlanTick = 0;
             plansWithoutProgress = 0;
@@ -99,7 +108,8 @@ namespace JurassicPark.Simulation
                     Reason = TaskReason.None;
                     return;
                 }
-                GridPathfinder.TryFindApproachCell(map, start, goalFootprint, context.Config.UnitPathOptions, out _, out path);
+                PathOptions options = allowBreach ? context.Config.BreachPathOptions : context.Config.UnitPathOptions;
+                GridPathfinder.TryFindApproachCell(map, start, goalFootprint, options, out _, out path);
             }
             else
             {
@@ -118,6 +128,8 @@ namespace JurassicPark.Simulation
             switch (path.Status)
             {
                 case PathStatus.Found:
+                    breached.Clear();
+                    for (int i = 0; i < path.Breached.Count; i++) breached.Add(path.Breached[i]);
                     Adopt(map, path, endsOnPoint);
                     Status = MoverStatus.Moving;
                     Reason = TaskReason.None;
@@ -155,8 +167,10 @@ namespace JurassicPark.Simulation
             waypoints.Clear();
             routeCells.Clear();
             // Cell 0 is where the actor already stands; walking back to its centre first would make every order start with a twitch.
+            // A route that goes through a blocker is followed up to the cell before it: the blocker is dealt with there.
             for (int i = 1; i < path.Cells.Count; i++)
             {
+                if (!map.BlockerAt(path.Cells[i]).IsNone) break;
                 routeCells.Add(path.Cells[i]);
                 waypoints.Add(map.CenterOf(path.Cells[i]));
             }
