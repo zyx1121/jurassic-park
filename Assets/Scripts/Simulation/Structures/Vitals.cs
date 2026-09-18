@@ -30,10 +30,13 @@ namespace JurassicPark.Simulation
 
         public Vitals(World world) => this.world = world ?? throw new ArgumentNullException(nameof(world));
 
-        public void Attach(Entity entity, EntityDefinition definition)
+        public void Attach(Entity entity, EntityDefinition definition) => Attach(entity, definition, definition.MaxHealth);
+
+        /// <summary>Attaches with a different maximum, for a site that has only a fraction of the finished building's hit points.</summary>
+        public void Attach(Entity entity, EntityDefinition definition, int maxHealth)
         {
-            if (definition.MaxHealth < 1 || records.ContainsKey(entity.Id)) return;
-            records.Add(entity.Id, new Record { Health = definition.MaxHealth, Max = definition.MaxHealth });
+            if (definition.MaxHealth < 1 || maxHealth < 1 || records.ContainsKey(entity.Id)) return;
+            records.Add(entity.Id, new Record { Health = maxHealth, Max = maxHealth });
         }
 
         public bool TryGet(EntityId id, out int health, out int max)
@@ -70,5 +73,16 @@ namespace JurassicPark.Simulation
         }
 
         internal void Forget(EntityId id) => records.Remove(id);
+
+        private readonly List<EntityId> gone = new List<EntityId>();
+
+        /// <summary>Drops the records of anything that stopped existing by other means than damage.</summary>
+        internal void Sweep(World tickedWorld)
+        {
+            gone.Clear();
+            foreach (KeyValuePair<EntityId, Record> pair in records)
+                if (!tickedWorld.IsAlive(pair.Key)) gone.Add(pair.Key);
+            for (int i = 0; i < gone.Count; i++) records.Remove(gone[i]);
+        }
     }
 }

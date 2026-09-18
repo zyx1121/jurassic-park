@@ -39,7 +39,7 @@ namespace JurassicPark.Presentation
                     snapshot.BuildProgress = (byte)System.Math.Round(site.Progress * 254f);
                 }
                 if (runtime.Vitals.TryGet(entity.Id, out int health, out int maxHealth) && maxHealth > 0)
-                    snapshot.HealthFraction = (byte)System.Math.Round(255f * health / maxHealth);
+                    snapshot.HealthFraction = (byte)System.Math.Max(1, System.Math.Ceiling(254f * health / maxHealth));
                 snapshot.GateOpen = runtime.Structures.IsGateOpen(entity.Id);
                 SimTask task = runtime.Tasks.CurrentOf(entity.Id);
                 if (task != null)

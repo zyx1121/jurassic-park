@@ -75,7 +75,7 @@ namespace JurassicPark.Tests.EditMode
             {
                 world.Step();
                 log.AddRange(world.DrainEvents());
-                Assert.That(goods.TotalOf(Wood) + goods.ConsumedTotal, Is.EqualTo(expectedWood), $"wood appeared or vanished at tick {world.Tick}");
+                Assert.That(goods.TotalOf(Wood) + goods.ConsumedOf(Wood), Is.EqualTo(expectedWood), $"wood appeared or vanished at tick {world.Tick}");
                 foreach (Entity node in nodes)
                     if (goods.TryGetNode(node.Id, out ResourceNode n)) Assert.That(n.Unreserved, Is.GreaterThanOrEqualTo(0), "node stock oversold");
                 foreach (Entity e in world.Entities)

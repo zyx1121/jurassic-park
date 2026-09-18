@@ -18,7 +18,11 @@ namespace JurassicPark.Simulation
         private readonly Dictionary<EntityId, BuildSite> sites = new Dictionary<EntityId, BuildSite>();
         private readonly HashSet<EntityId> openGates = new HashSet<EntityId>();
         private readonly Dictionary<EntityId, IReadOnlyList<Cell>> gateFootprints = new Dictionary<EntityId, IReadOnlyList<Cell>>();
+        private readonly Dictionary<EntityId, bool> gateDestructible = new Dictionary<EntityId, bool>();
         private readonly List<EntityId> blockers = new List<EntityId>();
+
+        /// <summary>A site has this fraction of the finished building's hit points.</summary>
+        public const int SiteHealthDivisor = 4;
 
         public Structures(World world, GridMap map, Logistics goods, Vitals vitals, SeatRegistry seats)
         {
@@ -85,6 +89,8 @@ namespace JurassicPark.Simulation
             int materials = 0;
             foreach (KeyValuePair<string, int> need in definition.BuildCost) materials += need.Value;
             if (materials > 0) goods.AddContainer(site, materials);
+            // A site is flimsy but not invulnerable: a dinosaur that decides to come through it can, by wrecking it.
+            vitals.Attach(site, definition, Math.Max(1, definition.MaxHealth / SiteHealthDivisor));
             sites.Add(site.Id, new BuildSite(site.Id, definition, footprint));
             world.Raise(new SitePlaced(site.Id, owner));
             return site;
@@ -107,14 +113,21 @@ namespace JurassicPark.Simulation
             goods.RemoveContainer(site.Entity);
             sites.Remove(site.Entity);
             world.TryGet(site.Entity, out Entity building);
+            vitals.Forget(site.Entity);
             vitals.Attach(building, site.Definition);
             if (site.Definition.Blocks)
             {
                 // From destructible-while-building to whatever the finished thing is.
                 map.Release(site.Entity);
                 map.TryOccupy(site.Footprint, site.Entity, site.Definition.Destructible);
+                // Same cells, different rules: a planner that priced a way through the site must price again.
+                world.Raise(new PassabilityChanged(site.Entity, true));
             }
-            if (site.Definition.IsGate) gateFootprints[site.Entity] = site.Footprint;
+            if (site.Definition.IsGate)
+            {
+                gateFootprints[site.Entity] = site.Footprint;
+                gateDestructible[site.Entity] = site.Definition.Destructible;
+            }
             world.Raise(new BuildingCompleted(site.Entity));
         }
 
@@ -123,7 +136,11 @@ namespace JurassicPark.Simulation
         {
             vitals.Attach(building, definition);
             if (definition.Blocks) blockers.Add(building.Id);
-            if (definition.IsGate) gateFootprints[building.Id] = footprint;
+            if (definition.IsGate)
+            {
+                gateFootprints[building.Id] = footprint;
+                gateDestructible[building.Id] = definition.Destructible;
+            }
         }
 
         /// <summary>Removes a site or building the seat owns. Returns false when there is no such thing.</summary>
@@ -140,6 +157,9 @@ namespace JurassicPark.Simulation
             if (!gateFootprints.TryGetValue(id, out IReadOnlyList<Cell> footprint) || !world.TryGet(id, out Entity gate) || !gate.IsAlive) return CommandRejection.InvalidTarget;
             if (!seats.MayUsePropertyOf(bySeat, gate.Owner)) return CommandRejection.NotAllowedOnTarget;
             if (!openGates.Contains(id)) return CommandRejection.None;
+            // While it stood open, something else may have been built in the gateway.
+            for (int c = 0; c < footprint.Count; c++)
+                if (!map.BlockerAt(footprint[c]).IsNone) return CommandRejection.SiteBlocked;
             // Closing a gate on a unit would wall it in.
             IReadOnlyList<Entity> entities = world.Entities;
             for (int i = 0; i < entities.Count; i++)
@@ -160,8 +180,13 @@ namespace JurassicPark.Simulation
             IReadOnlyList<Cell> footprint = gateFootprints[id];
             if (openGates.Contains(id))
             {
+                // The occupancy is the truth; the gate is only closed if the cells are actually taken.
+                if (!map.TryOccupy(footprint, id, gateDestructible.TryGetValue(id, out bool destructible) && destructible))
+                {
+                    why = CommandRejection.SiteBlocked;
+                    return false;
+                }
                 openGates.Remove(id);
-                map.TryOccupy(footprint, id, destructible: true);
                 world.Raise(new PassabilityChanged(id, true));
                 world.Raise(new GateToggled(id, false));
                 return true;
@@ -185,7 +210,7 @@ namespace JurassicPark.Simulation
                 if (sites.Remove(id, out BuildSite site)) goods.RemoveContainer(id);
                 openGates.Remove(id);
                 gateFootprints.Remove(id);
-                vitals.Forget(id);
+                gateDestructible.Remove(id);
             }
             // A site can also vanish without ever blocking (a non-blocking building); still stop tracking it.
             if (sites.Count > 0)
@@ -199,6 +224,7 @@ namespace JurassicPark.Simulation
                     goods.RemoveContainer(pendingSiteRemovals[i]);
                 }
             }
+            vitals.Sweep(tickedWorld);
             // A gathered-out tree falls: its cells open and the way through the grove changes.
             IReadOnlyList<Entity> entities = tickedWorld.Entities;
             for (int i = 0; i < entities.Count; i++)

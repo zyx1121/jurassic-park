@@ -38,6 +38,8 @@ namespace JurassicPark.Tests.EditMode
             catalog.Add(new EntityDefinition("pile", 0f));
             catalog.Add(new EntityDefinition("wall", 0f, blocks: true, destructible: true, maxHealth: 30, buildCost: new Dictionary<string, int> { [Wood] = 4 }, buildWorkSeconds: 1f));
             catalog.Add(new EntityDefinition("gate", 0f, blocks: true, destructible: true, maxHealth: 30, buildCost: new Dictionary<string, int> { [Wood] = 2 }, buildWorkSeconds: 0.5f, isGate: true));
+            catalog.Add(new EntityDefinition("hut", 0f, blocks: true, destructible: true, maxHealth: 40, buildCost: new Dictionary<string, int> { [Wood] = 2, ["stone"] = 2 }, buildWorkSeconds: 1f));
+            catalog.Add(new EntityDefinition("quarry", 0f, nodeResource: "stone", nodeAmount: 12, blocks: true, destructible: false));
             goods = new Logistics(world, new LogisticsConfig(20, "pile"));
             vitals = new Vitals(world);
             var seats = new SeatRegistry(world);
@@ -72,7 +74,7 @@ namespace JurassicPark.Tests.EditMode
                 Assert.That(map.TryOccupy(footprint, entity.Id, definition.Destructible), Is.True);
                 structures.AttachBuilt(entity, definition, footprint);
             }
-            expectedWood += definition.NodeAmount;
+            if (definition.NodeResource == Wood) expectedWood += definition.NodeAmount;
             world.Commit();
             return entity;
         }
@@ -102,7 +104,7 @@ namespace JurassicPark.Tests.EditMode
             {
                 world.Step();
                 log.AddRange(world.DrainEvents());
-                Assert.That(goods.TotalOf(Wood) + goods.ConsumedTotal, Is.EqualTo(expectedWood), $"wood appeared or vanished at tick {world.Tick}");
+                Assert.That(goods.TotalOf(Wood) + goods.ConsumedOf(Wood), Is.EqualTo(expectedWood), $"wood appeared or vanished at tick {world.Tick}");
                 Assert.That(world.IsFaulted, Is.False);
             }
         }
@@ -112,7 +114,7 @@ namespace JurassicPark.Tests.EditMode
         /// <summary>Open camp ground beside the depot, which itself blocks the fixture's camp cell.</summary>
         private static readonly Cell InsideCamp = new Cell(8, 4);
 
-        private Entity SiteEntity() => world.Entities.First(e => e.Kind == EntityKind.Building && (e.DefinitionId == "wall" || e.DefinitionId == "gate"));
+        private Entity SiteEntity(string definitionId = null) => world.Entities.First(e => e.Kind == EntityKind.Building && e.DefinitionId != "depot" && (definitionId == null || e.DefinitionId == definitionId));
 
         [Test]
         public void ABuilderFetchesTheMaterialsWorksAndTheWallBlocksTheEntrance()
@@ -335,6 +337,115 @@ namespace JurassicPark.Tests.EditMode
             Run(600);
             Assert.That(world.IsAlive(tree.Id), Is.False, "felled");
             Assert.That(map.IsWalkable(new Cell(13, 9)), Is.True, "and the grove opened");
+        }
+
+        [Test]
+        public void ATwoMaterialSiteIsFinishedByTwoBuildersOneOfWhomArrivesCarryingTheWrongThing()
+        {
+            Entity depot = StockedDepot(FixtureMaps.CampGround, 10);
+            Entity quarry = Place("quarry", SeatId.None, new Cell(14, 10));
+            Entity porter = Place("survivor", Red, new Cell(13, 10));
+            goods.Gather(quarry.Id, porter.Id, 5, null, null);
+            goods.Transfer(porter.Id, depot.Id, "stone", 5, null, null);
+            world.Despawn(quarry.Id, "test"); world.Despawn(porter.Id, "test");
+            Run(1);
+            Entity a = Place("survivor", Red, new Cell(8, 5)), b = Place("survivor", Blue, new Cell(9, 6));
+            Entity stoneTree = Place("quarry", SeatId.None, new Cell(14, 1));
+            goods.Gather(stoneTree.Id, a.Id, 2, null, null); // A already carries 2 stone from earlier work
+
+            red.Send(CommandKind.Build, new[] { a.Id }, map.CenterOf(new Cell(10, 4)), argument: catalog.IndexOf("hut"));
+            Run(1);
+            Entity site = SiteEntity("hut");
+            tasks.Assign(b.Id, new BuildTask(site.Id), CommandMode.Replace);
+            for (int i = 0; i < 600 && structures.SiteCount > 0; i++) Run(1);
+
+            Assert.That(structures.SiteCount, Is.EqualTo(0), "built: neither builder fetched the material the other was already bringing");
+            Assert.That(goods.TryGetContainer(depot.Id, out Container store) && store.AmountOf("stone") == 5 && store.AmountOf(Wood) == 8, Is.True, "stone came from A's pack, wood from the depot");
+            Assert.That(goods.LiveReservationCount, Is.EqualTo(0));
+        }
+
+        [Test]
+        public void AGateCannotCloseOnAWallBuiltInItsGatewayAndStaysHonestlyOpen()
+        {
+            StockedDepot(FixtureMaps.CampGround, 10);
+            Entity builder = Place("survivor", Red, new Cell(8, 5));
+            red.Send(CommandKind.Build, new[] { builder.Id }, map.CenterOf(FixtureMaps.MainEntrance), argument: GateIndex);
+            Run(400);
+            Entity gate = SiteEntity("gate");
+            red.Send(CommandKind.ToggleGate, new[] { builder.Id }, targetEntity: gate.Id);
+            Run(1);
+            red.Send(CommandKind.Build, new[] { builder.Id }, map.CenterOf(FixtureMaps.MainEntrance), argument: WallIndex);
+            Run(1);
+            Assert.That(LastAnswer().Accepted, Is.True, "an open gateway is buildable ground");
+            Entity wall = SiteEntity("wall");
+
+            red.Send(CommandKind.ToggleGate, new[] { builder.Id }, targetEntity: gate.Id);
+            Run(1);
+            Assert.That(LastAnswer().Rejection, Is.EqualTo(CommandRejection.SiteBlocked));
+            Assert.That(structures.IsGateOpen(gate.Id), Is.True, "still open, because its cells are not its own");
+            Assert.That(map.BlockerAt(FixtureMaps.MainEntrance), Is.EqualTo(wall.Id));
+
+            red.Send(CommandKind.Demolish, new[] { builder.Id }, targetEntity: wall.Id);
+            Run(2);
+            Assert.That(map.IsWalkable(FixtureMaps.MainEntrance), Is.True, "the gate is open, so the gateway is open");
+            red.Send(CommandKind.ToggleGate, new[] { builder.Id }, targetEntity: gate.Id);
+            Run(1);
+            Assert.That(structures.IsGateOpen(gate.Id), Is.False);
+            Assert.That(map.BlockerAt(FixtureMaps.MainEntrance), Is.EqualTo(gate.Id));
+        }
+
+        [Test]
+        public void ABuilderCutOffFromTheDepotByAClosedGateTriesAgainWhenItOpens()
+        {
+            Entity depot = StockedDepot(new Cell(14, 4), 10);
+            Entity builder = Place("survivor", Red, new Cell(8, 5));
+            red.Send(CommandKind.Build, new[] { builder.Id }, map.CenterOf(FixtureMaps.DetourGate), argument: WallIndex);
+            Run(400);
+            Assert.That(structures.SiteCount, Is.EqualTo(0));
+            Entity gateKeeper = Place("survivor", Red, new Cell(13, 5));
+            Entity mainWall = Place("wall", Red, FixtureMaps.MainEntrance);
+
+            red.Send(CommandKind.Build, new[] { builder.Id }, map.CenterOf(new Cell(10, 4)), argument: WallIndex);
+            Run(40);
+            Assert.That(tasks.CurrentOf(builder.Id).State, Is.EqualTo(TaskState.Blocked), "the only depot is outside a sealed camp");
+
+            world.Despawn(mainWall.Id, "test");
+            Run(400);
+            Assert.That(structures.SiteCount, Is.EqualTo(0), "once the way opened, the depot was tried again and the wall got built");
+        }
+
+        [Test]
+        public void ASiteHasHitPointsSoItCanBeWrecked()
+        {
+            StockedDepot(FixtureMaps.CampGround, 10);
+            Entity builder = Place("survivor", Red, new Cell(8, 5));
+            red.Send(CommandKind.Build, new[] { builder.Id }, map.CenterOf(FixtureMaps.MainEntrance), argument: WallIndex);
+            Run(1);
+            Entity site = SiteEntity("wall");
+
+            Assert.That(vitals.TryGet(site.Id, out int hp, out int max) && max == 30 / Structures.SiteHealthDivisor && hp == max, Is.True);
+            Assert.That(vitals.Damage(site.Id, 100, "bitten"), Is.EqualTo(max));
+            Run(1);
+            Assert.That(world.IsAlive(site.Id), Is.False);
+            Assert.That(map.IsWalkable(FixtureMaps.MainEntrance), Is.True);
+            Assert.That(structures.SiteCount, Is.EqualTo(0));
+            Assert.That(goods.LiveReservationCount, Is.EqualTo(0));
+        }
+
+        [Test]
+        public void ResendingTheSameBuildCommandDoesNotPlaceASecondSite()
+        {
+            StockedDepot(FixtureMaps.CampGround, 10);
+            Entity builder = Place("survivor", Red, new Cell(8, 5));
+            var command = new Command(1, 1, Red, CommandKind.Build, new[] { builder.Id }, map.CenterOf(new Cell(10, 4)), argument: WallIndex);
+            router.Submit(command);
+            router.Submit(command);
+            Run(1);
+            router.Submit(command);
+            Run(1);
+
+            Assert.That(structures.SiteCount, Is.EqualTo(1));
+            Assert.That(log.OfType<CommandResolved>().Select(r => r.IsRepeat), Is.EqualTo(new[] { false, true, true }));
         }
     }
 }

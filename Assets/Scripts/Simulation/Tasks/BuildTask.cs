@@ -67,25 +67,26 @@ namespace JurassicPark.Simulation
             foreach (KeyValuePair<string, int> carried in pack.Contents)
                 if (site.Missing(goods, carried.Key) > 0) return HeadForSite(context, siteEntity, carried.Key, carried.Value);
 
-            // Room on the site is reserved before fetching, so a second builder sees what the first is already bringing and
-            // does not fetch it too. Anything missing is counted in units of the site's container.
-            int alreadyComing = goods.ReservedRoomIn(siteId);
+            // Room on the site is reserved per resource before fetching, so a second builder sees what the first is already
+            // bringing of each material and does not fetch it too. Any material somebody can be found for is fetched first;
+            // waiting is only for when nothing is fetchable at all.
+            bool anythingMissing = false;
             foreach (KeyValuePair<string, int> need in site.Definition.BuildCost)
             {
-                int missing = site.Missing(goods, need.Key) - alreadyComing;
-                alreadyComing = System.Math.Max(0, alreadyComing - site.Missing(goods, need.Key));
+                int missing = site.Missing(goods, need.Key) - goods.ReservedRoomIn(siteId, need.Key);
                 if (missing < 1) continue;
+                anythingMissing = true;
                 if (pack.FreeCapacity < 1) return Wait(context, TaskReason.PackFull);
                 Entity source = NearestSourceOf(context, actor, need.Key);
-                if (source == null) return Wait(context, TaskReason.NoMaterialsAvailable);
+                if (source == null) continue;
                 int fetch = System.Math.Min(missing, pack.FreeCapacity);
-                room = goods.Reserve(ReservationKind.Deposit, siteId, string.Empty, fetch, Id);
+                room = goods.Reserve(ReservationKind.Deposit, siteId, need.Key, fetch, Id);
                 if (room == null) continue;
                 claim = goods.Reserve(ReservationKind.Withdrawal, source.Id, need.Key, room.Amount, Id);
                 if (claim == null)
                 {
                     goods.Release(room);
-                    return Wait(context, TaskReason.NoMaterialsAvailable);
+                    continue;
                 }
                 sourceId = source.Id;
                 resource = need.Key;
@@ -94,6 +95,7 @@ namespace JurassicPark.Simulation
                 Enter(context, TaskState.Running);
                 return true;
             }
+            if (anythingMissing) return Wait(context, TaskReason.NoMaterialsAvailable);
 
             mover.GoBeside(site.Footprint);
             phase = Phase.Working;
@@ -105,7 +107,7 @@ namespace JurassicPark.Simulation
         {
             resource = carriedResource;
             // Goods fetched under this task already hold their room; goods carried in from before do not.
-            if (!context.Logistics.IsLive(room)) room = context.Logistics.Reserve(ReservationKind.Deposit, siteId, string.Empty, amount, Id);
+            if (!context.Logistics.IsLive(room)) room = context.Logistics.Reserve(ReservationKind.Deposit, siteId, carriedResource, amount, Id);
             mover.GoBeside(LogisticsQueries.FootprintOf(context, siteEntity));
             phase = Phase.ToSite;
             Enter(context, TaskState.Running);
@@ -114,6 +116,8 @@ namespace JurassicPark.Simulation
 
         private bool Wait(TaskContext context, TaskReason reason)
         {
+            // Whatever could not be reached may be reachable by the time we look again: a gate opens, a wall falls.
+            unreachable.Clear();
             retryAtTick = context.World.Tick + context.Config.ReplanIntervalTicks;
             Enter(context, TaskState.Blocked, reason);
             return false;
