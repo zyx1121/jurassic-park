@@ -1,0 +1,225 @@
+{
+ "version": 2,
+ "original": [
+  {
+   "old_id": "ZTtw",
+   "new_id": "\u0000\u0000\u0000\u0000",
+   "mods": [
+    {
+     "id": "bhps",
+     "type": 2,
+     "extras": [],
+     "value": 100.0
+    },
+    {
+     "id": "bclh",
+     "type": 0,
+     "extras": [],
+     "value": 50
+    },
+    {
+     "id": "boch",
+     "type": 2,
+     "extras": [],
+     "value": 0.0
+    },
+    {
+     "id": "bflh",
+     "type": 2,
+     "extras": [],
+     "value": 0.0
+    },
+    {
+     "id": "bptx",
+     "type": 3,
+     "extras": [],
+     "value": "PathTextures\\2x2Unflyable.tga"
+    }
+   ]
+  },
+  {
+   "old_id": "ZTtc",
+   "new_id": "\u0000\u0000\u0000\u0000",
+   "mods": [
+    {
+     "id": "bhps",
+     "type": 2,
+     "extras": [],
+     "value": 100.0
+    },
+    {
+     "id": "bclh",
+     "type": 0,
+     "extras": [],
+     "value": 50
+    },
+    {
+     "id": "boch",
+     "type": 2,
+     "extras": [],
+     "value": 0.0
+    },
+    {
+     "id": "bflh",
+     "type": 2,
+     "extras": [],
+     "value": 0.0
+    },
+    {
+     "id": "bptx",
+     "type": 3,
+     "extras": [],
+     "value": "PathTextures\\2x2Unflyable.tga"
+    }
+   ]
+  },
+  {
+   "old_id": "ZTd5",
+   "new_id": "\u0000\u0000\u0000\u0000",
+   "mods": [
+    {
+     "id": "bhps",
+     "type": 2,
+     "extras": [],
+     "value": 99999.0
+    }
+   ]
+  },
+  {
+   "old_id": "ZTg1",
+   "new_id": "\u0000\u0000\u0000\u0000",
+   "mods": [
+    {
+     "id": "bhps",
+     "type": 2,
+     "extras": [],
+     "value": 99999.0
+    }
+   ]
+  },
+  {
+   "old_id": "NTtc",
+   "new_id": "\u0000\u0000\u0000\u0000",
+   "mods": [
+    {
+     "id": "bhps",
+     "type": 2,
+     "extras": [],
+     "value": 100.0
+    }
+   ]
+  },
+  {
+   "old_id": "WTst",
+   "new_id": "\u0000\u0000\u0000\u0000",
+   "mods": [
+    {
+     "id": "bhps",
+     "type": 2,
+     "extras": [],
+     "value": 75.0
+    }
+   ]
+  },
+  {
+   "old_id": "LTrc",
+   "new_id": "\u0000\u0000\u0000\u0000",
+   "mods": [
+    {
+     "id": "bhps",
+     "type": 2,
+     "extras": [],
+     "value": 20000.0
+    }
+   ]
+  }
+ ],
+ "custom": [
+  {
+   "old_id": "DTg5",
+   "new_id": "B000",
+   "mods": [
+    {
+     "id": "bfil",
+     "type": 3,
+     "extras": [],
+     "value": "war3mapImported\\IronFenceGate.mdl"
+    },
+    {
+     "id": "bhps",
+     "type": 2,
+     "extras": [],
+     "value": 250.0
+    },
+    {
+     "id": "bnam",
+     "type": 3,
+     "extras": [],
+     "value": "電門"
+    }
+   ]
+  },
+  {
+   "old_id": "DTg7",
+   "new_id": "B001",
+   "mods": [
+    {
+     "id": "bfil",
+     "type": 3,
+     "extras": [],
+     "value": "war3mapImported\\IronFenceGate.mdl"
+    },
+    {
+     "id": "bhps",
+     "type": 2,
+     "extras": [],
+     "value": 250.0
+    },
+    {
+     "id": "bnam",
+     "type": 3,
+     "extras": [],
+     "value": "電門"
+    }
+   ]
+  },
+  {
+   "old_id": "LTbx",
+   "new_id": "B002",
+   "mods": [
+    {
+     "id": "bnam",
+     "type": 3,
+     "extras": [],
+     "value": "鐵門(水平的)"
+    },
+    {
+     "id": "bfil",
+     "type": 3,
+     "extras": [],
+     "value": "Doodads\\Ruins\\Plants\\Ruins_Shrub\\Ruins_Shrub2.mdl"
+    },
+    {
+     "id": "bgpm",
+     "type": 3,
+     "extras": [],
+     "value": ""
+    },
+    {
+     "id": "bmas",
+     "type": 2,
+     "extras": [],
+     "value": 5.0
+    },
+    {
+     "id": "bmis",
+     "type": 2,
+     "extras": [],
+     "value": 4.0
+    }
+   ]
+  }
+ ],
+ "remaining_bytes": 0,
+ "total_len": 723
+}
