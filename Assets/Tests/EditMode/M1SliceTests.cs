@@ -170,7 +170,7 @@ namespace JurassicPark.Tests.EditMode
         }
 
         [Test]
-        public void TheRaptorsHuntOnTheirOwnAndAWalledCampHoldsThemOffUntilTheyBreakIn()
+        public void AWorkerLuredIntoARaptorsSightIsHuntedDownWithoutAnyOrderToTheRaptor()
         {
             SimulationRuntime runtime = Build();
             EntityId[] workers = runtime.World.Entities.Where(e => e.DefinitionId == "survivor" && e.Owner == runtime.LocalSeat).Select(e => e.Id).ToArray();

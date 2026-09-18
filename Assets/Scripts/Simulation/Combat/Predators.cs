@@ -35,9 +35,11 @@ namespace JurassicPark.Simulation
                 if (!hunter.IsAlive || hunter.Kind != EntityKind.Unit || hunter.Owner.IsNone) continue;
                 if (!context.Catalog.TryGet(hunter.DefinitionId, out EntityDefinition definition) || !definition.CanAttack || definition.PerceptionRadius <= 0f) continue;
                 if (!context.Seats.TryGet(hunter.Owner, out Seat seat) || seat.Controller != SeatController.Computer) continue;
-                if (context.Tasks != null && context.Tasks.CurrentOf(hunter.Id) != null) continue;
+                // Busy hunters keep hunting; one whose hunt is blocked (an enclosed target) may notice easier prey walking past.
+                SimTask current = context.Tasks?.CurrentOf(hunter.Id);
+                if (current != null && current.State != TaskState.Blocked) continue;
                 Entity prey = Nearest(entities, hunter, definition.PerceptionRadius);
-                if (prey == null) continue;
+                if (prey == null || (current is AttackTask blockedHunt && blockedHunt.Target == prey.Id)) continue;
                 single.Clear();
                 single.Add(hunter.Id);
                 SenderFor(seat).Send(CommandKind.Attack, single, prey.Position, prey.Id);

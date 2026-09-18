@@ -151,14 +151,11 @@ namespace JurassicPark.Simulation
             }
         }
 
-        /// <summary>True when the cell is 8-adjacent to the footprint or (for a footprint that does not block) on it.</summary>
+        /// <summary>True when the cell is in contact with the footprint, or (for a footprint that does not block) on it. Contact is corner-aware: see <see cref="GridPathfinder.Touches"/>.</summary>
         public static bool IsBeside(GridMap map, Cell cell, IReadOnlyList<Cell> footprint)
         {
             for (int i = 0; i < footprint.Count; i++)
-            {
-                int dx = System.Math.Abs(footprint[i].X - cell.X), dy = System.Math.Abs(footprint[i].Y - cell.Y);
-                if (dx <= 1 && dy <= 1) return true;
-            }
+                if (GridPathfinder.Touches(map, cell, footprint[i])) return true;
             return false;
         }
 

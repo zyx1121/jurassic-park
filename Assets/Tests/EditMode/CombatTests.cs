@@ -34,6 +34,7 @@ namespace JurassicPark.Tests.EditMode
             catalog.Add(new EntityDefinition("raptor", 6f, maxHealth: 80, attackDamage: 10, attackSeconds: 0.5f, perceptionRadius: 40f, canBreach: true));
             catalog.Add(new EntityDefinition("depot", 0f, storageCapacity: 100, isDepot: true, blocks: true, maxHealth: 50));
             catalog.Add(new EntityDefinition("tree", 0f, nodeResource: Wood, nodeAmount: 12, blocks: true, destructible: false));
+            catalog.Add(new EntityDefinition("fence", 0f, blocks: true, destructible: true, maxHealth: 120));
             catalog.Add(new EntityDefinition("pile", 0f));
             catalog.Add(new EntityDefinition("wall", 0f, blocks: true, destructible: true, maxHealth: 30, buildCost: new Dictionary<string, int> { [Wood] = 4 }, buildWorkSeconds: 1f));
             goods = new Logistics(world, new LogisticsConfig(20, "pile"));
@@ -233,6 +234,101 @@ namespace JurassicPark.Tests.EditMode
             for (int i = 0; i < 400 && world.IsAlive(survivor.Id); i++) Run(1);
 
             Assert.That(world.IsAlive(survivor.Id), Is.False, "a raptor is faster than a survivor");
+        }
+
+        [Test]
+        public void NothingIsBittenThroughTheCornerWhereTwoWallsMeet()
+        {
+            // Open ground with a continuous diagonal fence: the raptor on one side, the survivor on the other, corner to corner.
+            Build(breachCost: TaskConfig.DefaultBreachCost, predators: false);
+            map = FixtureMaps.OpenGrid(16, 16);
+            var context = new TaskContext(world, map, catalog, new TaskConfig(5, 3, 2, new PathOptions(), new PathOptions(allowBreach: true, breachCost: 200)), goods, tasks.Context.Seats, structures = new Structures(world, map, goods, vitals, tasks.Context.Seats), vitals);
+            tasks = new TaskSystem(context);
+            router = new CommandRouter(tasks.Context.Seats, new CommandRouterConfig(8, 16, 8));
+            router.Register(CommandKind.Attack, new AttackCommandHandler(tasks));
+            world = new World(new SimConfig(10, 8, 1)); // fresh world so the systems above are the only ones
+            goods = new Logistics(world, new LogisticsConfig(20, "pile"));
+            vitals = new Vitals(world);
+            var seats = new SeatRegistry(world);
+            seats.Add(Red, "Red", 1, SeatController.Human);
+            seats.Add(Dinos, "Dinosaurs", 2, SeatController.Computer);
+            structures = new Structures(world, map, goods, vitals, seats);
+            context = new TaskContext(world, map, catalog, new TaskConfig(5, 3, 2, new PathOptions(), new PathOptions(allowBreach: true, breachCost: 200)), goods, seats, structures, vitals);
+            tasks = new TaskSystem(context);
+            router = new CommandRouter(seats, new CommandRouterConfig(8, 16, 8));
+            router.Register(CommandKind.Attack, new AttackCommandHandler(tasks));
+            world.AddSystem(router); world.AddSystem(tasks); world.AddSystem(goods); world.AddSystem(structures);
+            dinos = new CommandSender(router, Dinos, 1);
+            for (int x = 0; x < 16; x++) Place("fence", Red, new Cell(x, 15 - x));
+            Entity survivor = Place("survivor", Red, new Cell(7, 9));
+            Entity raptor = Place("raptor", Dinos, new Cell(2, 2));
+            Assert.That(GridPathfinder.Touches(map, new Cell(6, 8), new Cell(7, 9)), Is.False, "the corner between two fence cells is closed");
+
+            dinos.Send(CommandKind.Attack, new[] { raptor.Id }, targetEntity: survivor.Id);
+            Run(300);
+
+            Attacked first = log.OfType<Attacked>().First(a => a.Attacker == raptor.Id);
+            Assert.That(first.Target, Is.Not.EqualTo(survivor.Id), "the first bite is on the fence, never through the corner");
+            long firstFenceDeath = log.OfType<EntityRemoved>().First(e => e.Entity == first.Target).Tick;
+            long firstSurvivorBite = log.OfType<Attacked>().First(a => a.Target == survivor.Id).Tick;
+            Assert.That(firstSurvivorBite, Is.GreaterThan(firstFenceDeath), "the survivor was reached only after the fence came down");
+        }
+
+        [Test]
+        public void AnAttackerStopsBreakingAWallWhenTheTargetWalksAway()
+        {
+            Entity survivor = Place("survivor", Red, new Cell(8, 5));
+            Entity entranceFence = Place("fence", Red, FixtureMaps.MainEntrance);
+            Place("fence", Red, FixtureMaps.DetourGate);
+            Entity raptor = Place("raptor", Dinos, new Cell(14, 5));
+            dinos.Send(CommandKind.Attack, new[] { raptor.Id }, targetEntity: survivor.Id);
+            for (int i = 0; i < 100 && !log.OfType<Attacked>().Any(a => a.Target == entranceFence.Id); i++) Run(1);
+            Assert.That(log.OfType<Attacked>().Any(a => a.Target == entranceFence.Id), Is.True, "breaching a 120 hp fence, twelve bites");
+            int breachPlans = log.OfType<TaskStateChanged>().Count(e => e.Actor == raptor.Id && e.Reason == TaskReason.Breaching);
+
+            // The prey moves well away inside the camp: the raptor must look at the way again rather than finish the fence blindly.
+            red.Send(CommandKind.Move, new[] { survivor.Id }, map.CenterOf(new Cell(8, 3)));
+            Run(40);
+            Assert.That(log.OfType<TaskStateChanged>().Count(e => e.Actor == raptor.Id && e.Reason == TaskReason.Breaching), Is.GreaterThan(breachPlans), "planned the breach again after the target moved");
+            for (int i = 0; i < 400 && world.IsAlive(survivor.Id); i++) Run(1);
+            Assert.That(world.IsAlive(survivor.Id), Is.False, "and, the camp still being sealed, came through the same fence in the end");
+        }
+
+        [Test]
+        public void ATwoCellThickWallIsBrokenCellByCell()
+        {
+            Build(breachCost: 10, predators: false);
+            Entity survivor = Place("survivor", Red, new Cell(8, 5));
+            Entity inner = Place("wall", Red, FixtureMaps.MainEntrance);
+            Place("wall", Red, FixtureMaps.DetourGate);
+            // A second wall right behind the first, inside the camp, with the cells beside it filled so it cannot be walked around.
+            Entity behind = Place("wall", Red, new Cell(11, 5));
+            Place("wall", Red, new Cell(11, 4));
+            Place("wall", Red, new Cell(11, 6));
+            Entity raptor = Place("raptor", Dinos, new Cell(14, 5));
+            dinos.Send(CommandKind.Attack, new[] { raptor.Id }, targetEntity: survivor.Id);
+            for (int i = 0; i < 600 && world.IsAlive(survivor.Id); i++) Run(1);
+
+            EntityId[] victims = Victims(raptor).ToArray();
+            Assert.That(victims[0], Is.EqualTo(inner.Id), "the gate wall first");
+            Assert.That(victims.Last(), Is.EqualTo(survivor.Id));
+            Assert.That(victims, Has.Length.EqualTo(3), "then exactly one of the three walls behind it");
+            Assert.That(world.IsAlive(survivor.Id), Is.False);
+        }
+
+        [Test]
+        public void ABlockedHunterNoticesEasierPreyWalkingPast()
+        {
+            Build(breachCost: 10, predators: true);
+            Entity sealedIn = Place("survivor", Red, new Cell(1, 10));
+            foreach (Cell c in new[] { new Cell(1, 8), new Cell(2, 8), new Cell(3, 9), new Cell(3, 10) }) Place("tree", SeatId.None, c);
+            Entity raptor = Place("raptor", Dinos, new Cell(8, 1));
+            Run(30);
+            Assert.That(tasks.CurrentOf(raptor.Id).State, Is.EqualTo(TaskState.Blocked));
+
+            Entity passerby = Place("survivor", Red, new Cell(12, 1));
+            Run(30);
+            Assert.That(((AttackTask)tasks.CurrentOf(raptor.Id)).Target, Is.EqualTo(passerby.Id));
         }
     }
 }

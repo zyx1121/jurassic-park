@@ -17,6 +17,7 @@ namespace JurassicPark.Simulation
         private EntityId victimId;
         private float cooldown;
         private long retryAtTick;
+        private SimVector2 targetWasAt;
 
         public AttackTask(EntityId target) => targetId = target;
 
@@ -53,8 +54,10 @@ namespace JurassicPark.Simulation
             context.World.TryGet(targetId, out Entity target);
             mover.GoBeside(LogisticsQueries.FootprintOf(context, target), breach: definition.CanBreach);
             victimId = targetId;
+            targetWasAt = target.Position;
             phase = Phase.Approach;
-            Enter(context, TaskState.Running);
+            // Running only once there is a route: a hunter that keeps finding none stays Blocked, which is what it is.
+            if (State == TaskState.Planning) Enter(context, TaskState.Running);
         }
 
         private void Approach(TaskContext context, Entity actor)
@@ -62,16 +65,13 @@ namespace JurassicPark.Simulation
             switch (mover.Tick(context, actor))
             {
                 case MoverStatus.Moving:
-                    // The route was just planned or replanned: if it runs through a blocker, that blocker is the first victim.
-                    if (mover.Breached.Count > 0 && context.World.IsAlive(mover.Breached[0]) && victimId != mover.Breached[0])
-                    {
-                        victimId = mover.Breached[0];
-                        Enter(context, TaskState.Running, TaskReason.Breaching);
-                    }
+                    Enter(context, TaskState.Running);
+                    // The route was just planned or replanned: the first blocker on it is the victim, or the target when it is clear.
+                    FollowRoute(context);
                     if (BesideVictim(context, actor)) phase = Phase.Fighting;
                     break;
                 case MoverStatus.Arrived:
-                    if (mover.Breached.Count > 0 && context.World.IsAlive(mover.Breached[0])) victimId = mover.Breached[0];
+                    FollowRoute(context);
                     phase = Phase.Fighting;
                     break;
                 case MoverStatus.Failed:
@@ -85,6 +85,14 @@ namespace JurassicPark.Simulation
                     else Enter(context, TaskState.Failed, mover.Reason);
                     break;
             }
+        }
+
+        private void FollowRoute(TaskContext context)
+        {
+            EntityId next = mover.Breached.Count > 0 && context.World.IsAlive(mover.Breached[0]) ? mover.Breached[0] : targetId;
+            if (next == victimId) return;
+            victimId = next;
+            Enter(context, TaskState.Running, next == targetId ? TaskReason.None : TaskReason.Breaching);
         }
 
         private bool BesideVictim(TaskContext context, Entity actor)
@@ -101,15 +109,24 @@ namespace JurassicPark.Simulation
                 phase = Phase.Plan;
                 return;
             }
+            // Breaking a wall to reach something that has since walked away is wasted work: check the way again.
+            if (victimId != targetId && context.World.TryGet(targetId, out Entity target) && SimVector2.Distance(target.Position, targetWasAt) > context.Map.CellSize)
+            {
+                phase = Phase.Plan;
+                return;
+            }
             if (cooldown > 0f) return;
             int dealt = context.Vitals.Damage(victimId, definition.AttackDamage, "attacked");
             cooldown = definition.AttackSeconds;
-            if (dealt > 0) context.World.Raise(new Attacked(actor.Id, victimId, dealt));
-            else if (victimId != targetId)
+            if (dealt > 0)
             {
-                // Something in the way that cannot be hurt: the route must go elsewhere.
-                phase = Phase.Plan;
+                context.World.Raise(new Attacked(actor.Id, victimId, dealt));
+                return;
             }
+            // Something that cannot be hurt is in the way. Not a route, then: wait and look again rather than gnaw forever.
+            retryAtTick = context.World.Tick + context.Config.ReplanIntervalTicks;
+            phase = Phase.Plan;
+            Enter(context, TaskState.Blocked, TaskReason.NoRoute);
         }
     }
 }

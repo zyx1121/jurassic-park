@@ -61,7 +61,11 @@ namespace JurassicPark.Simulation
             IReadOnlyDictionary<string, int> buildCost = null, float buildWorkSeconds = 0f, bool isGate = false,
             int attackDamage = 0, float attackSeconds = 1f, float perceptionRadius = 0f, bool canBreach = false)
         {
-            if (attackDamage < 0 || !(attackSeconds > 0f) || !(perceptionRadius >= 0f)) throw new ArgumentOutOfRangeException(nameof(attackDamage));
+            if (attackDamage < 0) throw new ArgumentOutOfRangeException(nameof(attackDamage));
+            if (!(attackSeconds > 0f)) throw new ArgumentOutOfRangeException(nameof(attackSeconds));
+            if (!(perceptionRadius >= 0f)) throw new ArgumentOutOfRangeException(nameof(perceptionRadius));
+            // A destructible blocker without hit points would be priced as breakable and never break: an attacker would gnaw at it forever.
+            if (blocks && destructible && maxHealth < 1) throw new ArgumentException($"'{id}' blocks and is destructible but has no hit points.", nameof(maxHealth));
             AttackDamage = attackDamage;
             AttackSeconds = attackSeconds;
             PerceptionRadius = perceptionRadius;
