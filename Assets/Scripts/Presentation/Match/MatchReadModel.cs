@@ -32,6 +32,9 @@ namespace JurassicPark.Presentation
         public Func<float> Fraction { get; set; } = () => 1f;
 
         public IReadOnlyList<EntitySnapshot> Entities => entities;
+
+        /// <summary>The match's own state. Updated by whoever feeds the model.</summary>
+        public MatchSnapshot Match { get; set; }
         public IReadOnlyList<SeatSnapshot> Seats => seats;
 
         public event Action<EntitySnapshot> EntityAppeared;

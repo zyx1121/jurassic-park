@@ -38,6 +38,12 @@ namespace JurassicPark.Tests.PlayMode
             yield return null;
             Assert.That(session.IsReady, Is.True, session.Failure);
             Assert.That(session.Role, Is.EqualTo(MatchRole.Offline));
+            // Skip the selection window: choose the defaults through the same command the lobby button sends.
+            Assert.That(session.Model.Match.Phase, Is.EqualTo(MatchPhase.Setup));
+            Entity chooser = session.Runtime.World.Entities.First(e => e.Kind == EntityKind.Unit && e.Owner == session.Runtime.LocalSeat);
+            session.Commands.Send(CommandKind.ChooseMatch, new[] { chooser.Id }, argument: 0 * 10 + 2);
+            yield return new WaitForSeconds(0.25f);
+            Assert.That(session.Model.Match.Phase, Is.EqualTo(MatchPhase.Survival));
         }
 
         private Entity First(string definitionId, bool local = false) => session.Runtime.World.Entities.First(e =>

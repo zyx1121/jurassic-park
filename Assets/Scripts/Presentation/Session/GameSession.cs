@@ -31,6 +31,7 @@ namespace JurassicPark.Presentation
         [SerializeField] private MapDefinitionAsset map;
         [SerializeField] private EntityCatalogAsset catalog;
         [SerializeField] private ScenarioAsset scenario;
+        [SerializeField] private MatchRulesAsset matchRules;
         [Tooltip("Start playing alone as soon as the scene loads. Off when a launcher decides between offline, host and join.")]
         [SerializeField] private bool beginOfflineOnAwake = true;
 
@@ -67,6 +68,9 @@ namespace JurassicPark.Presentation
         /// <summary>Authority only: a fresh snapshot was captured this frame. The network layer puts the same list on the wire.</summary>
         public event Action<long, IReadOnlyList<EntitySnapshot>> SnapshotCaptured;
 
+        /// <summary>Authority only: the match state as captured this frame, for the wire.</summary>
+        public event Action<MatchSnapshot> MatchCaptured;
+
         /// <summary>Authority only: the seat table changed.</summary>
         public event Action<IReadOnlyList<SeatSnapshot>> SeatsChanged;
 
@@ -76,8 +80,9 @@ namespace JurassicPark.Presentation
         /// <summary>An answer to one of the local player's commands, in any role.</summary>
         public event Action<CommandResolved> CommandAnswered;
 
-        public void Configure(SimulationSettingsAsset settingsAsset, MapDefinitionAsset mapAsset, EntityCatalogAsset catalogAsset, ScenarioAsset scenarioAsset, bool beginOffline)
+        public void Configure(SimulationSettingsAsset settingsAsset, MapDefinitionAsset mapAsset, EntityCatalogAsset catalogAsset, ScenarioAsset scenarioAsset, bool beginOffline, MatchRulesAsset matchRulesAsset = null)
         {
+            matchRules = matchRulesAsset;
             settings = settingsAsset;
             map = mapAsset;
             catalog = catalogAsset;
@@ -101,7 +106,7 @@ namespace JurassicPark.Presentation
             if (Role != MatchRole.None) throw new InvalidOperationException($"A match already began as {Role}.");
             try
             {
-                Runtime = SimulationRuntime.Build(settings, map, catalog, scenario);
+                Runtime = SimulationRuntime.Build(settings, map, catalog, scenario, matchRules);
             }
             catch (Exception exception)
             {
@@ -141,6 +146,11 @@ namespace JurassicPark.Presentation
         }
 
         public void ApplyRemoteSeats(IReadOnlyList<SeatSnapshot> seats) => Model?.SetSeats(seats);
+
+        public void ApplyRemoteMatch(MatchSnapshot match)
+        {
+            if (Model != null) Model.Match = match;
+        }
 
         /// <summary>Returns true when the snapshot was newer than what is shown and replaced it.</summary>
         public bool ApplyRemoteSnapshot(long tick, IReadOnlyList<EntitySnapshot> entities) => Model != null && Model.Apply(tick, entities);
@@ -202,6 +212,9 @@ namespace JurassicPark.Presentation
             SnapshotCapture.Entities(Runtime, catalog, captured);
             Model.Apply(Runtime.World.Tick, captured);
             SnapshotCaptured?.Invoke(Runtime.World.Tick, captured);
+            // The host's own screen sees its own seat; each client gets its seat's view from the network layer.
+            Model.Match = SnapshotCapture.Match(Runtime, Runtime.LocalSeat);
+            MatchCaptured?.Invoke(Model.Match);
         }
     }
 }

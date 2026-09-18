@@ -20,9 +20,10 @@ namespace JurassicPark.Net
         public const string Seats = "jp.seats";
         public const string Welcome = "jp.welcome";
         public const string MatchFull = "jp.full";
+        public const string Match = "jp.match";
 
         /// <summary>Bumped whenever the byte layout changes, so mismatched builds refuse each other instead of misreading.</summary>
-        public const ushort ProtocolVersion = 2;
+        public const ushort ProtocolVersion = 3;
 
         public const int MaxActorsPerCommand = 128;
         public const int MaxEntitiesPerSnapshot = 4096;
@@ -157,6 +158,41 @@ namespace JurassicPark.Net
                 if (id < 0) return false;
                 into.Add(new SeatSnapshot { Id = new SeatId(id), Team = team, Controller = (SeatController)controller });
             }
+            return true;
+        }
+
+        // ---- match: host to each client, that seat's view of the match ----
+
+        public static FastBufferWriter WriteMatch(MatchSnapshot match)
+        {
+            var writer = new FastBufferWriter(32, Allocator.Temp);
+            writer.WriteValueSafe((byte)match.Phase);
+            writer.WriteValueSafe(match.SecondsLeft);
+            writer.WriteValueSafe(match.TimeOfDay);
+            writer.WriteValueSafe(match.ModeIndex);
+            writer.WriteValueSafe(match.Difficulty);
+            writer.WriteValueSafe(match.BoardedByLocal);
+            writer.WriteValueSafe((byte)match.LocalOutcome);
+            writer.WriteValueSafe(match.Helicopter.Value);
+            return writer;
+        }
+
+        public static bool TryReadMatch(ref FastBufferReader reader, out MatchSnapshot match)
+        {
+            match = default;
+            if (!reader.TryBeginRead(1 + 4 + 4 + 1 + 1 + 2 + 1 + 8)) return false;
+            reader.ReadValue(out byte phase);
+            reader.ReadValue(out match.SecondsLeft);
+            reader.ReadValue(out match.TimeOfDay);
+            reader.ReadValue(out match.ModeIndex);
+            reader.ReadValue(out match.Difficulty);
+            reader.ReadValue(out match.BoardedByLocal);
+            reader.ReadValue(out byte outcome);
+            reader.ReadValue(out long helicopter);
+            if (float.IsNaN(match.SecondsLeft) || float.IsNaN(match.TimeOfDay)) return false;
+            match.Phase = (MatchPhase)phase;
+            match.LocalOutcome = (SeatOutcome)outcome;
+            match.Helicopter = new EntityId(helicopter);
             return true;
         }
 

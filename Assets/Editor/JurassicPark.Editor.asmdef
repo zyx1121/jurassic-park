@@ -7,7 +7,8 @@
         "Unity.RenderPipelines.Universal.Runtime",
         "Unity.RenderPipelines.Core.Runtime",
         "JurassicPark.Net",
-        "Unity.Netcode.Runtime"
+        "Unity.Netcode.Runtime",
+        "Newtonsoft.Json"
     ],
     "includePlatforms": [
         "Editor"

@@ -50,11 +50,19 @@ namespace JurassicPark.Presentation
             MatchReadModel model = session.Model;
             if (model == null) return string.Empty;
             if (session.Commands == null) return "connected, waiting for a seat";
-            if (model.Tick == builtAtTick && selection.Version == builtForVersion && selection.PlacingIndex < 0) return cached;
+            if (model.Tick == builtAtTick && selection.Version == builtForVersion && selection.PlacingIndex < 0 && session.Role != MatchRole.Client) return cached;
             builtAtTick = model.Tick;
             builtForVersion = selection.Version;
             text.Clear();
             text.Append(session.Role).Append("  seat ").Append(model.LocalSeat.Value).Append("  tick ").Append(model.Tick).Append('\n');
+            MatchSnapshot match = model.Match;
+            int hours = (int)match.TimeOfDay, minutes = (int)((match.TimeOfDay - hours) * 60f);
+            text.Append(match.Phase).Append("  ").Append((int)match.SecondsLeft / 60).Append(':').Append(((int)match.SecondsLeft % 60).ToString("00"))
+                .Append("  ").Append(hours.ToString("00")).Append(':').Append(minutes.ToString("00"))
+                .Append("  mode ").Append(match.ModeIndex).Append(" difficulty ").Append(match.Difficulty);
+            if (match.BoardedByLocal > 0) text.Append("  boarded ").Append(match.BoardedByLocal);
+            if (match.LocalOutcome != SeatOutcome.Undecided) text.Append("  ").Append(match.LocalOutcome.ToString().ToUpperInvariant());
+            text.Append('\n');
             text.Append("LMB select  drag box  RMB order  Shift queue  X stop  B wall  G gate  Del demolish  WASD pan  wheel zoom\n");
             if (selection.PlacingIndex >= 0)
                 text.Append("placing ").Append(model.Catalog.entries[selection.PlacingIndex].id).Append(" at ").Append(selection.PlacingCell).Append("  (LMB place, Shift keeps placing, RMB or Esc cancel)\n");

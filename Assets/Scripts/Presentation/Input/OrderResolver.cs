@@ -33,6 +33,7 @@ namespace JurassicPark.Presentation
             EntitySnapshot t = target.Value;
             if (t.Kind == EntityKind.ResourceNode && t.NodeRemaining > 0) return new Order(CommandKind.Gather, t.Id, t.Position);
             if (t.Kind == EntityKind.GroundPile) return new Order(CommandKind.Pickup, t.Id, t.Position);
+            if (!model.Match.Helicopter.IsNone && t.Id == model.Match.Helicopter) return new Order(CommandKind.Board, t.Id, t.Position);
             EntityCatalogAsset.Entry entry = model.EntryOf(t);
             bool ours = model.LocalMayUsePropertyOf(t.Owner);
             if (t.IsSite && ours) return new Order(CommandKind.Build, t.Id, t.Position);

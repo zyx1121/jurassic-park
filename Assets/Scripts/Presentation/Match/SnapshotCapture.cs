@@ -52,6 +52,23 @@ namespace JurassicPark.Presentation
             }
         }
 
+        public static MatchSnapshot Match(SimulationRuntime runtime, SeatId forSeat)
+        {
+            MatchFlow match = runtime.Match;
+            if (match == null) return new MatchSnapshot { Phase = MatchPhase.Survival, TimeOfDay = 12f };
+            return new MatchSnapshot
+            {
+                Phase = match.Phase,
+                SecondsLeft = (float)match.SecondsLeft,
+                TimeOfDay = match.Clock.TimeOfDay,
+                ModeIndex = (byte)match.ModeIndex,
+                Difficulty = (byte)match.Difficulty,
+                BoardedByLocal = (ushort)System.Math.Min(match.BoardedOf(forSeat), ushort.MaxValue),
+                LocalOutcome = match.OutcomeOf(forSeat),
+                Helicopter = match.Helicopter,
+            };
+        }
+
         public static void Seats(SimulationRuntime runtime, List<SeatSnapshot> into)
         {
             into.Clear();

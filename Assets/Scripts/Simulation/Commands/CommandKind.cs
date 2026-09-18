@@ -26,5 +26,11 @@ namespace JurassicPark.Simulation
 
         /// <summary>Attack the target entity, breaking through what is in the way if the actor can.</summary>
         Attack = 9,
+
+        /// <summary>Choose match length and difficulty during the selection window. Argument = mode index * 10 + difficulty.</summary>
+        ChooseMatch = 10,
+
+        /// <summary>Send the actors to board the helicopter during the evacuation.</summary>
+        Board = 11,
     }
 }
