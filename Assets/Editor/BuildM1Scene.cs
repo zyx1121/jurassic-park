@@ -103,12 +103,17 @@ namespace JurassicPark.Editor
             camera.allowMSAA = false;
             camera.allowHDR = false;
             cameraObject.AddComponent<AudioListener>();
-            cameraObject.AddComponent<RtsCamera>().Configure(session);
+            var rtsCamera = cameraObject.AddComponent<RtsCamera>();
+            rtsCamera.Configure(session);
 
             var inputObject = new GameObject("Input");
             var selection = inputObject.AddComponent<SelectionController>();
             selection.Configure(session, views, camera);
             inputObject.AddComponent<SelectionOverlay>().Configure(session, selection);
+
+            // The diagnostic HUD of M2: resource bar, selection panel, command card and minimap. The art HUD replaces it in #118.
+            var hudObject = new GameObject("Hud");
+            hudObject.AddComponent<HudOverlay>().Configure(session, selection, rtsCamera, camera);
 
             // Only the connection and named messages of Netcode are used: no NetworkObjects, no scene management, no player prefab.
             var networkObject = new GameObject("Network");

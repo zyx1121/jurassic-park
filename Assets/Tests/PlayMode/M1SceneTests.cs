@@ -190,6 +190,29 @@ namespace JurassicPark.Tests.PlayMode
         }
 
         [UnityTest]
+        public IEnumerator TheHudIsInTheSceneAndAMinimapClickMovesTheCamera()
+        {
+            yield return LoadScene();
+            var hud = Object.FindFirstObjectByType<HudOverlay>();
+            Assert.That(hud, Is.Not.Null, "the scene carries the diagnostic HUD");
+            Assert.That(Object.FindFirstObjectByType<SelectionOverlay>(), Is.Not.Null, "the drag rectangle stays with the overlay");
+
+            Rect minimap = hud.MinimapScreenRect;
+            Assert.That(minimap.width, Is.GreaterThan(0f));
+            Vector3 before = rtsCamera.Focus;
+            var press = new Vector2(minimap.xMin + minimap.width * 0.8f, minimap.yMin + minimap.height * 0.8f);
+            Assert.That(hud.TryMinimapWorldPoint(press, out Vector3 aimedAt), Is.True);
+            Assert.That(hud.ClickMinimap(press), Is.True);
+            yield return null;
+
+            Assert.That(rtsCamera.Focus.x, Is.EqualTo(aimedAt.x).Within(0.01f));
+            Assert.That(rtsCamera.Focus.z, Is.EqualTo(aimedAt.z).Within(0.01f));
+            Assert.That(Vector3.Distance(rtsCamera.Focus, before), Is.GreaterThan(1f), "the camera went somewhere else");
+            Assert.That(hud.IsOverHud(press), Is.True, "that press belongs to the HUD, so the world never sees it as an order");
+            Assert.That(hud.ClickMinimap(new Vector2(minimap.center.x, minimap.yMax + 40f)), Is.False, "a press above the minimap is not the minimap's");
+        }
+
+        [UnityTest]
         public IEnumerator PressingBAndClickingACellPlacesAWallSiteThatShowsUpAsASite()
         {
             yield return LoadScene();

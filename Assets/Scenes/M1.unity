@@ -119,7 +119,7 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
---- !u!1 &559598585
+--- !u!1 &92112402
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -127,40 +127,158 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 559598589}
-  - component: {fileID: 559598588}
-  - component: {fileID: 559598587}
-  - component: {fileID: 559598586}
+  - component: {fileID: 92112404}
+  - component: {fileID: 92112403}
   m_Layer: 0
-  m_Name: Fog
+  m_Name: Hud
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &559598586
+--- !u!114 &92112403
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 559598585}
+  m_GameObject: {fileID: 92112402}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2423b3769925b448c911a8973cb3e509, type: 3}
+  m_Script: {fileID: 11500000, guid: 7d61b4868a5e0446db8d9354fe5d4e89, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: JurassicPark.Presentation::JurassicPark.Presentation.FogView
-  session: {fileID: 1150269101}
-  unexploredAlpha: 0.92
-  exploredAlpha: 0.5
-  height: 3.6
---- !u!23 &559598587
+  m_EditorClassIdentifier: JurassicPark.Presentation::JurassicPark.Presentation.HudOverlay
+  session: {fileID: 1304229755}
+  selection: {fileID: 895789481}
+  rtsCamera: {fileID: 892996271}
+  viewCamera: {fileID: 892996270}
+  minimapWidth: 208
+  panelWidth: 380
+  cardWidth: 300
+  listedRows: 6
+--- !u!4 &92112404
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 92112402}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &663026498
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 663026501}
+  - component: {fileID: 663026500}
+  - component: {fileID: 663026499}
+  m_Layer: 0
+  m_Name: Match Net
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &663026499
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 663026498}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 662c46493aa3d467a9e2699e8476e352, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: JurassicPark.Net::JurassicPark.Net.MatchLauncher
+  session: {fileID: 1304229755}
+  net: {fileID: 663026500}
+  defaultPort: 7777
+--- !u!114 &663026500
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 663026498}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 00866e511e5ff40c89392ce4518101cd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: JurassicPark.Net::JurassicPark.Net.NetSession
+  session: {fileID: 1304229755}
+  network: {fileID: 2121482442}
+  transport: {fileID: 2121482441}
+  commandsPerSecond: 40
+  commandBurst: 60
+--- !u!4 &663026501
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 663026498}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &683081635
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 683081639}
+  - component: {fileID: 683081638}
+  - component: {fileID: 683081637}
+  - component: {fileID: 683081636}
+  m_Layer: 0
+  m_Name: Terrain
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &683081636
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 683081635}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ae678a0dc0963406bb00397bf4565655, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: JurassicPark.Presentation::JurassicPark.Presentation.TerrainView
+  session: {fileID: 1304229755}
+  ground: {r: 0.27, g: 0.42, b: 0.3, a: 1}
+  noBuild: {r: 0.64, g: 0.67, b: 0.42, a: 1}
+  cliff: {r: 0.13, g: 0.2, b: 0.23, a: 1}
+  cliffHeight: 2.4
+--- !u!23 &683081637
 MeshRenderer:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 559598585}
+  m_GameObject: {fileID: 683081635}
   m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
@@ -179,7 +297,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 8a8da4500e5d74f5ab634d8e0dd0643a, type: 2}
+  - {fileID: 2100000, guid: 48c55a7cef10e4b758863eee1dfb8906, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -203,21 +321,21 @@ MeshRenderer:
   m_SortingOrder: 0
   m_MaskInteraction: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!33 &559598588
+--- !u!33 &683081638
 MeshFilter:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 559598585}
+  m_GameObject: {fileID: 683081635}
   m_Mesh: {fileID: 0}
---- !u!4 &559598589
+--- !u!4 &683081639
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 559598585}
+  m_GameObject: {fileID: 683081635}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
@@ -226,7 +344,7 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &742448516
+--- !u!1 &892996269
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -234,10 +352,10 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 742448520}
-  - component: {fileID: 742448517}
-  - component: {fileID: 742448519}
-  - component: {fileID: 742448518}
+  - component: {fileID: 892996273}
+  - component: {fileID: 892996270}
+  - component: {fileID: 892996272}
+  - component: {fileID: 892996271}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -245,13 +363,13 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!20 &742448517
+--- !u!20 &892996270
 Camera:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 742448516}
+  m_GameObject: {fileID: 892996269}
   m_Enabled: 1
   serializedVersion: 2
   m_ClearFlags: 2
@@ -296,19 +414,19 @@ Camera:
   m_OcclusionCulling: 1
   m_StereoConvergence: 10
   m_StereoSeparation: 0.022
---- !u!114 &742448518
+--- !u!114 &892996271
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 742448516}
+  m_GameObject: {fileID: 892996269}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fe04b1f401f5b4f38b9c6006aa565d42, type: 3}
   m_Name: 
   m_EditorClassIdentifier: JurassicPark.Presentation::JurassicPark.Presentation.RtsCamera
-  session: {fileID: 1150269101}
+  session: {fileID: 1304229755}
   pitch: 56
   yaw: 45
   orthographic: 0
@@ -325,21 +443,21 @@ MonoBehaviour:
   maxZoomPerFrame: 3
   edgePixels: 6
   edgePan: 1
---- !u!81 &742448519
+--- !u!81 &892996272
 AudioListener:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 742448516}
+  m_GameObject: {fileID: 892996269}
   m_Enabled: 1
---- !u!4 &742448520
+--- !u!4 &892996273
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 742448516}
+  m_GameObject: {fileID: 892996269}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
@@ -348,7 +466,7 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &1014610828
+--- !u!1 &895789480
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -356,55 +474,54 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 1014610831}
-  - component: {fileID: 1014610830}
-  - component: {fileID: 1014610829}
+  - component: {fileID: 895789483}
+  - component: {fileID: 895789481}
+  - component: {fileID: 895789482}
   m_Layer: 0
-  m_Name: Match Net
+  m_Name: Input
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1014610829
+--- !u!114 &895789481
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1014610828}
+  m_GameObject: {fileID: 895789480}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 662c46493aa3d467a9e2699e8476e352, type: 3}
+  m_Script: {fileID: 11500000, guid: 26630f047925141038a960e4ebe5f90b, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: JurassicPark.Net::JurassicPark.Net.MatchLauncher
-  session: {fileID: 1150269101}
-  net: {fileID: 1014610830}
-  defaultPort: 7777
---- !u!114 &1014610830
+  m_EditorClassIdentifier: JurassicPark.Presentation::JurassicPark.Presentation.SelectionController
+  session: {fileID: 1304229755}
+  views: {fileID: 1361799619}
+  viewCamera: {fileID: 892996270}
+  pickSlackPixels: 6
+  dragThreshold: 6
+--- !u!114 &895789482
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1014610828}
+  m_GameObject: {fileID: 895789480}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 00866e511e5ff40c89392ce4518101cd, type: 3}
+  m_Script: {fileID: 11500000, guid: d1e331038e4404666b04ab36b186ed88, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: JurassicPark.Net::JurassicPark.Net.NetSession
-  session: {fileID: 1150269101}
-  network: {fileID: 2131780678}
-  transport: {fileID: 2131780677}
-  commandsPerSecond: 40
-  commandBurst: 60
---- !u!4 &1014610831
+  m_EditorClassIdentifier: JurassicPark.Presentation::JurassicPark.Presentation.SelectionOverlay
+  session: {fileID: 1304229755}
+  selection: {fileID: 895789481}
+--- !u!4 &895789483
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1014610828}
+  m_GameObject: {fileID: 895789480}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
@@ -413,7 +530,7 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &1024196801
+--- !u!1 &940517603
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -421,8 +538,212 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 1024196803}
-  - component: {fileID: 1024196802}
+  - component: {fileID: 940517607}
+  - component: {fileID: 940517606}
+  - component: {fileID: 940517605}
+  - component: {fileID: 940517604}
+  m_Layer: 0
+  m_Name: Fog
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &940517604
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 940517603}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2423b3769925b448c911a8973cb3e509, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: JurassicPark.Presentation::JurassicPark.Presentation.FogView
+  session: {fileID: 1304229755}
+  unexploredAlpha: 0.92
+  exploredAlpha: 0.5
+  height: 3.6
+--- !u!23 &940517605
+MeshRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 940517603}
+  m_Enabled: 1
+  m_CastShadows: 1
+  m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 2
+  m_RayTraceProcedural: 0
+  m_RayTracingAccelStructBuildFlagsOverride: 0
+  m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
+  m_ForceMeshLod: -1
+  m_MeshLodSelectionBias: 0
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 2100000, guid: 8a8da4500e5d74f5ab634d8e0dd0643a, type: 2}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 3
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_GlobalIlluminationMeshLod: 0
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+  m_MaskInteraction: 0
+  m_AdditionalVertexStreams: {fileID: 0}
+--- !u!33 &940517606
+MeshFilter:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 940517603}
+  m_Mesh: {fileID: 0}
+--- !u!4 &940517607
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 940517603}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1304229754
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1304229756}
+  - component: {fileID: 1304229755}
+  m_Layer: 0
+  m_Name: Session
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1304229755
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1304229754}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e0ba00bd8b7344e26b48fce30277c1bc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: JurassicPark.Presentation::JurassicPark.Presentation.GameSession
+  settings: {fileID: 11400000, guid: 9470e9cf1def145c9b5b723cb04bfae4, type: 2}
+  map: {fileID: 11400000, guid: 34001c8cf38d54447b61f297d9883504, type: 2}
+  catalog: {fileID: 11400000, guid: 8c3292d4db77f498084ae55b478a04ea, type: 2}
+  scenario: {fileID: 11400000, guid: 4c1d7b73a2208442ab970ccd8e4df8cd, type: 2}
+  matchRules: {fileID: 11400000, guid: e36a66610022843de8bfc880d16c5607, type: 2}
+  beginOfflineOnAwake: 0
+--- !u!4 &1304229756
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1304229754}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1361799618
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1361799620}
+  - component: {fileID: 1361799619}
+  m_Layer: 0
+  m_Name: Views
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1361799619
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1361799618}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 35a05d51ff7654f67a13131408b07a64, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: JurassicPark.Presentation::JurassicPark.Presentation.EntityViewRegistry
+  session: {fileID: 1304229755}
+  entityMaterial: {fileID: 2100000, guid: 1d5bd08cdd98f4c96af78a94e26af5ac, type: 2}
+  ringMaterial: {fileID: 2100000, guid: 860d2a2442f1a440ca256f5799ae8abc, type: 2}
+--- !u!4 &1361799620
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1361799618}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &2019102211
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2019102213}
+  - component: {fileID: 2019102212}
   m_Layer: 0
   m_Name: Key Light
   m_TagString: Untagged
@@ -430,13 +751,13 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!108 &1024196802
+--- !u!108 &2019102212
 Light:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1024196801}
+  m_GameObject: {fileID: 2019102211}
   m_Enabled: 1
   serializedVersion: 12
   m_Type: 1
@@ -495,13 +816,13 @@ Light:
   m_LightUnit: 1
   m_LuxAtDistance: 1
   m_EnableSpotReflector: 1
---- !u!4 &1024196803
+--- !u!4 &2019102213
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1024196801}
+  m_GameObject: {fileID: 2019102211}
   serializedVersion: 2
   m_LocalRotation: {x: 0.40305823, y: -0.27253202, z: 0.12708378, w: 0.8643611}
   m_LocalPosition: {x: 0, y: 0, z: 0}
@@ -510,7 +831,7 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &1150269100
+--- !u!1 &2121482440
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -518,278 +839,9 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 1150269102}
-  - component: {fileID: 1150269101}
-  m_Layer: 0
-  m_Name: Session
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &1150269101
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1150269100}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e0ba00bd8b7344e26b48fce30277c1bc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: JurassicPark.Presentation::JurassicPark.Presentation.GameSession
-  settings: {fileID: 11400000, guid: 9470e9cf1def145c9b5b723cb04bfae4, type: 2}
-  map: {fileID: 11400000, guid: 34001c8cf38d54447b61f297d9883504, type: 2}
-  catalog: {fileID: 11400000, guid: 8c3292d4db77f498084ae55b478a04ea, type: 2}
-  scenario: {fileID: 11400000, guid: 4c1d7b73a2208442ab970ccd8e4df8cd, type: 2}
-  matchRules: {fileID: 11400000, guid: e36a66610022843de8bfc880d16c5607, type: 2}
-  beginOfflineOnAwake: 0
---- !u!4 &1150269102
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1150269100}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &1561634395
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1561634397}
-  - component: {fileID: 1561634396}
-  m_Layer: 0
-  m_Name: Views
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &1561634396
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1561634395}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 35a05d51ff7654f67a13131408b07a64, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: JurassicPark.Presentation::JurassicPark.Presentation.EntityViewRegistry
-  session: {fileID: 1150269101}
-  entityMaterial: {fileID: 2100000, guid: 1d5bd08cdd98f4c96af78a94e26af5ac, type: 2}
-  ringMaterial: {fileID: 2100000, guid: 860d2a2442f1a440ca256f5799ae8abc, type: 2}
---- !u!4 &1561634397
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1561634395}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &1846143508
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1846143512}
-  - component: {fileID: 1846143511}
-  - component: {fileID: 1846143510}
-  - component: {fileID: 1846143509}
-  m_Layer: 0
-  m_Name: Terrain
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &1846143509
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1846143508}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ae678a0dc0963406bb00397bf4565655, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: JurassicPark.Presentation::JurassicPark.Presentation.TerrainView
-  session: {fileID: 1150269101}
-  ground: {r: 0.27, g: 0.42, b: 0.3, a: 1}
-  noBuild: {r: 0.64, g: 0.67, b: 0.42, a: 1}
-  cliff: {r: 0.13, g: 0.2, b: 0.23, a: 1}
-  cliffHeight: 2.4
---- !u!23 &1846143510
-MeshRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1846143508}
-  m_Enabled: 1
-  m_CastShadows: 1
-  m_ReceiveShadows: 1
-  m_DynamicOccludee: 1
-  m_StaticShadowCaster: 0
-  m_MotionVectors: 1
-  m_LightProbeUsage: 1
-  m_ReflectionProbeUsage: 1
-  m_RayTracingMode: 2
-  m_RayTraceProcedural: 0
-  m_RayTracingAccelStructBuildFlagsOverride: 0
-  m_RayTracingAccelStructBuildFlags: 1
-  m_SmallMeshCulling: 1
-  m_ForceMeshLod: -1
-  m_MeshLodSelectionBias: 0
-  m_RenderingLayerMask: 1
-  m_RendererPriority: 0
-  m_Materials:
-  - {fileID: 2100000, guid: 48c55a7cef10e4b758863eee1dfb8906, type: 2}
-  m_StaticBatchInfo:
-    firstSubMesh: 0
-    subMeshCount: 0
-  m_StaticBatchRoot: {fileID: 0}
-  m_ProbeAnchor: {fileID: 0}
-  m_LightProbeVolumeOverride: {fileID: 0}
-  m_ScaleInLightmap: 1
-  m_ReceiveGI: 1
-  m_PreserveUVs: 0
-  m_IgnoreNormalsForChartDetection: 0
-  m_ImportantGI: 0
-  m_StitchLightmapSeams: 1
-  m_SelectedEditorRenderState: 3
-  m_MinimumChartSize: 4
-  m_AutoUVMaxDistance: 0.5
-  m_AutoUVMaxAngle: 89
-  m_LightmapParameters: {fileID: 0}
-  m_GlobalIlluminationMeshLod: 0
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 0
-  m_MaskInteraction: 0
-  m_AdditionalVertexStreams: {fileID: 0}
---- !u!33 &1846143511
-MeshFilter:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1846143508}
-  m_Mesh: {fileID: 0}
---- !u!4 &1846143512
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1846143508}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &1897386351
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1897386354}
-  - component: {fileID: 1897386353}
-  - component: {fileID: 1897386352}
-  m_Layer: 0
-  m_Name: Input
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &1897386352
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1897386351}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d1e331038e4404666b04ab36b186ed88, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: JurassicPark.Presentation::JurassicPark.Presentation.SelectionOverlay
-  session: {fileID: 1150269101}
-  selection: {fileID: 1897386353}
---- !u!114 &1897386353
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1897386351}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 26630f047925141038a960e4ebe5f90b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: JurassicPark.Presentation::JurassicPark.Presentation.SelectionController
-  session: {fileID: 1150269101}
-  views: {fileID: 1561634396}
-  viewCamera: {fileID: 742448517}
-  pickSlackPixels: 6
-  dragThreshold: 6
---- !u!4 &1897386354
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1897386351}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &2131780676
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 2131780679}
-  - component: {fileID: 2131780677}
-  - component: {fileID: 2131780678}
+  - component: {fileID: 2121482443}
+  - component: {fileID: 2121482441}
+  - component: {fileID: 2121482442}
   m_Layer: 0
   m_Name: Network
   m_TagString: Untagged
@@ -797,13 +849,13 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &2131780677
+--- !u!114 &2121482441
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2131780676}
+  m_GameObject: {fileID: 2121482440}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 6960e84d07fb87f47956e7a81d71c4e6, type: 3}
@@ -828,13 +880,13 @@ MonoBehaviour:
     PacketDelayMS: 0
     PacketJitterMS: 0
     PacketDropRate: 0
---- !u!114 &2131780678
+--- !u!114 &2121482442
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2131780676}
+  m_GameObject: {fileID: 2121482440}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 593a2fe42fa9d37498c96f9a383b6521, type: 3}
@@ -843,7 +895,7 @@ MonoBehaviour:
   NetworkManagerExpanded: 0
   NetworkConfig:
     ProtocolVersion: 0
-    NetworkTransport: {fileID: 2131780677}
+    NetworkTransport: {fileID: 2121482441}
     PlayerPrefab: {fileID: 0}
     Prefabs:
       NetworkPrefabsLists: []
@@ -869,13 +921,13 @@ MonoBehaviour:
     OldPrefabList: []
   RunInBackground: 1
   LogLevel: 1
---- !u!4 &2131780679
+--- !u!4 &2121482443
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2131780676}
+  m_GameObject: {fileID: 2121482440}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
@@ -888,12 +940,13 @@ Transform:
 SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
-  - {fileID: 1150269102}
-  - {fileID: 1846143512}
-  - {fileID: 559598589}
-  - {fileID: 1561634397}
-  - {fileID: 742448520}
-  - {fileID: 1897386354}
-  - {fileID: 2131780679}
-  - {fileID: 1014610831}
-  - {fileID: 1024196803}
+  - {fileID: 1304229756}
+  - {fileID: 683081639}
+  - {fileID: 940517607}
+  - {fileID: 1361799620}
+  - {fileID: 892996273}
+  - {fileID: 895789483}
+  - {fileID: 92112404}
+  - {fileID: 2121482443}
+  - {fileID: 663026501}
+  - {fileID: 2019102213}

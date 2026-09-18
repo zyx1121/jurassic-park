@@ -56,6 +56,9 @@ namespace JurassicPark.Presentation
         public EntityCatalogAsset CatalogAsset => catalog;
         public SimulationSettingsAsset Settings => settings;
 
+        /// <summary>The match rules the HUD reads for what it cannot see in a snapshot, such as when night falls. Null when the scene runs without them.</summary>
+        public MatchRulesAsset MatchRules => matchRules;
+
         /// <summary>True while there is a match on screen that can take orders.</summary>
         public bool IsReady => Model != null && Failure == null && Commands != null;
 

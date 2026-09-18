@@ -41,6 +41,12 @@ namespace JurassicPark.Presentation
         /// <summary>The last order's rejection, for the HUD. None when it was accepted.</summary>
         public CommandRejection LastRejection { get; private set; }
 
+        /// <summary>
+        /// Where the HUD covers the screen, set by it. A press there belongs to the HUD, so it neither selects, orders nor
+        /// places: clicking a button or the minimap must not also send the world an order behind it.
+        /// </summary>
+        public System.Predicate<Vector2> PointerOverHud { get; set; }
+
         public void Configure(GameSession gameSession, EntityViewRegistry registry, Camera camera)
         {
             session = gameSession;
@@ -92,6 +98,7 @@ namespace JurassicPark.Presentation
             if (mouse == null) return;
             Vector2 cursor = mouse.position.ReadValue();
             bool shift = keyboard != null && keyboard.shiftKey.isPressed;
+            bool overHud = PointerOverHud != null && PointerOverHud(cursor);
 
             if (keyboard != null)
             {
@@ -103,12 +110,12 @@ namespace JurassicPark.Presentation
             if (PlacingIndex >= 0)
             {
                 if (TryGroundPoint(cursor, out SimVector2 aim)) PlacingCell = CellOf(aim);
-                if (mouse.leftButton.wasPressedThisFrame) PlaceAt(cursor, shift);
+                if (mouse.leftButton.wasPressedThisFrame && !overHud) PlaceAt(cursor, shift);
                 if (mouse.rightButton.wasPressedThisFrame) CancelPlacing();
                 return;
             }
 
-            if (mouse.leftButton.wasPressedThisFrame)
+            if (mouse.leftButton.wasPressedThisFrame && !overHud)
             {
                 pressing = true;
                 pressedAt = cursor;
@@ -125,7 +132,7 @@ namespace JurassicPark.Presentation
                 pressing = false;
                 IsDragging = false;
             }
-            if (mouse.rightButton.wasPressedThisFrame) OrderAt(cursor, shift);
+            if (mouse.rightButton.wasPressedThisFrame && !overHud) OrderAt(cursor, shift);
             if (keyboard != null && keyboard.xKey.wasPressedThisFrame) StopSelection();
         }
 
