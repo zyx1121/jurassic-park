@@ -94,13 +94,21 @@ namespace JurassicPark.Net
         }
 
         /// <summary>Headless runs have no screen, so they say what the screen would show: enough to check a two-process match from its logs.</summary>
+        private static int VisibleCells(FogSnapshot fog)
+        {
+            int count = 0;
+            for (int i = 0; i < fog.Cells.Length; i++) if (fog.Cells[i] == 2) count++;
+            return count;
+        }
+
         private void LogStatus()
         {
             nextStatusAt = Time.unscaledTime + 5f;
             MatchReadModel model = session.Model;
             var line = new System.Text.StringBuilder();
             line.Append("[Status] ").Append(session.Role).Append(" seat=").Append(model.LocalSeat.Value).Append(" tick=").Append(model.Tick).Append(' ').Append(model.Match.Phase).Append(' ').Append((int)model.Match.SecondsLeft).Append("s ").Append(model.Match.TimeOfDay.ToString("0.0")).Append('h')
-                .Append(" entities=").Append(model.Entities.Count).Append(" remoteClients=").Append(net.RemoteClientCount).Append(" snapshots=").Append(net.SnapshotsReceived);
+                .Append(" entities=").Append(model.Entities.Count).Append(" remoteClients=").Append(net.RemoteClientCount).Append(" snapshots=").Append(net.SnapshotsReceived)
+                .Append(" fog=").Append(model.Fog.Width).Append('x').Append(model.Fog.Height).Append(" rev=").Append(model.Fog.Revision).Append(" seen=").Append(VisibleCells(model.Fog));
             foreach (SeatSnapshot seat in model.Seats) line.Append(" seat").Append(seat.Id.Value).Append('=').Append(seat.Controller);
             foreach (EntitySnapshot entity in model.Entities)
             {
