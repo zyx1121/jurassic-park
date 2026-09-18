@@ -23,6 +23,11 @@ MonoBehaviour:
   maxQueuedPerActor: 8
   predatorScanIntervalTicks: 5
   breachCost: 74
+  allyThinkIntervalTicks: 20
+  allyWoodReserve: 12
+  allyWallDefinitionId: wall
+  allyGateDefinitionId: gate
+  allyResource: wood
   reservationLifetimeTicks: 50
   groundPileDefinitionId: pile
   targetFrameRate: 60

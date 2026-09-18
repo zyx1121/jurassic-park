@@ -123,22 +123,26 @@ namespace JurassicPark.Simulation
             return false;
         }
 
-        /// <summary>The nearest store the builder may use that offers the resource, by straight line, ties to the older entity.</summary>
+        /// <summary>The nearest store the builder may use that offers the resource, the builder's own seat's first, by straight line, ties to the older entity.</summary>
         private Entity NearestSourceOf(TaskContext context, Entity actor, string wanted)
         {
             Entity best = null;
             float bestDistance = float.MaxValue;
+            bool bestIsOwn = false;
             IReadOnlyList<Entity> entities = context.World.Entities;
             for (int i = 0; i < entities.Count; i++)
             {
                 Entity candidate = entities[i];
                 if (candidate.Id == siteId || unreachable.Contains(candidate.Id) || !LogisticsQueries.IsOpenStore(context, actor.Owner, candidate)) continue;
                 if (context.Logistics.AvailableIn(candidate.Id, wanted, Id) < 1) continue;
+                bool own = candidate.Owner == actor.Owner;
+                if (bestIsOwn && !own) continue;
                 float distance = SimVector2.Distance(actor.Position, candidate.Position);
-                if (distance < bestDistance)
+                if ((own && !bestIsOwn) || distance < bestDistance)
                 {
                     best = candidate;
                     bestDistance = distance;
+                    bestIsOwn = own;
                 }
             }
             return best;

@@ -34,14 +34,12 @@ namespace JurassicPark.Simulation
             return context.Seats == null ? target.Owner == seat || target.Owner.IsNone : context.Seats.MayUsePropertyOf(seat, target.Owner);
         }
 
-        /// <summary>
-        /// The nearest usable depot with room, by straight-line distance, ties going to the older entity. Straight-line on purpose:
-        /// it is cheap and deterministic, and an unreachable pick is reported by the walk and excluded on the next try.
-        /// </summary>
+        /// <summary>The nearest depot with room, the actor's own seat's first: an ally's depot takes the haul only when the seat has none with room.</summary>
         public static Entity NearestDepotWithRoom(TaskContext context, Entity actor, ICollection<EntityId> excluded)
         {
             Entity best = null;
             float bestDistance = float.MaxValue;
+            bool bestIsOwn = false;
             IReadOnlyList<Entity> entities = context.World.Entities;
             for (int i = 0; i < entities.Count; i++)
             {
@@ -50,11 +48,14 @@ namespace JurassicPark.Simulation
                 if (!IsOpenStore(context, actor.Owner, candidate)) continue;
                 context.Logistics.TryGetContainer(candidate.Id, out Container store);
                 if (store.FreeCapacity < 1) continue;
+                bool own = candidate.Owner == actor.Owner;
+                if (bestIsOwn && !own) continue;
                 float distance = SimVector2.Distance(actor.Position, candidate.Position);
-                if (distance < bestDistance)
+                if ((own && !bestIsOwn) || distance < bestDistance)
                 {
                     best = candidate;
                     bestDistance = distance;
+                    bestIsOwn = own;
                 }
             }
             return best;

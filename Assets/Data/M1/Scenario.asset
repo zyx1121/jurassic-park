@@ -37,6 +37,13 @@ MonoBehaviour:
     stock:
     - resource: wood
       amount: 60
+  - definitionId: depot
+    ownerSeat: 2
+    cellX: 26
+    cellY: 27
+    stock:
+    - resource: wood
+      amount: 20
   - definitionId: tree
     ownerSeat: 0
     cellX: 30
@@ -107,6 +114,21 @@ MonoBehaviour:
     cellX: 24
     cellY: 6
     stock: []
+  - definitionId: tree
+    ownerSeat: 0
+    cellX: 26
+    cellY: 23
+    stock: []
+  - definitionId: tree
+    ownerSeat: 0
+    cellX: 28
+    cellY: 23
+    stock: []
+  - definitionId: tree
+    ownerSeat: 0
+    cellX: 30
+    cellY: 23
+    stock: []
   - definitionId: survivor
     ownerSeat: 1
     cellX: 15
@@ -124,8 +146,8 @@ MonoBehaviour:
     stock: []
   - definitionId: survivor
     ownerSeat: 2
-    cellX: 10
-    cellY: 12
+    cellX: 29
+    cellY: 27
     stock: []
   - definitionId: raptor
     ownerSeat: 8
