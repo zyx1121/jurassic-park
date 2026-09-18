@@ -283,6 +283,10 @@ namespace JurassicPark.Editor
             for (int y = 9; y <= 23; y++) { grid[y][6] = '#'; grid[y][21] = '#'; }
             grid[15][21] = '.'; grid[16][21] = '.';   // east entrance, two cells wide
             grid[23][13] = '.';                        // north gate, one cell
+            // The computer ally's own camp in the south-east: a ring 24..33 by 25..30 with a two-cell entrance on its west side.
+            for (int x = 24; x <= 33; x++) { grid[25][x] = '#'; grid[30][x] = '#'; }
+            for (int y = 25; y <= 30; y++) { grid[y][24] = '#'; grid[y][33] = '#'; }
+            grid[27][24] = '.'; grid[28][24] = '.';
             // An outcrop that makes the way round to the north gate a real detour.
             for (int x = 22; x <= 27; x++) grid[22][x] = '#';
             for (int y = 17; y <= 22; y++) grid[y][27] = '#';
@@ -290,18 +294,22 @@ namespace JurassicPark.Editor
             for (int x = 1; x < width - 1; x++) { grid[1][x] = ','; grid[2][x] = ','; }
 
             trees = new List<Cell>();
-            foreach ((int x, int y) in new[] { (30, 12), (31, 13), (32, 11), (33, 13), (34, 12), (31, 10), (38, 22), (39, 24), (40, 22), (41, 25), (37, 25), (26, 5), (28, 6), (24, 6) })
+            foreach ((int x, int y) in new[] { (30, 12), (31, 13), (32, 11), (33, 13), (34, 12), (31, 10), (38, 22), (39, 24), (40, 22), (41, 25), (37, 25), (26, 5), (28, 6), (24, 6), (26, 23), (28, 23), (30, 23) })
                 trees.Add(new Cell(x, y));
             depotAnchor = new Cell(12, 15);
             redStarts = new List<Cell> { new Cell(15, 14), new Cell(16, 16), new Cell(15, 18) };
-            blueStarts = new List<Cell> { new Cell(10, 12) };
+            blueStarts = new List<Cell> { new Cell(30, 27) };
 
             var flags = new CellFlags[width * height];
             for (int y = 0; y < height; y++)
                 for (int x = 0; x < width; x++)
                     flags[y * width + x] = grid[y][x] == '#' ? CellFlags.None : grid[y][x] == ',' ? CellFlags.Walkable : CellFlags.Walkable | CellFlags.Buildable;
 
-            var camps = new[] { new CampDefinition("west-camp", "West Camp", new CellBounds(7, 10, 20, 22), new[] { new Cell(21, 15), new Cell(21, 16), new Cell(13, 23) }) };
+            var camps = new[]
+            {
+                new CampDefinition("west-camp", "West Camp", new CellBounds(7, 10, 20, 22), new[] { new Cell(21, 15), new Cell(21, 16), new Cell(13, 23) }),
+                new CampDefinition("south-camp", "South Camp", new CellBounds(25, 26, 32, 29), new[] { new Cell(24, 27), new Cell(24, 28) }),
+            };
             var regions = new[]
             {
                 new RegionDefinition("spawn-east", RegionKind.DinosaurSpawn, new CellBounds(42, 4, 46, 28)),
@@ -317,8 +325,8 @@ namespace JurassicPark.Editor
             {
                 new ScenarioAsset.Placement { definitionId = "depot", ownerSeat = 1, cellX = depot.X, cellY = depot.Y,
                     stock = new[] { new EntityCatalogAsset.CostEntry { resource = "wood", amount = 60 } } },
-                // The computer ally shares the camp and keeps its own depot, so it has something to stock and defend.
-                new ScenarioAsset.Placement { definitionId = "depot", ownerSeat = 2, cellX = 9, cellY = 19,
+                // The computer ally has a camp of its own, so what it walls and gates is never the player's way out.
+                new ScenarioAsset.Placement { definitionId = "depot", ownerSeat = 2, cellX = 26, cellY = 27,
                     stock = new[] { new EntityCatalogAsset.CostEntry { resource = "wood", amount = 20 } } },
             };
             foreach (Cell cell in trees) list.Add(new ScenarioAsset.Placement { definitionId = "tree", ownerSeat = 0, cellX = cell.X, cellY = cell.Y });

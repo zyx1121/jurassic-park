@@ -58,13 +58,13 @@ namespace JurassicPark.Tests.EditMode
             SimulationRuntime runtime = Build();
 
             Assert.That(runtime.Map.Definition.Validate(), Is.Empty);
-            Assert.That(runtime.Map.Definition.Camps, Has.Count.EqualTo(1));
+            Assert.That(runtime.Map.Definition.Camps, Has.Count.EqualTo(2), "the player's camp and the computer ally's");
             Assert.That(runtime.World.Entities.Count(e => e.DefinitionId == "survivor"), Is.EqualTo(4));
             Assert.That(runtime.World.Entities.Count(e => e.DefinitionId == "raptor"), Is.EqualTo(2));
-            Assert.That(runtime.World.Entities.Count(e => e.Kind == EntityKind.ResourceNode), Is.EqualTo(14));
+            Assert.That(runtime.World.Entities.Count(e => e.Kind == EntityKind.ResourceNode), Is.EqualTo(17));
             Entity depot = runtime.World.Entities.First(e => e.DefinitionId == "depot" && e.Owner == runtime.LocalSeat);
             Assert.That(runtime.Map.FootprintOf(depot.Id), Has.Count.EqualTo(4), "the 2x2 depot blocks its four cells");
-            Assert.That(runtime.World.PendingEventCount, Is.EqualTo(22), "the setup batch is waiting for the first frame to drain it");
+            Assert.That(runtime.World.PendingEventCount, Is.EqualTo(runtime.World.Entities.Count), "the setup batch is waiting for the first frame to drain it");
         }
 
         [Test]
@@ -240,11 +240,17 @@ namespace JurassicPark.Tests.EditMode
             SimulationRuntime runtime = Build();
             Entity blueDepot = runtime.World.Entities.Single(e => e.DefinitionId == "depot" && e.Owner == new SeatId(2));
             runtime.Logistics.TryGetContainer(blueDepot.Id, out Container store);
-            int before = store.AmountOf("wood");
-            for (int i = 0; i < 3000 && runtime.World.Entities.Count(e => e.Kind == EntityKind.Building && e.Owner == new SeatId(2) && e.DefinitionId != "depot") < 3; i++) runtime.World.Step();
+            Entity redDepot = runtime.World.Entities.Single(e => e.DefinitionId == "depot" && e.Owner == runtime.LocalSeat);
+            runtime.Logistics.TryGetContainer(redDepot.Id, out Container redStore);
+            int before = store.AmountOf("wood"), redBefore = redStore.AmountOf("wood");
+            for (int i = 0; i < 3000 && runtime.World.Entities.Count(e => e.Kind == EntityKind.Building && e.Owner == new SeatId(2) && e.DefinitionId != "depot") < 2; i++) runtime.World.Step();
 
-            Assert.That(runtime.World.Entities.Count(e => e.Kind == EntityKind.Building && e.Owner == new SeatId(2) && e.DefinitionId != "depot"), Is.EqualTo(3), "a gate and two walls across the camp's three entrance cells");
+            Assert.That(runtime.World.Entities.Count(e => e.Kind == EntityKind.Building && e.Owner == new SeatId(2) && e.DefinitionId != "depot"), Is.EqualTo(2), "a gate and a wall across its own camp's two entrance cells");
             Assert.That(runtime.World.Entities.Any(e => e.DefinitionId == "gate" && e.Owner == new SeatId(2)), Is.True);
+            Assert.That(runtime.World.Entities.Count(e => e.Kind == EntityKind.Building && e.Owner == new SeatId(2) && runtime.Map.Definition.Camps[0].Bounds.Contains(runtime.Map.CellAt(e.Position))), Is.EqualTo(0), "nothing of the ally's stands in the player's camp");
+            Assert.That(redStore.AmountOf("wood"), Is.EqualTo(redBefore), "the player's stock is untouched: the gate and the wall were paid for out of its own depot");
+            for (int i = 0; i < 1500 && store.AmountOf("wood") <= before - 14; i++) runtime.World.Step();
+            Assert.That(store.AmountOf("wood"), Is.GreaterThan(before - 14), "its gatherer restocks the depot after the building spend");
             Assert.That(runtime.World.IsFaulted, Is.False);
         }
     }
