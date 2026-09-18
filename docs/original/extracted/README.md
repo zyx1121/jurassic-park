@@ -29,7 +29,8 @@ That file decodes `war3map.w3e` (129 x 129 terrain vertices, so a 128 x 128 cell
 per cell), `war3map.doo` (6,849 doodads and destructables plus 1 special doodad) and the regions of
 `war3map.j`: the 12 `-base` camp rectangles, the 10 rescue-helicopter landing candidates, the survivor
 gathering point near the map centre, the dinosaur spawn quadrants and the 12 start locations of `w3i.json`.
-Terrain comes out as four 128-row character grids (cliff level, water, ground texture, derived passability),
-doodads as one pipe-separated row each with a tree/rock/plant/other class and a ground-blocking flag. The raw
-map files are not in this repository; pass their directory with `--raw`, and `--check` verifies that the
+Terrain comes out as five 128-row character grids (cliff level, water, ground texture, the unplayable border
+ring and a derived passability), doodads as one pipe-separated row each with a tree/rock/plant/other class,
+a ground-blocking flag and the pathing texture the map sets for the type. The raw map files are not in
+this repository; pass their directory with `--raw`, and `--check` verifies that the
 committed JSON and PNG are still what the tool produces.

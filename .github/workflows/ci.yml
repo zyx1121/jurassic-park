@@ -37,6 +37,13 @@ jobs:
             [ -e "${m%.meta}" ] || { echo "::error::orphan meta $m"; fail=1; }
           done < <(git ls-files 'Assets/**/*.meta' 'Assets/*.meta')
           exit $fail
+      - name: Decoded originals match their generators
+        # The raw Warcraft III map files are not in the repository, so the map layout check skips itself here
+        # and only runs where they are available.
+        run: |
+          set -e
+          python3 tools/original_catalog.py --check
+          python3 tools/original_map_layout.py --check
       - name: Binary assets are LFS pointers
         run: |
           set -e
