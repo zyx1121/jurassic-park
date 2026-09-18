@@ -66,7 +66,7 @@ namespace JurassicPark.Tests.EditMode
             {
                 new EntitySnapshot { Id = new EntityId(16), DefinitionIndex = 0, Kind = EntityKind.Unit, Owner = new SeatId(1), Position = new SimVector2(31f, 29.5f),
                     PackTotal = 7, PackCapacity = 10, Task = TaskKindCode.Gather, TaskState = TaskState.Blocked, TaskReason = TaskReason.SourceEmpty, BuildProgress = 255, HealthFraction = 200 },
-                new EntitySnapshot { Id = new EntityId(30), DefinitionIndex = 4, Kind = EntityKind.Building, Owner = new SeatId(1), Position = new SimVector2(24f, 30f), IsSite = true, BuildProgress = 90, HealthFraction = 255, GateOpen = true },
+                new EntitySnapshot { Id = new EntityId(30), DefinitionIndex = 4, Kind = EntityKind.Building, Owner = new SeatId(1), Position = new SimVector2(24f, 30f), IsSite = true, BuildProgress = 90, HealthFraction = 255, GateOpen = true, Remembered = true },
                 new EntitySnapshot { Id = new EntityId(2), DefinitionIndex = 2, Kind = EntityKind.ResourceNode, Owner = SeatId.None, Position = new SimVector2(61f, 25f), NodeRemaining = 33 },
             };
             using FastBufferWriter writer = NetMessages.WriteSnapshot(512, sent);
@@ -130,6 +130,34 @@ namespace JurassicPark.Tests.EditMode
             Assert.That(NetMessages.TryReadMatch(ref reader, out MatchSnapshot got), Is.True);
             reader.Dispose();
             Assert.That(got, Is.EqualTo(sent));
+        }
+
+        [Test]
+        public void TheFogMaskSurvivesTheWireAndABadCellValueIsRefused()
+        {
+            byte[] cells = { 0, 1, 2, 2, 1, 0 };
+            using (FastBufferWriter writer = NetMessages.WriteFog(3, 2, cells, 9))
+            {
+                FastBufferReader reader = ReaderOf(writer);
+                var got = new List<byte>();
+                Assert.That(NetMessages.TryReadFog(ref reader, out int w, out int h, got, out long revision), Is.True);
+                reader.Dispose();
+                Assert.That((w, h, revision), Is.EqualTo((3, 2, 9L)));
+                Assert.That(got, Is.EqualTo(cells));
+            }
+            // A hostile size pair whose product overflows to a small number is refused before the product is formed.
+            using (FastBufferWriter writer = NetMessages.WriteFog(65536, 65536, new byte[] { 0 }, 1))
+            {
+                FastBufferReader reader = ReaderOf(writer);
+                Assert.That(NetMessages.TryReadFog(ref reader, out _, out _, new List<byte>(), out _), Is.False);
+                reader.Dispose();
+            }
+            using (FastBufferWriter writer = NetMessages.WriteFog(1, 1, new byte[] { 7 }, 1))
+            {
+                FastBufferReader reader = ReaderOf(writer);
+                Assert.That(NetMessages.TryReadFog(ref reader, out _, out _, new List<byte>(), out _), Is.False);
+                reader.Dispose();
+            }
         }
 
         // ---------------- seat binding ----------------

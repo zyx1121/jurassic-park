@@ -21,13 +21,14 @@ namespace JurassicPark.Net
         public const string Welcome = "jp.welcome";
         public const string MatchFull = "jp.full";
         public const string Match = "jp.match";
+        public const string Fog = "jp.fog";
 
         /// <summary>Bumped whenever the byte layout changes, so mismatched builds refuse each other instead of misreading.</summary>
-        public const ushort ProtocolVersion = 3;
+        public const ushort ProtocolVersion = 4;
 
         public const int MaxActorsPerCommand = 128;
         public const int MaxEntitiesPerSnapshot = 4096;
-        private const int EntityBytes = 8 + 2 + 1 + 4 + 4 + 4 + 2 + 2 + 4 + 1 + 1 + 1 + 1 + 1 + 1 + 1;
+        private const int EntityBytes = 8 + 2 + 1 + 4 + 4 + 4 + 2 + 2 + 4 + 1 + 1 + 1 + 1 + 1 + 1 + 1 + 1;   // + Remembered
 
         // ---- command: client to host. The seat is deliberately absent. ----
 
@@ -161,6 +162,43 @@ namespace JurassicPark.Net
             return true;
         }
 
+        // ---- fog: host to each client, its team's mask when it changed ----
+
+        public const int MaxFogCells = 65536;
+        public const int MaxFogSide = 1024;
+
+        public static FastBufferWriter WriteFog(int width, int height, IReadOnlyList<byte> cells, long revision)
+        {
+            var writer = new FastBufferWriter(20 + cells.Count, Allocator.Temp);
+            writer.WriteValueSafe(revision);
+            writer.WriteValueSafe(width);
+            writer.WriteValueSafe(height);
+            for (int i = 0; i < cells.Count; i++) writer.WriteValueSafe(cells[i]);
+            return writer;
+        }
+
+        public static bool TryReadFog(ref FastBufferReader reader, out int width, out int height, List<byte> cells, out long revision)
+        {
+            cells.Clear();
+            width = height = 0;
+            revision = 0;
+            if (!reader.TryBeginRead(8 + 4 + 4)) return false;
+            reader.ReadValue(out revision);
+            reader.ReadValue(out width);
+            reader.ReadValue(out height);
+            // Each side is bounded before the product is formed, so a hostile pair cannot overflow the check.
+            if (width < 1 || height < 1 || width > MaxFogSide || height > MaxFogSide) return false;
+            int count = width * height;
+            if (count > MaxFogCells || !reader.TryBeginRead(count)) return false;
+            for (int i = 0; i < count; i++)
+            {
+                reader.ReadValue(out byte cell);
+                if (cell > 2) return false;
+                cells.Add(cell);
+            }
+            return true;
+        }
+
         // ---- match: host to each client, that seat's view of the match ----
 
         public static FastBufferWriter WriteMatch(MatchSnapshot match)
@@ -224,6 +262,7 @@ namespace JurassicPark.Net
                 writer.WriteValueSafe(e.IsSite);
                 writer.WriteValueSafe(e.HealthFraction);
                 writer.WriteValueSafe(e.GateOpen);
+                writer.WriteValueSafe(e.Remembered);
             }
             return writer;
         }
@@ -255,6 +294,7 @@ namespace JurassicPark.Net
                 reader.ReadValue(out e.IsSite);
                 reader.ReadValue(out e.HealthFraction);
                 reader.ReadValue(out e.GateOpen);
+                reader.ReadValue(out e.Remembered);
                 if (owner < 0 || float.IsNaN(x) || float.IsNaN(y) || float.IsInfinity(x) || float.IsInfinity(y)) return false;
                 e.Id = new EntityId(id);
                 e.Kind = (EntityKind)kind;

@@ -6,14 +6,57 @@ namespace JurassicPark.Presentation
     /// <summary>Reads the authoritative world into snapshots. Runs on the host only: once for its own screen, and the same list goes on the wire.</summary>
     public static class SnapshotCapture
     {
-        public static void Entities(SimulationRuntime runtime, EntityCatalogAsset catalog, List<EntitySnapshot> into)
+        /// <summary>
+        /// Everything the seat sees right now: its own team's things always, anything else only in a visible cell. What the team
+        /// remembers of things it saw earlier is added by <see cref="Entities"/> from a <see cref="SnapshotMemory"/>, never live.
+        /// </summary>
+        public static bool MaySee(SimulationRuntime runtime, SeatId forSeat, Entity entity)
+        {
+            Knowledge knowledge = runtime.Knowledge;
+            return knowledge == null || knowledge.CanSee(forSeat, entity);
+        }
+
+        /// <summary>
+        /// The seat's view of the world: live snapshots of what it sees, then, given a memory, the last-seen snapshot of every
+        /// building, tree and pile it saw before and cannot see now. A remembered thing is forgotten when its cell is in sight
+        /// again and it is not there any more. Units are never remembered, so a unit walking into the fog is gone from the screen.
+        /// </summary>
+        public static void Entities(SimulationRuntime runtime, EntityCatalogAsset catalog, List<EntitySnapshot> into, SeatId forSeat, SnapshotMemory memory = null)
         {
             into.Clear();
+            Knowledge knowledge = runtime.Knowledge;
+            Dictionary<EntityId, EntitySnapshot> remembered = memory != null && knowledge != null ? memory.Of(knowledge.TeamOf(forSeat)) : null;
+            if (memory != null) memory.SeenThisCapture.Clear();
             IReadOnlyList<Entity> entities = runtime.World.Entities;
             for (int i = 0; i < entities.Count; i++)
             {
                 Entity entity = entities[i];
-                if (!entity.IsAlive) continue;
+                if (!entity.IsAlive || !MaySee(runtime, forSeat, entity)) continue;
+                EntitySnapshot snapshot = Capture(runtime, catalog, entity);
+                into.Add(snapshot);
+                if (remembered == null || entity.Kind == EntityKind.Unit) continue;
+                memory.SeenThisCapture.Add(entity.Id);
+                if (!knowledge.IsOwnOrAllied(forSeat, entity.Owner)) remembered[entity.Id] = snapshot;
+            }
+            if (remembered == null) return;
+            memory.Forget.Clear();
+            foreach (KeyValuePair<EntityId, EntitySnapshot> pair in remembered)
+            {
+                if (memory.SeenThisCapture.Contains(pair.Key)) continue;
+                if (knowledge.At(forSeat, runtime.Map.CellAt(pair.Value.Position)) == Visibility.Visible) memory.Forget.Add(pair.Key);
+                else
+                {
+                    EntitySnapshot ghost = pair.Value;
+                    ghost.Remembered = true;
+                    into.Add(ghost);
+                }
+            }
+            for (int i = 0; i < memory.Forget.Count; i++) remembered.Remove(memory.Forget[i]);
+        }
+
+        private static EntitySnapshot Capture(SimulationRuntime runtime, EntityCatalogAsset catalog, Entity entity)
+        {
+            {
                 var snapshot = new EntitySnapshot
                 {
                     Id = entity.Id,
@@ -48,7 +91,7 @@ namespace JurassicPark.Presentation
                     snapshot.TaskState = task.State;
                     snapshot.TaskReason = task.Reason;
                 }
-                into.Add(snapshot);
+                return snapshot;
             }
         }
 

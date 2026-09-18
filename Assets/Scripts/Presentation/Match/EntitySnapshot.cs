@@ -32,6 +32,8 @@ namespace JurassicPark.Presentation
         /// <summary>Hit points as a fraction, 0 to 255. 255 for anything that cannot be hurt.</summary>
         public byte HealthFraction;
         public bool GateOpen;
+        /// <summary>True for a thing the team remembers but cannot see right now: the picture may be stale, and an order on it is a walk.</summary>
+        public bool Remembered;
 
         public static TaskKindCode CodeOf(string taskKind)
         {

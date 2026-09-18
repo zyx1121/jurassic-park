@@ -111,9 +111,11 @@ namespace JurassicPark.Tests.EditMode
             Assert.That(log.OfType<PassabilityChanged>().Last(p => p.Cause == walls.First(w => !runtime.World.IsAlive(w))).NowBlocked, Is.False, "the road reopened");
             Assert.That(GridPathfinder.FindPath(runtime.Map, new Cell(30, 15), new Cell(15, 15), new PathOptions()).Status, Is.EqualTo(PathStatus.Found));
 
-            // 5. Enter: the raptor is inside the camp; the snapshot the screen reads says so too.
+            // 5. Enter: the raptor is inside the camp and, once it is in a survivor's sight (a wall sees 1.56 m, as in the
+            // original, so the breach itself is in the dark), the snapshot the screen reads says so too.
             RunUntil(() => runtime.Map.CellAt(raptor.Position).X < 21, 600, "the raptor entered the camp");
-            SnapshotCapture.Entities(runtime, Load<EntityCatalogAsset>("Catalog"), snapshot);
+            RunUntil(() => runtime.Knowledge.CanSee(runtime.LocalSeat, raptor), 300, "the raptor came into a survivor's sight");
+            SnapshotCapture.Entities(runtime, Load<EntityCatalogAsset>("Catalog"), snapshot, runtime.LocalSeat);
             EntitySnapshot raptorOnScreen = snapshot.Single(s => s.Id == raptor.Id);
             Assert.That(runtime.Map.CellAt(raptorOnScreen.Position).X, Is.LessThan(21));
             Assert.That(snapshot.Count(s => walls.Contains(s.Id)), Is.EqualTo(2), "the broken wall is gone from the screen, the other two stand");

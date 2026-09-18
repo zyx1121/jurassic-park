@@ -50,6 +50,9 @@ namespace JurassicPark.Presentation
         /// <summary>Where the local player's orders go. Null until the local seat is known; on a client that is after the host's handshake.</summary>
         public CommandSender Commands { get; private set; }
 
+        /// <summary>Authority only: what each team remembers of things it can no longer see. Shared by the host's screen and every client capture.</summary>
+        public SnapshotMemory Memory { get; } = new SnapshotMemory();
+
         public EntityCatalogAsset CatalogAsset => catalog;
         public SimulationSettingsAsset Settings => settings;
 
@@ -65,7 +68,7 @@ namespace JurassicPark.Presentation
         /// <summary>Authority only: everything the simulation did this frame, drained once. The network layer routes answers from it.</summary>
         public event Action<IReadOnlyList<SimEvent>> EventsDrained;
 
-        /// <summary>Authority only: a fresh snapshot was captured this frame. The network layer puts the same list on the wire.</summary>
+        /// <summary>Authority only: a fresh tick was captured this frame. The network layer captures per seat from the runtime.</summary>
         public event Action<long, IReadOnlyList<EntitySnapshot>> SnapshotCaptured;
 
         /// <summary>Authority only: the match state as captured this frame, for the wire.</summary>
@@ -147,6 +150,8 @@ namespace JurassicPark.Presentation
 
         public void ApplyRemoteSeats(IReadOnlyList<SeatSnapshot> seats) => Model?.SetSeats(seats);
 
+        public void ApplyRemoteFog(int width, int height, IReadOnlyList<byte> cells, long revision) => Model?.Fog.Set(width, height, cells, revision);
+
         public void ApplyRemoteMatch(MatchSnapshot match)
         {
             if (Model != null) Model.Match = match;
@@ -209,8 +214,11 @@ namespace JurassicPark.Presentation
                 SeatsChanged?.Invoke(capturedSeats);
             }
             if (!force) return;
-            SnapshotCapture.Entities(Runtime, catalog, captured);
+            SnapshotCapture.Entities(Runtime, catalog, captured, Runtime.LocalSeat, Memory);
             Model.Apply(Runtime.World.Tick, captured);
+            int team = Runtime.Knowledge.TeamOf(Runtime.LocalSeat);
+            if (Model.Fog.Revision != Runtime.Knowledge.RevisionOf(team) || Model.Fog.Cells.Length == 0)
+                Model.Fog.Set(Runtime.Map.Width, Runtime.Map.Height, Runtime.Knowledge.CellsOf(team), Runtime.Knowledge.RevisionOf(team));
             SnapshotCaptured?.Invoke(Runtime.World.Tick, captured);
             // The host's own screen sees its own seat; each client gets its seat's view from the network layer.
             Model.Match = SnapshotCapture.Match(Runtime, Runtime.LocalSeat);

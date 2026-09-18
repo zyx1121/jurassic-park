@@ -35,6 +35,9 @@ namespace JurassicPark.Presentation
 
         /// <summary>The match's own state. Updated by whoever feeds the model.</summary>
         public MatchSnapshot Match { get; set; }
+
+        /// <summary>The local team's fog. Updated by whoever feeds the model.</summary>
+        public FogSnapshot Fog { get; } = new FogSnapshot();
         public IReadOnlyList<SeatSnapshot> Seats => seats;
 
         public event Action<EntitySnapshot> EntityAppeared;

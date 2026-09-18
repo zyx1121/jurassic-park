@@ -23,6 +23,7 @@ namespace JurassicPark.Presentation
 
         /// <summary>Null when the scenario has no match rules: an open sandbox with no clock and no helicopter.</summary>
         public MatchFlow Match { get; private set; }
+        public Knowledge Knowledge { get; private set; }
         public SeatId LocalSeat { get; private set; }
 
         /// <summary>Seats a player may sit in, in scenario order. The host's own seat is among them.</summary>
@@ -90,6 +91,9 @@ namespace JurassicPark.Presentation
             runtime.World.AddSystem(new Predators(runtime.Tasks.Context, runtime.Router, settings.predatorScanIntervalTicks));
             runtime.World.AddSystem(new Allies(runtime.Tasks.Context, runtime.Router, settings.ToAllyConfig()));
             if (runtime.Match != null) runtime.World.AddSystem(runtime.Match);
+            // Sight is computed last, from where everything ended up this tick.
+            runtime.Knowledge = new Knowledge(runtime.World, runtime.Map, runtime.Catalog, runtime.Seats, runtime.Match != null ? () => runtime.Match.Clock.IsNight : (Func<bool>)null, settings.sightUpdateIntervalTicks);
+            runtime.World.AddSystem(runtime.Knowledge);
 
             var playable = new List<SeatId>();
             for (int i = 0; i < scenario.seats.Length; i++)
@@ -101,6 +105,7 @@ namespace JurassicPark.Presentation
             for (int i = 0; i < scenario.placements.Length; i++) runtime.Place(catalogAsset, scenario.placements[i], problems);
             if (problems.Count > 0) throw new InvalidOperationException("The scenario is not usable:\n- " + string.Join("\n- ", problems));
             runtime.World.Commit();
+            runtime.Knowledge.Refresh();
             return runtime;
         }
 

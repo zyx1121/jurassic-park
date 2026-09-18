@@ -69,7 +69,9 @@ namespace JurassicPark.Tests.PlayMode
         public IEnumerator TheSceneShowsEveryEntityAndAnOrderMovesItsView()
         {
             yield return LoadScene();
-            Assert.That(views.Count, Is.EqualTo(session.Runtime.World.Entities.Count), "one view per entity, created from the setup event batch");
+            int seen = session.Runtime.World.Entities.Count(e => SnapshotCapture.MaySee(session.Runtime, session.Runtime.LocalSeat, e));
+            Assert.That(seen, Is.LessThan(session.Runtime.World.Entities.Count), "the fog hides part of the map at the start");
+            Assert.That(views.Count, Is.EqualTo(seen), "one view per entity the local seat can see");
             Assert.That(Object.FindFirstObjectByType<TerrainView>().GetComponent<MeshFilter>().sharedMesh, Is.Not.Null);
             Assert.That(viewCamera.orthographic, Is.False, "the original's camera is a perspective one");
 
@@ -119,6 +121,15 @@ namespace JurassicPark.Tests.PlayMode
             yield return LoadScene();
             Entity worker = First("survivor", local: true), tree = First("tree"), depot = First("depot");
             selection.Select(new List<EntityId> { worker.Id });
+
+            // The grove starts in the fog: walk the worker toward it until it is on the screen, as a player would.
+            Assert.That(session.Model.TryGet(tree.Id, out _), Is.False, "trees start unexplored");
+            session.Commands.Send(CommandKind.Move, new[] { worker.Id }, tree.Position, EntityId.None);
+            float scoutDeadline = Time.time + 30f;
+            while (Time.time < scoutDeadline && !session.Model.TryGet(tree.Id, out _)) yield return null;
+            Assert.That(session.Model.TryGet(tree.Id, out _), Is.True, "walking toward the grove reveals it");
+            session.Commands.Send(CommandKind.Move, new[] { worker.Id }, session.Runtime.World.Entities.First(e => e.Id == worker.Id).Position, EntityId.None);
+            yield return new WaitForSeconds(0.5f);
 
             rtsCamera.LookAt(EntityViewRegistry.ToWorld(tree.Position));
             yield return null;
