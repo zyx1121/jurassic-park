@@ -171,5 +171,29 @@ namespace JurassicPark.Tests.PlayMode
             rtsCamera.Pan(toFarCorner, 5f);
             Assert.That(Vector3.Distance(before, rtsCamera.transform.position), Is.LessThan(10f), "one long frame does not throw the camera across the map");
         }
+
+        [UnityTest]
+        public IEnumerator PressingBAndClickingACellPlacesAWallSiteThatShowsUpAsASite()
+        {
+            yield return LoadScene();
+            Entity[] own = session.Runtime.World.Entities.Where(e => e.DefinitionId == "survivor" && e.Owner == session.Runtime.LocalSeat).ToArray();
+            selection.Select(own.Select(e => e.Id).ToList());
+            Vector3 target = EntityViewRegistry.ToWorld(session.Runtime.Map.CenterOf(new Cell(21, 15)));
+            rtsCamera.LookAt(target);
+            yield return null;
+
+            Assert.That(selection.BeginPlacing("wall"), Is.True);
+            Assert.That(selection.PlaceAt(viewCamera.WorldToScreenPoint(target), queue: false), Is.True);
+            Assert.That(selection.PlacingIndex, Is.EqualTo(-1), "one placement, then back to normal");
+            float deadline = Time.time + 3f;
+            while (Time.time < deadline && session.Runtime.Structures.SiteCount == 0) yield return null;
+            yield return new WaitForSeconds(0.3f);
+
+            Assert.That(session.Runtime.Structures.SiteCount, Is.EqualTo(1));
+            EntitySnapshot site = session.Model.Entities.Single(e => e.IsSite);
+            Assert.That(views.TryGetTransform(site.Id, out Transform view), Is.True);
+            Assert.That(view.Find("Body").localScale.y, Is.LessThan(1f), "a fresh site is drawn low, growing as it is built");
+            Assert.That(session.Runtime.Map.IsWalkable(new Cell(21, 15)), Is.False);
+        }
     }
 }

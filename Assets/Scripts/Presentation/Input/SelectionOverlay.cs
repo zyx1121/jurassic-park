@@ -50,12 +50,14 @@ namespace JurassicPark.Presentation
             MatchReadModel model = session.Model;
             if (model == null) return string.Empty;
             if (session.Commands == null) return "connected, waiting for a seat";
-            if (model.Tick == builtAtTick && selection.Version == builtForVersion) return cached;
+            if (model.Tick == builtAtTick && selection.Version == builtForVersion && selection.PlacingIndex < 0) return cached;
             builtAtTick = model.Tick;
             builtForVersion = selection.Version;
             text.Clear();
             text.Append(session.Role).Append("  seat ").Append(model.LocalSeat.Value).Append("  tick ").Append(model.Tick).Append('\n');
-            text.Append("LMB select  drag box  RMB order  Shift queue  X stop  WASD pan  wheel zoom\n");
+            text.Append("LMB select  drag box  RMB order  Shift queue  X stop  B wall  G gate  Del demolish  WASD pan  wheel zoom\n");
+            if (selection.PlacingIndex >= 0)
+                text.Append("placing ").Append(model.Catalog.entries[selection.PlacingIndex].id).Append(" at ").Append(selection.PlacingCell).Append("  (LMB place, Shift keeps placing, RMB or Esc cancel)\n");
             if (selection.LastRejection != CommandRejection.None) text.Append("last order refused: ").Append(selection.LastRejection).Append('\n');
             for (int i = 0; i < selection.Selection.Count && i < 8; i++)
             {
@@ -68,6 +70,7 @@ namespace JurassicPark.Presentation
                     if (unit.TaskReason != TaskReason.None) text.Append(" (").Append(unit.TaskReason).Append(')');
                 }
                 if (unit.PackCapacity > 0) text.Append("  pack ").Append(unit.PackTotal).Append('/').Append(unit.PackCapacity);
+                if (unit.HealthFraction < 255) text.Append("  hp ").Append(unit.HealthFraction * 100 / 255).Append('%');
                 text.Append('\n');
             }
             cached = text.ToString();

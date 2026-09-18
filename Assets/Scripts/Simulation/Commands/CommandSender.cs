@@ -33,9 +33,9 @@ namespace JurassicPark.Simulation
         }
 
         public SubmitOutcome Send(CommandKind kind, IReadOnlyList<EntityId> actors, SimVector2 targetPosition = default,
-            EntityId targetEntity = default, CommandMode mode = CommandMode.Replace)
+            EntityId targetEntity = default, CommandMode mode = CommandMode.Replace, int argument = 0)
         {
-            var command = new Command(nextCommandId, Epoch, Seat, kind, actors, targetPosition, targetEntity, mode);
+            var command = new Command(nextCommandId, Epoch, Seat, kind, actors, targetPosition, targetEntity, mode, argument);
             SubmitOutcome outcome = submit(command);
             if (outcome == SubmitOutcome.Queued) nextCommandId++;
             return outcome;

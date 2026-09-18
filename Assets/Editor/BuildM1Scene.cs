@@ -146,8 +146,14 @@ namespace JurassicPark.Editor
         {
             new EntityCatalogAsset.Entry { id = "survivor", kind = EntityKind.Unit, moveSpeed = 4.5f, storageCapacity = 10, gatherSecondsPerUnit = 0.6f,
                 shape = PlaceholderShape.Capsule, color = new Color(0.93f, 0.80f, 0.55f), size = new Vector3(0.7f, 0.85f, 0.7f) },
-            new EntityCatalogAsset.Entry { id = "depot", kind = EntityKind.Building, storageCapacity = 200, isDepot = true, blocks = true, footprintWidth = 2, footprintHeight = 2,
+            new EntityCatalogAsset.Entry { id = "depot", kind = EntityKind.Building, storageCapacity = 200, isDepot = true, blocks = true, footprintWidth = 2, footprintHeight = 2, maxHealth = 400,
                 shape = PlaceholderShape.Box, color = new Color(0.62f, 0.44f, 0.29f), size = new Vector3(3.6f, 2.2f, 3.6f) },
+            new EntityCatalogAsset.Entry { id = "wall", kind = EntityKind.Building, blocks = true, destructible = true, maxHealth = 120, buildWorkSeconds = 6f,
+                buildCost = new[] { new EntityCatalogAsset.CostEntry { resource = "wood", amount = 6 } },
+                shape = PlaceholderShape.Box, color = new Color(0.55f, 0.47f, 0.33f), size = new Vector3(1.9f, 1.6f, 1.9f) },
+            new EntityCatalogAsset.Entry { id = "gate", kind = EntityKind.Building, blocks = true, destructible = true, maxHealth = 100, buildWorkSeconds = 8f, isGate = true,
+                buildCost = new[] { new EntityCatalogAsset.CostEntry { resource = "wood", amount = 8 } },
+                shape = PlaceholderShape.Box, color = new Color(0.72f, 0.58f, 0.36f), size = new Vector3(1.9f, 1.8f, 1.9f) },
             new EntityCatalogAsset.Entry { id = "tree", kind = EntityKind.ResourceNode, nodeResource = "wood", nodeAmount = 40, blocks = true, destructible = false,
                 shape = PlaceholderShape.Cylinder, color = new Color(0.17f, 0.35f, 0.31f), size = new Vector3(1.3f, 1.7f, 1.3f) },
             new EntityCatalogAsset.Entry { id = "pile", kind = EntityKind.GroundPile,
@@ -203,7 +209,11 @@ namespace JurassicPark.Editor
 
         private static ScenarioAsset.Placement[] Placements(List<Cell> trees, Cell depot, List<Cell> red, List<Cell> blue)
         {
-            var list = new List<ScenarioAsset.Placement> { new ScenarioAsset.Placement { definitionId = "depot", ownerSeat = 1, cellX = depot.X, cellY = depot.Y } };
+            var list = new List<ScenarioAsset.Placement>
+            {
+                new ScenarioAsset.Placement { definitionId = "depot", ownerSeat = 1, cellX = depot.X, cellY = depot.Y,
+                    stock = new[] { new EntityCatalogAsset.CostEntry { resource = "wood", amount = 60 } } },
+            };
             foreach (Cell cell in trees) list.Add(new ScenarioAsset.Placement { definitionId = "tree", ownerSeat = 0, cellX = cell.X, cellY = cell.Y });
             foreach (Cell cell in red) list.Add(new ScenarioAsset.Placement { definitionId = "survivor", ownerSeat = 1, cellX = cell.X, cellY = cell.Y });
             foreach (Cell cell in blue) list.Add(new ScenarioAsset.Placement { definitionId = "survivor", ownerSeat = 2, cellX = cell.X, cellY = cell.Y });

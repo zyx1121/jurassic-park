@@ -16,7 +16,11 @@ namespace JurassicPark.Simulation
         /// <summary>Null when nothing needs to ask who may use whose property.</summary>
         public SeatRegistry Seats { get; }
 
-        public TaskContext(World world, GridMap map, DefinitionCatalog catalog, TaskConfig config, Logistics logistics = null, SeatRegistry seats = null)
+        /// <summary>Null in a world without buildings.</summary>
+        public Structures Structures { get; }
+        public Vitals Vitals { get; }
+
+        public TaskContext(World world, GridMap map, DefinitionCatalog catalog, TaskConfig config, Logistics logistics = null, SeatRegistry seats = null, Structures structures = null, Vitals vitals = null)
         {
             World = world ?? throw new ArgumentNullException(nameof(world));
             Map = map ?? throw new ArgumentNullException(nameof(map));
@@ -24,6 +28,8 @@ namespace JurassicPark.Simulation
             Config = config ?? throw new ArgumentNullException(nameof(config));
             Logistics = logistics;
             Seats = seats;
+            Structures = structures;
+            Vitals = vitals;
         }
 
         /// <summary>Seconds simulated by one tick.</summary>

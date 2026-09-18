@@ -35,5 +35,14 @@ namespace JurassicPark.Simulation
 
         /// <summary>The seat already had the maximum number of commands waiting, so this one was dropped at the door and its id was not consumed. Sent by the network layer, never by the router.</summary>
         DroppedFlood = 15,
+
+        /// <summary>The site's cells are off the map, not buildable, already taken, or something stands in them.</summary>
+        SiteBlocked = 16,
+
+        /// <summary>The definition index names nothing buildable.</summary>
+        NotBuildable = 17,
+
+        /// <summary>No walkable cell beside the site: nobody could ever work on it.</summary>
+        SiteUnreachable = 18,
     }
 }

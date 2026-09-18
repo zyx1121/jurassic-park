@@ -22,17 +22,17 @@ namespace JurassicPark.Net
         public const string MatchFull = "jp.full";
 
         /// <summary>Bumped whenever the byte layout changes, so mismatched builds refuse each other instead of misreading.</summary>
-        public const ushort ProtocolVersion = 1;
+        public const ushort ProtocolVersion = 2;
 
         public const int MaxActorsPerCommand = 128;
         public const int MaxEntitiesPerSnapshot = 4096;
-        private const int EntityBytes = 8 + 2 + 1 + 4 + 4 + 4 + 2 + 2 + 4 + 1 + 1 + 1;
+        private const int EntityBytes = 8 + 2 + 1 + 4 + 4 + 4 + 2 + 2 + 4 + 1 + 1 + 1 + 1 + 1 + 1 + 1;
 
         // ---- command: client to host. The seat is deliberately absent. ----
 
         public static FastBufferWriter WriteCommand(Command command)
         {
-            var writer = new FastBufferWriter(40 + command.Actors.Count * 8, Allocator.Temp);
+            var writer = new FastBufferWriter(44 + command.Actors.Count * 8, Allocator.Temp);
             writer.WriteValueSafe(command.CommandId);
             writer.WriteValueSafe(command.Epoch);
             writer.WriteValueSafe((byte)command.Kind);
@@ -40,6 +40,7 @@ namespace JurassicPark.Net
             writer.WriteValueSafe(command.TargetPosition.X);
             writer.WriteValueSafe(command.TargetPosition.Y);
             writer.WriteValueSafe(command.TargetEntity.Value);
+            writer.WriteValueSafe(command.Argument);
             writer.WriteValueSafe((ushort)command.Actors.Count);
             for (int i = 0; i < command.Actors.Count; i++) writer.WriteValueSafe(command.Actors[i].Value);
             return writer;
@@ -48,7 +49,7 @@ namespace JurassicPark.Net
         public static bool TryReadCommand(ref FastBufferReader reader, SeatId boundSeat, out Command command)
         {
             command = null;
-            if (!reader.TryBeginRead(8 + 4 + 1 + 1 + 4 + 4 + 8 + 2)) return false;
+            if (!reader.TryBeginRead(8 + 4 + 1 + 1 + 4 + 4 + 8 + 4 + 2)) return false;
             reader.ReadValue(out long id);
             reader.ReadValue(out int epoch);
             reader.ReadValue(out byte kind);
@@ -56,6 +57,7 @@ namespace JurassicPark.Net
             reader.ReadValue(out float x);
             reader.ReadValue(out float y);
             reader.ReadValue(out long target);
+            reader.ReadValue(out int argument);
             reader.ReadValue(out ushort count);
             if (count > MaxActorsPerCommand || !reader.TryBeginRead(count * 8)) return false;
             if (float.IsNaN(x) || float.IsNaN(y) || float.IsInfinity(x) || float.IsInfinity(y)) return false;
@@ -66,7 +68,7 @@ namespace JurassicPark.Net
                 actors[i] = new EntityId(actor);
             }
             // Kind and mode travel as raw bytes; the router answers Malformed for values outside the enums.
-            command = new Command(id, epoch, boundSeat, (CommandKind)kind, actors, new SimVector2(x, y), new EntityId(target), (CommandMode)mode);
+            command = new Command(id, epoch, boundSeat, (CommandKind)kind, actors, new SimVector2(x, y), new EntityId(target), (CommandMode)mode, argument);
             return true;
         }
 
@@ -182,6 +184,10 @@ namespace JurassicPark.Net
                 writer.WriteValueSafe((byte)e.Task);
                 writer.WriteValueSafe((byte)e.TaskState);
                 writer.WriteValueSafe((byte)e.TaskReason);
+                writer.WriteValueSafe(e.BuildProgress);
+                writer.WriteValueSafe(e.IsSite);
+                writer.WriteValueSafe(e.HealthFraction);
+                writer.WriteValueSafe(e.GateOpen);
             }
             return writer;
         }
@@ -209,6 +215,10 @@ namespace JurassicPark.Net
                 reader.ReadValue(out byte task);
                 reader.ReadValue(out byte state);
                 reader.ReadValue(out byte reason);
+                reader.ReadValue(out e.BuildProgress);
+                reader.ReadValue(out e.IsSite);
+                reader.ReadValue(out e.HealthFraction);
+                reader.ReadValue(out e.GateOpen);
                 if (owner < 0 || float.IsNaN(x) || float.IsNaN(y) || float.IsInfinity(x) || float.IsInfinity(y)) return false;
                 e.Id = new EntityId(id);
                 e.Kind = (EntityKind)kind;

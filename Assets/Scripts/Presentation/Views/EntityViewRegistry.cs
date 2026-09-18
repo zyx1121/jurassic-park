@@ -18,8 +18,12 @@ namespace JurassicPark.Presentation
             public EntityId Id;
             public Transform Transform;
             public GameObject Ring;
+            public Transform Body;
             public Vector3 Previous, Current;
             public float HalfHeight;
+            public Vector3 FullScale;
+            public byte ShownProgress = 255;
+            public bool ShownSite, ShownGateOpen;
         }
 
         [SerializeField] private GameSession session;
@@ -107,7 +111,8 @@ namespace JurassicPark.Presentation
             ring.AddComponent<MeshRenderer>().sharedMaterial = ringMaterial;
             ring.SetActive(false);
 
-            var view = new View { Id = id, Transform = root.transform, Ring = ring, HalfHeight = halfHeight };
+            var view = new View { Id = id, Transform = root.transform, Body = body.transform, Ring = ring, HalfHeight = halfHeight, FullScale = size };
+            ApplyLook(view, entity);
             view.Previous = view.Current = ToWorld(entity.Position);
             root.transform.position = view.Current;
             views.Add(id, view);
@@ -136,12 +141,24 @@ namespace JurassicPark.Presentation
                 {
                     view.Current = ToWorld(snapshot.Position);
                     view.Previous = ToWorld(model.PreviousPositionOf(view.Id, snapshot.Position));
+                    if (snapshot.IsSite != view.ShownSite || snapshot.BuildProgress != view.ShownProgress || snapshot.GateOpen != view.ShownGateOpen) ApplyLook(view, snapshot);
                 }
                 bool moving = view.Previous != view.Current;
                 // Idle entities are skipped entirely; one that just stopped is snapped onto its final position once.
                 if (moving) view.Transform.position = Vector3.Lerp(view.Previous, view.Current, t);
                 else if (wasMoving) view.Transform.position = view.Current;
             }
+        }
+
+        /// <summary>A site grows from the ground as it is built; an open gate lies flat. Stand-in looks until real art arrives.</summary>
+        private static void ApplyLook(View view, in EntitySnapshot snapshot)
+        {
+            view.ShownSite = snapshot.IsSite;
+            view.ShownProgress = snapshot.BuildProgress;
+            view.ShownGateOpen = snapshot.GateOpen;
+            float height = snapshot.IsSite ? Mathf.Lerp(0.15f, 1f, snapshot.BuildProgress / 254f) : snapshot.GateOpen ? 0.12f : 1f;
+            view.Body.localScale = new Vector3(view.FullScale.x, view.FullScale.y * height, view.FullScale.z);
+            view.Body.localPosition = new Vector3(0f, view.HalfHeight * height, 0f);
         }
 
         public static Vector3 ToWorld(SimVector2 position) => new Vector3(position.X, 0f, position.Y);

@@ -27,5 +27,8 @@ namespace JurassicPark.Simulation
 
         /// <summary>Some goods were handed over and the rest stayed in the pack because the store filled up.</summary>
         DeliveredPartly = 21,
+        Built = 22,
+        NoMaterialsAvailable = 23,
+        SiteGone = 24,
     }
 }

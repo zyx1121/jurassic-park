@@ -19,7 +19,7 @@ namespace JurassicPark.Tests.EditMode
         public void ACommandSurvivesTheWireAndTakesItsSeatFromTheBindingNotThePayload()
         {
             var sent = new Command(7, 3, new SeatId(99), CommandKind.Gather, new[] { new EntityId(5), new EntityId(6) },
-                new SimVector2(12.5f, -3f), new EntityId(40), CommandMode.Queue);
+                new SimVector2(12.5f, -3f), new EntityId(40), CommandMode.Queue, argument: 7);
             using FastBufferWriter writer = NetMessages.WriteCommand(sent);
             FastBufferReader reader = ReaderOf(writer);
 
@@ -31,6 +31,7 @@ namespace JurassicPark.Tests.EditMode
             Assert.That(got.Actors, Is.EqualTo(sent.Actors));
             Assert.That(got.TargetPosition, Is.EqualTo(sent.TargetPosition));
             Assert.That(got.TargetEntity, Is.EqualTo(sent.TargetEntity));
+            Assert.That(got.Argument, Is.EqualTo(7));
         }
 
         [Test]
@@ -64,7 +65,8 @@ namespace JurassicPark.Tests.EditMode
             var sent = new List<EntitySnapshot>
             {
                 new EntitySnapshot { Id = new EntityId(16), DefinitionIndex = 0, Kind = EntityKind.Unit, Owner = new SeatId(1), Position = new SimVector2(31f, 29.5f),
-                    PackTotal = 7, PackCapacity = 10, Task = TaskKindCode.Gather, TaskState = TaskState.Blocked, TaskReason = TaskReason.SourceEmpty },
+                    PackTotal = 7, PackCapacity = 10, Task = TaskKindCode.Gather, TaskState = TaskState.Blocked, TaskReason = TaskReason.SourceEmpty, BuildProgress = 255, HealthFraction = 200 },
+                new EntitySnapshot { Id = new EntityId(30), DefinitionIndex = 4, Kind = EntityKind.Building, Owner = new SeatId(1), Position = new SimVector2(24f, 30f), IsSite = true, BuildProgress = 90, HealthFraction = 255, GateOpen = true },
                 new EntitySnapshot { Id = new EntityId(2), DefinitionIndex = 2, Kind = EntityKind.ResourceNode, Owner = SeatId.None, Position = new SimVector2(61f, 25f), NodeRemaining = 33 },
             };
             using FastBufferWriter writer = NetMessages.WriteSnapshot(512, sent);

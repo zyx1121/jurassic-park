@@ -27,6 +27,8 @@ namespace JurassicPark.Presentation
             [Min(0)] public int ownerSeat;
             public int cellX;
             public int cellY;
+            [Tooltip("Starting goods for a store, as resource and amount.")]
+            public EntityCatalogAsset.CostEntry[] stock = Array.Empty<EntityCatalogAsset.CostEntry>();
         }
 
         public SeatEntry[] seats = Array.Empty<SeatEntry>();

@@ -17,6 +17,8 @@ namespace JurassicPark.Presentation
         public CommandRouter Router { get; private set; }
         public TaskSystem Tasks { get; private set; }
         public Logistics Logistics { get; private set; }
+        public Vitals Vitals { get; private set; }
+        public Structures Structures { get; private set; }
         public SeatId LocalSeat { get; private set; }
 
         /// <summary>Seats a player may sit in, in scenario order. The host's own seat is among them.</summary>
@@ -55,17 +57,23 @@ namespace JurassicPark.Presentation
                 ScenarioAsset.SeatEntry seat = scenario.seats[i];
                 runtime.Seats.Add(new SeatId(seat.id), seat.displayName, seat.team, seat.controller);
             }
-            runtime.Tasks = new TaskSystem(new TaskContext(runtime.World, runtime.Map, runtime.Catalog, settings.ToTaskConfig(), runtime.Logistics, runtime.Seats));
+            runtime.Vitals = new Vitals(runtime.World);
+            runtime.Structures = new Structures(runtime.World, runtime.Map, runtime.Logistics, runtime.Vitals, runtime.Seats);
+            runtime.Tasks = new TaskSystem(new TaskContext(runtime.World, runtime.Map, runtime.Catalog, settings.ToTaskConfig(), runtime.Logistics, runtime.Seats, runtime.Structures, runtime.Vitals));
             runtime.Router = new CommandRouter(runtime.Seats, settings.ToRouterConfig());
             runtime.Router.Register(CommandKind.Move, new MoveCommandHandler(runtime.Tasks));
             runtime.Router.Register(CommandKind.Stop, new StopCommandHandler(runtime.Tasks));
             runtime.Router.Register(CommandKind.Gather, new HaulCommandHandler(runtime.Tasks, CommandKind.Gather));
             runtime.Router.Register(CommandKind.Deliver, new HaulCommandHandler(runtime.Tasks, CommandKind.Deliver));
             runtime.Router.Register(CommandKind.Pickup, new HaulCommandHandler(runtime.Tasks, CommandKind.Pickup));
+            runtime.Router.Register(CommandKind.Build, new BuildCommandHandler(runtime.Tasks));
+            runtime.Router.Register(CommandKind.Demolish, new StructureCommandHandler(runtime.Tasks, CommandKind.Demolish));
+            runtime.Router.Register(CommandKind.ToggleGate, new StructureCommandHandler(runtime.Tasks, CommandKind.ToggleGate));
             // Order is the contract: input, then work, then the books.
             runtime.World.AddSystem(runtime.Router);
             runtime.World.AddSystem(runtime.Tasks);
             runtime.World.AddSystem(runtime.Logistics);
+            runtime.World.AddSystem(runtime.Structures);
 
             var playable = new List<SeatId>();
             for (int i = 0; i < scenario.seats.Length; i++)
@@ -106,6 +114,12 @@ namespace JurassicPark.Presentation
             Logistics.Attach(entity, definition);
             if (entry.blocks && !Map.TryOccupy(footprint, entity.Id, entry.destructible))
                 problems.Add($"'{entry.id}' at {anchor} could not claim its footprint.");
+            if (entity.Kind == EntityKind.Building) Structures.AttachBuilt(entity, definition, footprint);
+            else if (entry.blocks) Structures.TrackBlocker(entity.Id);
+            Vitals.Attach(entity, definition);
+            for (int i = 0; i < placement.stock.Length; i++)
+                if (Logistics.Seed(entity.Id, placement.stock[i].resource, placement.stock[i].amount) < placement.stock[i].amount)
+                    problems.Add($"'{entry.id}' at {anchor} cannot hold its starting stock of {placement.stock[i].amount} {placement.stock[i].resource}.");
         }
     }
 }

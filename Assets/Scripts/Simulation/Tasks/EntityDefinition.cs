@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 
 namespace JurassicPark.Simulation
 {
@@ -23,9 +24,42 @@ namespace JurassicPark.Simulation
         public string NodeResource { get; }
         public int NodeAmount { get; }
 
+        /// <summary>Cells it stands on, anchored at its placement cell. 1x1 for a unit.</summary>
+        public int FootprintWidth { get; }
+        public int FootprintHeight { get; }
+
+        /// <summary>Whether it takes its cells out of the walkable grid, and whether something that wants through may break it.</summary>
+        public bool Blocks { get; }
+        public bool Destructible { get; }
+
+        /// <summary>Hit points. Zero for things that cannot be hurt.</summary>
+        public int MaxHealth { get; }
+
+        /// <summary>Materials a builder must bring before this can be built, and how many seconds of one builder's work it takes. Null for anything not built.</summary>
+        public IReadOnlyDictionary<string, int> BuildCost { get; }
+        public float BuildWorkSeconds { get; }
+
+        /// <summary>A gate can be opened, which frees its cells, and closed, which blocks them again.</summary>
+        public bool IsGate { get; }
+
+        public bool IsBuildable => BuildCost != null;
+
         public EntityDefinition(string id, float moveSpeed, int storageCapacity = 0, bool isDepot = false,
-            float gatherSecondsPerUnit = 0f, string nodeResource = null, int nodeAmount = 0)
+            float gatherSecondsPerUnit = 0f, string nodeResource = null, int nodeAmount = 0,
+            int footprintWidth = 1, int footprintHeight = 1, bool blocks = false, bool destructible = true, int maxHealth = 0,
+            IReadOnlyDictionary<string, int> buildCost = null, float buildWorkSeconds = 0f, bool isGate = false)
         {
+            if (footprintWidth < 1 || footprintHeight < 1) throw new ArgumentOutOfRangeException(nameof(footprintWidth));
+            if (maxHealth < 0) throw new ArgumentOutOfRangeException(nameof(maxHealth));
+            if (buildCost != null && !(buildWorkSeconds > 0f)) throw new ArgumentOutOfRangeException(nameof(buildWorkSeconds), "A buildable thing needs work time.");
+            FootprintWidth = footprintWidth;
+            FootprintHeight = footprintHeight;
+            Blocks = blocks;
+            Destructible = destructible;
+            MaxHealth = maxHealth;
+            BuildCost = buildCost;
+            BuildWorkSeconds = buildWorkSeconds;
+            IsGate = isGate;
             if (storageCapacity < 0) throw new ArgumentOutOfRangeException(nameof(storageCapacity));
             if (!(gatherSecondsPerUnit >= 0f) || float.IsInfinity(gatherSecondsPerUnit)) throw new ArgumentOutOfRangeException(nameof(gatherSecondsPerUnit));
             if (nodeAmount < 0) throw new ArgumentOutOfRangeException(nameof(nodeAmount));

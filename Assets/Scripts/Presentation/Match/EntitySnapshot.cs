@@ -25,6 +25,14 @@ namespace JurassicPark.Presentation
         public TaskState TaskState;
         public TaskReason TaskReason;
 
+        /// <summary>0 to 255 while a building is under construction; 255 once built or for anything that is not built.</summary>
+        public byte BuildProgress;
+        public bool IsSite;
+
+        /// <summary>Hit points as a fraction, 0 to 255. 255 for anything that cannot be hurt.</summary>
+        public byte HealthFraction;
+        public bool GateOpen;
+
         public static TaskKindCode CodeOf(string taskKind)
         {
             switch (taskKind)

@@ -20,7 +20,7 @@ namespace JurassicPark.Simulation
         private readonly Dictionary<ReservationId, Reservation> reservations = new Dictionary<ReservationId, Reservation>();
         private readonly List<ReservationId> reservationOrder = new List<ReservationId>();
         private long nextReservationId = 1;
-        private long consumed;
+        private readonly SortedDictionary<string, long> consumed = new SortedDictionary<string, long>(StringComparer.Ordinal);
 
         public Logistics(World world, LogisticsConfig config)
         {
@@ -62,7 +62,39 @@ namespace JurassicPark.Simulation
         }
 
         public bool TryGetContainer(EntityId holder, out Container container) => containers.TryGetValue(holder, out container);
+
+        /// <summary>
+        /// Ends a container on a living holder. Whatever it still holds falls to the ground as a pile, so this is never a way to
+        /// make goods disappear; consume them first if they are meant to be gone. Releases any reservation on it.
+        /// </summary>
+        public bool RemoveContainer(EntityId holder)
+        {
+            if (!containers.TryGetValue(holder, out Container container)) return false;
+            for (int i = reservationOrder.Count - 1; i >= 0; i--)
+            {
+                Reservation r = reservations[reservationOrder[i]];
+                if (r.Holder == holder) Release(r);
+            }
+            if (container.Total > 0) Drop(world, holder, container);
+            containers.Remove(holder);
+            holderOrder.Remove(holder);
+            holderEntities.Remove(holder);
+            return true;
+        }
         public bool TryGetNode(EntityId holder, out ResourceNode node) => nodes.TryGetValue(holder, out node);
+
+        /// <summary>Room in the container already promised to deposits, by anyone. With a resource, only the promises made for that resource.</summary>
+        public int ReservedRoomIn(EntityId holder, string resource = null)
+        {
+            if (resource == null) return containers.TryGetValue(holder, out Container container) ? container.ReservedForDeposit : 0;
+            int total = 0;
+            for (int i = 0; i < reservationOrder.Count; i++)
+            {
+                Reservation r = reservations[reservationOrder[i]];
+                if (r.Kind == ReservationKind.Deposit && r.Holder == holder && r.Resource == resource) total += r.Amount;
+            }
+            return total;
+        }
 
         /// <summary>Goods in the container that no withdrawal reservation other than <paramref name="onBehalfOf"/>'s has claimed.</summary>
         public int AvailableIn(EntityId holder, string resource, TaskId onBehalfOf = default)
@@ -147,6 +179,17 @@ namespace JurassicPark.Simulation
             }
         }
 
+        /// <summary>Setup only: puts goods into a container as the scenario's starting stock, before the first tick. Never a way to make goods during a match.</summary>
+        public int Seed(EntityId holder, string resource, int amount)
+        {
+            if (world.Tick != 0) throw new InvalidOperationException("Starting stock is placed before the match begins.");
+            if (amount < 1 || string.IsNullOrEmpty(resource) || !containers.TryGetValue(holder, out Container container)) return 0;
+            int placed = Math.Min(amount, container.FreeCapacity);
+            if (placed < 1) return 0;
+            container.Add(resource, placed);
+            return placed;
+        }
+
         // ---- movements of goods ----
 
         /// <summary>
@@ -212,11 +255,11 @@ namespace JurassicPark.Simulation
             int used = Math.Min(amount, AvailableIn(from, resource, onBehalfOf));
             if (used < 1) return 0;
             source.Remove(resource, used);
-            consumed += used;
+            Count(resource, used);
             return used;
         }
 
-        /// <summary>Everything of one resource that exists anywhere: node stock plus goods in containers. With <see cref="ConsumedTotal"/> it is constant for a match, for a match with one resource; ConsumedTotal counts all resources.</summary>
+        /// <summary>Everything of one resource that exists anywhere: node stock plus goods in containers. With <see cref="ConsumedOf"/> it is constant for a match.</summary>
         public long TotalOf(string resource)
         {
             long total = 0;
@@ -228,8 +271,25 @@ namespace JurassicPark.Simulation
             return total;
         }
 
-        /// <summary>Goods consumed on purpose plus stock that went with a destroyed node. Unlike a container, a felled tree drops nothing.</summary>
-        public long ConsumedTotal => consumed;
+        /// <summary>Goods of every resource consumed on purpose plus stock that went with a destroyed node. Unlike a container, a felled tree drops nothing.</summary>
+        public long ConsumedTotal
+        {
+            get
+            {
+                long total = 0;
+                foreach (KeyValuePair<string, long> pair in consumed) total += pair.Value;
+                return total;
+            }
+        }
+
+        /// <summary>The same for one resource, so <see cref="TotalOf"/> plus this is constant per resource.</summary>
+        public long ConsumedOf(string resource) => consumed.TryGetValue(resource, out long amount) ? amount : 0;
+
+        private void Count(string resource, long amount)
+        {
+            if (amount < 1) return;
+            consumed[resource] = ConsumedOf(resource) + amount;
+        }
 
         public int LiveReservationCount => reservations.Count;
 
@@ -263,7 +323,7 @@ namespace JurassicPark.Simulation
                 else
                 {
                     // Accounted for, so "nothing appears or vanishes unrecorded" still holds when combat kills a tree.
-                    consumed += nodes[holder].Remaining;
+                    Count(nodes[holder].Resource, nodes[holder].Remaining);
                     nodes.Remove(holder);
                 }
                 holderEntities.Remove(holder);

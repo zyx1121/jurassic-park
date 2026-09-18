@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using JurassicPark.Simulation;
 using UnityEngine;
 
@@ -28,6 +29,12 @@ namespace JurassicPark.Presentation
             [Min(1)] public int footprintWidth = 1;
             [Min(1)] public int footprintHeight = 1;
             public bool destructible = true;
+            [Min(0)] public int maxHealth;
+
+            [Header("Construction (empty cost = not buildable)")]
+            public CostEntry[] buildCost = Array.Empty<CostEntry>();
+            [Min(0f)] public float buildWorkSeconds;
+            public bool isGate;
 
             [Header("Stand-in view")]
             public PlaceholderShape shape = PlaceholderShape.Capsule;
@@ -40,8 +47,25 @@ namespace JurassicPark.Presentation
             /// <summary>Half the stand-in's width on the ground in metres.</summary>
             public float DrawnHalfWidth => Mathf.Max(size.x, size.z) * 0.5f;
 
-            public EntityDefinition ToDefinition() => new EntityDefinition(id, moveSpeed, storageCapacity, isDepot, gatherSecondsPerUnit,
-                string.IsNullOrEmpty(nodeResource) ? null : nodeResource, nodeAmount);
+            public EntityDefinition ToDefinition()
+            {
+                Dictionary<string, int> cost = null;
+                if (buildCost.Length > 0)
+                {
+                    cost = new Dictionary<string, int>();
+                    for (int i = 0; i < buildCost.Length; i++) cost[buildCost[i].resource] = buildCost[i].amount;
+                }
+                return new EntityDefinition(id, moveSpeed, storageCapacity, isDepot, gatherSecondsPerUnit,
+                    string.IsNullOrEmpty(nodeResource) ? null : nodeResource, nodeAmount,
+                    footprintWidth, footprintHeight, blocks, destructible, maxHealth, cost, buildWorkSeconds, isGate);
+            }
+        }
+
+        [Serializable]
+        public sealed class CostEntry
+        {
+            public string resource = string.Empty;
+            [Min(1)] public int amount = 1;
         }
 
         public Entry[] entries = Array.Empty<Entry>();

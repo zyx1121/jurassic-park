@@ -22,8 +22,9 @@ namespace JurassicPark.Presentation
         }
 
         /// <summary>
-        /// On a resource node with stock: gather. On a ground pile: pick up. On a depot the local seat may use, while carrying
-        /// something: deliver. Anything else, including a depot with empty hands or a store that is not ours to use: walk there.
+        /// On a resource node with stock: gather. On a ground pile: pick up. On a building site of ours or an ally's: help build it.
+        /// On a gate we may use: open or close it. On a depot the local seat may use, while carrying something: deliver.
+        /// Anything else, including a depot with empty hands or a store that is not ours to use: walk there.
         /// This only chooses what to ask for; the authority decides whether it is allowed.
         /// </summary>
         public static Order Resolve(MatchReadModel model, IReadOnlyList<EntityId> selection, EntitySnapshot? target, SimVector2 point)
@@ -33,7 +34,10 @@ namespace JurassicPark.Presentation
             if (t.Kind == EntityKind.ResourceNode && t.NodeRemaining > 0) return new Order(CommandKind.Gather, t.Id, t.Position);
             if (t.Kind == EntityKind.GroundPile) return new Order(CommandKind.Pickup, t.Id, t.Position);
             EntityCatalogAsset.Entry entry = model.EntryOf(t);
-            if (entry != null && entry.isDepot && model.LocalMayUsePropertyOf(t.Owner) && AnyCarrying(model, selection))
+            bool ours = model.LocalMayUsePropertyOf(t.Owner);
+            if (t.IsSite && ours) return new Order(CommandKind.Build, t.Id, t.Position);
+            if (entry != null && entry.isGate && ours) return new Order(CommandKind.ToggleGate, t.Id, t.Position);
+            if (entry != null && entry.isDepot && ours && AnyCarrying(model, selection))
                 return new Order(CommandKind.Deliver, t.Id, t.Position);
             return new Order(CommandKind.Move, EntityId.None, t.Position);
         }
