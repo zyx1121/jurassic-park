@@ -25,6 +25,18 @@ namespace JurassicPark.Simulation
         public DinosaursSpawned(string timerId, int count) { TimerId = timerId; Count = count; }
     }
 
+    /// <summary>A timer fired but no legal cell was left in its regions; nothing spawned. A definite result, not a silent one.</summary>
+    public sealed class SpawnSkipped : SimEvent
+    {
+        public string TimerId { get; }
+        public SpawnSkipped(string timerId) => TimerId = timerId;
+    }
+
+    /// <summary>The evacuation began but no cell on the whole map could take the helicopter. Nobody can board; the match will end with nobody escaping.</summary>
+    public sealed class HelicopterCouldNotLand : SimEvent
+    {
+    }
+
     public sealed class HelicopterLanded : SimEvent
     {
         public EntityId Helicopter { get; }

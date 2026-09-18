@@ -33,10 +33,10 @@ namespace JurassicPark.Tests.EditMode
         [SetUp]
         public void SetUp() => Build(Rules());
 
-        private void Build(MatchRules rules)
+        private void Build(MatchRules rules, ulong seed = 7)
         {
             log.Clear();
-            world = new World(new SimConfig(10, 8, 7));
+            world = new World(new SimConfig(10, 8, seed));
             map = FixtureMaps.CampValleyGrid();
             catalog = new DefinitionCatalog();
             catalog.Add(new EntityDefinition("survivor", 4f, storageCapacity: 5, maxHealth: 40));
@@ -132,7 +132,7 @@ namespace JurassicPark.Tests.EditMode
                 Timer("late", 10f, null, 3f, 3f, ("raptor", 1)),
                 Timer("hard", 0f, new[] { 5, 6 }, 1f, 1f, ("raptor", 5)),
             }));
-            Survivor(Red, new Cell(8, 5));
+            Survivor(Red, new Cell(1, 10)); // out of the raptors' 12 m sight, so the match is not decided by a wipe
             Run(5);
             Assert.That(match.Phase, Is.EqualTo(MatchPhase.Survival));
 
@@ -160,7 +160,7 @@ namespace JurassicPark.Tests.EditMode
             List<long> Ticks()
             {
                 Build(Rules(selection: 0.5f, survival: 80f, timers: new[] { Timer("t", 0f, null, 3f, 7f, ("raptor", 1)) }));
-                Survivor(Red, new Cell(8, 5));
+                Survivor(Red, new Cell(1, 10));
                 Run(700);
                 return log.OfType<DinosaursSpawned>().Select(e => e.Tick).ToList();
             }
@@ -241,6 +241,63 @@ namespace JurassicPark.Tests.EditMode
             Entity prey = Survivor(Red, new Cell(14, 4));
             for (int i = 0; i < 600 && world.IsAlive(prey.Id); i++) Run(1);
             Assert.That(world.IsAlive(prey.Id), Is.False);
+        }
+
+        [Test]
+        public void ABuiltOverEvacuationRegionStillGetsAHelicopterSomewhereAndAWipeEndsTheMatchAtOnce()
+        {
+            Build(Rules(selection: 0.5f, survival: 3f, helicopter: 6f));
+            catalog.Add(new EntityDefinition("boulder", 0f, blocks: true, destructible: false));
+            // The fixture's evacuation region is (1,9)-(2,10): fill every cell of it.
+            foreach (Cell c in new[] { new Cell(1, 9), new Cell(2, 9), new Cell(1, 10), new Cell(2, 10) }) Assert.That(spawner.Spawn("boulder", SeatId.None, c, out _), Is.Not.Null);
+            Entity r = Survivor(Red, new Cell(8, 5));
+            Run(40);
+
+            Assert.That(match.Phase, Is.EqualTo(MatchPhase.Evacuation));
+            Assert.That(match.Helicopter.IsNone, Is.False, "it landed elsewhere on the map instead of leaving everyone to lose in silence");
+            Assert.That(log.OfType<HelicopterLanded>().Count(), Is.EqualTo(1));
+
+            Build(Rules(selection: 0.5f, survival: 60f));
+            Entity a = Survivor(Red, new Cell(8, 5)), b = Survivor(Blue, new Cell(9, 5));
+            Run(10);
+            world.Despawn(a.Id, "eaten");
+            world.Despawn(b.Id, "eaten");
+            Run(2);
+            Assert.That(match.Phase, Is.EqualTo(MatchPhase.Ended), "everyone gone: no helicopter to wait for");
+            Assert.That(log.OfType<SeatOutcomeDecided>().Select(e => e.Outcome), Is.All.EqualTo(SeatOutcome.Lost));
+        }
+
+        [Test]
+        public void ASpawnRegionWithNoRoomIsReportedAndDifferentSeedsSpawnDifferently()
+        {
+            Build(Rules(selection: 0.5f, survival: 60f, timers: new[] { Timer("t", 0f, null, 1f, 1f, ("raptor", 1)) }));
+            catalog.Add(new EntityDefinition("boulder", 0f, blocks: true, destructible: false));
+            for (int x = 13; x <= 14; x++) for (int y = 1; y <= 3; y++) spawner.Spawn("boulder", SeatId.None, new Cell(x, y), out _);
+            Survivor(Red, new Cell(8, 5));
+            Run(30);
+            Assert.That(log.OfType<SpawnSkipped>().Count(), Is.GreaterThan(0), "a full region is a definite result");
+            Assert.That(Dinosaurs(), Is.EqualTo(0), "and nothing was put on an illegal cell");
+
+            List<Cell> CellsWithSeed(ulong seed)
+            {
+                Build(Rules(selection: 0.5f, survival: 60f, timers: new[] { Timer("t", 0f, null, 1f, 1f, ("raptor", 1)) }), seed);
+                Survivor(Red, new Cell(1, 10));
+                Run(60);
+                return world.Entities.Where(e => e.Owner == Dinos).Select(e => map.CellAt(e.Position)).ToList();
+            }
+            Assert.That(CellsWithSeed(1), Is.Not.EqualTo(CellsWithSeed(2)), "same map, different seed: different dynamic events");
+        }
+
+        [Test]
+        public void AWeightedBatchRollsByItsWeightsAndAlwaysIncludesTheCommonGroup()
+        {
+            var batch = new SpawnBatch(new IReadOnlyList<KeyValuePair<string, int>>[]
+            {
+                new[] { new KeyValuePair<string, int>("a", 2), new KeyValuePair<string, int>("c", 1) },
+                new[] { new KeyValuePair<string, int>("b", 2), new KeyValuePair<string, int>("c", 1) },
+            }, new[] { 1, 2 });
+            Assert.That(batch.TotalWeight, Is.EqualTo(3));
+            Assert.That(new[] { batch.Pick(0), batch.Pick(1), batch.Pick(2) }, Is.EqualTo(new[] { 0, 1, 1 }), "one third the first, two thirds the second");
         }
     }
 }

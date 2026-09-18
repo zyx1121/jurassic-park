@@ -70,15 +70,23 @@ namespace JurassicPark.Simulation
             return entity;
         }
 
-        /// <summary>A random cell inside the bounds where the definition fits, or null after a bounded number of tries. Uses the world's seeded random.</summary>
-        public Cell? RandomCellFor(EntityDefinition definition, CellBounds bounds, int tries)
+        private readonly List<Cell> legal = new List<Cell>();
+
+        /// <summary>
+        /// A random cell inside the bounds where the definition fits, chosen among every legal cell, or null only when there is
+        /// none. Enumerating is cheaper than rolling and, unlike rolling, cannot miss the last free cell by bad luck.
+        /// </summary>
+        public Cell? RandomCellFor(EntityDefinition definition, CellBounds bounds)
         {
-            for (int i = 0; i < tries; i++)
-            {
-                var cell = new Cell(world.Random.Range(bounds.MinX, bounds.MaxX + 1), world.Random.Range(bounds.MinY, bounds.MaxY + 1));
-                if (CanSpawnAt(definition, cell)) return cell;
-            }
-            return null;
+            legal.Clear();
+            for (int y = bounds.MinY; y <= bounds.MaxY; y++)
+                for (int x = bounds.MinX; x <= bounds.MaxX; x++)
+                {
+                    var cell = new Cell(x, y);
+                    if (CanSpawnAt(definition, cell)) legal.Add(cell);
+                }
+            if (legal.Count == 0) return null;
+            return legal[world.Random.Range(0, legal.Count)];
         }
     }
 }

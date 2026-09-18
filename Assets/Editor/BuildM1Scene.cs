@@ -191,27 +191,38 @@ namespace JurassicPark.Editor
                     periodMaxSeconds = period["fixed"] != null ? (float)period["fixed"] : (float)period["max"],
                 };
                 // "a,b" is one group of several kinds; "a|b" is a roll between alternatives; counts follow the same shape.
+                // "alternativeWeights" gives the roll's odds and "always" a group spawned on every firing besides the rolled one.
                 string[] codeAlternatives = ((string)t["unitRawcode"]).Split('|');
                 string[] countAlternatives = ((string)t["count"]).Split('|');
+                int[] weights = t["alternativeWeights"] is JArray wa ? wa.Select(w => (int)w).ToArray() : null;
+                List<MatchRulesAsset.UnitCount> always = ParseGroup((string)t["always"], (string)t["alwaysCount"], rawcodes);
                 var alternatives = new List<MatchRulesAsset.Alternative>();
                 for (int a = 0; a < codeAlternatives.Length; a++)
                 {
-                    string[] codes = codeAlternatives[a].Split(',');
-                    string[] counts = countAlternatives[Math.Min(a, countAlternatives.Length - 1)].Split(',');
-                    var units = new List<MatchRulesAsset.UnitCount>();
-                    for (int u = 0; u < codes.Length; u++)
-                    {
-                        string code = codes[u].Trim();
-                        rawcodes.Add(code);
-                        units.Add(new MatchRulesAsset.UnitCount { definitionId = RawcodeStandIns.TryGetValue(code, out string def) ? def : "raptor", count = int.Parse(counts[Math.Min(u, counts.Length - 1)].Trim()) });
-                    }
-                    alternatives.Add(new MatchRulesAsset.Alternative { units = units.ToArray() });
+                    List<MatchRulesAsset.UnitCount> units = ParseGroup(codeAlternatives[a], countAlternatives[Math.Min(a, countAlternatives.Length - 1)], rawcodes);
+                    units.AddRange(always);
+                    alternatives.Add(new MatchRulesAsset.Alternative { units = units.ToArray(), weight = weights != null && a < weights.Length ? weights[a] : 1 });
                 }
                 timer.alternatives = alternatives.ToArray();
                 timers.Add(timer);
             }
             asset.timers = timers.ToArray();
             asset.rawcodes = rawcodes.OrderBy(c => c).Select(c => new MatchRulesAsset.RawcodeMapping { rawcode = c, definitionId = RawcodeStandIns.TryGetValue(c, out string def) ? def : "raptor" }).ToArray();
+        }
+
+        private static List<MatchRulesAsset.UnitCount> ParseGroup(string codesText, string countsText, HashSet<string> rawcodes)
+        {
+            var units = new List<MatchRulesAsset.UnitCount>();
+            if (string.IsNullOrEmpty(codesText)) return units;
+            string[] codes = codesText.Split(',');
+            string[] counts = (countsText ?? "1").Split(',');
+            for (int u = 0; u < codes.Length; u++)
+            {
+                string code = codes[u].Trim();
+                rawcodes.Add(code);
+                units.Add(new MatchRulesAsset.UnitCount { definitionId = RawcodeStandIns.TryGetValue(code, out string def) ? def : "raptor", count = int.Parse(counts[Math.Min(u, counts.Length - 1)].Trim()) });
+            }
+            return units;
         }
 
         private static T GetOrAdd<T>(this GameObject gameObject) where T : Component =>

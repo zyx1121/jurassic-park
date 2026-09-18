@@ -201,6 +201,9 @@ namespace JurassicPark.Tests.EditMode
             Assert.That(rules.HelicopterWindowSeconds, Is.EqualTo(300f));
             Assert.That((rules.StartTimeOfDay, rules.FreezeTimeOfDayAtEvacuation, rules.DayLengthSeconds), Is.EqualTo((17.5f, 3f, 480f)));
             Assert.That(rules.SpawnTimers, Has.Count.EqualTo(31));
+            SpawnTimerRule oV = rules.SpawnTimers.Single(t => t.Id == "oV");
+            Assert.That(oV.Batch.Weights, Is.EqualTo(new[] { 1, 2 }), "one third allosaurs, two thirds mid-size rexes");
+            Assert.That(oV.Batch.Alternatives.All(a => a.Any(u => u.Value == 1)), Is.True, "and a baby rex every time");
             Assert.That(rules.DifficultyCount, Is.EqualTo(6));
             var catalog = Load<EntityCatalogAsset>("Catalog");
             foreach (SpawnTimerRule timer in rules.SpawnTimers)

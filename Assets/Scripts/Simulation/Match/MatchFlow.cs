@@ -111,7 +111,9 @@ namespace JurassicPark.Simulation
                     Clock.Advance(dt);
                     RunTimers();
                     DecideEliminations();
-                    if (SecondsLeft <= 0) BeginEvacuation();
+                    // A wipe is the end of the match, not the start of a long wait for a helicopter nobody will meet.
+                    if (EveryoneDecided()) End();
+                    else if (SecondsLeft <= 0) BeginEvacuation();
                     break;
                 case MatchPhase.Evacuation:
                     RunTimers();
@@ -148,29 +150,38 @@ namespace JurassicPark.Simulation
 
         private void Fire(SpawnTimerRule rule)
         {
-            IReadOnlyList<KeyValuePair<string, int>> group = rule.Batch.Alternatives[world.Random.Range(0, rule.Batch.Alternatives.Count)];
-            int spawned = 0;
+            IReadOnlyList<KeyValuePair<string, int>> group = rule.Batch.Alternatives[rule.Batch.Pick(world.Random.Range(0, rule.Batch.TotalWeight))];
+            int spawned = 0, wanted = 0;
             for (int g = 0; g < group.Count; g++)
             {
                 if (!catalog.TryGet(group[g].Key, out EntityDefinition definition)) continue;
                 for (int n = 0; n < group[g].Value; n++)
                 {
+                    wanted++;
                     Cell? cell = RandomSpawnCell(definition);
                     if (cell == null) continue;
                     if (spawner.Spawn(definition.Id, rules.DinosaurSeat, cell.Value, out _) != null) spawned++;
                 }
             }
             if (spawned > 0) world.Raise(new DinosaursSpawned(rule.Id, spawned));
+            if (spawned < wanted) world.Raise(new SpawnSkipped(rule.Id));
         }
 
         private Cell? RandomSpawnCell(EntityDefinition definition)
         {
             // The original picks anywhere on the playable map; ours has spawn regions, and falls back to the whole map without them.
-            CellBounds bounds = spawnRegions.Count > 0
-                ? spawnRegions[world.Random.Range(0, spawnRegions.Count)]
-                : new CellBounds(0, 0, map.Width - 1, map.Height - 1);
-            return spawner.RandomCellFor(definition, bounds, 24);
+            if (spawnRegions.Count == 0) return spawner.RandomCellFor(definition, WholeMap);
+            // Try the rolled region first, then the others: a region that is built over does not stop the spawn.
+            int first = world.Random.Range(0, spawnRegions.Count);
+            for (int i = 0; i < spawnRegions.Count; i++)
+            {
+                Cell? cell = spawner.RandomCellFor(definition, spawnRegions[(first + i) % spawnRegions.Count]);
+                if (cell != null) return cell;
+            }
+            return null;
         }
+
+        private CellBounds WholeMap => new CellBounds(0, 0, map.Width - 1, map.Height - 1);
 
         private void BeginEvacuation()
         {
@@ -179,19 +190,23 @@ namespace JurassicPark.Simulation
             Clock.Freeze(rules.FreezeTimeOfDayAtEvacuation);
             if (catalog.TryGet(rules.HelicopterDefinitionId, out EntityDefinition helicopter))
             {
-                CellBounds bounds = evacuationRegions.Count > 0
-                    ? evacuationRegions[world.Random.Range(0, evacuationRegions.Count)]
-                    : new CellBounds(0, 0, map.Width - 1, map.Height - 1);
-                Cell? cell = spawner.RandomCellFor(helicopter, bounds, 64);
-                if (cell != null)
+                // A rolled candidate region first, then the other candidates, then anywhere on the map: the helicopter lands
+                // wherever it still can. Only a map with no room at all leaves it in the air, and that is said out loud.
+                Cell? cell = null;
+                if (evacuationRegions.Count > 0)
                 {
-                    Entity landed = spawner.Spawn(helicopter.Id, SeatId.None, cell.Value, out _);
-                    if (landed != null)
-                    {
-                        Helicopter = landed.Id;
-                        world.Raise(new HelicopterLanded(landed.Id));
-                    }
+                    int first = world.Random.Range(0, evacuationRegions.Count);
+                    for (int i = 0; i < evacuationRegions.Count && cell == null; i++)
+                        cell = spawner.RandomCellFor(helicopter, evacuationRegions[(first + i) % evacuationRegions.Count]);
                 }
+                if (cell == null) cell = spawner.RandomCellFor(helicopter, WholeMap);
+                Entity landed = cell != null ? spawner.Spawn(helicopter.Id, SeatId.None, cell.Value, out _) : null;
+                if (landed != null)
+                {
+                    Helicopter = landed.Id;
+                    world.Raise(new HelicopterLanded(landed.Id));
+                }
+                else world.Raise(new HelicopterCouldNotLand());
             }
             world.Raise(new MatchPhaseChanged(Phase));
         }

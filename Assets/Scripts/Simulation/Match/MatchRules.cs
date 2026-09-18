@@ -6,9 +6,41 @@ namespace JurassicPark.Simulation
     /// <summary>One thing a spawn timer may produce: some units of some kinds, chosen among alternatives.</summary>
     public sealed class SpawnBatch
     {
-        /// <summary>Alternatives with equal weight; one is rolled per firing. Each alternative is a list of (definition, count).</summary>
+        /// <summary>Alternatives, one rolled per firing by weight. Each alternative is a list of (definition, count).</summary>
         public IReadOnlyList<IReadOnlyList<KeyValuePair<string, int>>> Alternatives { get; }
-        public SpawnBatch(IReadOnlyList<IReadOnlyList<KeyValuePair<string, int>>> alternatives) => Alternatives = alternatives ?? throw new ArgumentNullException(nameof(alternatives));
+
+        /// <summary>Relative weight of each alternative. All ones when the original rolls evenly.</summary>
+        public IReadOnlyList<int> Weights { get; }
+
+        public SpawnBatch(IReadOnlyList<IReadOnlyList<KeyValuePair<string, int>>> alternatives, IReadOnlyList<int> weights = null)
+        {
+            Alternatives = alternatives ?? throw new ArgumentNullException(nameof(alternatives));
+            if (weights != null && weights.Count != alternatives.Count) throw new ArgumentException("One weight per alternative.", nameof(weights));
+            var w = new int[alternatives.Count];
+            for (int i = 0; i < w.Length; i++) w[i] = weights == null ? 1 : Math.Max(0, weights[i]);
+            Weights = w;
+        }
+
+        /// <summary>Picks an alternative by weight with a roll in [0, total weight).</summary>
+        public int Pick(int roll)
+        {
+            for (int i = 0; i < Weights.Count; i++)
+            {
+                roll -= Weights[i];
+                if (roll < 0) return i;
+            }
+            return Weights.Count - 1;
+        }
+
+        public int TotalWeight
+        {
+            get
+            {
+                int total = 0;
+                for (int i = 0; i < Weights.Count; i++) total += Weights[i];
+                return Math.Max(1, total);
+            }
+        }
     }
 
     /// <summary>One of the original map's periodic spawn timers, in our definition ids.</summary>

@@ -46,6 +46,7 @@ MonoBehaviour:
         count: 2
       - definitionId: insects
         count: 2
+      weight: 1
   - id: eV
     enabledAtSeconds: 1500
     difficultyGate: 
@@ -55,6 +56,7 @@ MonoBehaviour:
     - units:
       - definitionId: spinosaurus
         count: 2
+      weight: 1
   - id: xV
     enabledAtSeconds: 2700
     difficultyGate: 06000000
@@ -64,6 +66,7 @@ MonoBehaviour:
     - units:
       - definitionId: spinosaurus
         count: 3
+      weight: 1
   - id: oV
     enabledAtSeconds: 2300
     difficultyGate: 
@@ -73,11 +76,15 @@ MonoBehaviour:
     - units:
       - definitionId: trex
         count: 2
+      - definitionId: trex
+        count: 1
+      weight: 1
     - units:
       - definitionId: trex
         count: 2
       - definitionId: trex
         count: 1
+      weight: 2
   - id: rV
     enabledAtSeconds: 2900
     difficultyGate: 0500000006000000
@@ -87,9 +94,11 @@ MonoBehaviour:
     - units:
       - definitionId: trex
         count: 1
+      weight: 1
     - units:
       - definitionId: trex
         count: 1
+      weight: 1
   - id: iV
     enabledAtSeconds: 2050
     difficultyGate: 
@@ -99,6 +108,7 @@ MonoBehaviour:
     - units:
       - definitionId: spinosaurus
         count: 1
+      weight: 1
   - id: aV
     enabledAtSeconds: 1800
     difficultyGate: 
@@ -108,6 +118,7 @@ MonoBehaviour:
     - units:
       - definitionId: pteranodon
         count: 1
+      weight: 1
   - id: nV
     enabledAtSeconds: 1800
     difficultyGate: 
@@ -119,6 +130,7 @@ MonoBehaviour:
         count: 1
       - definitionId: raptor
         count: 6
+      weight: 1
   - id: VV
     enabledAtSeconds: 0
     difficultyGate: 01000000
@@ -130,6 +142,7 @@ MonoBehaviour:
         count: 1
       - definitionId: trex
         count: 1
+      weight: 1
   - id: EV
     enabledAtSeconds: 0
     difficultyGate: 020000000300000004000000
@@ -141,6 +154,7 @@ MonoBehaviour:
         count: 2
       - definitionId: trex
         count: 1
+      weight: 1
   - id: XV
     enabledAtSeconds: 0
     difficultyGate: 0500000006000000
@@ -152,6 +166,7 @@ MonoBehaviour:
         count: 3
       - definitionId: trex
         count: 1
+      weight: 1
   - id: OV
     enabledAtSeconds: 0
     difficultyGate: 010000000200000003000000
@@ -161,6 +176,7 @@ MonoBehaviour:
     - units:
       - definitionId: triceratops
         count: 1
+      weight: 1
   - id: RV
     enabledAtSeconds: 0
     difficultyGate: 040000000500000006000000
@@ -170,6 +186,7 @@ MonoBehaviour:
     - units:
       - definitionId: triceratops
         count: 2
+      weight: 1
   - id: IV
     enabledAtSeconds: 0
     difficultyGate: 0100000002000000
@@ -179,6 +196,7 @@ MonoBehaviour:
     - units:
       - definitionId: triceratops
         count: 1
+      weight: 1
   - id: AV
     enabledAtSeconds: 0
     difficultyGate: 03000000040000000500000006000000
@@ -188,6 +206,7 @@ MonoBehaviour:
     - units:
       - definitionId: triceratops
         count: 2
+      weight: 1
   - id: NV
     enabledAtSeconds: 0
     difficultyGate: 0100000002000000
@@ -197,6 +216,7 @@ MonoBehaviour:
     - units:
       - definitionId: spinosaurus
         count: 1
+      weight: 1
   - id: bV
     enabledAtSeconds: 1200
     difficultyGate: 
@@ -206,6 +226,7 @@ MonoBehaviour:
     - units:
       - definitionId: spinosaurus
         count: 1
+      weight: 1
   - id: BV
     enabledAtSeconds: 0
     difficultyGate: 03000000040000000500000006000000
@@ -215,6 +236,7 @@ MonoBehaviour:
     - units:
       - definitionId: spinosaurus
         count: 2
+      weight: 1
   - id: cV
     enabledAtSeconds: 0
     difficultyGate: 0100000002000000
@@ -226,6 +248,7 @@ MonoBehaviour:
         count: 1
       - definitionId: raptor
         count: 1
+      weight: 1
   - id: CV
     enabledAtSeconds: 0
     difficultyGate: 020000000300000004000000
@@ -237,6 +260,7 @@ MonoBehaviour:
         count: 2
       - definitionId: raptor
         count: 1
+      weight: 1
   - id: dV
     enabledAtSeconds: 0
     difficultyGate: 0500000006000000
@@ -248,6 +272,7 @@ MonoBehaviour:
         count: 3
       - definitionId: raptor
         count: 1
+      weight: 1
   - id: DV
     enabledAtSeconds: 1050
     difficultyGate: 
@@ -259,6 +284,7 @@ MonoBehaviour:
         count: 1
       - definitionId: raptor
         count: 1
+      weight: 1
   - id: fV
     enabledAtSeconds: 0
     difficultyGate: 010000000200000003000000
@@ -268,6 +294,7 @@ MonoBehaviour:
     - units:
       - definitionId: dilophosaurus
         count: 1
+      weight: 1
   - id: FV
     enabledAtSeconds: 1350
     difficultyGate: 
@@ -277,6 +304,7 @@ MonoBehaviour:
     - units:
       - definitionId: dilophosaurus
         count: 1
+      weight: 1
   - id: gV
     enabledAtSeconds: 600
     difficultyGate: 0500000006000000
@@ -286,6 +314,7 @@ MonoBehaviour:
     - units:
       - definitionId: dilophosaurus
         count: 2
+      weight: 1
   - id: GV
     enabledAtSeconds: 0
     difficultyGate: 040000000500000006000000
@@ -295,6 +324,7 @@ MonoBehaviour:
     - units:
       - definitionId: dilophosaurus
         count: 2
+      weight: 1
   - id: hV
     enabledAtSeconds: 0
     difficultyGate: 0100000002000000
@@ -306,6 +336,7 @@ MonoBehaviour:
         count: 1
       - definitionId: pteranodon
         count: 1
+      weight: 1
   - id: HV
     enabledAtSeconds: 1200
     difficultyGate: 05000000
@@ -317,6 +348,7 @@ MonoBehaviour:
         count: 1
       - definitionId: pteranodon
         count: 1
+      weight: 1
   - id: jV
     enabledAtSeconds: 1200
     difficultyGate: 06000000
@@ -328,6 +360,7 @@ MonoBehaviour:
         count: 1
       - definitionId: pteranodon
         count: 3
+      weight: 1
   - id: JV
     enabledAtSeconds: 0
     difficultyGate: 01000000020000000300000004000000
@@ -337,6 +370,7 @@ MonoBehaviour:
     - units:
       - definitionId: stegosaurus
         count: 1
+      weight: 1
   - id: kV
     enabledAtSeconds: 0
     difficultyGate: 0500000006000000
@@ -346,6 +380,7 @@ MonoBehaviour:
     - units:
       - definitionId: stegosaurus
         count: 2
+      weight: 1
   rawcodes:
   - rawcode: e001
     definitionId: insects

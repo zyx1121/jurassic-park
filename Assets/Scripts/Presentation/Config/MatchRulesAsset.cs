@@ -11,7 +11,7 @@ namespace JurassicPark.Presentation
     {
         [Serializable] public sealed class Mode { public string id = string.Empty; public string label = string.Empty; [Min(1f)] public float survivalSeconds = 1800f; }
         [Serializable] public sealed class UnitCount { public string definitionId = string.Empty; [Min(1)] public int count = 1; }
-        [Serializable] public sealed class Alternative { public UnitCount[] units = Array.Empty<UnitCount>(); }
+        [Serializable] public sealed class Alternative { public UnitCount[] units = Array.Empty<UnitCount>(); [Min(0)] public int weight = 1; }
         [Serializable]
         public sealed class Timer
         {
@@ -49,13 +49,15 @@ namespace JurassicPark.Presentation
             {
                 Timer t = timers[i];
                 var alternatives = new List<IReadOnlyList<KeyValuePair<string, int>>>();
+                var weights = new List<int>();
                 for (int a = 0; a < t.alternatives.Length; a++)
                 {
                     var group = new List<KeyValuePair<string, int>>();
                     for (int u = 0; u < t.alternatives[a].units.Length; u++) group.Add(new KeyValuePair<string, int>(t.alternatives[a].units[u].definitionId, t.alternatives[a].units[u].count));
                     alternatives.Add(group);
+                    weights.Add(t.alternatives[a].weight);
                 }
-                timerList.Add(new SpawnTimerRule(t.id, t.enabledAtSeconds, t.difficultyGate.Length == 0 ? null : t.difficultyGate, t.periodMinSeconds, t.periodMaxSeconds, new SpawnBatch(alternatives)));
+                timerList.Add(new SpawnTimerRule(t.id, t.enabledAtSeconds, t.difficultyGate.Length == 0 ? null : t.difficultyGate, t.periodMinSeconds, t.periodMaxSeconds, new SpawnBatch(alternatives, weights)));
             }
             return new MatchRules(selectionWindowSeconds, modeList, defaultModeIndex, difficultyCount, defaultDifficulty, helicopterWindowSeconds,
                 startTimeOfDay, freezeTimeOfDayAtEvacuation, dayLengthSeconds, nightStartsAt, nightEndsAt, timerList, helicopterDefinitionId, new SeatId(dinosaurSeat));
