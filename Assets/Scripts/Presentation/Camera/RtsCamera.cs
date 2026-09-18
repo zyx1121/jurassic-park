@@ -5,26 +5,29 @@ namespace JurassicPark.Presentation
 {
     /// <summary>
     /// Fixed-orientation RTS camera: 60 degrees down, yaw never changes, pan with WASD, arrows or the screen edge, zoom with the
-    /// wheel, clamped to the map. Orthographic by default: every cell is the same size on screen, upright things stay upright at
-    /// the screen edge, and the art direction's fixed pixels-per-metre only exists without perspective.
+    /// wheel, clamped to the map. Perspective, with the original map's camera as the starting point: pitch 56 degrees, a 70
+    /// degree horizontal lens and 1650 map units of distance, which is about 26 m at two metres per cell. The lean of upright
+    /// things near the screen edge is part of that look, not a defect.
     /// </summary>
     [RequireComponent(typeof(Camera))]
     public sealed class RtsCamera : MonoBehaviour
     {
         [SerializeField] private GameSession session;
-        [Range(30f, 80f)] [SerializeField] private float pitch = 60f;
-        [SerializeField] private bool orthographic = true;
+        [Range(30f, 80f)] [SerializeField] private float pitch = 56f;
+        [Tooltip("Fixed rotation about the vertical axis. 45 puts the cell grid diagonal on screen, the classic RTS look; pan directions are screen-relative regardless.")]
+        [Range(-180f, 180f)] [SerializeField] private float yaw = 45f;
+        [SerializeField] private bool orthographic = false;
         [Tooltip("Half the visible height in metres when orthographic.")]
         [SerializeField] private float orthographicSize = 17f;
         [SerializeField] private float minOrthographicSize = 9f;
         [SerializeField] private float maxOrthographicSize = 34f;
         [Tooltip("Camera distance from the focus. Only framing when perspective; when orthographic it just has to clear the terrain.")]
-        [SerializeField] private float distance = 75f;
-        [SerializeField] private float minDistance = 32f;
-        [SerializeField] private float maxDistance = 140f;
+        [SerializeField] private float distance = 26f;
+        [SerializeField] private float minDistance = 14f;
+        [SerializeField] private float maxDistance = 44f;
         [SerializeField] private float panSpeed = 30f;
         [Tooltip("Zoom distance at which Pan Speed applies as written.")]
-        [SerializeField] private float referenceDistance = 75f;
+        [SerializeField] private float referenceDistance = 26f;
         [SerializeField] private float referenceOrthographicSize = 17f;
         [Tooltip("Zoom change per unit of scroll. Proportional on purpose: a trackpad sends a small delta nearly every frame, and treating each as a full step slams the zoom to its limit in a quarter of a second.")]
         [SerializeField] private float zoomPerScrollUnit = 1.5f;
@@ -100,6 +103,9 @@ namespace JurassicPark.Presentation
         /// <summary>Current zoom: half the visible height when orthographic, the camera distance otherwise.</summary>
         public float ZoomLevel => orthographic ? orthographicSize : distance;
 
+        /// <summary>Turns a screen-relative pan (x right, y up the screen) into ground directions under the camera's yaw.</summary>
+        public Vector3 PanToWorld(Vector2 direction) => Quaternion.Euler(0f, yaw, 0f) * new Vector3(direction.x, 0f, direction.y);
+
         /// <summary>Zooms by a scroll delta. Positive zooms in. Proportional to the delta and limited per call.</summary>
         public void Zoom(float scrollDelta)
         {
@@ -115,7 +121,7 @@ namespace JurassicPark.Presentation
             float zoom = orthographic ? orthographicSize / referenceOrthographicSize : distance / referenceDistance;
             // A long frame must not throw the camera across the map.
             float speed = panSpeed * zoom * Mathf.Min(deltaTime, 0.1f);
-            focus += new Vector3(direction.x, 0f, direction.y).normalized * speed;
+            focus += PanToWorld(direction).normalized * speed;
             var map = session.Model.Map;
             focus.x = Mathf.Clamp(focus.x, 0f, map.Width * map.CellSize);
             focus.z = Mathf.Clamp(focus.z, 0f, map.Height * map.CellSize);
@@ -124,7 +130,7 @@ namespace JurassicPark.Presentation
 
         private void Apply()
         {
-            Quaternion rotation = Quaternion.Euler(pitch, 0f, 0f);
+            Quaternion rotation = Quaternion.Euler(pitch, yaw, 0f);
             if (viewCamera == null) viewCamera = GetComponent<Camera>();
             viewCamera.orthographic = orthographic;
             if (orthographic) viewCamera.orthographicSize = orthographicSize;
