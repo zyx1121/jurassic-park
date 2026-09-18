@@ -41,6 +41,12 @@ namespace JurassicPark.Presentation
         /// <summary>The last order's rejection, for the HUD. None when it was accepted.</summary>
         public CommandRejection LastRejection { get; private set; }
 
+        /// <summary>
+        /// Where the HUD covers the screen, set by it. A press there belongs to the HUD, so it neither selects, orders nor
+        /// places: clicking a button or the minimap must not also send the world an order behind it.
+        /// </summary>
+        public System.Predicate<Vector2> PointerOverHud { get; set; }
+
         public void Configure(GameSession gameSession, EntityViewRegistry registry, Camera camera)
         {
             session = gameSession;
@@ -92,23 +98,24 @@ namespace JurassicPark.Presentation
             if (mouse == null) return;
             Vector2 cursor = mouse.position.ReadValue();
             bool shift = keyboard != null && keyboard.shiftKey.isPressed;
+            bool overHud = PointerOverHud != null && PointerOverHud(cursor);
 
             if (keyboard != null)
             {
                 if (keyboard.escapeKey.wasPressedThisFrame) CancelPlacing();
                 if (keyboard.bKey.wasPressedThisFrame) BeginPlacing("wall");
                 if (keyboard.gKey.wasPressedThisFrame) BeginPlacing("gate");
-                if (keyboard.deleteKey.wasPressedThisFrame || keyboard.backspaceKey.wasPressedThisFrame) DemolishAt(cursor);
+                if ((keyboard.deleteKey.wasPressedThisFrame || keyboard.backspaceKey.wasPressedThisFrame) && !overHud) DemolishAt(cursor);
             }
             if (PlacingIndex >= 0)
             {
                 if (TryGroundPoint(cursor, out SimVector2 aim)) PlacingCell = CellOf(aim);
-                if (mouse.leftButton.wasPressedThisFrame) PlaceAt(cursor, shift);
+                if (mouse.leftButton.wasPressedThisFrame && !overHud) PlaceAt(cursor, shift);
                 if (mouse.rightButton.wasPressedThisFrame) CancelPlacing();
                 return;
             }
 
-            if (mouse.leftButton.wasPressedThisFrame)
+            if (mouse.leftButton.wasPressedThisFrame && !overHud)
             {
                 pressing = true;
                 pressedAt = cursor;
@@ -125,7 +132,7 @@ namespace JurassicPark.Presentation
                 pressing = false;
                 IsDragging = false;
             }
-            if (mouse.rightButton.wasPressedThisFrame) OrderAt(cursor, shift);
+            if (mouse.rightButton.wasPressedThisFrame && !overHud) OrderAt(cursor, shift);
             if (keyboard != null && keyboard.xKey.wasPressedThisFrame) StopSelection();
         }
 
@@ -139,7 +146,8 @@ namespace JurassicPark.Presentation
         public void ClickSelect(Vector2 screenPoint, bool additive)
         {
             scratch.Clear();
-            if (TryPickAt(screenPoint, IsOwnUnit, out EntitySnapshot picked)) scratch.Add(picked.Id);
+            // A click picks own units and own buildings (a gate, to toggle it); a box picks units only, as in the original.
+            if (TryPickAt(screenPoint, IsOwnSelectable, out EntitySnapshot picked)) scratch.Add(picked.Id);
             Apply(additive);
         }
 
@@ -160,18 +168,20 @@ namespace JurassicPark.Presentation
         /// <summary>Orders the selection at a screen point. Returns the order sent, or null when there was nothing to order or nowhere to order it.</summary>
         public OrderResolver.Order? OrderAt(Vector2 screenPoint, bool queue)
         {
-            if (selection.Count == 0 || !TryGroundPoint(screenPoint, out SimVector2 point)) return null;
+            if (!TryGroundPoint(screenPoint, out SimVector2 point)) return null;
+            IReadOnlyList<EntityId> actors = SelectedUnits();
+            if (actors.Count == 0) return null;
             // Units are not order targets yet, so a friendly standing on the spot never swallows a move order.
             EntitySnapshot? target = TryPickAt(screenPoint, IsNotAUnit, out EntitySnapshot picked) ? picked : (EntitySnapshot?)null;
-            OrderResolver.Order order = OrderResolver.Resolve(session.Model, selection, target, point);
-            session.Commands.Send(order.Kind, selection, order.Point, order.Target, queue ? CommandMode.Queue : CommandMode.Replace);
+            OrderResolver.Order order = OrderResolver.Resolve(session.Model, actors, target, point);
+            Send(order.Kind, actors, order.Point, order.Target, queue ? CommandMode.Queue : CommandMode.Replace);
             return order;
         }
 
-        /// <summary>Enters placement for a buildable catalog entry. Needs a selection: somebody has to build it.</summary>
+        /// <summary>Enters placement for a buildable catalog entry. Needs a selected unit: somebody has to build it, and a building cannot.</summary>
         public bool BeginPlacing(string definitionId)
         {
-            if (selection.Count == 0) return false;
+            if (SelectedUnits().Count == 0) return false;
             EntityCatalogAsset catalog = session.CatalogAsset;
             for (int i = 0; i < catalog.entries.Length; i++)
             {
@@ -193,11 +203,13 @@ namespace JurassicPark.Presentation
         /// <summary>Sends the Build order for the cell under the screen point. The authority answers whether the site is legal.</summary>
         public bool PlaceAt(Vector2 screenPoint, bool queue)
         {
-            if (PlacingIndex < 0 || selection.Count == 0 || !TryGroundPoint(screenPoint, out SimVector2 point)) return false;
+            if (PlacingIndex < 0 || !TryGroundPoint(screenPoint, out SimVector2 point)) return false;
+            IReadOnlyList<EntityId> builders = SelectedUnits();
+            if (builders.Count == 0) return false;
             Cell cell = CellOf(point);
             float size = session.Model.Map.CellSize;
             var anchorPoint = new SimVector2((cell.X + 0.5f) * size, (cell.Y + 0.5f) * size);
-            session.Commands.Send(CommandKind.Build, selection, anchorPoint, EntityId.None, queue ? CommandMode.Queue : CommandMode.Replace, PlacingIndex);
+            Send(CommandKind.Build, builders, anchorPoint, EntityId.None, queue ? CommandMode.Queue : CommandMode.Replace, PlacingIndex);
             if (!(Keyboard.current != null && Keyboard.current.shiftKey.isPressed)) CancelPlacing();
             return true;
         }
@@ -207,7 +219,7 @@ namespace JurassicPark.Presentation
         {
             if (!TryPickAt(screenPoint, e => e.Kind == EntityKind.Building && e.Owner == session.Model.LocalSeat, out EntitySnapshot building)) return false;
             IReadOnlyList<EntityId> asker = selection.Count > 0 ? selection : (IReadOnlyList<EntityId>)new[] { building.Id };
-            session.Commands.Send(CommandKind.Demolish, asker, building.Position, building.Id);
+            Send(CommandKind.Demolish, asker, building.Position, building.Id);
             return true;
         }
 
@@ -219,7 +231,31 @@ namespace JurassicPark.Presentation
 
         public void StopSelection()
         {
-            if (selection.Count > 0) session.Commands.Send(CommandKind.Stop, selection);
+            IReadOnlyList<EntityId> actors = SelectedUnits();
+            if (actors.Count > 0) Send(CommandKind.Stop, actors);
+        }
+
+        private readonly List<EntityId> unitScratch = new List<EntityId>();
+        private readonly List<EntityId> lastSentActors = new List<EntityId>();
+
+        /// <summary>The actors of the last command this controller sent, for tests that must see who was ordered rather than guess from side effects.</summary>
+        public IReadOnlyList<EntityId> LastSentActors => lastSentActors;
+
+        /// <summary>The one door out of the controller: every order records its actors, then goes through the session's sender.</summary>
+        private void Send(CommandKind kind, IReadOnlyList<EntityId> actors, SimVector2 point = default, EntityId target = default, CommandMode mode = CommandMode.Replace, int argument = 0)
+        {
+            lastSentActors.Clear();
+            lastSentActors.AddRange(actors);
+            session.Commands.Send(kind, actors, point, target, mode, argument);
+        }
+
+        /// <summary>The selected units: a selected building is looked at and toggled, never given a walk order.</summary>
+        private IReadOnlyList<EntityId> SelectedUnits()
+        {
+            unitScratch.Clear();
+            for (int i = 0; i < selection.Count; i++)
+                if (session.Model.TryGet(selection[i], out EntitySnapshot snapshot) && snapshot.Kind == EntityKind.Unit) unitScratch.Add(selection[i]);
+            return unitScratch;
         }
 
         private static bool IsNotAUnit(EntitySnapshot entity) => entity.Kind != EntityKind.Unit;
@@ -235,6 +271,12 @@ namespace JurassicPark.Presentation
         }
 
         private bool IsOwnUnit(EntitySnapshot entity) => entity.Kind == EntityKind.Unit && entity.Owner == session.Model.LocalSeat;
+
+        /// <summary>What a single click may select: own units and own standing buildings. Team mates' things are usable, not selectable.</summary>
+        public static bool IsOwnSelectable(MatchReadModel model, in EntitySnapshot entity) =>
+            entity.Owner == model.LocalSeat && !entity.Remembered && (entity.Kind == EntityKind.Unit || entity.Kind == EntityKind.Building);
+
+        private bool IsOwnSelectable(EntitySnapshot entity) => IsOwnSelectable(session.Model, entity);
 
         private void Apply(bool additive)
         {
