@@ -13,12 +13,12 @@ namespace JurassicPark.Presentation
         [Range(0f, 1f)] [SerializeField] private float unexploredAlpha = 0.92f;
         [Range(0f, 1f)] [SerializeField] private float exploredAlpha = 0.5f;
         [Tooltip("Height above the ground, so the fog covers cliff tops too.")]
-        [SerializeField] private float height = 2.6f;
+        [SerializeField] private float height = 3.6f;   // above the tallest stand-in (trees reach 3.4 m), so nothing pokes through the dark
 
         private Mesh mesh;
         private Color[] colors;
         private long shownRevision = -1;
-        private int shownCells = -1;
+        private int shownWidth = -1, shownHeight = -1;
 
         public void Configure(GameSession gameSession) => session = gameSession;
 
@@ -28,7 +28,7 @@ namespace JurassicPark.Presentation
             if (model == null) return;
             FogSnapshot fog = model.Fog;
             if (fog.Cells.Length == 0) return;
-            if (mesh == null || shownCells != fog.Cells.Length) Build(fog);
+            if (mesh == null || shownWidth != fog.Width || shownHeight != fog.Height) Build(fog);
             if (fog.Revision == shownRevision) return;
             shownRevision = fog.Revision;
             for (int i = 0; i < fog.Cells.Length; i++)
@@ -66,7 +66,8 @@ namespace JurassicPark.Presentation
             mesh.SetTriangles(triangles, 0);
             mesh.RecalculateBounds();
             GetComponent<MeshFilter>().sharedMesh = mesh;
-            shownCells = fog.Cells.Length;
+            shownWidth = fog.Width;
+            shownHeight = fog.Height;
             shownRevision = -1;
         }
 

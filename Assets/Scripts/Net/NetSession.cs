@@ -129,7 +129,7 @@ namespace JurassicPark.Net
             {
                 ulong client = remoteClients[i];
                 if (!binder.TryGetSeat(client, out SeatId seat)) continue;
-                SnapshotCapture.Entities(runtime, session.CatalogAsset, perSeat, seat);
+                SnapshotCapture.Entities(runtime, session.CatalogAsset, perSeat, seat, session.Memory);
                 // Reliable and fragmented for now: a full snapshot outgrows one datagram as soon as the map fills up. Delta snapshots
                 // over an unreliable channel are the follow-up once there is content to measure.
                 using (FastBufferWriter writer = NetMessages.WriteSnapshot(tick, perSeat))
@@ -238,6 +238,7 @@ namespace JurassicPark.Net
         private void OnFog(ulong sender, FastBufferReader reader)
         {
             if (NetMessages.TryReadFog(ref reader, out int width, out int height, receivedFog, out long revision)) session.ApplyRemoteFog(width, height, receivedFog, revision);
+            else Debug.LogWarning("[Net] A fog mask from the host could not be read; the screen keeps the previous one.");
         }
 
         private void OnMatch(ulong sender, FastBufferReader reader)

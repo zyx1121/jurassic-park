@@ -56,9 +56,12 @@ namespace JurassicPark.Simulation
         /// <summary>Whether a seat can see the entity right now: its own team's things always, anything else only in a visible cell.</summary>
         public bool CanSee(SeatId seat, Entity entity)
         {
-            if (entity.Owner == seat || (!entity.Owner.IsNone && TeamOf(entity.Owner) == TeamOf(seat))) return true;
+            if (IsOwnOrAllied(seat, entity.Owner)) return true;
             return At(seat, map.CellAt(entity.Position)) == Visibility.Visible;
         }
+
+        /// <summary>Whether the owner is the seat itself or on its team. Unowned things (trees, piles) are neither.</summary>
+        public bool IsOwnOrAllied(SeatId seat, SeatId owner) => owner == seat || (!owner.IsNone && TeamOf(owner) == TeamOf(seat));
 
         /// <summary>The team's per-cell visibility, one byte per cell in map index order. Read-only view for snapshots and the fog mesh.</summary>
         public IReadOnlyList<byte> CellsOf(int team) => teams.TryGetValue(team, out TeamView view) ? view.Cells : Array.Empty<byte>();

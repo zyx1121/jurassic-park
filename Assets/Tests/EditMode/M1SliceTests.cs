@@ -25,10 +25,10 @@ namespace JurassicPark.Tests.EditMode
             return model;
         }
 
-        private static void Refresh(MatchReadModel model, SimulationRuntime runtime)
+        private static void Refresh(MatchReadModel model, SimulationRuntime runtime, SnapshotMemory memory = null)
         {
             var entities = new List<EntitySnapshot>();
-            SnapshotCapture.Entities(runtime, model.Catalog, entities, runtime.LocalSeat);
+            SnapshotCapture.Entities(runtime, model.Catalog, entities, runtime.LocalSeat, memory);
             model.Apply(model.Revision == 0 ? runtime.World.Tick : model.Tick + 1, entities);
         }
 
@@ -46,17 +46,17 @@ namespace JurassicPark.Tests.EditMode
         /// The trees start in the dark, and an order on something unseen is a walk, as in the original. So a scout walks toward the
         /// nearest grove until it is on the screen, then comes home, and the tests order onto that tree.
         /// </summary>
-        private static Entity ScoutNearestTree(SimulationRuntime runtime, MatchReadModel model, CommandSender sender, EntityId scout)
+        private static Entity ScoutNearestTree(SimulationRuntime runtime, MatchReadModel model, CommandSender sender, EntityId scout, SnapshotMemory memory = null)
         {
             Entity depot = runtime.World.Entities.First(e => e.DefinitionId == "depot" && e.Owner == runtime.LocalSeat);
             Entity tree = runtime.World.Entities.Where(e => e.Kind == EntityKind.ResourceNode).OrderBy(e => SimVector2.Distance(e.Position, depot.Position)).First();
             Assert.That(model.TryGet(tree.Id, out _), Is.False, "the grove starts in the dark");
             sender.Send(CommandKind.Move, new[] { scout }, tree.Position, EntityId.None);
-            for (int i = 0; i < 600 && !model.TryGet(tree.Id, out _); i++) { runtime.World.Step(); Refresh(model, runtime); }
+            for (int i = 0; i < 600 && !model.TryGet(tree.Id, out _); i++) { runtime.World.Step(); Refresh(model, runtime, memory); }
             Assert.That(model.TryGet(tree.Id, out _), Is.True, "walking toward the grove reveals it");
             runtime.World.TryGet(scout, out Entity worker);
             sender.Send(CommandKind.Move, new[] { scout }, worker.Position, EntityId.None);   // stop where it stands: the trees stay explored
-            for (int i = 0; i < 20; i++) { runtime.World.Step(); Refresh(model, runtime); }
+            for (int i = 0; i < 20; i++) { runtime.World.Step(); Refresh(model, runtime, memory); }
             return tree;
         }
 
@@ -270,6 +270,42 @@ namespace JurassicPark.Tests.EditMode
             Assert.That(redStore.AmountOf("wood"), Is.EqualTo(redBefore), "the player's stock is untouched: the gate and the wall were paid for out of its own depot");
             for (int i = 0; i < 1500 && store.AmountOf("wood") <= before - 14; i++) runtime.World.Step();
             Assert.That(store.AmountOf("wood"), Is.GreaterThan(before - 14), "its gatherer restocks the depot after the building spend");
+            Assert.That(runtime.World.IsFaulted, Is.False);
+        }
+
+        [Test]
+        public void ATreeSeenOnceIsRememberedUntilTheTeamLooksAtTheEmptyCellAgain()
+        {
+            SimulationRuntime runtime = WithoutAlly(Build());
+            var memory = new SnapshotMemory();
+            MatchReadModel model = ModelOf(runtime);
+            CommandSender sender = SenderOf(runtime);
+            EntityId scout = runtime.World.Entities.First(e => e.DefinitionId == "survivor" && e.Owner == runtime.LocalSeat).Id;
+            Entity depot = runtime.World.Entities.First(e => e.DefinitionId == "depot" && e.Owner == runtime.LocalSeat);
+            Entity tree = ScoutNearestTree(runtime, model, sender, scout, memory);
+            int team = runtime.Knowledge.TeamOf(runtime.LocalSeat);
+            Cell treeCell = runtime.Map.CellAt(tree.Position);
+
+            // Home again: the grove is out of sight, yet it stays on the screen as the team remembers it.
+            sender.Send(CommandKind.Move, new[] { scout }, depot.Position, EntityId.None);
+            for (int i = 0; i < 600 && runtime.Knowledge.At(team, treeCell) == Visibility.Visible; i++) { runtime.World.Step(); Refresh(model, runtime, memory); }
+            Assert.That(runtime.Knowledge.At(team, treeCell), Is.EqualTo(Visibility.Explored));
+            Assert.That(model.TryGet(tree.Id, out _), Is.True, "a tree seen once is remembered where it stood");
+            Assert.That(memory.Remembers(team, tree.Id), Is.True);
+
+            // Felled in the dark: nobody saw it go, so the memory stands.
+            runtime.World.Despawn(tree.Id, "test");
+            runtime.World.Step();
+            Refresh(model, runtime, memory);
+            Assert.That(runtime.World.IsAlive(tree.Id), Is.False);
+            Assert.That(model.TryGet(tree.Id, out _), Is.True, "the ghost stays until the team looks again");
+
+            // Look again: the cell is seen empty and the ghost is gone. Without a memory nothing unseen is ever sent.
+            sender.Send(CommandKind.Move, new[] { scout }, tree.Position, EntityId.None);
+            for (int i = 0; i < 600 && model.TryGet(tree.Id, out _); i++) { runtime.World.Step(); Refresh(model, runtime, memory); }
+            Assert.That(model.TryGet(tree.Id, out _), Is.False, "seen empty, forgotten");
+            Assert.That(memory.Remembers(team, tree.Id), Is.False);
+            Assert.That(memory.RememberedCountOf(team), Is.GreaterThan(0), "the grove's other trees are still remembered");
             Assert.That(runtime.World.IsFaulted, Is.False);
         }
 

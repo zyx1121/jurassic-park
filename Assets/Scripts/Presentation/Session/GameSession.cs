@@ -50,6 +50,9 @@ namespace JurassicPark.Presentation
         /// <summary>Where the local player's orders go. Null until the local seat is known; on a client that is after the host's handshake.</summary>
         public CommandSender Commands { get; private set; }
 
+        /// <summary>Authority only: what each team remembers of things it can no longer see. Shared by the host's screen and every client capture.</summary>
+        public SnapshotMemory Memory { get; } = new SnapshotMemory();
+
         public EntityCatalogAsset CatalogAsset => catalog;
         public SimulationSettingsAsset Settings => settings;
 
@@ -211,7 +214,7 @@ namespace JurassicPark.Presentation
                 SeatsChanged?.Invoke(capturedSeats);
             }
             if (!force) return;
-            SnapshotCapture.Entities(Runtime, catalog, captured, Runtime.LocalSeat);
+            SnapshotCapture.Entities(Runtime, catalog, captured, Runtime.LocalSeat, Memory);
             Model.Apply(Runtime.World.Tick, captured);
             int team = Runtime.Knowledge.TeamOf(Runtime.LocalSeat);
             if (Model.Fog.Revision != Runtime.Knowledge.RevisionOf(team) || Model.Fog.Cells.Length == 0)

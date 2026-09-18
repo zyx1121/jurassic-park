@@ -165,6 +165,7 @@ namespace JurassicPark.Net
         // ---- fog: host to each client, its team's mask when it changed ----
 
         public const int MaxFogCells = 65536;
+        public const int MaxFogSide = 1024;
 
         public static FastBufferWriter WriteFog(int width, int height, IReadOnlyList<byte> cells, long revision)
         {
@@ -185,8 +186,11 @@ namespace JurassicPark.Net
             reader.ReadValue(out revision);
             reader.ReadValue(out width);
             reader.ReadValue(out height);
-            if (width < 1 || height < 1 || width * height > MaxFogCells || !reader.TryBeginRead(width * height)) return false;
-            for (int i = 0; i < width * height; i++)
+            // Each side is bounded before the product is formed, so a hostile pair cannot overflow the check.
+            if (width < 1 || height < 1 || width > MaxFogSide || height > MaxFogSide) return false;
+            int count = width * height;
+            if (count > MaxFogCells || !reader.TryBeginRead(count)) return false;
+            for (int i = 0; i < count; i++)
             {
                 reader.ReadValue(out byte cell);
                 if (cell > 2) return false;

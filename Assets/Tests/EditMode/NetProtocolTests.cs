@@ -145,6 +145,13 @@ namespace JurassicPark.Tests.EditMode
                 Assert.That((w, h, revision), Is.EqualTo((3, 2, 9L)));
                 Assert.That(got, Is.EqualTo(cells));
             }
+            // A hostile size pair whose product overflows to a small number is refused before the product is formed.
+            using (FastBufferWriter writer = NetMessages.WriteFog(65536, 65536, new byte[] { 0 }, 1))
+            {
+                FastBufferReader reader = ReaderOf(writer);
+                Assert.That(NetMessages.TryReadFog(ref reader, out _, out _, new List<byte>(), out _), Is.False);
+                reader.Dispose();
+            }
             using (FastBufferWriter writer = NetMessages.WriteFog(1, 1, new byte[] { 7 }, 1))
             {
                 FastBufferReader reader = ReaderOf(writer);
