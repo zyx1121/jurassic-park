@@ -88,6 +88,7 @@ namespace JurassicPark.Presentation
             runtime.World.AddSystem(runtime.Structures);
             // Instinct submits commands, which the router takes at the next tick boundary, so its place in the order does not matter for correctness.
             runtime.World.AddSystem(new Predators(runtime.Tasks.Context, runtime.Router, settings.predatorScanIntervalTicks));
+            runtime.World.AddSystem(new Allies(runtime.Tasks.Context, runtime.Router, settings.ToAllyConfig()));
             if (runtime.Match != null) runtime.World.AddSystem(runtime.Match);
 
             var playable = new List<SeatId>();

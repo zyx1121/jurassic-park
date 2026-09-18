@@ -37,6 +37,13 @@ MonoBehaviour:
     stock:
     - resource: wood
       amount: 60
+  - definitionId: depot
+    ownerSeat: 2
+    cellX: 9
+    cellY: 19
+    stock:
+    - resource: wood
+      amount: 20
   - definitionId: tree
     ownerSeat: 0
     cellX: 30

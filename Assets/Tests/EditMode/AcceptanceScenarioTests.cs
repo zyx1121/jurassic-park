@@ -28,6 +28,9 @@ namespace JurassicPark.Tests.EditMode
         {
             log.Clear();
             runtime = SimulationRuntime.Build(Load<SimulationSettingsAsset>("Simulation"), Load<MapDefinitionAsset>("Map"), Load<EntityCatalogAsset>("Catalog"), Load<ScenarioAsset>("Scenario"));
+            // The scenario's computer ally would wall the same entrances; this scenario is about the player's own orders.
+            runtime.Seats.SetController(new SeatId(2), SeatController.Human);
+            runtime.World.Commit();
             runtime.Seats.TryGet(runtime.LocalSeat, out Seat seat);
             red = new CommandSender(runtime.Router, runtime.LocalSeat, seat.ControllerEpoch);
             runtime.World.DrainEvents();
@@ -40,7 +43,7 @@ namespace JurassicPark.Tests.EditMode
                 runtime.World.Step();
                 log.AddRange(runtime.World.DrainEvents());
                 Assert.That(runtime.World.IsFaulted, Is.False);
-                Assert.That(runtime.Logistics.TotalOf("wood") + runtime.Logistics.ConsumedOf("wood"), Is.EqualTo(60 + 14 * 40), "wood is conserved on every tick");
+                Assert.That(runtime.Logistics.TotalOf("wood") + runtime.Logistics.ConsumedOf("wood"), Is.EqualTo(60 + 20 + 14 * 40), "wood is conserved on every tick");
             }
         }
 
@@ -51,7 +54,7 @@ namespace JurassicPark.Tests.EditMode
         }
 
         private EntityId[] Workers() => runtime.World.Entities.Where(e => e.DefinitionId == "survivor" && e.Owner == runtime.LocalSeat).Select(e => e.Id).ToArray();
-        private Entity Depot() => runtime.World.Entities.Single(e => e.DefinitionId == "depot");
+        private Entity Depot() => runtime.World.Entities.First(e => e.DefinitionId == "depot" && e.Owner == runtime.LocalSeat);
         private int WoodIn(EntityId holder) => runtime.Logistics.TryGetContainer(holder, out Container c) ? c.AmountOf("wood") : 0;
 
         /// <summary>Wood in the depot and in the workers' packs: a builder uses what it already carries before going to the depot.</summary>

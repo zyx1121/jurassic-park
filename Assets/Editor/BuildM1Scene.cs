@@ -317,6 +317,9 @@ namespace JurassicPark.Editor
             {
                 new ScenarioAsset.Placement { definitionId = "depot", ownerSeat = 1, cellX = depot.X, cellY = depot.Y,
                     stock = new[] { new EntityCatalogAsset.CostEntry { resource = "wood", amount = 60 } } },
+                // The computer ally shares the camp and keeps its own depot, so it has something to stock and defend.
+                new ScenarioAsset.Placement { definitionId = "depot", ownerSeat = 2, cellX = 9, cellY = 19,
+                    stock = new[] { new EntityCatalogAsset.CostEntry { resource = "wood", amount = 20 } } },
             };
             foreach (Cell cell in trees) list.Add(new ScenarioAsset.Placement { definitionId = "tree", ownerSeat = 0, cellX = cell.X, cellY = cell.Y });
             foreach (Cell cell in red) list.Add(new ScenarioAsset.Placement { definitionId = "survivor", ownerSeat = 1, cellX = cell.X, cellY = cell.Y });

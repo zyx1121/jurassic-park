@@ -28,6 +28,14 @@ namespace JurassicPark.Presentation
         [Tooltip("Extra path cost of one destructible blocker cell for something that can breach. Straight steps cost 10.")]
         [Min(0)] public int breachCost = 74;
 
+        [Header("Computer ally")]
+        [Min(1)] public int allyThinkIntervalTicks = 20;
+        [Tooltip("Wood the ally keeps in its depot before spending on walls.")]
+        [Min(0)] public int allyWoodReserve = 12;
+        public string allyWallDefinitionId = "wall";
+        public string allyGateDefinitionId = "gate";
+        public string allyResource = "wood";
+
         [Header("Logistics")]
         [Min(1)] public int reservationLifetimeTicks = 50;
         public string groundPileDefinitionId = "pile";
@@ -42,5 +50,6 @@ namespace JurassicPark.Presentation
         public CommandRouterConfig ToRouterConfig() => new CommandRouterConfig(rememberedResultsPerSeat, maxPendingPerSeat, maxCommandIdGap);
         public TaskConfig ToTaskConfig() => new TaskConfig(replanIntervalTicks, maxReplans, maxQueuedPerActor, new PathOptions(), new PathOptions(allowBreach: true, breachCost: breachCost));
         public LogisticsConfig ToLogisticsConfig() => new LogisticsConfig(reservationLifetimeTicks, groundPileDefinitionId);
+        public AllyConfig ToAllyConfig() => new AllyConfig(allyThinkIntervalTicks, allyWoodReserve, allyWallDefinitionId, allyGateDefinitionId, allyResource);
     }
 }

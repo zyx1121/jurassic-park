@@ -41,6 +41,14 @@ namespace JurassicPark.Tests.EditMode
         private static SimulationRuntime BuildWithMatch() => SimulationRuntime.Build(
             Load<SimulationSettingsAsset>("Simulation"), Load<MapDefinitionAsset>("Map"), Load<EntityCatalogAsset>("Catalog"), Load<ScenarioAsset>("Scenario"), Load<MatchRulesAsset>("MatchRules"));
 
+        /// <summary>The computer ally is part of the scenario. Tests that count wood or walls to the unit put it to sleep by handing its seat to a human nobody is playing.</summary>
+        private static SimulationRuntime WithoutAlly(SimulationRuntime runtime)
+        {
+            runtime.Seats.SetController(new SeatId(2), SeatController.Human);
+            runtime.World.Commit();
+            return runtime;
+        }
+
         private static SimulationRuntime Build() => SimulationRuntime.Build(
             Load<SimulationSettingsAsset>("Simulation"), Load<MapDefinitionAsset>("Map"), Load<EntityCatalogAsset>("Catalog"), Load<ScenarioAsset>("Scenario"));
 
@@ -54,18 +62,18 @@ namespace JurassicPark.Tests.EditMode
             Assert.That(runtime.World.Entities.Count(e => e.DefinitionId == "survivor"), Is.EqualTo(4));
             Assert.That(runtime.World.Entities.Count(e => e.DefinitionId == "raptor"), Is.EqualTo(2));
             Assert.That(runtime.World.Entities.Count(e => e.Kind == EntityKind.ResourceNode), Is.EqualTo(14));
-            Entity depot = runtime.World.Entities.Single(e => e.DefinitionId == "depot");
+            Entity depot = runtime.World.Entities.First(e => e.DefinitionId == "depot" && e.Owner == runtime.LocalSeat);
             Assert.That(runtime.Map.FootprintOf(depot.Id), Has.Count.EqualTo(4), "the 2x2 depot blocks its four cells");
-            Assert.That(runtime.World.PendingEventCount, Is.EqualTo(21), "the setup batch is waiting for the first frame to drain it");
+            Assert.That(runtime.World.PendingEventCount, Is.EqualTo(22), "the setup batch is waiting for the first frame to drain it");
         }
 
         [Test]
         public void ThreeSurvivorsOrderedOntoATreeBringAllOfItHome()
         {
-            SimulationRuntime runtime = Build();
+            SimulationRuntime runtime = WithoutAlly(Build());
             EntityId[] workers = runtime.World.Entities.Where(e => e.DefinitionId == "survivor" && e.Owner == runtime.LocalSeat).Select(e => e.Id).ToArray();
             Entity tree = runtime.World.Entities.First(e => e.Kind == EntityKind.ResourceNode);
-            Entity depot = runtime.World.Entities.Single(e => e.DefinitionId == "depot");
+            Entity depot = runtime.World.Entities.First(e => e.DefinitionId == "depot" && e.Owner == runtime.LocalSeat);
             MatchReadModel model = ModelOf(runtime);
             model.TryGet(tree.Id, out EntitySnapshot treeSnapshot);
             OrderResolver.Order order = OrderResolver.Resolve(model, workers, treeSnapshot, tree.Position);
@@ -86,7 +94,7 @@ namespace JurassicPark.Tests.EditMode
             SimulationRuntime runtime = Build();
             EntityId[] worker = { runtime.World.Entities.First(e => e.DefinitionId == "survivor" && e.Owner == runtime.LocalSeat).Id };
             Entity tree = runtime.World.Entities.First(e => e.Kind == EntityKind.ResourceNode);
-            Entity depot = runtime.World.Entities.Single(e => e.DefinitionId == "depot");
+            Entity depot = runtime.World.Entities.First(e => e.DefinitionId == "depot" && e.Owner == runtime.LocalSeat);
             var ground = new SimVector2(40f, 30f);
             MatchReadModel model = ModelOf(runtime);
             EntitySnapshot Snap(Entity e) { model.TryGet(e.Id, out EntitySnapshot snapshot); return snapshot; }
@@ -152,8 +160,8 @@ namespace JurassicPark.Tests.EditMode
         [Test]
         public void ABuildOrderOnTheEntrancePutsUpAWallFromTheDepotsStartingStock()
         {
-            SimulationRuntime runtime = Build();
-            Entity depot = runtime.World.Entities.Single(e => e.DefinitionId == "depot");
+            SimulationRuntime runtime = WithoutAlly(Build());
+            Entity depot = runtime.World.Entities.First(e => e.DefinitionId == "depot" && e.Owner == runtime.LocalSeat);
             runtime.Logistics.TryGetContainer(depot.Id, out Container store);
             Assert.That(store.AmountOf("wood"), Is.EqualTo(60), "the scenario seeds the depot");
             EntityId[] workers = runtime.World.Entities.Where(e => e.DefinitionId == "survivor" && e.Owner == runtime.LocalSeat).Select(e => e.Id).ToArray();
@@ -175,7 +183,7 @@ namespace JurassicPark.Tests.EditMode
         [Test]
         public void AWorkerLuredIntoARaptorsSightIsHuntedDownWithoutAnyOrderToTheRaptor()
         {
-            SimulationRuntime runtime = Build();
+            SimulationRuntime runtime = WithoutAlly(Build());
             EntityId[] workers = runtime.World.Entities.Where(e => e.DefinitionId == "survivor" && e.Owner == runtime.LocalSeat).Select(e => e.Id).ToArray();
             int survivorsBefore = runtime.World.Entities.Count(e => e.DefinitionId == "survivor");
 
@@ -215,7 +223,7 @@ namespace JurassicPark.Tests.EditMode
         [Test]
         public void WithTheOriginalRulesTheMatchWaitsTwentySecondsThenTheTimersStartFilling()
         {
-            SimulationRuntime runtime = BuildWithMatch();
+            SimulationRuntime runtime = WithoutAlly(BuildWithMatch());
             Assert.That(runtime.Match.Phase, Is.EqualTo(MatchPhase.Setup));
             for (int i = 0; i < 200; i++) runtime.World.Step();
             Assert.That(runtime.Match.Phase, Is.EqualTo(MatchPhase.Survival));
@@ -223,6 +231,20 @@ namespace JurassicPark.Tests.EditMode
             int before = runtime.World.Entities.Count(e => e.Owner == new SeatId(8));
             for (int i = 0; i < 1200; i++) runtime.World.Step();
             Assert.That(runtime.World.Entities.Count(e => e.Owner == new SeatId(8)), Is.GreaterThan(before), "within two minutes on normal difficulty the timers have spawned something");
+            Assert.That(runtime.World.IsFaulted, Is.False);
+        }
+
+        [Test]
+        public void TheComputerAllyStocksItsDepotAndClosesTheCampOnItsOwn()
+        {
+            SimulationRuntime runtime = Build();
+            Entity blueDepot = runtime.World.Entities.Single(e => e.DefinitionId == "depot" && e.Owner == new SeatId(2));
+            runtime.Logistics.TryGetContainer(blueDepot.Id, out Container store);
+            int before = store.AmountOf("wood");
+            for (int i = 0; i < 3000 && runtime.World.Entities.Count(e => e.Kind == EntityKind.Building && e.Owner == new SeatId(2) && e.DefinitionId != "depot") < 3; i++) runtime.World.Step();
+
+            Assert.That(runtime.World.Entities.Count(e => e.Kind == EntityKind.Building && e.Owner == new SeatId(2) && e.DefinitionId != "depot"), Is.EqualTo(3), "a gate and two walls across the camp's three entrance cells");
+            Assert.That(runtime.World.Entities.Any(e => e.DefinitionId == "gate" && e.Owner == new SeatId(2)), Is.True);
             Assert.That(runtime.World.IsFaulted, Is.False);
         }
     }
