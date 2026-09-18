@@ -61,12 +61,9 @@ Code is split into five assemblies: `Simulation` (pure C#, no engine references)
 | Milestone | Due | Scope |
 |-----------|-----|-------|
 | M0 Bootstrap and proposal | 10/18 | Unity project, test and CI skeleton, original content inventory, proposal slides |
-| M1 Command and logistics core | 11/08 | Simulation core, fixed map, seats and command routing, hauling loop, two-seat networking |
-| M2 Online demo 1 | 11/15 | Construction, dynamic blocking, one dinosaur with breach behavior, RTS HUD |
-| M3 Fog, allies and match | 11/22 | Per-seat knowledge and fog, computer ally loop, 30 minute match and evacuation |
-| M4 Original content | 12/06 | Buildings, tech, units, items and dinosaurs from the 6.3 map; 12-camp map |
-| M5 Online demo 2 | 12/13 | Green jungle digitized art, final GUI |
-| M6 Final | 12/27 | Score persistence, audio and FX, balance, release builds, report |
+| M1 Command and logistics core (done) | 11/08 | Simulation core, fixed map, seats and command routing, hauling loop, two-seat networking |
+| M2 MVP: playable and watchable | 11/15 | One version you can play to the end and that looks like the original: construction, dynamic blocking, dinosaurs and breach, fog, computer ally, the 30 minute match, original content, 12-camp map, jungle art pass, GUI |
+| M3 Fine-tune and final | 12/27 | Balance, score persistence, audio and FX, release builds, report |
 
 ## License
 
