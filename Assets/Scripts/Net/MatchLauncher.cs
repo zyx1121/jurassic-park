@@ -22,6 +22,8 @@ namespace JurassicPark.Net
         private int chosenMode;
         private int chosenDifficulty = 2;
         private bool demoGather;
+        private string screenshotPath;
+        private bool screenshotTaken;
         private bool demoSent;
         private float nextStatusAt;
 
@@ -38,6 +40,7 @@ namespace JurassicPark.Net
             {
                 string next = i + 1 < args.Length ? args[i + 1] : null;
                 if (args[i] == "--demo-gather") demoGather = true;
+                else if (args[i] == "--screenshot" && next != null) screenshotPath = next;   // diagnostic: capture the whole frame, HUD included, then quit
                 else if (args[i] == "--offline") session.BeginOffline();
                 else if (args[i] == "--host") net.Host(ushort.TryParse(next, out ushort port) ? port : defaultPort);
                 else if (args[i] == "--join" && next != null)
@@ -51,6 +54,11 @@ namespace JurassicPark.Net
         private void Update()
         {
             if (session == null) return;
+            if (screenshotPath != null && session.IsReady && session.Model.Entities.Count > 0 && Time.unscaledTime >= 8f && !screenshotTaken)
+            {
+                screenshotTaken = true;
+                StartCoroutine(CaptureAndQuit());
+            }
             if (Application.isBatchMode && session.Model != null && Time.unscaledTime >= nextStatusAt) LogStatus();
             if (!demoGather || demoSent || !session.IsReady || session.Model.Entities.Count == 0) return;
             // Scripted check for a second process with no mouse: order every own unit onto the first tree, through the same sender a click uses.
@@ -99,6 +107,25 @@ namespace JurassicPark.Net
             int count = 0;
             for (int i = 0; i < fog.Cells.Length; i++) if (fog.Cells[i] == 2) count++;
             return count;
+        }
+
+        /// <summary>Selects every own unit so the panels have content, waits a frame, writes the frame to disk and quits.</summary>
+        private System.Collections.IEnumerator CaptureAndQuit()
+        {
+            var selection = FindFirstObjectByType<SelectionController>();
+            if (selection != null)
+            {
+                var own = new List<EntityId>();
+                foreach (EntitySnapshot entity in session.Model.Entities)
+                    if (entity.Owner == session.Model.LocalSeat && entity.Kind == EntityKind.Unit) own.Add(entity.Id);
+                selection.Select(own);
+            }
+            yield return null;
+            yield return new WaitForEndOfFrame();
+            ScreenCapture.CaptureScreenshot(screenshotPath);
+            yield return new WaitForSeconds(1.5f);
+            Debug.Log("[Status] screenshot written to " + screenshotPath);
+            Application.Quit();
         }
 
         private void LogStatus()
