@@ -146,7 +146,7 @@ MonoBehaviour:
     stock: []
   - definitionId: survivor
     ownerSeat: 2
-    cellX: 30
+    cellX: 29
     cellY: 27
     stock: []
   - definitionId: raptor

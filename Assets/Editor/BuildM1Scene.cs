@@ -298,7 +298,7 @@ namespace JurassicPark.Editor
                 trees.Add(new Cell(x, y));
             depotAnchor = new Cell(12, 15);
             redStarts = new List<Cell> { new Cell(15, 14), new Cell(16, 16), new Cell(15, 18) };
-            blueStarts = new List<Cell> { new Cell(30, 27) };
+            blueStarts = new List<Cell> { new Cell(29, 27) };   // 30 m from the nearest raptor: outside its 28 m perception with a cell to spare
 
             var flags = new CellFlags[width * height];
             for (int y = 0; y < height; y++)

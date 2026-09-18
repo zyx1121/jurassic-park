@@ -121,3 +121,4 @@ InitTestScene*.unity*
 
 # Agent worktrees and local tool state
 /.claude/
+ProjectSettings/SceneTemplateSettings.json

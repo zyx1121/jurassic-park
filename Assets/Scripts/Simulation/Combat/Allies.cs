@@ -96,6 +96,7 @@ namespace JurassicPark.Simulation
             CommandSender sender = SenderFor(seat);
             gapsTakenThisThink.Clear();
             gathersToSend.Clear();
+            bool someoneComingHome = false;
             // Idle workers first, then gatherers: a wall goes to whoever is free before anyone is pulled off a tree.
             idle.AddRange(gathering);
             for (int i = 0; i < idle.Count; i++)
@@ -127,10 +128,14 @@ namespace JurassicPark.Simulation
                 Entity tree = NearestNode(world, depot);
                 if (tree != null) gathersToSend.Add(new KeyValuePair<EntityId, Entity>(idle[i], tree));
                 // Nothing left to gather: an idle worker outside comes home before the gate is shut behind it.
-                else if (camp != null && !camp.Bounds.Contains(context.Map.CellAt(WorkerPosition(world, idle[i])))) sender.Send(CommandKind.Move, one, depot.Position);
+                else if (camp != null && !camp.Bounds.Contains(context.Map.CellAt(WorkerPosition(world, idle[i]))))
+                {
+                    sender.Send(CommandKind.Move, one, depot.Position);
+                    someoneComingHome = true;
+                }
             }
             // The gate first, then the gathers: commands run in arrival order, so a gatherer sent through a closed gate would find no route.
-            TendGate(world, seat, sender, camp, gathering.Count > 0 || gathersToSend.Count > 0);
+            TendGate(world, seat, sender, camp, gathering.Count > 0 || gathersToSend.Count > 0 || someoneComingHome);
             for (int i = 0; i < gathersToSend.Count; i++)
             {
                 one.Clear();
