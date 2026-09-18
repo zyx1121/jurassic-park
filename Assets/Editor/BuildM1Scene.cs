@@ -80,11 +80,9 @@ namespace JurassicPark.Editor
 
             var cameraObject = new GameObject("Main Camera") { tag = "MainCamera" };
             var camera = cameraObject.AddComponent<Camera>();
-            // Narrow lens, far camera: at a 60 degree pitch a wide lens makes everything near the screen edge lean like a felled tree.
-            camera.fieldOfView = 25f;
-            // Saved into the scene, not only applied at Start, so the file on disk agrees with the art direction.
-            camera.orthographic = true;
-            camera.orthographicSize = 17f;
+            // The original's 70 degree horizontal field of view is about 43 degrees vertical at 16:9.
+            camera.fieldOfView = 43f;
+            camera.orthographic = false;
             camera.nearClipPlane = 0.3f;
             camera.farClipPlane = 320f;
             camera.clearFlags = CameraClearFlags.SolidColor;

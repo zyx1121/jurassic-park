@@ -65,7 +65,7 @@ namespace JurassicPark.Tests.PlayMode
             yield return LoadScene();
             Assert.That(views.Count, Is.EqualTo(session.Runtime.World.Entities.Count), "one view per entity, created from the setup event batch");
             Assert.That(Object.FindFirstObjectByType<TerrainView>().GetComponent<MeshFilter>().sharedMesh, Is.Not.Null);
-            Assert.That(viewCamera.orthographic, Is.True);
+            Assert.That(viewCamera.orthographic, Is.False, "the original's camera is a perspective one");
 
             Entity worker = First("survivor", local: true);
             Assert.That(views.TryGetTransform(worker.Id, out Transform view), Is.True);
@@ -153,17 +153,22 @@ namespace JurassicPark.Tests.PlayMode
             Assert.That(rtsCamera.ZoomLevel, Is.EqualTo(zoomedOut), "clamped at the far limit");
             for (int i = 0; i < 200; i++) rtsCamera.Zoom(120f);
             Assert.That(rtsCamera.ZoomLevel, Is.LessThan(start));
-            Assert.That(viewCamera.orthographicSize, Is.EqualTo(rtsCamera.ZoomLevel), "the zoom level is what the camera actually uses");
+            Assert.That(Vector3.Distance(viewCamera.transform.position, rtsCamera.Focus), Is.EqualTo(rtsCamera.ZoomLevel).Within(1e-3f), "the zoom level is the camera's distance from its focus");
 
             GridMap map = session.Runtime.Map;
-            for (int i = 0; i < 600; i++) rtsCamera.Pan(new Vector2(1f, 1f), 0.1f);
+            // Pans are screen-relative under the camera's yaw; find the screen direction that heads for the map's far corner.
+            Vector2 ToScreen(Vector3 world) { Vector3 local = Quaternion.Inverse(Quaternion.Euler(0f, rtsCamera.transform.eulerAngles.y, 0f)) * world; return new Vector2(local.x, local.z); }
+            Vector2 toFarCorner = ToScreen(new Vector3(1f, 0f, 1f));
+            Assert.That(Vector3.Distance(rtsCamera.PanToWorld(toFarCorner).normalized, new Vector3(1f, 0f, 1f).normalized), Is.LessThan(1e-4f));
+            for (int i = 0; i < 600; i++) rtsCamera.Pan(toFarCorner, 0.1f);
             Assert.That(rtsCamera.Focus.x, Is.EqualTo(map.Width * map.CellSize).Within(1e-3f));
             Assert.That(rtsCamera.Focus.z, Is.EqualTo(map.Height * map.CellSize).Within(1e-3f));
-            for (int i = 0; i < 600; i++) rtsCamera.Pan(new Vector2(-1f, -1f), 0.1f);
-            Assert.That(rtsCamera.Focus, Is.EqualTo(Vector3.zero));
+            for (int i = 0; i < 600; i++) rtsCamera.Pan(-toFarCorner, 0.1f);
+            Assert.That(rtsCamera.Focus.x, Is.EqualTo(0f).Within(1e-3f));
+            Assert.That(rtsCamera.Focus.z, Is.EqualTo(0f).Within(1e-3f));
 
             Vector3 before = rtsCamera.transform.position;
-            rtsCamera.Pan(new Vector2(1f, 0f), 5f);
+            rtsCamera.Pan(toFarCorner, 5f);
             Assert.That(Vector3.Distance(before, rtsCamera.transform.position), Is.LessThan(10f), "one long frame does not throw the camera across the map");
         }
     }
