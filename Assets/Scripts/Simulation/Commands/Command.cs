@@ -24,8 +24,11 @@ namespace JurassicPark.Simulation
         public SimVector2 TargetPosition { get; }
         public EntityId TargetEntity { get; }
 
+        /// <summary>Kind-specific number: for Build, the catalog index of what to build.</summary>
+        public int Argument { get; }
+
         public Command(long commandId, int epoch, SeatId seat, CommandKind kind, IReadOnlyList<EntityId> actors,
-            SimVector2 targetPosition = default, EntityId targetEntity = default, CommandMode mode = CommandMode.Replace)
+            SimVector2 targetPosition = default, EntityId targetEntity = default, CommandMode mode = CommandMode.Replace, int argument = 0)
         {
             CommandId = commandId;
             Epoch = epoch;
@@ -36,6 +39,7 @@ namespace JurassicPark.Simulation
             Actors = actors == null || actors.Count == 0 ? Array.Empty<EntityId>() : Array.AsReadOnly(Copy(actors));
             TargetPosition = targetPosition;
             TargetEntity = targetEntity;
+            Argument = argument;
         }
 
         private static EntityId[] Copy(IReadOnlyList<EntityId> source)

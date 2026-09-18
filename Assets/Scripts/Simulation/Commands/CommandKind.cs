@@ -14,5 +14,14 @@ namespace JurassicPark.Simulation
 
         /// <summary>Take goods from the target pile or depot, up to what the pack holds.</summary>
         Pickup = 5,
+
+        /// <summary>Place a building site of the catalog definition in Argument at the target cell; the actors haul its materials and build it.</summary>
+        Build = 6,
+
+        /// <summary>Remove the target building or site the seat owns. Undelivered and delivered-but-unused materials fall to the ground; built-in ones are gone.</summary>
+        Demolish = 7,
+
+        /// <summary>Open a closed gate or close an open one. Closing fails while something stands in it.</summary>
+        ToggleGate = 8,
     }
 }

@@ -62,6 +62,25 @@ namespace JurassicPark.Simulation
         }
 
         public bool TryGetContainer(EntityId holder, out Container container) => containers.TryGetValue(holder, out container);
+
+        /// <summary>
+        /// Ends a container on a living holder. Whatever it still holds falls to the ground as a pile, so this is never a way to
+        /// make goods disappear; consume them first if they are meant to be gone. Releases any reservation on it.
+        /// </summary>
+        public bool RemoveContainer(EntityId holder)
+        {
+            if (!containers.TryGetValue(holder, out Container container)) return false;
+            for (int i = reservationOrder.Count - 1; i >= 0; i--)
+            {
+                Reservation r = reservations[reservationOrder[i]];
+                if (r.Holder == holder) Release(r);
+            }
+            if (container.Total > 0) Drop(world, holder, container);
+            containers.Remove(holder);
+            holderOrder.Remove(holder);
+            holderEntities.Remove(holder);
+            return true;
+        }
         public bool TryGetNode(EntityId holder, out ResourceNode node) => nodes.TryGetValue(holder, out node);
 
         /// <summary>Goods in the container that no withdrawal reservation other than <paramref name="onBehalfOf"/>'s has claimed.</summary>
